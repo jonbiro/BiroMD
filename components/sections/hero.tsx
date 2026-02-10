@@ -83,7 +83,7 @@ export function Hero() {
             </ul>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" asChild>
+              <Button variant="cta" size="lg" asChild>
                 <Link href="/contact">
                   <CalendarDays className="mr-2 h-4 w-4" />
                   Schedule Consultation

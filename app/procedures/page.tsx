@@ -78,7 +78,7 @@ export default function ProceduresPage() {
               recommendation and recovery roadmap.
             </p>
           </div>
-          <Button className="mt-5 md:mt-0" variant="secondary" asChild>
+          <Button className="mt-5 md:mt-0" variant="cta" asChild>
             <Link href="/contact">
               Schedule Consultation
               <ArrowRight className="ml-2 h-4 w-4" />

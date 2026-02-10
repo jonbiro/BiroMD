@@ -134,7 +134,7 @@ export default function ServicesPage() {
               safe and realistic treatment pathway.
             </p>
           </div>
-          <Button variant="secondary" className="mt-5 md:mt-0" asChild>
+          <Button variant="cta" className="mt-5 md:mt-0" asChild>
             <Link href="/contact">
               Book Consultation
               <ArrowRight className="ml-2 h-4 w-4" />
