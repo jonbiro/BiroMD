@@ -94,7 +94,7 @@ export default function Header() {
             <div className="hidden md:block">
               <ModeToggle />
             </div>
-            <Button variant="cta" className="hidden md:inline-flex" asChild>
+            <Button className="hidden md:inline-flex" asChild>
               <Link href="/contact">
                 <Phone className="mr-2 h-4 w-4" />
                 Book Consultation
@@ -164,7 +164,7 @@ export default function Header() {
                 <ModeToggle />
               </div>
 
-              <Button variant="cta" asChild className="mt-4 w-full">
+              <Button asChild className="mt-4 w-full">
                 <Link href="/contact">Schedule Consultation</Link>
               </Button>
 

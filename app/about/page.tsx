@@ -39,7 +39,7 @@ export default function AboutPage() {
         title="Experience Built on Discipline and Detail"
         description={`${siteConfig.shortName} is a board-certified ophthalmologist with advanced fellowship training in ocular plastic and orbital surgery, committed to outcomes that preserve both function and identity.`}
         actions={
-          <Button variant="cta" asChild>
+          <Button asChild>
             <Link href="/contact">
               Request Consultation
               <ArrowRight className="ml-2 h-4 w-4" />

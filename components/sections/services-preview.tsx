@@ -92,7 +92,7 @@ export function ServicesPreview() {
                   fastest way to define a safe, tailored plan.
                 </p>
               </div>
-              <Button variant="cta" className="mt-4 md:mt-0" asChild>
+              <Button className="mt-4 md:mt-0" asChild>
                 <Link href="/contact">Book Consultation</Link>
               </Button>
             </div>
