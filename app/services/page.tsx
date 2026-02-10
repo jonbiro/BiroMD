@@ -6,6 +6,7 @@ import {
   Sparkles,
   Syringe,
 } from "lucide-react"
+import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
 import { pageMetadata } from "@/lib/site"
 
@@ -57,29 +58,17 @@ const services = [
 
 export default function ServicesPage() {
   return (
-    <div className="pb-20 pt-12 md:pb-24 md:pt-16">
-      <section className="container px-4 md:px-6">
-        <div className="max-w-3xl space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">
-            Services
-          </p>
-          <h1 className="text-5xl font-semibold text-primary sm:text-6xl">
-            Full-Spectrum Oculoplastic Care
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Surgical and non-surgical treatment options built around precise
-            diagnosis, transparent planning, and individualized outcomes.
-          </p>
-        </div>
-      </section>
+    <div className="space-y-10 pb-20 pt-10 md:space-y-12 md:pb-24 md:pt-12">
+      <PageIntro
+        eyebrow="Services"
+        title="Full-Spectrum Oculoplastic Care"
+        description="Surgical and non-surgical treatment options built around precise diagnosis, transparent planning, and individualized outcomes."
+      />
 
-      <section className="container mt-10 px-4 md:mt-12 md:px-6">
+      <section className="container px-4 md:px-6">
         <div className="grid gap-5 lg:grid-cols-3">
           {services.map((service) => (
-            <article
-              key={service.title}
-              className="rounded-2xl border border-border/70 bg-card/85 p-6 shadow-sm"
-            >
+            <article key={service.title} className="panel rounded-2xl p-6">
               <div className="mb-5 inline-flex rounded-xl border border-secondary/35 bg-secondary/10 p-2 text-secondary">
                 <service.icon className="h-5 w-5" />
               </div>
@@ -87,7 +76,10 @@ export default function ServicesPage() {
               <p className="mt-3 text-sm text-muted-foreground">{service.description}</p>
               <ul className="mt-5 space-y-2">
                 {service.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-2 text-sm text-foreground/90">
+                  <li
+                    key={feature}
+                    className="flex items-center gap-2 text-sm text-foreground/90"
+                  >
                     <CheckCircle2 className="h-4 w-4 text-secondary" />
                     {feature}
                   </li>
@@ -98,8 +90,8 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="container mt-10 px-4 md:mt-12 md:px-6">
-        <div className="rounded-[1.8rem] border border-border/70 bg-card/85 p-7 shadow-sm md:p-9">
+      <section className="container px-4 md:px-6">
+        <div className="panel rounded-[1.8rem] p-7 md:p-9">
           <h2 className="text-4xl font-semibold text-primary">Consultation Process</h2>
           <ol className="mt-5 grid gap-4 text-sm text-muted-foreground md:grid-cols-3">
             <li className="rounded-xl border border-border/70 bg-background/70 p-4">
@@ -133,7 +125,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="container mt-10 px-4 md:mt-12 md:px-6">
+      <section className="container px-4 md:px-6">
         <div className="rounded-[1.8rem] border border-primary/20 bg-primary p-8 text-primary-foreground shadow-lg md:flex md:items-center md:justify-between md:gap-8">
           <div>
             <h2 className="text-3xl font-semibold">Need guidance on where to start?</h2>

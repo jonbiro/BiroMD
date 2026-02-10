@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { ArrowRight, Check, Stethoscope } from "lucide-react"
+import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
 import { pageMetadata } from "@/lib/site"
 
@@ -38,28 +39,16 @@ const categories = [
 
 export default function ProceduresPage() {
   return (
-    <div className="pb-20 pt-12 md:pb-24 md:pt-16">
-      <section className="container px-4 md:px-6">
-        <div className="max-w-3xl space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">
-            Procedures
-          </p>
-          <h1 className="text-5xl font-semibold text-primary sm:text-6xl">
-            Procedure Library and Specialties
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Treatment options range from reconstructive solutions for medical
-            needs to cosmetic procedures designed for subtle, natural refinement.
-          </p>
-        </div>
-      </section>
+    <div className="space-y-10 pb-20 pt-10 md:space-y-12 md:pb-24 md:pt-12">
+      <PageIntro
+        eyebrow="Procedures"
+        title="Procedure Library and Specialties"
+        description="Treatment options range from reconstructive solutions for medical needs to cosmetic procedures designed for subtle, natural refinement."
+      />
 
-      <section className="container mt-10 space-y-8 px-4 md:mt-12 md:px-6">
+      <section className="container space-y-8 px-4 md:px-6">
         {categories.map((category) => (
-          <article
-            key={category.title}
-            className="rounded-3xl border border-border/70 bg-card/85 p-7 shadow-sm"
-          >
+          <article key={category.title} className="panel rounded-3xl p-7">
             <h2 className="text-3xl font-medium text-primary">{category.title}</h2>
             <p className="mt-2 text-sm text-muted-foreground">{category.subtitle}</p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -77,7 +66,7 @@ export default function ProceduresPage() {
         ))}
       </section>
 
-      <section className="container mt-10 px-4 md:mt-12 md:px-6">
+      <section className="container px-4 md:px-6">
         <div className="rounded-[1.8rem] border border-border/70 bg-primary p-8 text-primary-foreground shadow-lg md:flex md:items-center md:justify-between md:gap-6">
           <div>
             <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground/75">
