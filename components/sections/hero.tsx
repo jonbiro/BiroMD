@@ -86,7 +86,7 @@ export function Hero() {
                             />
 
                             {/* Refined Glass card overlay */}
-                            <div className="absolute bottom-6 right-6 left-6 p-5 bg-white/70 dark:bg-black/50 backdrop-blur-xl rounded-2xl border border-white/40 shadow-xl">
+                            <div className="absolute bottom-6 right-6 left-6 p-5 bg-white/80 dark:bg-black/60 backdrop-blur-lg rounded-2xl border border-white/40 shadow-xl transform-gpu translate-z-0">
                                 <div className="flex items-center gap-4">
                                     <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-slate-800 flex items-center justify-center text-white font-serif font-bold text-2xl shadow-lg">
                                         B
