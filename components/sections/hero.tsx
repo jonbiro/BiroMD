@@ -1,6 +1,3 @@
-"use client"
-
-import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -45,12 +42,7 @@ export function Hero() {
 
       <div className="container relative z-10 px-4 md:px-6">
         <div className="panel-strong grid items-center gap-12 overflow-hidden rounded-[2rem] p-6 md:p-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:p-12">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.62, ease: "easeOut" }}
-            className="relative space-y-8"
-          >
+          <div className="relative space-y-8">
             <p className="eyebrow">
               <ShieldCheck className="h-3.5 w-3.5" />
               Precision Oculoplastics in Los Angeles
@@ -104,14 +96,9 @@ export function Hero() {
               </span>
               <span>{siteConfig.location}</span>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.72, delay: 0.1, ease: "easeOut" }}
-            className="relative mx-auto w-full max-w-[560px]"
-          >
+          <div className="relative mx-auto w-full max-w-[560px]">
             <div className="absolute -bottom-8 -right-8 h-44 w-44 rounded-full border border-primary/25 bg-primary/10" />
 
             <div className="relative overflow-hidden rounded-[2.2rem] border border-border/70 bg-card shadow-[0_24px_65px_rgb(10_29_55_/0.26)]">
@@ -148,7 +135,7 @@ export function Hero() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

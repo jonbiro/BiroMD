@@ -3,7 +3,6 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { AnimatePresence, motion } from "framer-motion"
 import { Dot, Menu, Phone, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
@@ -68,7 +67,10 @@ export default function Header() {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-1 rounded-full border border-border/70 bg-card/85 p-1 md:flex">
+          <nav
+            aria-label="Primary"
+            className="hidden items-center gap-1 rounded-full border border-border/70 bg-card/85 p-1 md:flex"
+          >
             {navItems.map((item) => {
               const active = isItemActive(item.href)
 
@@ -115,69 +117,61 @@ export default function Header() {
         </div>
       </div>
 
-      <AnimatePresence>
-        {isOpen ? (
-          <>
-            <motion.button
-              type="button"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => setIsOpen(false)}
-              className="fixed inset-0 z-20 bg-slate-950/45 md:hidden"
-              aria-label="Close menu overlay"
-            />
+      {isOpen ? (
+        <>
+          <button
+            type="button"
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 z-20 bg-slate-950/45 md:hidden"
+            aria-label="Close menu overlay"
+          />
 
-            <motion.div
-              id="mobile-menu"
-              initial={{ opacity: 0, y: -16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.24, ease: "easeOut" }}
-              className="panel-strong absolute inset-x-5 top-[5.5rem] z-30 rounded-2xl p-6 md:hidden"
+          <div
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            className="panel-strong absolute inset-x-5 top-[5.5rem] z-30 rounded-2xl p-6 md:hidden"
+          >
+            <nav aria-label="Mobile primary" className="grid gap-2">
+              {navItems.map((item) => {
+                const active = isItemActive(item.href)
+
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "rounded-xl px-4 py-3 text-base font-medium transition",
+                      active
+                        ? "bg-primary text-primary-foreground"
+                        : "text-foreground hover:bg-accent"
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                )
+              })}
+            </nav>
+
+            <div className="mt-5 flex items-center justify-between rounded-xl border border-border/70 bg-background/70 px-4 py-3">
+              <span className="text-sm text-muted-foreground">Theme</span>
+              <ModeToggle />
+            </div>
+
+            <Button asChild className="mt-4 w-full">
+              <Link href="/contact">Schedule Consultation</Link>
+            </Button>
+
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="mt-3 block text-center text-sm text-muted-foreground underline-offset-4 hover:text-secondary hover:underline"
             >
-              <nav className="grid gap-2">
-                {navItems.map((item) => {
-                  const active = isItemActive(item.href)
-
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      aria-current={active ? "page" : undefined}
-                      className={cn(
-                        "rounded-xl px-4 py-3 text-base font-medium transition",
-                        active
-                          ? "bg-primary text-primary-foreground"
-                          : "text-foreground hover:bg-accent"
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  )
-                })}
-              </nav>
-
-              <div className="mt-5 flex items-center justify-between rounded-xl border border-border/70 bg-background/70 px-4 py-3">
-                <span className="text-sm text-muted-foreground">Theme</span>
-                <ModeToggle />
-              </div>
-
-              <Button asChild className="mt-4 w-full">
-                <Link href="/contact">Schedule Consultation</Link>
-              </Button>
-
-              <a
-                href={`mailto:${siteConfig.email}`}
-                className="mt-3 block text-center text-sm text-muted-foreground underline-offset-4 hover:text-secondary hover:underline"
-              >
-                {siteConfig.email}
-              </a>
-            </motion.div>
-          </>
-        ) : null}
-      </AnimatePresence>
+              {siteConfig.email}
+            </a>
+          </div>
+        </>
+      ) : null}
     </header>
   )
 }
