@@ -1,13 +1,14 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from "next"
+import { absoluteUrl } from "@/lib/site"
 
-export const dynamic = "force-static";
+export const dynamic = "force-static"
 
 export default function robots(): MetadataRoute.Robots {
-    return {
-        rules: {
-            userAgent: '*',
-            allow: '/',
-        },
-        sitemap: 'https://biromd.com/sitemap.xml', // Replace with actual domain when known
-    }
+  return {
+    rules: {
+      userAgent: "*",
+      allow: "/",
+    },
+    sitemap: absoluteUrl("/sitemap.xml"),
+  }
 }

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-outfit);
+  --font-serif: var(--font-cormorant);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -16,136 +16,92 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
 
-  /* Glassmorphism utilities could be added here or just used downstream */
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 }
 
 :root {
-  /* Premium Medical Palette - Clean, Trustworthy, Modern */
+  --background: #f4f8fb;
+  --foreground: #0f1f33;
 
-  /* Background: Pure White for sterility and space */
-  --background: #ffffff;
-  /* Foreground: Deep Slate/Navy for readability and authority - Softer than pure black */
-  --foreground: #334155;
+  --primary: #0b3558;
+  --primary-foreground: #f6fbff;
 
-  /* Primary: Royal Navy Blue - Trust, Competence, Authority */
-  --primary: #0f172a;
-  --primary-foreground: #f8fafc;
+  --secondary: #0f8f8a;
+  --secondary-foreground: #eafcfb;
 
-  /* Secondary: Teal/Cyan - Innovation, Calm, Precision */
-  --secondary: #0e7490;
-  /* Cyan 700 - Slightly deeper/richer than before */
-  --secondary-foreground: #f0f9ff;
+  --accent: #e9f0f6;
+  --accent-foreground: #12273c;
 
-  /* Accent: Soft Blue/Grey - Balance, background elements */
-  --accent: #f1f5f9;
-  /* Slate 100 */
-  --accent-foreground: #0f172a;
-
-  /* Muted: Subtle backgrounds for cards/sections */
-  --muted: #f8fafc;
-  /* Slate 50 */
-  --muted-foreground: #64748b;
-  /* Slate 500 */
+  --muted: #edf3f8;
+  --muted-foreground: #4f6480;
 
   --card: #ffffff;
-  --card-foreground: #0f172a;
+  --card-foreground: #0f1f33;
 
-  --border: #e2e8f0;
-  /* Slate 200 */
-  --input: #e2e8f0;
-  --ring: #0e7490;
-  /* Match secondary */
+  --border: #cddbeb;
+  --input: #cddbeb;
+  --ring: #0f8f8a;
 
-  --radius: 0.75rem;
-  /* Slightly softer corners for a modern approachable feel */
+  --radius: 0.85rem;
 }
 
 .dark {
-  --background: #020617;
-  /* Slate 950 */
-  --foreground: #f8fafc;
-  /* Slate 50 */
+  --background: #030711;
+  --foreground: #e7eef8;
 
-  --primary: #f8fafc;
-  --primary-foreground: #020617;
+  --primary: #d7e8f7;
+  --primary-foreground: #071423;
 
-  --secondary: #2dd4bf;
-  /* Teal 400 - Brighter for dark mode */
-  --secondary-foreground: #020617;
+  --secondary: #57c9c3;
+  --secondary-foreground: #062422;
 
-  --accent: #1e293b;
-  /* Slate 800 */
-  --accent-foreground: #f8fafc;
+  --accent: #122033;
+  --accent-foreground: #d6e8fb;
 
-  --muted: #0f172a;
-  /* Slate 900 */
-  --muted-foreground: #94a3b8;
-  /* Slate 400 */
+  --muted: #0c1626;
+  --muted-foreground: #8ea3c0;
 
-  --card: #020617;
-  --card-foreground: #f8fafc;
+  --card: #08111f;
+  --card-foreground: #e7eef8;
 
-  --border: #1e293b;
-  --input: #1e293b;
-  --ring: #cbd5e1;
+  --border: #1a2c44;
+  --input: #1a2c44;
+  --ring: #57c9c3;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--background);
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 650px at 10% -15%, rgb(15 143 138 / 0.16), transparent 58%),
+    radial-gradient(900px 600px at 90% 0%, rgb(11 53 88 / 0.12), transparent 62%),
+    var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  letter-spacing: -0.015em;
-  /* Modern tight spacing */
-  line-height: 1.6;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  /* Prevent horizontal scroll */
-  -webkit-tap-highlight-color: transparent;
-  /* Remove tap highlight on mobile */
 }
 
-/* Prevent iOS input zoom */
-@media screen and (max-width: 768px) {
-
-  input,
-  select,
-  textarea {
-    font-size: 16px !important;
-  }
-}
-
-/* Custom Scrollbar for Webkit */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--muted-foreground);
-  opacity: 0.5;
-  border-radius: 5px;
-  border: 2px solid var(--background);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--foreground);
-}
-
-/* Premium Selection */
-::selection {
-  background-color: var(--secondary);
-  color: var(--secondary-foreground);
-}
-
-/* Global Form Focus Styles */
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--ring), 0 0 0 4px var(--background);
-  transition: box-shadow 0.2s ease-in-out;
+a {
+  color: inherit;
 }
 
 h1,
@@ -154,6 +110,42 @@ h3,
 h4,
 h5,
 h6 {
+  color: var(--primary);
   font-family: var(--font-serif);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+::selection {
+  background-color: rgb(15 143 138 / 0.22);
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+@media screen and (max-width: 768px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

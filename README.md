@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BiroMD Website
 
-## Getting Started
+Professional website for Nicolas G Biro, M.D., built with Next.js App Router and static export.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 + React 19
+- TypeScript
+- Tailwind CSS v4
+- Framer Motion
+
+## Local Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - start development server
+- `npm run lint` - run ESLint
+- `npm run build` - production build + static export
 
-## Learn More
+## Static Export Notes
 
-To learn more about Next.js, take a look at the following resources:
+The project is configured with `output: 'export'` in `next.config.ts`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Development runs without a base path.
+- Production builds use `/BiroMD` as base path.
+- Site helpers in `lib/site.ts` keep metadata, sitemap, robots, and image URLs consistent with that base path.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contact Form Behavior
 
-## Deploy on Vercel
+The contact form is static-site friendly: submitting the form opens a pre-filled email draft to the practice inbox.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/` - route pages, layout, metadata routes
+- `components/` - shared UI and section components
+- `lib/site.ts` - site config, URL helpers, page metadata helper
+

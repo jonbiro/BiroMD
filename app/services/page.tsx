@@ -1,99 +1,155 @@
 import Link from "next/link"
+import {
+  ArrowRight,
+  CheckCircle2,
+  ShieldCheck,
+  Sparkles,
+  Syringe,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ShieldAlert, Activity, Sparkles, Eye, CheckCircle2 } from "lucide-react"
+import { pageMetadata } from "@/lib/site"
 
-export const metadata = {
-    title: "Services",
-    description: "Comprehensive oculoplastic services including eyelid surgery, orbital surgery, and cosmetic treatments.",
-}
+export const metadata = pageMetadata({
+  title: "Services",
+  description:
+    "Explore cosmetic, reconstructive, and non-surgical oculoplastic services tailored to functional and aesthetic goals.",
+  path: "/services",
+})
 
 const services = [
-    {
-        title: "Cosmetic Eyelid Surgery",
-        description: "Rejuvenate your appearance with minimally invasive procedures tailored to your natural anatomy.",
-        icon: Sparkles,
-        features: ["Upper Blepharoplasty", "Lower Blepharoplasty", "Brow Lift", "Midface Lift"],
-    },
-    {
-        title: "Reconstructive Surgery",
-        description: "Restore function and aesthetics following trauma, tumor removal, or congenital conditions.",
-        icon: ShieldAlert,
-        features: ["Eyelid Skin Cancer Reconstruction", "Ptosis Repair (Droopy Eyelids)", "Ectropion/Entropion Repair", "Orbital Fracture Repair"],
-    },
-    {
-        title: "Non-Surgical Treatments",
-        description: "Enhance your natural beauty with non-invasive injectable treatments and medical-grade aesthetics.",
-        icon: Eye,
-        features: ["BOTOX® Cosmetic", "Dermal Fillers", "Chemical Peels", "Latisse®"],
-    },
+  {
+    title: "Cosmetic Eyelid Surgery",
+    description:
+      "Refined periocular rejuvenation based on detailed facial analysis and conservative surgical planning.",
+    icon: Sparkles,
+    features: [
+      "Upper blepharoplasty",
+      "Lower blepharoplasty",
+      "Brow and midface integration",
+      "Natural-result planning",
+    ],
+  },
+  {
+    title: "Reconstructive Surgery",
+    description:
+      "Comprehensive correction of eyelid and orbital conditions with strong attention to structure and symmetry.",
+    icon: ShieldCheck,
+    features: [
+      "Ptosis repair",
+      "Ectropion and entropion repair",
+      "Skin cancer reconstruction",
+      "Orbital trauma support",
+    ],
+  },
+  {
+    title: "Non-Surgical Treatments",
+    description:
+      "Targeted injectables and maintenance treatments for patients prioritizing subtle and staged improvement.",
+    icon: Syringe,
+    features: [
+      "BOTOX cosmetic",
+      "Dermal fillers",
+      "Medical-grade skin support",
+      "Ongoing treatment calibration",
+    ],
+  },
 ]
 
 export default function ServicesPage() {
-    return (
-        <div className="flex flex-col min-h-screen">
-            {/* Hero Section */}
-            <section className="relative py-20 md:py-32 overflow-hidden bg-slate-50 dark:bg-slate-950">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-sky-100/50 via-transparent to-transparent dark:from-sky-900/20" />
-                <div className="container px-4 md:px-6 relative z-10">
-                    <div className="max-w-3xl space-y-4">
-                        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl font-serif text-primary">
-                            Our Services
-                        </h1>
-                        <p className="text-xl text-muted-foreground leading-relaxed max-w-[700px]">
-                            We offer a comprehensive range of surgical and non-surgical treatments for the eyes and face, combining medical precision with aesthetic artistry.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            {/* Services Grid */}
-            <section className="py-20 bg-background">
-                <div className="container px-4 md:px-6">
-                    <div className="grid gap-10 md:grid-cols-2 lg:gap-16">
-                        {services.map((service, index) => (
-                            <div key={index} className="group relative overflow-hidden rounded-2xl border bg-card p-8 shadow-sm transition-all hover:shadow-md hover:border-secondary/30">
-                                <div className="flex items-start gap-4 mb-6">
-                                    <div className="p-3 rounded-xl bg-secondary/10 text-secondary group-hover:bg-secondary group-hover:text-white transition-colors duration-300">
-                                        <service.icon className="h-8 w-8" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-2xl font-bold font-serif text-primary mb-2">{service.title}</h3>
-                                        <p className="text-muted-foreground leading-relaxed">{service.description}</p>
-                                    </div>
-                                </div>
-
-                                <ul className="grid gap-3 sm:grid-cols-2 mt-6 pt-6 border-t border-border/50">
-                                    {service.features.map((feature, i) => (
-                                        <li key={i} className="flex items-center gap-2 text-sm font-medium text-foreground/80">
-                                            <CheckCircle2 className="h-4 w-4 text-secondary" />
-                                            {feature}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-20 bg-primary text-primary-foreground relative overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/10 to-transparent" />
-                <div className="container px-4 md:px-6 relative z-10 text-center space-y-8">
-                    <h2 className="text-3xl font-bold font-serif sm:text-4xl">Ready to Discuss Your Needs?</h2>
-                    <p className="text-primary-foreground/80 max-w-2xl mx-auto text-lg">
-                        Schedule a consultation with Dr. Biro to explore the best treatment options for your specific goals.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                        <Button size="lg" variant="secondary" className="text-primary font-semibold text-lg px-8" asChild>
-                            <Link href="/contact">Book Consultation</Link>
-                        </Button>
-                        <Button size="lg" variant="outline" className="bg-transparent text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/10 text-lg px-8" asChild>
-                            <Link href="/contact">Contact Office</Link>
-                        </Button>
-                    </div>
-                </div>
-            </section>
+  return (
+    <div className="pb-20 pt-12 md:pb-24 md:pt-16">
+      <section className="container px-4 md:px-6">
+        <div className="max-w-3xl space-y-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">
+            Services
+          </p>
+          <h1 className="text-5xl font-semibold text-primary sm:text-6xl">
+            Full-Spectrum Oculoplastic Care
+          </h1>
+          <p className="text-lg text-muted-foreground">
+            Surgical and non-surgical treatment options built around precise
+            diagnosis, transparent planning, and individualized outcomes.
+          </p>
         </div>
-    )
+      </section>
+
+      <section className="container mt-10 px-4 md:mt-12 md:px-6">
+        <div className="grid gap-5 lg:grid-cols-3">
+          {services.map((service) => (
+            <article
+              key={service.title}
+              className="rounded-2xl border border-border/70 bg-card/85 p-6 shadow-sm"
+            >
+              <div className="mb-5 inline-flex rounded-xl border border-secondary/35 bg-secondary/10 p-2 text-secondary">
+                <service.icon className="h-5 w-5" />
+              </div>
+              <h2 className="text-3xl font-medium text-primary">{service.title}</h2>
+              <p className="mt-3 text-sm text-muted-foreground">{service.description}</p>
+              <ul className="mt-5 space-y-2">
+                {service.features.map((feature) => (
+                  <li key={feature} className="flex items-center gap-2 text-sm text-foreground/90">
+                    <CheckCircle2 className="h-4 w-4 text-secondary" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="container mt-10 px-4 md:mt-12 md:px-6">
+        <div className="rounded-[1.8rem] border border-border/70 bg-card/85 p-7 shadow-sm md:p-9">
+          <h2 className="text-4xl font-semibold text-primary">Consultation Process</h2>
+          <ol className="mt-5 grid gap-4 text-sm text-muted-foreground md:grid-cols-3">
+            <li className="rounded-xl border border-border/70 bg-background/70 p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-secondary">
+                1. Assessment
+              </p>
+              <p className="mt-2">
+                Medical history, anatomy review, and functional concerns are
+                evaluated in depth.
+              </p>
+            </li>
+            <li className="rounded-xl border border-border/70 bg-background/70 p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-secondary">
+                2. Plan
+              </p>
+              <p className="mt-2">
+                A tailored treatment strategy is discussed with expected outcomes
+                and recovery guidance.
+              </p>
+            </li>
+            <li className="rounded-xl border border-border/70 bg-background/70 p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-secondary">
+                3. Follow-Through
+              </p>
+              <p className="mt-2">
+                Detailed follow-up ensures healing progression and long-term
+                stability.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section className="container mt-10 px-4 md:mt-12 md:px-6">
+        <div className="rounded-[1.8rem] border border-primary/20 bg-primary p-8 text-primary-foreground shadow-lg md:flex md:items-center md:justify-between md:gap-8">
+          <div>
+            <h2 className="text-3xl font-semibold">Need guidance on where to start?</h2>
+            <p className="mt-3 text-primary-foreground/85">
+              Consultation is the most efficient way to map your priorities to a
+              safe and realistic treatment pathway.
+            </p>
+          </div>
+          <Button variant="secondary" className="mt-5 md:mt-0" asChild>
+            <Link href="/contact">
+              Book Consultation
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+      </section>
+    </div>
+  )
 }

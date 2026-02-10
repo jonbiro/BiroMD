@@ -1,93 +1,94 @@
 import Link from "next/link"
+import { ArrowRight, ShieldCheck, Sparkles, Syringe } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Eye, Sparkles, Activity, ShieldAlert } from "lucide-react"
 
 const services = [
-    {
-        title: "Cosmetic Surgery",
-        description: "Upper and lower eyelid lifts (blepharoplasty) to rejuvenate the eyes.",
-        icon: Sparkles,
-    },
-    {
-        title: "Reconstructive Surgery",
-        description: "Treatment for ptosis, ectropion, entropion, and eyelid cancer reconstruction.",
-        icon: ShieldAlert,
-    },
-    {
-        title: "Non-Surgical",
-        description: "Injectables including BOTOX® and facial fillers for minimally invasive enhancement.",
-        icon: Eye,
-    },
+  {
+    title: "Cosmetic Eyelid Surgery",
+    description:
+      "Structured rejuvenation for the upper and lower eyelids, calibrated to your anatomy.",
+    icon: Sparkles,
+    items: ["Upper blepharoplasty", "Lower blepharoplasty", "Brow support planning"],
+  },
+  {
+    title: "Reconstructive Oculoplastics",
+    description:
+      "Functional repair for eyelid malposition, tumors, trauma, and orbital concerns.",
+    icon: ShieldCheck,
+    items: ["Ptosis correction", "Ectropion/entropion repair", "Post-cancer reconstruction"],
+  },
+  {
+    title: "Injectables and Non-Surgical Care",
+    description:
+      "Conservative treatment pathways for soft tissue balance and long-term maintenance.",
+    icon: Syringe,
+    items: ["BOTOX cosmetic", "Dermal fillers", "Targeted skin support"],
+  },
 ]
 
 export function ServicesPreview() {
-    return (
-        <section className="py-24 bg-muted/40 relative overflow-hidden">
-            {/* Background pattern */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(#0f172a 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+  return (
+    <section className="relative py-20 md:py-24">
+      <div className="container px-4 md:px-6">
+        <div className="mb-10 flex flex-col gap-5 md:mb-14 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl space-y-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">
+              Care Spectrum
+            </p>
+            <h2 className="text-4xl font-semibold text-primary sm:text-5xl">
+              Comprehensive Treatment, Singular Standards
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Every service pathway is structured around diagnostic precision,
+              conservative planning, and outcomes that feel naturally aligned.
+            </p>
+          </div>
+          <Button variant="outline" asChild>
+            <Link href="/services">
+              See All Services
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
 
-            <div className="container relative z-10 px-4 md:px-6">
-                <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16">
-                    <div className="space-y-4 max-w-2xl">
-                        <div className="inline-block rounded-full bg-secondary/10 px-3 py-1 text-sm font-medium text-secondary">
-                            Our Expertise
-                        </div>
-                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-serif text-primary">
-                            Comprehensive Eye & Face Care
-                        </h2>
-                        <p className="text-muted-foreground text-lg leading-relaxed max-w-[600px]">
-                            Specialized treatments tailored to your unique needs, from cosmetic enhancements to complex reconstruction.
-                        </p>
-                    </div>
-                    <Button variant="outline" asChild className="hidden md:inline-flex border-secondary/20 text-secondary hover:bg-secondary hover:text-white transition-all">
-                        <Link href="/procedures">View All Procedures <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                    </Button>
-                </div>
+        <div className="grid gap-5 lg:grid-cols-3">
+          {services.map((service) => (
+            <article
+              key={service.title}
+              className="group rounded-2xl border border-border/70 bg-card/85 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
+            >
+              <div className="mb-5 inline-flex rounded-xl border border-secondary/35 bg-secondary/10 p-2 text-secondary">
+                <service.icon className="h-5 w-5" />
+              </div>
+              <h3 className="text-2xl font-medium text-primary">{service.title}</h3>
+              <p className="mt-3 text-sm text-muted-foreground">{service.description}</p>
+              <ul className="mt-5 space-y-2 text-sm text-foreground/90">
+                {service.items.map((item) => (
+                  <li key={item} className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
 
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    {services.map((service, index) => (
-                        <div key={index} className="group relative overflow-hidden rounded-2xl bg-card p-8 shadow-sm transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 border border-border/60 hover:border-primary/20">
-                            {/* Glassmorphism gradient background */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                            {/* Animated icon container */}
-                            <div className="relative z-10 mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 shadow-sm group-hover:scale-110 group-hover:rotate-3 will-change-transform">
-                                <service.icon className="h-7 w-7" strokeWidth={1.5} />
-                            </div>
-
-                            <h3 className="relative z-10 mb-3 text-xl font-bold font-serif text-foreground group-hover:text-primary transition-colors">{service.title}</h3>
-                            <p className="relative z-10 text-muted-foreground text-sm leading-relaxed group-hover:text-foreground/80 transition-colors">
-                                {service.description}
-                            </p>
-
-                            <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 text-primary">
-                                <ArrowRight className="h-5 w-5" />
-                            </div>
-                        </div>
-                    ))}
-
-                    {/* Call to Action Card as the 4th item on lg screens */}
-                    <div className="group relative overflow-hidden rounded-2xl bg-primary p-8 shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 border border-primary text-primary-foreground flex flex-col justify-center items-center text-center">
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                        <div className="relative z-10">
-                            <h3 className="text-xl font-bold font-serif mb-3">Not sure what you need?</h3>
-                            <p className="text-primary-foreground/80 text-sm mb-6 leading-relaxed">
-                                Schedule a consultation to find the perfect treatment plan for your eyes.
-                            </p>
-                            <Button variant="secondary" size="sm" asChild className="w-full">
-                                <Link href="/contact">Book Consultation</Link>
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="mt-12 text-center md:hidden">
-                    <Button variant="outline" asChild className="w-full">
-                        <Link href="/procedures">View All Procedures <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                    </Button>
-                </div>
-            </div>
-        </section>
-    )
+        <div className="mt-10 rounded-2xl border border-border/70 bg-primary p-6 text-primary-foreground shadow-lg md:mt-12 md:flex md:items-center md:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground/70">
+              Next Step
+            </p>
+            <p className="mt-2 text-lg">
+              Unsure which pathway fits your goals? A consultation is the fastest
+              way to define a safe, tailored plan.
+            </p>
+          </div>
+          <Button variant="secondary" className="mt-4 md:mt-0" asChild>
+            <Link href="/contact">Book Consultation</Link>
+          </Button>
+        </div>
+      </div>
+    </section>
+  )
 }
