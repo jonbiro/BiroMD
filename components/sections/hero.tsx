@@ -112,9 +112,6 @@ export function Hero() {
             transition={{ duration: 0.72, delay: 0.1, ease: "easeOut" }}
             className="relative mx-auto w-full max-w-[560px]"
           >
-            <div className="absolute -left-8 -top-8 rounded-2xl border border-secondary/35 bg-card px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-secondary shadow-lg">
-              Trusted Specialist
-            </div>
             <div className="absolute -bottom-8 -right-8 h-44 w-44 rounded-full border border-primary/25 bg-primary/10" />
 
             <div className="relative overflow-hidden rounded-[2.2rem] border border-border/70 bg-card shadow-[0_24px_65px_rgb(10_29_55_/0.26)]">
