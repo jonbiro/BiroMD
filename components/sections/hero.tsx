@@ -72,8 +72,8 @@ export function Hero() {
 
                         <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-2xl ring-1 ring-border/50 bg-white dark:bg-slate-900">
                             <Image
-                                src="/images/dr-biro-portrait.png"
-                                alt="Dr. Nicolas G Biro, Board-Certified Ophthalmologist"
+                                src={`${process.env.NODE_ENV === 'production' ? '/BiroMD' : ''}/images/dr-biro-portrait.png`}
+                                alt="Dr. Nicolas G. Biro"
                                 fill
                                 className="object-cover"
                                 priority

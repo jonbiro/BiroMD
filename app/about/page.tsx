@@ -13,10 +13,10 @@ export default function AboutPage() {
                 <div className="lg:col-span-2 space-y-6 text-lg text-muted-foreground leading-relaxed">
                     <div className="float-right ml-6 mb-6 relative w-48 h-64 rounded-xl overflow-hidden shadow-lg border-4 border-white dark:border-slate-800">
                         <Image
-                            src="/images/dr-biro-portrait.png"
+                            src={`${process.env.NODE_ENV === 'production' ? '/BiroMD' : ''}/images/dr-biro-portrait.png`}
                             alt="Dr. Nicolas G Biro"
                             fill
-                            className="object-cover"
+                            className="object-cover w-full h-full transform transition-transform duration-500 hover:scale-105"
                         />
                     </div>
                     <p>
