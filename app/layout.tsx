@@ -86,7 +86,7 @@ const physicianSchema = {
   name: siteConfig.name,
   description: siteConfig.description,
   medicalSpecialty: "Ophthalmology",
-  areaServed: siteConfig.statesServed,
+  areaServed: siteConfig.areaServed,
   availableLanguage: siteConfig.languages,
   email: siteConfig.email,
   telephone: siteConfig.phoneHref,

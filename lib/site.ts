@@ -16,7 +16,8 @@ export const siteConfig = {
   location: "Los Angeles, California",
   hours: "Monday to Friday, 9:00 AM to 5:00 PM",
   languages: ["English", "Spanish", "French"],
-  statesServed: ["California", "Pennsylvania", "New Jersey", "New York"],
+  areaServed: ["Los Angeles"],
+  serviceAreaLabel: "Los Angeles only",
 } as const
 
 export const navItems = [

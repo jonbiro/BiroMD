@@ -76,7 +76,7 @@ export default function Footer() {
                 <li>Board-certified ophthalmologist</li>
                 <li>Fellowship-trained at Wills Eye Hospital</li>
                 <li>Fluent in {siteConfig.languages.join(", ")}</li>
-                <li>Serving patients in {siteConfig.statesServed.join(", ")}</li>
+                <li>Serving patients in {siteConfig.serviceAreaLabel}</li>
               </ul>
             </div>
           </div>
