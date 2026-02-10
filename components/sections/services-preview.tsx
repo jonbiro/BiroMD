@@ -46,19 +46,21 @@ export function ServicesPreview() {
 
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {services.map((service, index) => (
-                        <div key={index} className="group relative overflow-hidden rounded-2xl bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-border/60 hover:border-secondary/30">
-                            <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div key={index} className="group relative overflow-hidden rounded-2xl bg-card p-8 shadow-sm transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-border/60 hover:border-primary/20">
+                            {/* Glassmorphism gradient background */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                            <div className="relative z-10 mb-6 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300 shadow-sm">
-                                <service.icon className="h-7 w-7" />
+                            {/* Animated icon container */}
+                            <div className="relative z-10 mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 shadow-sm transform group-hover:scale-110 group-hover:rotate-3">
+                                <service.icon className="h-8 w-8" />
                             </div>
 
                             <h3 className="relative z-10 mb-3 text-xl font-bold font-serif text-foreground group-hover:text-primary transition-colors">{service.title}</h3>
-                            <p className="relative z-10 text-muted-foreground text-sm leading-relaxed">
+                            <p className="relative z-10 text-muted-foreground text-sm leading-relaxed group-hover:text-foreground/80 transition-colors">
                                 {service.description}
                             </p>
 
-                            <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 text-secondary">
+                            <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 text-primary">
                                 <ArrowRight className="h-5 w-5" />
                             </div>
                         </div>

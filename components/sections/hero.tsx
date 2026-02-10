@@ -8,7 +8,7 @@ import { ArrowRight, Calendar } from "lucide-react"
 
 export function Hero() {
     return (
-        <section className="relative flex min-h-[100dvh] items-center overflow-hidden bg-background pt-20 pb-16 md:py-0">
+        <section className="relative flex min-h-[100dvh] items-center overflow-hidden bg-background pt-32 pb-24 md:py-0">
             {/* Background decoration - Abstract Mesh Gradient */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-0 right-0 w-[80vw] h-[80vh] bg-secondary/5 rounded-full blur-[100px] transform translate-x-1/2 -translate-y-1/4" />
@@ -31,16 +31,21 @@ export function Hero() {
                             </div>
 
                             <h1 className="text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl font-serif text-primary leading-[1.1]">
-                                Nicolas G Biro, <span className="text-secondary italic block sm:inline">M.D.</span>
+                                Transformative <span className="text-secondary italic block sm:inline">Oculoplastic Surgery</span>
                             </h1>
 
-                            <p className="text-xl md:text-2xl text-muted-foreground font-light max-w-[600px] mx-auto lg:mx-0 leading-relaxed">
-                                Specializing in <span className="text-foreground font-medium">Ocular Plastic Surgery</span> and <span className="text-foreground font-medium">Reconstructive Eye Care</span>.
-                            </p>
+                            <div className="space-y-4 max-w-[600px] mx-auto lg:mx-0">
+                                <h2 className="text-xl font-medium text-foreground/80">
+                                    Nicolas G Biro, M.D.
+                                </h2>
+                                <p className="text-lg md:text-xl text-muted-foreground font-light leading-relaxed">
+                                    Restoring confidence through precision reconstructive care and aesthetic excellence.
+                                </p>
+                            </div>
                         </div>
 
-                        <div className="flex flex-col gap-4 min-[400px]:flex-row justify-center lg:justify-start pt-4">
-                            <Button size="lg" className="h-14 px-8 text-lg font-semibold shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all w-full sm:w-auto" asChild>
+                        <div className="flex flex-col gap-4 sm:flex-row justify-center lg:justify-start pt-4 w-full sm:w-auto">
+                            <Button size="lg" className="h-14 px-8 text-lg font-semibold shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all w-full sm:w-auto animate-pulse hover:animate-none" asChild>
                                 <Link href="/contact">
                                     <Calendar className="mr-2 h-5 w-5" />
                                     Book Consultation

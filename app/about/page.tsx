@@ -20,30 +20,33 @@ export default function AboutPage() {
                         />
                     </div>
                     <p>
-                        <strong className="text-foreground">Nicolas G Biro, M.D.</strong> is a board-certified Ophthalmologist with additional specialty training in
-                        <strong className="text-foreground"> Ocular Plastic Surgery</strong> at the prestigious
+                        <strong className="text-foreground">Nicolas G Biro, M.D.</strong> is a board-certified Ophthalmologist with sub-specialty fellowship training in
+                        <strong className="text-foreground"> Ocular Plastic Surgery</strong> from the prestigious
                         <strong className="text-foreground"> Wills Eye Hospital</strong>.
                     </p>
 
                     <p>
-                        Dr. Biro graduated from the <span className="font-semibold">University of South Florida, College of Medicine</span> in 2005.
-                        He completed his internship at <span className="font-semibold">New York University Medical Center</span>, followed by an ophthalmology residency at the University of South Florida.
+                        Dr. Biro’s journey in medicine began at the <span className="font-semibold">University of South Florida, College of Medicine</span>, graduating in 2005.
+                        His rigorous training includes an internship at <span className="font-semibold">New York University Medical Center</span> and an ophthalmology residency at the University of South Florida.
                     </p>
 
                     <p>
-                        Subsequently, he was selected for a two-year fellowship in Ocular Plastic and Orbital Surgery at
-                        <span className="font-semibold text-primary"> Wills Eye Hospital</span> in Philadelphia, the nation’s first eye hospital and one of the premier eye centers in the world.
+                        He was notably selected for a highly competitive two-year fellowship in Ocular Plastic and Orbital Surgery at
+                        <span className="font-semibold text-primary"> Wills Eye Hospital</span> in Philadelphia, consistently ranked as one of the top eye hospitals worldwide.
                     </p>
 
-                    <div className="bg-muted p-6 rounded-lg border-l-4 border-secondary mt-8">
-                        <h3 className="text-xl font-bold text-foreground mb-2">Patient Care Philosophy</h3>
-                        <p className="italic">
-                            &quot;Providing expert cosmetic and reconstructive surgery and minimally-invasive care of the eyes and face.&quot;
+                    <div className="relative my-10 pl-8 border-l-4 border-secondary/60">
+                        <div className="text-4xl text-secondary/20 absolute -top-4 -left-3 font-serif">“</div>
+                        <h3 className="text-2xl font-serif font-medium text-foreground italic mb-2 relative z-10">
+                            My philosophy is simple: restore confidence through precision and artistry.
+                        </h3>
+                        <p className="text-muted-foreground">
+                            — Nicolas G Biro, M.D.
                         </p>
                     </div>
 
                     <p className="font-medium text-foreground">
-                        Dr. Biro is fluent in English, Spanish, and French.
+                        Dr. Biro is fluent in English, Spanish, and French, allowing him to connect with a diverse patient base.
                     </p>
                 </div>
 
