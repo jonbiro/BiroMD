@@ -28,7 +28,7 @@ export function AboutSummary() {
     <section className="relative py-20 md:py-24">
       <div className="container px-4 md:px-6">
         <div className="panel relative overflow-hidden rounded-[2rem] p-8 md:p-12">
-          <div className="pointer-events-none absolute left-0 top-0 h-40 w-44 rounded-full bg-secondary/16 blur-[70px]" />
+          <div className="pointer-events-none absolute left-0 top-0 h-40 w-44 rounded-full bg-secondary/10" />
 
           <div className="relative grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12">
             <div className="space-y-5">

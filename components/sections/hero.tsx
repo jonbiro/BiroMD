@@ -39,8 +39,8 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden pb-20 pt-12 md:pb-28 md:pt-16">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-56 top-0 h-[560px] w-[640px] rounded-full bg-secondary/25 blur-[140px]" />
-        <div className="absolute -right-56 top-16 h-[600px] w-[660px] rounded-full bg-primary/22 blur-[160px]" />
+        <div className="absolute -left-56 top-0 h-[560px] w-[640px] rounded-full bg-secondary/10" />
+        <div className="absolute -right-56 top-16 h-[600px] w-[660px] rounded-full bg-primary/8" />
       </div>
 
       <div className="container relative z-10 px-4 md:px-6">
@@ -112,7 +112,7 @@ export function Hero() {
             transition={{ duration: 0.72, delay: 0.1, ease: "easeOut" }}
             className="relative mx-auto w-full max-w-[560px]"
           >
-            <div className="absolute -left-8 -top-8 rounded-2xl border border-secondary/35 bg-card/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-secondary shadow-lg backdrop-blur">
+            <div className="absolute -left-8 -top-8 rounded-2xl border border-secondary/35 bg-card px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-secondary shadow-lg">
               Trusted Specialist
             </div>
             <div className="absolute -bottom-8 -right-8 h-44 w-44 rounded-full border border-primary/25 bg-primary/10" />

@@ -7,8 +7,8 @@ export default function Footer() {
     <footer className="relative mt-24 pb-10">
       <div className="container px-4 md:px-6">
         <div className="panel-strong relative overflow-hidden rounded-[2rem] px-6 py-10 md:px-10 md:py-12">
-          <div className="pointer-events-none absolute -left-24 top-0 h-56 w-56 rounded-full bg-secondary/18 blur-[90px]" />
-          <div className="pointer-events-none absolute -right-24 bottom-0 h-52 w-56 rounded-full bg-primary/20 blur-[90px]" />
+          <div className="pointer-events-none absolute -left-24 top-0 h-56 w-56 rounded-full bg-secondary/10" />
+          <div className="pointer-events-none absolute -right-24 bottom-0 h-52 w-56 rounded-full bg-primary/10" />
 
           <div className="relative grid gap-10 md:grid-cols-2 lg:grid-cols-4">
             <div className="space-y-4">

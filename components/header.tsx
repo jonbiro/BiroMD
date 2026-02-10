@@ -51,8 +51,8 @@ export default function Header() {
     <header className="sticky top-0 z-50 px-3 pb-2 pt-3 md:px-6">
       <div className="container relative px-0">
         <div className="panel relative flex h-20 items-center justify-between overflow-hidden rounded-2xl px-4 md:h-24 md:px-6">
-          <div className="pointer-events-none absolute -left-20 top-0 h-32 w-40 rounded-full bg-secondary/20 blur-[60px]" />
-          <div className="pointer-events-none absolute -right-20 bottom-0 h-32 w-44 rounded-full bg-primary/20 blur-[70px]" />
+          <div className="pointer-events-none absolute -left-20 top-0 h-32 w-40 rounded-full bg-secondary/10" />
+          <div className="pointer-events-none absolute -right-20 bottom-0 h-32 w-44 rounded-full bg-primary/10" />
 
           <Link
             href="/"
@@ -125,7 +125,7 @@ export default function Header() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 z-20 bg-slate-950/45 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 z-20 bg-slate-950/45 md:hidden"
               aria-label="Close menu overlay"
             />
 

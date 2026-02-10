@@ -31,8 +31,8 @@ export function ServicesPreview() {
     <section className="relative py-20 md:py-24">
       <div className="container px-4 md:px-6">
         <div className="panel relative overflow-hidden rounded-[2rem] p-8 md:p-12">
-          <div className="pointer-events-none absolute -right-24 top-0 h-52 w-56 rounded-full bg-primary/20 blur-[80px]" />
-          <div className="pointer-events-none absolute left-0 bottom-0 h-44 w-52 rounded-full bg-secondary/15 blur-[80px]" />
+          <div className="pointer-events-none absolute -right-24 top-0 h-52 w-56 rounded-full bg-primary/10" />
+          <div className="pointer-events-none absolute left-0 bottom-0 h-44 w-52 rounded-full bg-secondary/10" />
 
           <div className="relative">
             <div className="mb-10 flex flex-col gap-5 md:mb-14 md:flex-row md:items-end md:justify-between">

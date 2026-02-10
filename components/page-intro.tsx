@@ -12,8 +12,8 @@ export function PageIntro({ eyebrow, title, description, actions }: PageIntroPro
   return (
     <section className="container px-4 md:px-6">
       <div className="panel-strong relative overflow-hidden rounded-[2rem] px-6 py-8 md:px-10 md:py-12">
-        <div className="pointer-events-none absolute -left-24 top-0 h-56 w-56 rounded-full bg-secondary/20 blur-[80px]" />
-        <div className="pointer-events-none absolute -right-20 bottom-0 h-52 w-52 rounded-full bg-primary/25 blur-[90px]" />
+        <div className="pointer-events-none absolute -left-24 top-0 h-56 w-56 rounded-full bg-secondary/10" />
+        <div className="pointer-events-none absolute -right-20 bottom-0 h-52 w-52 rounded-full bg-primary/10" />
 
         <div className="relative max-w-3xl space-y-5">
           <p className="eyebrow">

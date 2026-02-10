@@ -7,9 +7,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
   return (
     <motion.div
-      initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ ease: "easeOut", duration: 0.3 }}
+      initial={prefersReducedMotion ? false : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ ease: "linear", duration: 0.16 }}
     >
       {children}
     </motion.div>
