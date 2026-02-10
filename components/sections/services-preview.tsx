@@ -46,13 +46,13 @@ export function ServicesPreview() {
 
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {services.map((service, index) => (
-                        <div key={index} className="group relative overflow-hidden rounded-2xl bg-card p-8 shadow-sm transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-border/60 hover:border-primary/20">
+                        <div key={index} className="group relative overflow-hidden rounded-2xl bg-card p-8 shadow-sm transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 border border-border/60 hover:border-primary/20">
                             {/* Glassmorphism gradient background */}
                             <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                             {/* Animated icon container */}
-                            <div className="relative z-10 mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 shadow-sm transform group-hover:scale-110 group-hover:rotate-3">
-                                <service.icon className="h-8 w-8" />
+                            <div className="relative z-10 mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 shadow-sm group-hover:scale-110 group-hover:rotate-3 will-change-transform">
+                                <service.icon className="h-7 w-7" strokeWidth={1.5} />
                             </div>
 
                             <h3 className="relative z-10 mb-3 text-xl font-bold font-serif text-foreground group-hover:text-primary transition-colors">{service.title}</h3>
@@ -65,6 +65,21 @@ export function ServicesPreview() {
                             </div>
                         </div>
                     ))}
+
+                    {/* Call to Action Card as the 4th item on lg screens */}
+                    <div className="group relative overflow-hidden rounded-2xl bg-primary p-8 shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 border border-primary text-primary-foreground flex flex-col justify-center items-center text-center">
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                        <div className="relative z-10">
+                            <h3 className="text-xl font-bold font-serif mb-3">Not sure what you need?</h3>
+                            <p className="text-primary-foreground/80 text-sm mb-6 leading-relaxed">
+                                Schedule a consultation to find the perfect treatment plan for your eyes.
+                            </p>
+                            <Button variant="secondary" size="sm" asChild className="w-full">
+                                <Link href="/contact">Book Consultation</Link>
+                            </Button>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="mt-12 text-center md:hidden">

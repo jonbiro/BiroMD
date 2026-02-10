@@ -26,26 +26,26 @@ export function Hero() {
                     >
                         <div className="space-y-6">
                             <div className="inline-flex items-center rounded-full border border-secondary/20 bg-secondary/5 px-4 py-1.5 text-sm font-medium text-secondary mx-auto lg:mx-0">
-                                <span className="flex h-2 w-2 rounded-full bg-secondary mr-2" />
+                                <span className="flex h-2 w-2 rounded-full bg-secondary mr-2 animate-pulse" />
                                 Board-Certified Ophthalmologist
                             </div>
 
                             <h1 className="text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl font-serif text-primary leading-[1.1]">
-                                Transformative <span className="text-secondary italic block sm:inline">Oculoplastic Surgery</span>
+                                Artistry & Precision in <span className="text-secondary italic block sm:inline">Oculoplastic Surgery</span>
                             </h1>
 
                             <div className="space-y-4 max-w-[600px] mx-auto lg:mx-0">
-                                <h2 className="text-xl font-medium text-foreground/80">
+                                <h2 className="text-xl font-medium text-foreground/80 font-serif">
                                     Nicolas G Biro, M.D.
                                 </h2>
                                 <p className="text-lg md:text-xl text-muted-foreground font-light leading-relaxed">
-                                    Restoring confidence through precision reconstructive care and aesthetic excellence.
+                                    Restoring confidence through advanced reconstructive care and aesthetic excellence.
                                 </p>
                             </div>
                         </div>
 
                         <div className="flex flex-col gap-4 sm:flex-row justify-center lg:justify-start pt-4 w-full sm:w-auto">
-                            <Button size="lg" className="h-14 px-8 text-lg font-semibold shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all w-full sm:w-auto animate-pulse hover:animate-none" asChild>
+                            <Button size="lg" className="h-14 px-8 text-lg font-semibold shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all w-full sm:w-auto" asChild>
                                 <Link href="/contact">
                                     <Calendar className="mr-2 h-5 w-5" />
                                     Book Consultation
@@ -73,9 +73,9 @@ export function Hero() {
                         className="relative mx-auto w-full max-w-[500px]"
                     >
                         {/* Organic shape backdrop */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-[45%] -translate-y-[45%] w-[110%] h-[110%] bg-gradient-to-tr from-secondary/10 to-primary/5 rounded-[30%_70%_70%_30%/30%_30%_70%_70%] blur-3xl" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-[45%] -translate-y-[45%] w-[110%] h-[110%] bg-gradient-to-tr from-secondary/10 to-primary/5 rounded-[30%_70%_70%_30%/30%_30%_70%_70%] blur-3xl opacity-70" />
 
-                        <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-2xl ring-1 ring-border/50 bg-white dark:bg-slate-900">
+                        <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-2xl ring-1 ring-border/50 bg-white dark:bg-slate-900 border border-white/20">
                             <Image
                                 src={`${process.env.NODE_ENV === 'production' ? '/BiroMD' : ''}/images/dr-biro-portrait.png`}
                                 alt="Dr. Nicolas G. Biro"
@@ -86,9 +86,9 @@ export function Hero() {
                             />
 
                             {/* Refined Glass card overlay */}
-                            <div className="absolute bottom-6 right-6 left-6 p-5 bg-white/60 dark:bg-black/40 backdrop-blur-lg rounded-2xl border border-white/40 shadow-xl z-20 isolate will-change-transform">
+                            <div className="absolute bottom-6 right-6 left-6 p-5 bg-white/70 dark:bg-black/40 backdrop-blur-xl rounded-2xl border border-white/30 shadow-2xl z-20 isolate will-change-transform">
                                 <div className="flex items-center gap-4">
-                                    <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-slate-800 flex items-center justify-center text-white font-serif font-bold text-2xl shadow-lg">
+                                    <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-slate-800 flex items-center justify-center text-white font-serif font-bold text-2xl shadow-lg shrink-0">
                                         B
                                     </div>
                                     <div>
