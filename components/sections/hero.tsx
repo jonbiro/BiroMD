@@ -45,18 +45,18 @@ export function Hero() {
           <div className="relative space-y-8">
             <p className="eyebrow">
               <ShieldCheck className="h-3.5 w-3.5" />
-              Precision Oculoplastics in Los Angeles
+              Experienced Oculoplastic Surgery in Los Angeles
             </p>
 
             <div className="space-y-5">
               <h1 className="text-5xl font-semibold leading-[1.02] text-primary sm:text-6xl md:text-7xl">
-                Elevated Eye and
-                <span className="headline-gradient block">Facial Rejuvenation</span>
+                Ophthalmic Expertise with
+                <span className="headline-gradient block">Plastic Surgical Artistry</span>
               </h1>
               <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">
-                {siteConfig.shortName} delivers cosmetic and reconstructive care
-                with surgical rigor, measured planning, and naturally balanced
-                outcomes.
+                Dr. Nicolas Biro provides cosmetic and reconstructive
+                oculoplastic care grounded in ophthalmic precision, meticulous
+                planning, and elegant, naturally balanced outcomes.
               </p>
             </div>
 
