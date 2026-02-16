@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowUpRight, Clock3, Mail, MapPin, Phone } from "lucide-react"
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react"
 import { navItems, siteConfig } from "@/lib/site"
 
 export default function Footer() {
@@ -47,10 +47,6 @@ export default function Footer() {
                     </p>
                   </li>
                 ))}
-                <li className="flex items-start gap-3">
-                  <Clock3 className="mt-0.5 h-4 w-4 text-secondary" />
-                  <span>{siteConfig.hours}</span>
-                </li>
               </ul>
             </div>
 

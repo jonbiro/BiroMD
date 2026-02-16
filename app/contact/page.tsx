@@ -1,6 +1,6 @@
 import Link from "next/link"
 import type { LucideIcon } from "lucide-react"
-import { Clock3, Mail, MapPin, PhoneCall } from "lucide-react"
+import { Mail, MapPin, PhoneCall } from "lucide-react"
 import { ContactIntakeForm } from "@/components/contact-intake-form"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
@@ -37,11 +37,6 @@ const contactCards: ContactCard[] = [
     description: siteConfig.email,
     href: `mailto:${siteConfig.email}`,
     icon: Mail,
-  },
-  {
-    title: "Hours",
-    description: siteConfig.hours,
-    icon: Clock3,
   },
 ]
 

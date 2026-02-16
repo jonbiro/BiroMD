@@ -28,7 +28,6 @@ export const siteConfig = {
       phoneHref: "+19099379230",
     },
   ],
-  hours: "Monday to Friday, 9:00 AM to 5:00 PM",
   languages: ["English", "Spanish", "French"],
   areaServed: ["Los Angeles"],
   serviceAreaLabel: "the greater Los Angeles area",
