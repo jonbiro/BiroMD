@@ -14,7 +14,7 @@ export const metadata = pageMetadata({
 const categories = [
   {
     title: "Cosmetic and Reconstructive Surgery",
-    subtitle: "Advanced operative care for eyelid and orbital concerns",
+    subtitle: "Advanced operative care for eyelid and orbital diseases",
     items: [
       "Upper and lower eyelid lifts (blepharoplasty)",
       "Ptosis repair (droopy eyelids)",

@@ -13,7 +13,7 @@ const services = [
   {
     title: "Reconstructive Oculoplastics",
     description:
-      "Functional repair for eyelid malposition, tumors, trauma, and orbital concerns.",
+      "Functional repair for eyelid malposition, tumors, trauma, and orbital diseases.",
     icon: ShieldCheck,
     items: ["Ptosis correction", "Ectropion/entropion repair", "Post-cancer reconstruction"],
   },
