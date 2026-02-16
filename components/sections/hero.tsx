@@ -105,7 +105,7 @@ export function Hero() {
               <div className="relative aspect-[4/5]">
                 <Image
                   src={withBasePath("/images/dr-biro-portrait.png")}
-                  alt="Dr. Nicolas G. Biro portrait"
+                  alt="Dr. Nicolas Biro portrait"
                   fill
                   priority
                   className="object-cover"

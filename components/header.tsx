@@ -59,7 +59,7 @@ export default function Header() {
             onClick={() => setIsOpen(false)}
           >
             <span className="font-serif text-[1.45rem] font-semibold text-primary transition-colors group-hover:text-secondary md:text-3xl">
-              Nicolas G Biro, M.D.
+              Nicolas Biro, M.D.
             </span>
             <span className="inline-flex items-center text-[0.62rem] font-medium uppercase tracking-[0.26em] text-muted-foreground md:text-xs">
               <Dot className="h-3.5 w-3.5 text-secondary" />

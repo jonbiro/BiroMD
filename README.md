@@ -1,6 +1,6 @@
 # BiroMD Website
 
-Professional website for Nicolas G Biro, M.D., built with Next.js App Router and static export.
+Professional website for Nicolas Biro, M.D., built with Next.js App Router and static export.
 
 ## Stack
 

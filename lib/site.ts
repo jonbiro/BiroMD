@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 const productionBasePath = process.env.NODE_ENV === "production" ? "/BiroMD" : ""
 
 export const siteConfig = {
-  name: "Nicolas G Biro, M.D.",
-  legalName: "Nicolas G Biro, M.D. Oculoplastic Surgery",
+  name: "Nicolas Biro, M.D.",
+  legalName: "Nicolas Biro, M.D. Oculoplastic Surgery",
   shortName: "Dr. Nicolas Biro",
   url: "https://biromd.com",
   basePath: productionBasePath,

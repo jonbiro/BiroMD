@@ -8,7 +8,7 @@ import { pageMetadata, siteConfig } from "@/lib/site"
 export const metadata = pageMetadata({
   title: "Contact",
   description:
-    "Request a consultation with Dr. Nicolas G Biro for cosmetic or reconstructive oculoplastic care.",
+    "Request a consultation with Dr. Nicolas Biro for cosmetic or reconstructive oculoplastic care.",
   path: "/contact",
 })
 

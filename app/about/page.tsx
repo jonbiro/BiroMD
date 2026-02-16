@@ -8,7 +8,7 @@ import { pageMetadata, siteConfig, withBasePath } from "@/lib/site"
 export const metadata = pageMetadata({
   title: "About Dr. Biro",
   description:
-    "Learn about Dr. Nicolas G Biro's training, philosophy, and subspecialty focus in oculoplastic surgery.",
+    "Learn about Dr. Nicolas Biro's training, philosophy, and subspecialty focus in oculoplastic surgery.",
   path: "/about",
 })
 
@@ -73,7 +73,7 @@ export default function AboutPage() {
               <div className="relative aspect-[4/5]">
                 <Image
                   src={withBasePath("/images/dr-biro-portrait.png")}
-                  alt="Dr. Nicolas G Biro"
+                  alt="Dr. Nicolas Biro"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 560px"
