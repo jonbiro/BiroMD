@@ -8,7 +8,7 @@ const services = [
     description:
       "Structured rejuvenation for the upper and lower eyelids, calibrated to your anatomy.",
     icon: Sparkles,
-    items: ["Upper blepharoplasty", "Lower blepharoplasty", "Brow support planning"],
+    items: ["Upper blepharoplasty", "Lower blepharoplasty", "Brow lifts"],
   },
   {
     title: "Reconstructive Oculoplastics",
