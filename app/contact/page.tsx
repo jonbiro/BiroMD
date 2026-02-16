@@ -13,17 +13,17 @@ export const metadata = pageMetadata({
 })
 
 const contactCards = [
-  {
-    title: "Office",
-    description: siteConfig.location,
+  ...siteConfig.offices.map((office) => ({
+    title: `${office.name} Office`,
+    description: office.address,
     icon: MapPin,
-  },
-  {
-    title: "Phone",
-    description: siteConfig.phoneDisplay,
-    href: `tel:${siteConfig.phoneHref}`,
+  })),
+  ...siteConfig.offices.map((office) => ({
+    title: `${office.name} Phone`,
+    description: office.phoneDisplay,
+    href: `tel:${office.phoneHref}`,
     icon: PhoneCall,
-  },
+  })),
   {
     title: "Email",
     description: siteConfig.email,

@@ -32,16 +32,21 @@ export default function Footer() {
                     {siteConfig.email}
                   </a>
                 </li>
-                <li className="flex items-start gap-3">
-                  <Phone className="mt-0.5 h-4 w-4 text-secondary" />
-                  <a href={`tel:${siteConfig.phoneHref}`} className="hover:text-secondary">
-                    {siteConfig.phoneDisplay}
-                  </a>
-                </li>
-                <li className="flex items-start gap-3">
-                  <MapPin className="mt-0.5 h-4 w-4 text-secondary" />
-                  <span>{siteConfig.location}</span>
-                </li>
+                {siteConfig.offices.map((office) => (
+                  <li key={office.name} className="space-y-1">
+                    <p className="font-medium text-foreground/90">{office.name}</p>
+                    <p className="flex items-start gap-3">
+                      <MapPin className="mt-0.5 h-4 w-4 text-secondary" />
+                      <span>{office.address}</span>
+                    </p>
+                    <p className="flex items-start gap-3">
+                      <Phone className="mt-0.5 h-4 w-4 text-secondary" />
+                      <a href={`tel:${office.phoneHref}`} className="hover:text-secondary">
+                        {office.phoneDisplay}
+                      </a>
+                    </p>
+                  </li>
+                ))}
                 <li className="flex items-start gap-3">
                   <Clock3 className="mt-0.5 h-4 w-4 text-secondary" />
                   <span>{siteConfig.hours}</span>

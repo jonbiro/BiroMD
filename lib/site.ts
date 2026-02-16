@@ -11,9 +11,23 @@ export const siteConfig = {
   description:
     "Board-certified ophthalmologist providing cosmetic and reconstructive oculoplastic care in Los Angeles.",
   email: "info@biromd.com",
-  phoneDisplay: "(310) 555-0123",
-  phoneHref: "+13105550123",
-  location: "Los Angeles, California",
+  phoneDisplay: "(805) 987-5300",
+  phoneHref: "+18059875300",
+  location: "Westlake Village & Rancho Cucamonga, California",
+  offices: [
+    {
+      name: "Westlake Village",
+      address: "4353 Park Terrace Dr #150, Westlake Village, CA 91361",
+      phoneDisplay: "(805) 987-5300",
+      phoneHref: "+18059875300",
+    },
+    {
+      name: "Rancho Cucamonga",
+      address: "9481 Haven Ave Suite 200, Rancho Cucamonga, CA 91730",
+      phoneDisplay: "(909) 937-9230",
+      phoneHref: "+19099379230",
+    },
+  ],
   hours: "Monday to Friday, 9:00 AM to 5:00 PM",
   languages: ["English", "Spanish", "French"],
   areaServed: ["Los Angeles"],
