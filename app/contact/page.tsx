@@ -1,4 +1,5 @@
 import Link from "next/link"
+import type { LucideIcon } from "lucide-react"
 import { Clock3, Mail, MapPin, PhoneCall } from "lucide-react"
 import { ContactIntakeForm } from "@/components/contact-intake-form"
 import { PageIntro } from "@/components/page-intro"
@@ -12,7 +13,14 @@ export const metadata = pageMetadata({
   path: "/contact",
 })
 
-const contactCards = [
+type ContactCard = {
+  title: string
+  description: string
+  icon: LucideIcon
+  href?: string
+}
+
+const contactCards: ContactCard[] = [
   ...siteConfig.offices.map((office) => ({
     title: `${office.name} Office`,
     description: office.address,
