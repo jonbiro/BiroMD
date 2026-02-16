@@ -31,7 +31,7 @@ export const siteConfig = {
   hours: "Monday to Friday, 9:00 AM to 5:00 PM",
   languages: ["English", "Spanish", "French"],
   areaServed: ["Los Angeles"],
-  serviceAreaLabel: "Los Angeles only",
+  serviceAreaLabel: "the greater Los Angeles area",
 } as const
 
 export const navItems = [
