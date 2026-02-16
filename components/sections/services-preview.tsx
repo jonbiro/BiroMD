@@ -22,7 +22,7 @@ const services = [
     description:
       "Conservative treatment pathways for soft tissue balance and long-term maintenance.",
     icon: Syringe,
-    items: ["BOTOX cosmetic", "Dermal fillers", "Targeted skin support"],
+    items: ["BOTOX cosmetic", "Dermal fillers"],
   },
 ]
 
