@@ -49,9 +49,6 @@ export default function ContactPage() {
         description="Share your concerns and treatment goals to receive a thoughtful, medically grounded recommendation from Dr. Biro's team."
         actions={
           <>
-            <Button asChild>
-              <a href={`tel:${siteConfig.phoneHref}`}>Call the Office</a>
-            </Button>
             <Button variant="outline" asChild>
               <Link href="/services">Review Services</Link>
             </Button>
