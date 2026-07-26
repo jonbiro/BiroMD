@@ -1,27 +1,12 @@
+import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, Dot, Eye } from "lucide-react"
+import { ArrowRight, Dot, Eye, ShieldCheck } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-const previewCases = [
-  {
-    title: "Lower Blepharoplasty",
-    category: "Cosmetic Surgery",
-    description: "Rejuvenation of the lower eyelid area, addressing pronounced under-eye bags while maintaining a completely natural appearance.",
-    imagePath: "/images/cases/scalp-reconstruction.jpg",
-    alt: "Before and after lower blepharoplasty showing under-eye rejuvenation",
-    tag: "Aesthetic"
-  },
-  {
-    title: "Lower Eyelid Trauma Reconstruction",
-    category: "Reconstructive Oculoplastics",
-    description: "Restoration of lower eyelid integrity, contour, and function following complex trauma and tissue disruption.",
-    imagePath: "/images/cases/eyelid-trauma-repair.jpg",
-    alt: "Before and after lower eyelid trauma repair reconstruction",
-    tag: "Reconstructive"
-  }
-]
+import { getPublishedGalleryCases } from "@/lib/gallery-cases"
 
 export function BeforeAfterPreview() {
+  const previewCases = getPublishedGalleryCases().slice(0, 2)
+
   return (
     <section className="relative py-20 md:py-24 border-t border-border/40">
       <div className="container px-4 md:px-6">
@@ -48,33 +33,35 @@ export function BeforeAfterPreview() {
           </Button>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2">
-          {previewCases.map((item) => (
+        {previewCases.length > 0 ? (
+          <div className="grid gap-8 md:grid-cols-2">
+            {previewCases.map((item) => (
             <article
               key={item.title}
               className="panel group overflow-hidden rounded-[2rem] transition-all duration-300 hover:shadow-xl flex flex-col"
             >
               <div className="relative aspect-[4/3] w-full bg-accent/30 overflow-hidden border-b border-border/50">
-                <img
+                <Image
                   src={item.imagePath}
                   alt={item.alt}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-[1.02]"
-                  loading="lazy"
                 />
                 <span className="absolute left-4 top-4 rounded-full bg-primary/90 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-primary-foreground backdrop-blur-sm">
-                  {item.tag}
+                  {item.category === "cosmetic" ? "Aesthetic" : "Reconstructive"}
                 </span>
               </div>
               <div className="p-6 md:p-8 flex-1 flex flex-col justify-between">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-widest text-secondary mb-2">
-                    {item.category}
+                    {item.categoryLabel}
                   </p>
                   <h3 className="text-2xl font-serif font-semibold text-primary mb-3">
                     {item.title}
                   </h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    {item.description}
+                    {item.presentation}
                   </p>
                 </div>
                 <div className="mt-6 pt-5 border-t border-border/40">
@@ -89,8 +76,28 @@ export function BeforeAfterPreview() {
                 </div>
               </div>
             </article>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="panel flex flex-col items-start gap-4 rounded-[2rem] p-7 md:flex-row md:items-center md:justify-between md:p-9">
+            <div className="max-w-2xl">
+              <p className="inline-flex items-center gap-2 text-sm font-semibold text-secondary">
+                <ShieldCheck className="h-4 w-4" />
+                Publication review in progress
+              </p>
+              <h3 className="mt-2 text-3xl font-semibold text-primary">
+                Patient images are published only after authorization review
+              </h3>
+              <p className="mt-2 text-muted-foreground">
+                The practice is confirming written image permissions and final
+                case presentation details before displaying clinical photos.
+              </p>
+            </div>
+            <Button variant="outline" asChild>
+              <Link href="/contact">Discuss Expected Outcomes</Link>
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   )

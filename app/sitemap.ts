@@ -8,7 +8,10 @@ const entries: Array<{ path: string; priority: number; changeFrequency: Metadata
   { path: "/about", priority: 0.9, changeFrequency: "monthly" },
   { path: "/services", priority: 0.9, changeFrequency: "monthly" },
   { path: "/procedures", priority: 0.9, changeFrequency: "monthly" },
+  { path: "/gallery", priority: 0.8, changeFrequency: "monthly" },
   { path: "/contact", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/privacy", priority: 0.4, changeFrequency: "yearly" },
+  { path: "/accessibility", priority: 0.4, changeFrequency: "yearly" },
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {

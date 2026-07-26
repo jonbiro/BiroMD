@@ -1,18 +1,14 @@
 "use client"
 
 import * as React from "react"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, LockKeyhole } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { siteConfig } from "@/lib/site"
 
 export function ContactIntakeForm() {
-  const [error, setError] = React.useState<string | null>(null)
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setError(null)
 
     const formData = new FormData(event.currentTarget)
 
@@ -20,28 +16,27 @@ export function ContactIntakeForm() {
     const lastName = String(formData.get("lastName") ?? "").trim()
     const email = String(formData.get("email") ?? "").trim()
     const phone = String(formData.get("phone") ?? "").trim()
-    const message = String(formData.get("message") ?? "").trim()
+    const office = String(formData.get("office") ?? "No preference")
 
-    if (!firstName || !lastName || !email || !message) {
-      setError("Please complete all required fields before submitting.")
-      return
-    }
-
-    const subject = `Consultation request: ${firstName} ${lastName}`
+    const subject = `Scheduling request: ${firstName} ${lastName}`
     const body = [
       `Name: ${firstName} ${lastName}`,
       `Email: ${email}`,
       `Phone: ${phone || "Not provided"}`,
+      `Preferred office: ${office}`,
       "",
-      "Message:",
-      message,
+      "Please contact me to discuss consultation scheduling.",
     ].join("\n")
 
     window.location.href = `mailto:${siteConfig.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4"
+      aria-describedby="email-privacy-note"
+    >
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
           <label htmlFor="first-name" className="text-sm font-medium text-foreground/90">
@@ -98,32 +93,49 @@ export function ContactIntakeForm() {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="message" className="text-sm font-medium text-foreground/90">
-          How can we help?
+        <label htmlFor="office" className="text-sm font-medium text-foreground/90">
+          Preferred office
         </label>
-        <Textarea
-          id="message"
-          name="message"
-          placeholder="Share your goals, concerns, and preferred timeline."
-          required
-        />
+        <select
+          id="office"
+          name="office"
+          defaultValue="No preference"
+          className="flex h-11 w-full rounded-xl border border-input bg-card/80 px-3 py-2 text-sm shadow-sm focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
+          <option>No preference</option>
+          {siteConfig.offices.map((office) => (
+            <option key={office.name}>{office.name}</option>
+          ))}
+        </select>
       </div>
 
-      {error ? (
-        <p className="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-700">
-          {error}
-        </p>
-      ) : null}
+      <label className="flex items-start gap-3 rounded-xl border border-border/70 bg-background/70 p-4 text-sm text-foreground/90">
+        <input
+          type="checkbox"
+          name="privacyAcknowledgment"
+          required
+          className="mt-1 h-4 w-4 shrink-0 accent-secondary"
+        />
+        <span>
+          I understand that ordinary email may not be secure. I will not include
+          medical details, photographs, insurance information, or other
+          sensitive information in the email.
+        </span>
+      </label>
 
       <Button type="submit" className="w-full">
-        Create Consultation Email
+        Open Email to Request Scheduling
         <ArrowUpRight className="ml-2 h-4 w-4" />
       </Button>
 
-      <p className="text-xs text-muted-foreground">
-        Submission opens your email app with a pre-filled message to
-        {" "}
-        {siteConfig.email}.
+      <p
+        id="email-privacy-note"
+        className="flex items-start gap-2 text-xs text-muted-foreground"
+      >
+        <LockKeyhole className="mt-0.5 h-3.5 w-3.5 shrink-0 text-secondary" />
+        This does not submit information through the website. It opens your
+        email app with contact and office-preference details only. You may call
+        either office instead.
       </p>
     </form>
   )

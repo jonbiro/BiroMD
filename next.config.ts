@@ -1,13 +1,10 @@
-import type { NextConfig } from "next";
-
-const isProd = process.env.NODE_ENV === 'production';
+import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  basePath: isProd ? '/BiroMD' : '',
+  output: "export",
   images: {
     unoptimized: true,
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig

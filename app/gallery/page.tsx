@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { pageMetadata } from "@/lib/site"
+import { getPublishedGalleryCases } from "@/lib/gallery-cases"
 import { PageIntro } from "@/components/page-intro"
 import { GalleryClient } from "./gallery-client"
 
@@ -10,17 +11,19 @@ export const metadata: Metadata = pageMetadata({
 })
 
 export default function GalleryPage() {
+  const publishedCases = getPublishedGalleryCases()
+
   return (
-    <main className="space-y-12 py-8">
+    <div className="space-y-12 py-8">
       <PageIntro
         eyebrow="Clinical Cases"
         title="Before & After Photos"
-        description="Explore documented surgical outcomes showing the precise intersection of functional reconstruction and refined aesthetic harmony."
+        description="Review selected clinical cases with the procedure and surgical approach described alongside each image."
       />
       
       <div className="container px-4 md:px-6">
-        <GalleryClient />
+        <GalleryClient cases={publishedCases} />
       </div>
-    </main>
+    </div>
   )
 }

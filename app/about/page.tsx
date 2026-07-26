@@ -101,12 +101,12 @@ export default function AboutPage() {
       <section className="container px-4 md:px-6">
         <div className="rounded-[1.8rem] border border-border/70 bg-primary p-8 text-primary-foreground shadow-lg md:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground/75">
-            Professional Affiliations
+            Training and Professional Membership
           </p>
           <ul className="mt-4 grid gap-3 text-sm sm:grid-cols-2 md:text-base">
             <li className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4" />
-              Wills Eye Hospital
+              Oculoplastic fellowship, Wills Eye Hospital
             </li>
             <li className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4" />
@@ -114,7 +114,7 @@ export default function AboutPage() {
             </li>
             <li className="flex items-center gap-2 sm:col-span-2">
               <CheckCircle2 className="h-4 w-4" />
-              Patient-centered consultation and follow-up strategy
+              Ophthalmology residency, University of South Florida
             </li>
           </ul>
         </div>

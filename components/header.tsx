@@ -12,6 +12,9 @@ import { cn } from "@/lib/utils"
 export default function Header() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = React.useState(false)
+  const menuButtonRef = React.useRef<HTMLButtonElement>(null)
+  const menuDialogRef = React.useRef<HTMLDivElement>(null)
+  const previousFocusRef = React.useRef<HTMLElement | null>(null)
 
   React.useEffect(() => {
     setIsOpen(false)
@@ -30,9 +33,38 @@ export default function Header() {
       return
     }
 
+    previousFocusRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : menuButtonRef.current
+
+    const dialog = menuDialogRef.current
+    const focusableElements = dialog
+      ? Array.from(
+          dialog.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )
+        )
+      : []
+
+    focusableElements[0]?.focus()
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsOpen(false)
+      }
+
+      if (event.key === "Tab" && focusableElements.length > 0) {
+        const firstElement = focusableElements[0]
+        const lastElement = focusableElements[focusableElements.length - 1]
+
+        if (event.shiftKey && document.activeElement === firstElement) {
+          event.preventDefault()
+          lastElement.focus()
+        } else if (!event.shiftKey && document.activeElement === lastElement) {
+          event.preventDefault()
+          firstElement.focus()
+        }
       }
     }
 
@@ -40,6 +72,7 @@ export default function Header() {
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown)
+      previousFocusRef.current?.focus()
     }
   }, [isOpen])
 
@@ -103,6 +136,7 @@ export default function Header() {
               </Link>
             </Button>
             <Button
+              ref={menuButtonRef}
               variant="ghost"
               size="icon"
               className="md:hidden"
@@ -124,14 +158,20 @@ export default function Header() {
             onClick={() => setIsOpen(false)}
             className="fixed inset-0 z-20 bg-slate-950/45 md:hidden"
             aria-label="Close menu overlay"
+            tabIndex={-1}
           />
 
           <div
+            ref={menuDialogRef}
             id="mobile-menu"
             role="dialog"
             aria-modal="true"
+            aria-labelledby="mobile-menu-title"
             className="panel-strong absolute inset-x-5 top-[5.5rem] z-30 rounded-2xl p-6 md:hidden"
           >
+            <h2 id="mobile-menu-title" className="sr-only">
+              Site navigation
+            </h2>
             <nav aria-label="Mobile primary" className="grid gap-2">
               {navItems.map((item) => {
                 const active = isItemActive(item.href)

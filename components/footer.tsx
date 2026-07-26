@@ -87,7 +87,14 @@ export default function Footer() {
               © {new Date().getFullYear()} {siteConfig.legalName}. All rights
               reserved.
             </p>
-            <p>Built for patient confidence, clarity, and comfort.</p>
+            <div className="flex flex-wrap gap-x-4 gap-y-2">
+              <Link href="/privacy" className="hover:text-primary hover:underline">
+                Website Privacy
+              </Link>
+              <Link href="/accessibility" className="hover:text-primary hover:underline">
+                Accessibility
+              </Link>
+            </div>
           </div>
         </div>
       </div>

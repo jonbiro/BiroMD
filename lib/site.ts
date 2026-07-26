@@ -1,13 +1,11 @@
 import type { Metadata } from "next"
 
-const productionBasePath = process.env.NODE_ENV === "production" ? "/BiroMD" : ""
-
 export const siteConfig = {
   name: "Nicolas Biro, M.D.",
   legalName: "Nicolas Biro, M.D. Oculoplastic Surgery",
   shortName: "Dr. Nicolas Biro",
   url: "https://biromd.com",
-  basePath: productionBasePath,
+  basePath: "",
   description:
     "Board-certified ophthalmologist providing cosmetic and reconstructive oculoplastic care in Los Angeles.",
   email: "info@biromd.com",
@@ -48,15 +46,7 @@ export function withBasePath(path = "/"): string {
 
   const normalized = path.startsWith("/") ? path : `/${path}`
 
-  if (!siteConfig.basePath) {
-    return normalized
-  }
-
-  if (normalized === "/") {
-    return siteConfig.basePath
-  }
-
-  return `${siteConfig.basePath}${normalized}`
+  return normalized
 }
 
 export function absoluteUrl(path = "/"): string {
