@@ -9,6 +9,7 @@ import {
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
 import { pageMetadata } from "@/lib/site"
+import { servicePathways } from "@/lib/services"
 
 export const metadata = pageMetadata({
   title: "Services",
@@ -17,65 +18,35 @@ export const metadata = pageMetadata({
   path: "/services",
 })
 
-const services = [
-  {
-    title: "Cosmetic Eyelid Surgery",
-    description:
-      "Refined periocular rejuvenation based on detailed facial analysis and conservative surgical planning.",
-    icon: Sparkles,
-    features: [
-      "Upper blepharoplasty",
-      "Lower blepharoplasty",
-      "Brow and midface integration",
-      "Natural-result planning",
-    ],
-  },
-  {
-    title: "Reconstructive Surgery",
-    description:
-      "Comprehensive correction of eyelid and orbital conditions with strong attention to structure and symmetry.",
-    icon: ShieldCheck,
-    features: [
-      "Ptosis repair",
-      "Ectropion and entropion repair",
-      "Skin cancer reconstruction",
-      "Orbital trauma support",
-    ],
-  },
-  {
-    title: "Non-Surgical Treatments",
-    description:
-      "Targeted injectables and maintenance treatments for patients prioritizing subtle and staged improvement.",
-    icon: Syringe,
-    features: [
-      "BOTOX cosmetic",
-      "Dermal fillers",
-      "Medical-grade skin support",
-      "Ongoing treatment calibration",
-    ],
-  },
-]
+const serviceIcons = {
+  "cosmetic-eyelid-surgery": Sparkles,
+  "reconstructive-oculoplastics": ShieldCheck,
+  "non-surgical-treatments": Syringe,
+} as const
 
 export default function ServicesPage() {
   return (
     <div className="space-y-10 pb-20 pt-10 md:space-y-12 md:pb-24 md:pt-12">
       <PageIntro
         eyebrow="Services"
-        title="Full-Spectrum Oculoplastic Care"
-        description="Surgical and non-surgical treatment options built around precise diagnosis, transparent planning, and individualized outcomes."
+        title="Choose the Right Care Pathway"
+        description="Start with the type of concern you want evaluated. The Procedures page explains the individual treatments available within each pathway."
       />
 
       <section className="container px-4 md:px-6">
         <div className="grid gap-5 lg:grid-cols-3">
-          {services.map((service) => (
+          {servicePathways.map((service) => {
+            const ServiceIcon = serviceIcons[service.id]
+
+            return (
             <article key={service.title} className="panel rounded-2xl p-6">
               <div className="mb-5 inline-flex rounded-xl border border-secondary/35 bg-secondary/10 p-2 text-secondary">
-                <service.icon className="h-5 w-5" />
+                <ServiceIcon className="h-5 w-5" />
               </div>
               <h2 className="text-3xl font-medium text-primary">{service.title}</h2>
-              <p className="mt-3 text-sm text-muted-foreground">{service.description}</p>
+              <p className="mt-3 text-sm text-muted-foreground">{service.summary}</p>
               <ul className="mt-5 space-y-2">
-                {service.features.map((feature) => (
+                {service.highlights.map((feature) => (
                   <li
                     key={feature}
                     className="flex items-center gap-2 text-sm text-foreground/90"
@@ -85,22 +56,32 @@ export default function ServicesPage() {
                   </li>
                 ))}
               </ul>
+              <Link
+                href={`/procedures#${service.id}`}
+                className="mt-6 inline-flex items-center text-sm font-semibold text-secondary hover:underline"
+              >
+                Review related procedures
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
             </article>
-          ))}
+            )
+          })}
         </div>
       </section>
 
       <section className="container px-4 md:px-6">
         <div className="panel rounded-[1.8rem] p-7 md:p-9">
-          <h2 className="text-4xl font-semibold text-primary">Consultation Process</h2>
+          <h2 className="text-4xl font-semibold text-primary">
+            What to Expect at Consultation
+          </h2>
           <ol className="mt-5 grid gap-4 text-sm text-muted-foreground md:grid-cols-3">
             <li className="rounded-xl border border-border/70 bg-background/70 p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-secondary">
                 1. Assessment
               </p>
               <p className="mt-2">
-                Medical history, anatomy review, and functional concerns are
-                evaluated in depth.
+                The visit begins with your medical history, symptoms, goals, and
+                an examination of the relevant anatomy.
               </p>
             </li>
             <li className="rounded-xl border border-border/70 bg-background/70 p-4">
@@ -108,8 +89,8 @@ export default function ServicesPage() {
                 2. Plan
               </p>
               <p className="mt-2">
-                A tailored treatment strategy is discussed with expected outcomes
-                and recovery guidance.
+                Dr. Biro explains appropriate options, alternatives, meaningful
+                risks, expected recovery, and the limits of treatment.
               </p>
             </li>
             <li className="rounded-xl border border-border/70 bg-background/70 p-4">
@@ -117,8 +98,8 @@ export default function ServicesPage() {
                 3. Follow-Through
               </p>
               <p className="mt-2">
-                Detailed follow-up ensures healing progression and long-term
-                stability.
+                If you choose treatment, the team provides preparation,
+                scheduling, and follow-up instructions specific to your plan.
               </p>
             </li>
           </ol>

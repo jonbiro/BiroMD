@@ -3,6 +3,7 @@ import { ArrowRight, Check, Stethoscope } from "lucide-react"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
 import { pageMetadata } from "@/lib/site"
+import { procedureCategories } from "@/lib/services"
 
 export const metadata = pageMetadata({
   title: "Procedures",
@@ -11,44 +12,22 @@ export const metadata = pageMetadata({
   path: "/procedures",
 })
 
-const categories = [
-  {
-    title: "Cosmetic and Reconstructive Surgery",
-    subtitle: "Advanced operative care for eyelid and orbital diseases",
-    items: [
-      "Upper and lower eyelid lifts (blepharoplasty)",
-      "Ptosis repair (droopy eyelids)",
-      "Entropion and ectropion repair",
-      "Eyelid cancer excision and reconstruction",
-      "Mohs reconstruction",
-      "Tearing and blocked tear ducts",
-      "Thyroid eye disease (Graves disease)",
-      "Orbital tumors and related management",
-    ],
-  },
-  {
-    title: "Non-Surgical Treatments",
-    subtitle: "Conservative interventions for refined enhancement",
-    items: [
-      "BOTOX injections",
-      "Facial fillers",
-      "Minimally invasive periocular rejuvenation",
-    ],
-  },
-]
-
 export default function ProceduresPage() {
   return (
     <div className="space-y-10 pb-20 pt-10 md:space-y-12 md:pb-24 md:pt-12">
       <PageIntro
         eyebrow="Procedures"
-        title="Procedure Library and Specialties"
-        description="Treatment options range from reconstructive solutions for medical needs to cosmetic procedures designed for subtle, natural refinement."
+        title="Procedures and Conditions Treated"
+        description="Use this page to review specific treatments. A consultation is required to determine candidacy, alternatives, risks, and the expected recovery for your situation."
       />
 
       <section className="container space-y-8 px-4 md:px-6">
-        {categories.map((category) => (
-          <article key={category.title} className="panel rounded-3xl p-7">
+        {procedureCategories.map((category) => (
+          <article
+            id={category.id}
+            key={category.title}
+            className="panel scroll-mt-32 rounded-3xl p-7"
+          >
             <h2 className="text-3xl font-medium text-primary">{category.title}</h2>
             <p className="mt-2 text-sm text-muted-foreground">{category.subtitle}</p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-2">

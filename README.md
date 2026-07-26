@@ -28,17 +28,24 @@ Open [http://localhost:3000](http://localhost:3000).
 
 The project is configured with `output: 'export'` in `next.config.ts`.
 
-- Development runs without a base path.
-- Production builds use `/BiroMD` as base path.
-- Site helpers in `lib/site.ts` keep metadata, sitemap, robots, and image URLs consistent with that base path.
+- Development and production both run at the site root.
+- Production is intended for the GitHub Pages custom domain `biromd.com`.
+- See `docs/domain-cutover.md` for the required GitHub Pages and DNS setup.
 
-## Contact Form Behavior
+## Contact Email Behavior
 
-The contact form is static-site friendly: submitting the form opens a pre-filled email draft to the practice inbox.
+The static site does not receive form submissions. The scheduling form opens a
+pre-filled email containing contact details and office preference only. It does
+not solicit medical details.
+
+## Clinical Gallery Publication
+
+Patient cases are excluded from production unless their case IDs are explicitly
+allowlisted at build time after authorization review. See
+`docs/gallery-publication.md`.
 
 ## Project Structure
 
 - `app/` - route pages, layout, metadata routes
 - `components/` - shared UI and section components
 - `lib/site.ts` - site config, URL helpers, page metadata helper
-

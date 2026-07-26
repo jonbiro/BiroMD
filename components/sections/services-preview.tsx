@@ -1,30 +1,13 @@
 import Link from "next/link"
 import { ArrowRight, Dot, ShieldCheck, Sparkles, Syringe } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { servicePathways } from "@/lib/services"
 
-const services = [
-  {
-    title: "Cosmetic Eyelid Surgery",
-    description:
-      "Structured rejuvenation for the upper and lower eyelids, calibrated to your anatomy.",
-    icon: Sparkles,
-    items: ["Upper blepharoplasty", "Lower blepharoplasty", "Brow lifts"],
-  },
-  {
-    title: "Reconstructive Oculoplastics",
-    description:
-      "Functional repair for eyelid malposition, tumors, trauma, and orbital diseases.",
-    icon: ShieldCheck,
-    items: ["Ptosis correction", "Ectropion/entropion repair", "Post-cancer reconstruction"],
-  },
-  {
-    title: "Injectables and Non-Surgical Care",
-    description:
-      "Conservative treatment pathways for soft tissue balance and long-term maintenance.",
-    icon: Syringe,
-    items: ["BOTOX cosmetic", "Dermal fillers"],
-  },
-]
+const serviceIcons = {
+  "cosmetic-eyelid-surgery": Sparkles,
+  "reconstructive-oculoplastics": ShieldCheck,
+  "non-surgical-treatments": Syringe,
+} as const
 
 export function ServicesPreview() {
   return (
@@ -60,18 +43,21 @@ export function ServicesPreview() {
             </div>
 
             <div className="grid gap-5 lg:grid-cols-3">
-              {services.map((service) => (
+              {servicePathways.map((service) => {
+                const ServiceIcon = serviceIcons[service.id]
+
+                return (
                 <article
                   key={service.title}
                   className="panel group rounded-2xl p-6 transition duration-300 hover:-translate-y-1"
                 >
                   <div className="mb-5 inline-flex rounded-xl border border-secondary/35 bg-secondary/10 p-2 text-secondary">
-                    <service.icon className="h-5 w-5" />
+                    <ServiceIcon className="h-5 w-5" />
                   </div>
                   <h3 className="text-2xl font-medium text-primary">{service.title}</h3>
-                  <p className="mt-3 text-sm text-muted-foreground">{service.description}</p>
+                  <p className="mt-3 text-sm text-muted-foreground">{service.summary}</p>
                   <ul className="mt-5 space-y-2 text-sm text-foreground/90">
-                    {service.items.map((item) => (
+                    {service.highlights.map((item) => (
                       <li key={item} className="flex items-center gap-2">
                         <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
                         {item}
@@ -79,7 +65,8 @@ export function ServicesPreview() {
                     ))}
                   </ul>
                 </article>
-              ))}
+                )
+              })}
             </div>
 
             <div className="mt-10 rounded-2xl border border-border/70 bg-primary p-6 text-primary-foreground shadow-lg md:mt-12 md:flex md:items-center md:justify-between">

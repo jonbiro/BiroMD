@@ -49,7 +49,7 @@ export function Hero() {
             </p>
 
             <div className="space-y-5">
-              <h1 className="text-5xl font-semibold leading-[1.02] text-primary sm:text-6xl md:text-7xl">
+              <h1 className="text-4xl font-semibold leading-[1.04] text-primary sm:text-6xl md:text-7xl">
                 Ophthalmic Expertise with
                 <span className="headline-gradient block">Plastic Surgical Artistry</span>
               </h1>
@@ -59,20 +59,6 @@ export function Hero() {
                 planning, and elegant, naturally balanced outcomes.
               </p>
             </div>
-
-            <ul className="grid gap-3 sm:grid-cols-2">
-              {trustPoints.map((point) => (
-                <li
-                  key={point}
-                  className="panel rounded-2xl px-4 py-3 text-sm text-foreground/90"
-                >
-                  <span className="inline-flex items-start gap-2">
-                    <Dot className="mt-0.5 h-4 w-4 shrink-0 text-secondary" />
-                    {point}
-                  </span>
-                </li>
-              ))}
-            </ul>
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button size="lg" asChild>
@@ -88,6 +74,20 @@ export function Hero() {
                 </Link>
               </Button>
             </div>
+
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {trustPoints.map((point) => (
+                <li
+                  key={point}
+                  className="panel rounded-2xl px-4 py-3 text-sm text-foreground/90"
+                >
+                  <span className="inline-flex items-start gap-2">
+                    <Dot className="mt-0.5 h-4 w-4 shrink-0 text-secondary" />
+                    {point}
+                  </span>
+                </li>
+              ))}
+            </ul>
 
             <div className="flex flex-wrap items-center gap-5 border-t border-border/70 pt-6 text-sm text-muted-foreground">
               <span className="inline-flex items-center gap-2">

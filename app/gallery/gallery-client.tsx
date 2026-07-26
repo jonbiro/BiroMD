@@ -1,70 +1,19 @@
 "use client"
 
 import * as React from "react"
+import Image from "next/image"
 import { Maximize2, X, Sparkles, ShieldCheck, FileText, ChevronRight } from "lucide-react"
+import type { GalleryCase } from "@/lib/gallery-cases"
 
-type CaseItem = {
-  id: string
-  title: string
-  category: "cosmetic" | "reconstructive"
-  categoryLabel: string
-  focus: string
-  presentation: string
-  technique: string
-  imagePath: string
-  alt: string
+type GalleryClientProps = {
+  cases: GalleryCase[]
 }
 
-const cases: CaseItem[] = [
-  {
-    id: "lower-blepharoplasty",
-    title: "Lower Blepharoplasty",
-    category: "cosmetic",
-    categoryLabel: "Cosmetic Surgery",
-    focus: "Under-Eye Rejuvenation",
-    presentation: "Patient presented with prominent fat herniation in the lower eyelids (under-eye bags) causing a chronically tired, aged facial expression.",
-    technique: "A transconjunctival lower blepharoplasty was performed. The herniated fat pads were conservatively repositioned and contoured to smooth the transition between the lower eyelid and cheek (lid-cheek junction), restoring a rested contour without hollow-out.",
-    imagePath: "/images/cases/scalp-reconstruction.jpg",
-    alt: "Before and after lower blepharoplasty showing under-eye rejuvenation"
-  },
-  {
-    id: "eyelid-trauma",
-    title: "Mohs Cancer Removal Reconstruction",
-    category: "reconstructive",
-    categoryLabel: "Reconstructive Oculoplastics",
-    focus: "Eyelid Margin Reconstruction",
-    presentation: "Patient sustained a complex, full-thickness eyelid defect following Mohs micrographic surgery for periocular skin cancer, presenting with tissue loss, wound separation, and structural disruption of the eyelid margin.",
-    technique: "Micro-surgical debridement and multi-layered closure were executed. The tarsoconjunctival layer and orbicularis muscle were realigned to ensure proper margin apposition, preventing lid malposition (ectropion) and protecting the ocular surface.",
-    imagePath: "/images/cases/eyelid-trauma-repair.jpg",
-    alt: "Before and after Mohs cancer removal eyelid reconstruction"
-  },
-  {
-    id: "scalp-reconstruction",
-    title: "Scalp Defect Reconstruction",
-    category: "reconstructive",
-    categoryLabel: "Reconstructive Oculoplastics",
-    focus: "Mohs Defect Closure",
-    presentation: "Patient presented with a large, deep circular defect of the scalp extending down to the pericranium after Mohs surgery for skin cancer removal.",
-    technique: "A large rotational flap was designed with wide undermining of the subgaleal plane. The flap was advanced and rotated to close the defect under minimal tension. Care was taken to realign hair-bearing edges and preserve follicles, resulting in a flat, healthy incision line.",
-    imagePath: "/images/cases/lower-blepharoplasty.jpg",
-    alt: "Before and after scalp reconstruction showing Mohs defect closure"
-  },
-  {
-    id: "eyebrow-reconstruction",
-    title: "Eyebrow & Forehead Reconstruction",
-    category: "reconstructive",
-    categoryLabel: "Reconstructive Oculoplastics",
-    focus: "Forehead Defect Repair",
-    presentation: "Patient presented with a wide surgical defect located directly above the left eyebrow and lateral forehead after skin cancer excision.",
-    technique: "Reconstruction was completed using a customized advancement-transposition flap matching the natural skin crease lines (Langer's lines) of the forehead. This prevented any upward pull on the eyebrow (brow ptosis) and preserved natural forehead symmetry, leaving a minimal scar.",
-    imagePath: "/images/cases/eyebrow-defect-reconstruction.jpg",
-    alt: "Before and after forehead and eyebrow reconstruction"
-  }
-]
-
-export function GalleryClient() {
+export function GalleryClient({ cases }: GalleryClientProps) {
   const [filter, setFilter] = React.useState<"cosmetic" | "reconstructive">("cosmetic")
-  const [lightboxImage, setLightboxImage] = React.useState<CaseItem | null>(null)
+  const [lightboxImage, setLightboxImage] = React.useState<GalleryCase | null>(null)
+  const closeButtonRef = React.useRef<HTMLButtonElement>(null)
+  const lastTriggerRef = React.useRef<HTMLButtonElement | null>(null)
 
   React.useEffect(() => {
     if (lightboxImage) {
@@ -77,16 +26,36 @@ export function GalleryClient() {
     }
   }, [lightboxImage])
 
-  // Handle Escape key to close lightbox
   React.useEffect(() => {
     if (!lightboxImage) return
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setLightboxImage(null)
+      if (e.key === "Escape") {
+        setLightboxImage(null)
+      }
+
+      if (e.key === "Tab") {
+        e.preventDefault()
+        closeButtonRef.current?.focus()
+      }
     }
+
+    closeButtonRef.current?.focus()
     window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+      lastTriggerRef.current?.focus()
+    }
   }, [lightboxImage])
+
+  const openLightbox = (
+    item: GalleryCase,
+    trigger: HTMLButtonElement
+  ) => {
+    lastTriggerRef.current = trigger
+    setLightboxImage(item)
+  }
 
   const filteredCases = cases.filter(
     (item) => item.category === filter
@@ -95,9 +64,20 @@ export function GalleryClient() {
   return (
     <div className="space-y-10">
       {/* Category Filter Controls */}
+      <div className="rounded-2xl border border-secondary/35 bg-secondary/10 p-5 text-sm text-foreground/90">
+        <p className="font-semibold text-primary">Clinical image disclosure</p>
+        <p className="mt-1 text-muted-foreground">
+          The same before-and-after results may not occur for all patients.
+          Individual anatomy, treatment plans, and healing vary. Cases appear
+          here only after written publication authorization has been confirmed.
+        </p>
+      </div>
+
       <div className="flex flex-wrap items-center justify-center gap-2 border-b border-border/40 pb-6">
         <button
+          type="button"
           onClick={() => setFilter("cosmetic")}
+          aria-pressed={filter === "cosmetic"}
           className={`rounded-full px-5 py-2 text-sm font-medium transition flex items-center gap-1.5 ${
             filter === "cosmetic"
               ? "bg-primary text-primary-foreground shadow-[0_8px_16px_rgb(9_36_59_/0.2)]"
@@ -108,7 +88,9 @@ export function GalleryClient() {
           Cosmetic
         </button>
         <button
+          type="button"
           onClick={() => setFilter("reconstructive")}
+          aria-pressed={filter === "reconstructive"}
           className={`rounded-full px-5 py-2 text-sm font-medium transition flex items-center gap-1.5 ${
             filter === "reconstructive"
               ? "bg-primary text-primary-foreground shadow-[0_8px_16px_rgb(9_36_59_/0.2)]"
@@ -121,7 +103,19 @@ export function GalleryClient() {
       </div>
 
       {/* Grid of Cases */}
-      {filteredCases.length > 0 ? (
+      {cases.length === 0 ? (
+        <div className="panel rounded-[2rem] p-8 text-center md:p-10">
+          <h2 className="text-3xl font-semibold text-primary">
+            Clinical gallery under review
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
+            Patient cases will be published after the practice confirms written
+            image authorization and completes its clinical presentation review.
+            Please contact the office to discuss the outcomes relevant to your
+            concerns.
+          </p>
+        </div>
+      ) : filteredCases.length > 0 ? (
         <div className="grid gap-8 lg:grid-cols-2">
           {filteredCases.map((item) => (
             <article
@@ -130,9 +124,11 @@ export function GalleryClient() {
             >
               {/* Image Container with Lightbox Trigger */}
               <div className="relative aspect-[4/3] w-full bg-accent/20 overflow-hidden border-b border-border/40">
-                <img
+                <Image
                   src={item.imagePath}
                   alt={item.alt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-[1.01]"
                 />
                 
@@ -144,8 +140,9 @@ export function GalleryClient() {
 
                 {/* Hover Maximize Overlay */}
                 <button
-                  onClick={() => setLightboxImage(item)}
-                  className="absolute inset-0 bg-primary/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-2 text-white font-medium shadow-inner"
+                  type="button"
+                  onClick={(event) => openLightbox(item, event.currentTarget)}
+                  className="absolute inset-0 flex items-center justify-center gap-2 bg-primary/20 font-medium text-white opacity-0 shadow-inner backdrop-blur-[2px] transition-all duration-300 group-hover:opacity-100 focus-visible:opacity-100"
                   aria-label={`Enlarge image for ${item.title}`}
                 >
                   <div className="rounded-full bg-primary p-3 shadow-lg transform translate-y-2 group-hover:translate-y-0 transition duration-300">
@@ -198,7 +195,8 @@ export function GalleryClient() {
                 <div className="border-t border-border/40 pt-4 flex items-center justify-between text-xs text-muted-foreground">
                   <span>Nicolas Biro, M.D.</span>
                   <button
-                    onClick={() => setLightboxImage(item)}
+                    type="button"
+                    onClick={(event) => openLightbox(item, event.currentTarget)}
                     className="inline-flex items-center text-secondary font-semibold hover:underline"
                   >
                     View details
@@ -222,7 +220,7 @@ export function GalleryClient() {
           onClick={() => setLightboxImage(null)}
           role="dialog"
           aria-modal="true"
-          aria-label="Image lightbox"
+          aria-labelledby="lightbox-title"
         >
           {/* Top Bar inside Lightbox */}
           <div className="absolute top-4 inset-x-4 flex items-center justify-between text-white z-55">
@@ -230,13 +228,18 @@ export function GalleryClient() {
               <span className="text-xs font-semibold text-secondary uppercase tracking-widest block">
                 {lightboxImage.categoryLabel}
               </span>
-              <h2 className="text-lg md:text-xl font-serif font-bold truncate">
+              <h2
+                id="lightbox-title"
+                className="text-lg md:text-xl font-serif font-bold truncate"
+              >
                 {lightboxImage.title}
               </h2>
             </div>
             <button
+              ref={closeButtonRef}
+              type="button"
               onClick={() => setLightboxImage(null)}
-              className="rounded-full bg-white/10 hover:bg-white/20 p-2 text-white transition focus:outline-none"
+              className="rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20 focus-visible:ring-2 focus-visible:ring-white"
               aria-label="Close lightbox"
             >
               <X className="h-6 w-6" />
@@ -248,9 +251,11 @@ export function GalleryClient() {
             className="relative max-h-[80vh] max-w-full md:max-w-4xl flex items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
+            <Image
               src={lightboxImage.imagePath}
               alt={lightboxImage.alt}
+              width={1200}
+              height={900}
               className="max-h-[75vh] max-w-full object-contain rounded-lg shadow-2xl border border-white/10"
             />
           </div>
