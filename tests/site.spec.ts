@@ -48,14 +48,48 @@ test("primary consultation action is readable in light and dark mode", async ({ 
   await expectNoHorizontalOverflow(page)
 })
 
-test("mobile navigation exposes calls and does not overflow", async ({ page }) => {
+test("floating navigation exposes every primary link without a menu", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto("/")
+
+  const navigation = page.getByRole("navigation", { name: "Primary" })
+  await expect(navigation).toBeVisible()
+  for (const name of ["About", "Services", "Procedures", "Photos", "Contact"]) {
+    await expect(navigation.getByRole("link", { name, exact: true })).toBeVisible()
+  }
+  await expect(page.getByRole("button", { name: "Open menu" })).toHaveCount(0)
   await expectNoHorizontalOverflow(page)
-  await page.getByRole("button", { name: "Open menu" }).click()
-  await expect(page.getByRole("dialog", { name: "Site navigation" })).toBeVisible()
-  await expect(page.getByRole("link", { name: "Call Westlake Village" })).toBeVisible()
-  await expect(page.getByRole("link", { name: "Call Rancho Cucamonga" })).toBeVisible()
+
+  await page.setViewportSize({ width: 320, height: 700 })
+  await page.goto("/")
+  const narrowNavigation = page.getByRole("navigation", { name: "Primary" })
+  const labelsFit = await narrowNavigation.getByRole("link").evaluateAll((links) =>
+    links.every((link) => link.scrollWidth <= link.clientWidth)
+  )
+  expect(labelsFit).toBe(true)
+
+  const headerSpacing = await page.evaluate(() => {
+    const brand = document.querySelector("[data-header-brand]")?.getBoundingClientRect()
+    const actions = document.querySelector("[data-header-actions]")?.getBoundingClientRect()
+    return brand && actions ? actions.left - brand.right : -1
+  })
+  expect(headerSpacing).toBeGreaterThanOrEqual(0)
+  const headingFits = await page.getByRole("heading", { level: 1 }).evaluate(
+    (heading) => heading.scrollWidth <= heading.clientWidth
+  )
+  expect(headingFits).toBe(true)
+  await expectNoHorizontalOverflow(page)
+
+  await page.goto("/procedures/ptosis-repair")
+  await expect(
+    page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Procedures" })
+  ).toHaveAttribute("aria-current", "page")
+  const activeLink = page
+    .getByRole("navigation", { name: "Primary" })
+    .getByRole("link", { name: "Procedures" })
+  expect(await textContrast(activeLink)).toBeGreaterThanOrEqual(4.5)
+  await page.getByRole("button", { name: "Switch to dark mode" }).click()
+  expect(await textContrast(activeLink)).toBeGreaterThanOrEqual(4.5)
   await expectNoHorizontalOverflow(page)
 })
 

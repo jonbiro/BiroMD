@@ -32,7 +32,7 @@ export function Hero() {
             </p>
 
             <div className="space-y-5">
-              <h1 className="text-5xl font-semibold leading-[1.02] text-primary sm:text-6xl md:text-7xl">
+              <h1 className="text-4xl font-semibold leading-[1.02] text-primary min-[360px]:text-5xl sm:text-6xl md:text-7xl">
                 Specialized Oculoplastic Care
                 <span className="headline-gradient block">for the Eyes and Face</span>
               </h1>

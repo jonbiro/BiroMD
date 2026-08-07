@@ -26,48 +26,6 @@ const controlsScript = String.raw`
     if (active) link.setAttribute("aria-current", "page");
   });
 
-  document.querySelectorAll("[data-mobile-menu]").forEach((menu) => {
-    const summary = menu.querySelector("summary");
-    const dialog = menu.querySelector("[role=dialog]");
-    const close = (restoreFocus = true) => {
-      menu.removeAttribute("open");
-      document.body.style.overflow = "";
-      summary?.setAttribute("aria-expanded", "false");
-      if (restoreFocus) summary?.focus();
-    };
-
-    menu.addEventListener("toggle", () => {
-      const open = menu.hasAttribute("open");
-      document.body.style.overflow = open ? "hidden" : "";
-      summary?.setAttribute("aria-expanded", String(open));
-      summary?.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-      if (open) requestAnimationFrame(() => dialog?.querySelector("a, button")?.focus());
-    });
-    menu.querySelectorAll("[data-menu-close]").forEach((button) => {
-      button.addEventListener("click", () => close());
-    });
-    document.addEventListener("keydown", (event) => {
-      if (!menu.hasAttribute("open")) return;
-      if (event.key === "Escape") {
-        event.preventDefault();
-        close();
-        return;
-      }
-      if (event.key !== "Tab" || !dialog) return;
-      const focusable = [...dialog.querySelectorAll("a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])")];
-      if (!focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    });
-  });
-
   document.querySelectorAll("[data-contact-email-form]").forEach((form) => {
     form.addEventListener("submit", (event) => {
       event.preventDefault();
