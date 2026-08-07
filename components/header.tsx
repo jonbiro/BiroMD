@@ -13,7 +13,7 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { navItems } from "@/lib/site"
 
 const navClass =
-  "flex min-h-11 min-w-0 items-center justify-center gap-1 rounded-xl border border-transparent px-1.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:border-border hover:bg-card hover:text-primary aria-[current=page]:border-secondary/60 aria-[current=page]:bg-card aria-[current=page]:text-primary sm:rounded-full sm:px-2.5 sm:text-sm lg:min-h-10 lg:text-[0.8rem] xl:px-3.5"
+  "flex min-h-11 min-w-0 items-center justify-center gap-0.5 rounded-xl border border-transparent px-1 py-2 text-[0.6875rem] font-semibold text-muted-foreground transition-colors hover:border-border hover:bg-card hover:text-primary aria-[current=page]:border-secondary/60 aria-[current=page]:bg-card aria-[current=page]:text-primary min-[360px]:gap-1 min-[360px]:px-1.5 min-[360px]:text-xs sm:rounded-full sm:px-2.5 sm:text-sm lg:min-h-10 lg:text-[0.8rem] xl:px-3.5"
 
 const navIcons = {
   "/about": CircleUserRound,
@@ -61,7 +61,7 @@ export default function Header() {
                   className={navClass}
                 >
                   <NavIcon
-                    className="h-3.5 w-3.5 shrink-0 text-secondary sm:hidden"
+                    className="h-3 w-3 shrink-0 text-secondary min-[360px]:h-3.5 min-[360px]:w-3.5 sm:hidden"
                     aria-hidden="true"
                   />
                   {item.label}
