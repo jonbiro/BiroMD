@@ -4,13 +4,13 @@ import { navItems, siteConfig } from "@/lib/site"
 
 export default function Footer() {
   return (
-    <footer className="relative mt-20 pb-8 md:mt-24">
+    <footer className="relative mt-14 pb-6 md:mt-16 md:pb-8">
       <div className="container px-4 md:px-6">
-        <div className="panel-strong relative overflow-hidden rounded-[2rem] px-6 py-10 md:px-10 md:py-12">
+        <div className="panel-strong relative overflow-hidden rounded-[2rem] px-6 py-8 md:px-10 md:py-10">
           <div className="pointer-events-none absolute -left-24 top-0 h-56 w-56 rounded-full bg-secondary/8" />
           <div className="pointer-events-none absolute -right-24 bottom-0 h-52 w-56 rounded-full bg-primary/8" />
 
-          <div className="relative grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+          <div className="relative grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-10">
             <div className="space-y-4">
               <p className="font-serif text-2xl font-semibold text-primary md:text-3xl">
                 {siteConfig.name}
@@ -31,7 +31,7 @@ export default function Footer() {
               <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.24em] text-secondary">
                 Offices
               </h2>
-              <ul className="space-y-5 text-sm text-foreground/90">
+              <ul className="space-y-4 text-sm text-foreground/90">
                 {siteConfig.offices.map((office) => (
                   <li key={office.id} className="space-y-1.5">
                     <a
@@ -59,7 +59,7 @@ export default function Footer() {
               <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.24em] text-secondary">
                 Explore
               </h2>
-              <ul className="space-y-3 text-sm text-muted-foreground">
+              <ul className="grid grid-cols-2 gap-x-4 gap-y-2.5 text-sm text-muted-foreground">
                 {navItems.map((item) => (
                   <li key={item.href}>
                     <a
@@ -71,7 +71,6 @@ export default function Footer() {
                     </a>
                   </li>
                 ))}
-                <li><a href="/locations" className="hover:text-primary">Locations</a></li>
               </ul>
             </div>
 
@@ -95,7 +94,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="relative mt-10 flex flex-col items-start justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center">
+          <div className="relative mt-8 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 text-xs text-muted-foreground md:flex-row md:items-center">
             <p>
               &copy; {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
             </p>

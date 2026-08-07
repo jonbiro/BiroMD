@@ -4,6 +4,7 @@ import { createServer } from "node:http"
 import path from "node:path"
 
 const root = path.join(process.cwd(), "out")
+const resolvedRoot = path.resolve(root)
 const port = Number(process.env.PORT ?? 4173)
 const types = {
   ".avif": "image/avif",
@@ -29,7 +30,21 @@ async function exists(file) {
 }
 
 createServer(async (request, response) => {
-  const pathname = decodeURIComponent(new URL(request.url ?? "/", "http://localhost").pathname)
+  if (!request.method || !["GET", "HEAD"].includes(request.method)) {
+    response.writeHead(405, { allow: "GET, HEAD" })
+    response.end()
+    return
+  }
+
+  let pathname
+  try {
+    pathname = decodeURIComponent(new URL(request.url ?? "/", "http://localhost").pathname)
+  } catch {
+    response.writeHead(400, { "content-type": "text/plain; charset=utf-8" })
+    response.end("Bad request")
+    return
+  }
+
   const clean = pathname.replace(/^\/+/, "")
   const candidates = pathname === "/"
     ? [path.join(root, "index.html")]
@@ -40,10 +55,23 @@ createServer(async (request, response) => {
       ]
   const file = await Promise.all(candidates.map(async (candidate) => [candidate, await exists(candidate)]))
     .then((results) => results.find(([, present]) => present)?.[0])
+  const resolvedFile = file ? path.resolve(file) : ""
+  const isWithinRoot = resolvedFile.startsWith(`${resolvedRoot}${path.sep}`)
 
-  if (!file || !path.resolve(file).startsWith(path.resolve(root))) {
-    response.writeHead(404, { "content-type": "text/plain; charset=utf-8" })
-    response.end("Not found")
+  if (!file || !isWithinRoot) {
+    const fallback = path.join(root, "404.html")
+    if (!(await exists(fallback))) {
+      response.writeHead(404, { "content-type": "text/plain; charset=utf-8" })
+      response.end("Not found")
+      return
+    }
+
+    response.writeHead(404, {
+      "content-type": types[".html"],
+      "cache-control": "no-store",
+    })
+    if (request.method === "HEAD") response.end()
+    else createReadStream(fallback).pipe(response)
     return
   }
 
@@ -51,7 +79,8 @@ createServer(async (request, response) => {
     "content-type": types[path.extname(file)] ?? "application/octet-stream",
     "cache-control": "no-store",
   })
-  createReadStream(file).pipe(response)
+  if (request.method === "HEAD") response.end()
+  else createReadStream(file).pipe(response)
 }).listen(port, "127.0.0.1", () => {
   console.log(`Serving static export at http://127.0.0.1:${port}`)
 })

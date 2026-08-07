@@ -8,7 +8,7 @@ export function BeforeAfterPreview() {
   const previewCases = getPublishedGalleryCases().slice(0, 2)
 
   return (
-    <section className="relative border-t border-border py-16 md:py-20">
+    <section className="relative border-t border-border py-11 md:py-14">
       <div className="container px-4 md:px-6">
         <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl space-y-4">

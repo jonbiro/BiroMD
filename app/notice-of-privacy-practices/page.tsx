@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
 
 export default function NoticeOfPrivacyPracticesPage() {
   return (
-    <div className="space-y-10 pb-20 pt-10 md:space-y-12 md:pb-24 md:pt-12">
+    <div className="page-stack">
       <PageIntro
         eyebrow="Patient Privacy"
         title="Notices of Privacy Practices"

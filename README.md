@@ -33,8 +33,8 @@ npm audit
 
 The export verifier checks required routes, sitemap entries, internal links,
 responsive image budgets, social-card dimensions, and the clinical asset allowlist.
-Playwright checks mobile overflow/navigation, light and dark consultation-button
-contrast, office scheduling links, gallery labels, and key routes.
+Playwright checks every public route, mobile overflow/navigation, light and dark
+consultation-button contrast, office scheduling links, breadcrumbs, and gallery behavior.
 
 ## Static export
 
@@ -44,8 +44,8 @@ Pages at `biromd.com`. See `docs/domain-cutover.md` and
 
 ## Scheduling and privacy
 
-Office appointment buttons open each office's official request page. The email
-fallback prepares a local email and does not submit data through this website.
+Office appointment buttons open each office's official request page. The optional
+email link opens the visitor's email app and does not submit data through this website.
 Medical privacy documents are linked by office from
 `/notice-of-privacy-practices`.
 

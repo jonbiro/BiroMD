@@ -26,29 +26,6 @@ const controlsScript = String.raw`
     if (active) link.setAttribute("aria-current", "page");
   });
 
-  document.querySelectorAll("[data-contact-email-form]").forEach((form) => {
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const data = new FormData(form);
-      const firstName = String(data.get("firstName") || "").trim();
-      const lastName = String(data.get("lastName") || "").trim();
-      const email = String(data.get("email") || "").trim();
-      const phone = String(data.get("phone") || "").trim();
-      const office = String(data.get("office") || "No preference");
-      const recipient = form.getAttribute("data-contact-email-address") || "";
-      const subject = "Scheduling request: " + firstName + " " + lastName;
-      const body = [
-        "Name: " + firstName + " " + lastName,
-        "Email: " + email,
-        "Phone: " + (phone || "Not provided"),
-        "Preferred office: " + office,
-        "",
-        "Please contact me to discuss consultation scheduling."
-      ].join("\n");
-      window.location.href = "mailto:" + recipient + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-    });
-  });
-
   document.querySelectorAll("[data-gallery]").forEach((gallery) => {
     const filters = [...gallery.querySelectorAll("[data-gallery-filter]")];
     const cases = [...gallery.querySelectorAll("[data-gallery-case]")];

@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   CalendarDays,
   Check,
+  ChevronDown,
   ClipboardCheck,
   Info,
 } from "lucide-react"
@@ -50,31 +51,60 @@ export default async function ProcedurePage({
       (item) => item.categoryId === procedure.categoryId && item.slug !== procedure.slug
     )
     .slice(0, 3)
+  const procedureUrl = absoluteUrl(`/procedures/${procedure.slug}`)
+  const breadcrumbId = `${procedureUrl}#breadcrumb`
 
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "MedicalWebPage",
-        "@id": absoluteUrl(`/procedures/${procedure.slug}#page`),
+        "@id": `${procedureUrl}#page`,
         name: procedure.title,
         description: procedure.summary,
-        url: absoluteUrl(`/procedures/${procedure.slug}`),
+        url: procedureUrl,
         about: { "@type": "MedicalProcedure", name: procedure.title },
+        breadcrumb: { "@id": breadcrumbId },
       },
       {
         "@type": "FAQPage",
+        "@id": `${procedureUrl}#faq`,
+        url: procedureUrl,
         mainEntity: procedure.questions.map((item) => ({
           "@type": "Question",
           name: item.question,
           acceptedAnswer: { "@type": "Answer", text: item.answer },
         })),
       },
+      {
+        "@type": "BreadcrumbList",
+        "@id": breadcrumbId,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: absoluteUrl("/"),
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Procedures",
+            item: absoluteUrl("/procedures"),
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: procedure.title,
+            item: procedureUrl,
+          },
+        ],
+      },
     ],
   }
 
   return (
-    <div className="space-y-10 pb-20 pt-10 md:space-y-12 md:pb-24 md:pt-12">
+    <div className="page-stack">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
@@ -83,6 +113,10 @@ export default async function ProcedurePage({
         eyebrow={procedure.categoryLabel}
         title={procedure.title}
         description={procedure.summary}
+        breadcrumbs={[
+          { label: "Procedures", href: "/procedures" },
+          { label: procedure.title },
+        ]}
         actions={
           <>
             <Button asChild>
@@ -158,11 +192,12 @@ export default async function ProcedurePage({
           </h2>
           <div className="mt-5 divide-y divide-border">
             {procedure.questions.map((item) => (
-              <details key={item.question} className="group py-4">
-                <summary className="cursor-pointer list-none pr-8 font-semibold text-foreground marker:hidden">
-                  {item.question}
+              <details key={item.question} className="group py-3">
+                <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 font-semibold text-foreground marker:hidden">
+                  <span>{item.question}</span>
+                  <ChevronDown className="h-4 w-4 shrink-0 text-secondary transition-transform group-open:rotate-180" />
                 </summary>
-                <p className="mt-3 max-w-3xl text-sm text-muted-foreground">
+                <p className="mb-2 mt-2 max-w-3xl pr-8 text-sm text-muted-foreground">
                   {item.answer}
                 </p>
               </details>

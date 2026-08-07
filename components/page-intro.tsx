@@ -1,14 +1,26 @@
 import type { ReactNode } from "react"
-import { Dot } from "lucide-react"
+import { ChevronRight, Dot, Home } from "lucide-react"
+
+type BreadcrumbItem = {
+  label: string
+  href?: string
+}
 
 type PageIntroProps = {
   eyebrow: string
   title: string
   description: string
   actions?: ReactNode
+  breadcrumbs?: BreadcrumbItem[]
 }
 
-export function PageIntro({ eyebrow, title, description, actions }: PageIntroProps) {
+export function PageIntro({
+  eyebrow,
+  title,
+  description,
+  actions,
+  breadcrumbs,
+}: PageIntroProps) {
   return (
     <section className="container px-4 md:px-6">
       <div className="panel-strong relative overflow-hidden rounded-[2rem] px-6 py-8 md:px-10 md:py-12">
@@ -16,11 +28,37 @@ export function PageIntro({ eyebrow, title, description, actions }: PageIntroPro
         <div className="pointer-events-none absolute -right-20 bottom-0 h-52 w-52 rounded-full bg-primary/10" />
 
         <div className="relative max-w-3xl space-y-5">
+          {breadcrumbs?.length ? (
+            <nav aria-label="Breadcrumb">
+              <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs font-medium text-muted-foreground">
+                <li>
+                  <a href="/" className="inline-flex min-h-8 items-center gap-1 hover:text-secondary">
+                    <Home className="h-3.5 w-3.5" />
+                    Home
+                  </a>
+                </li>
+                {breadcrumbs.map((item) => (
+                  <li key={`${item.href ?? "current"}-${item.label}`} className="inline-flex items-center gap-1.5">
+                    <ChevronRight className="h-3.5 w-3.5 text-border" aria-hidden="true" />
+                    {item.href ? (
+                      <a href={item.href} className="inline-flex min-h-8 items-center hover:text-secondary">
+                        {item.label}
+                      </a>
+                    ) : (
+                      <span aria-current="page" className="text-foreground/80">
+                        {item.label}
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          ) : null}
           <p className="eyebrow">
             <Dot className="h-3.5 w-3.5" />
             {eyebrow}
           </p>
-          <h1 className="text-5xl font-semibold leading-[1.04] text-primary sm:text-6xl">
+          <h1 className="text-4xl font-semibold leading-[1.04] text-primary min-[360px]:text-5xl sm:text-6xl">
             {title}
           </h1>
           <p className="max-w-2xl text-lg text-muted-foreground">{description}</p>

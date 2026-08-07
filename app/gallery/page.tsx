@@ -15,7 +15,7 @@ export default function GalleryPage() {
   const publishedCases = getPublishedGalleryCases()
 
   return (
-    <div className="space-y-10 pb-20 pt-10 md:space-y-12 md:pb-24 md:pt-12">
+    <div className="page-stack">
       <PageIntro
         eyebrow="Clinical Cases"
         title="Before & After Photos"

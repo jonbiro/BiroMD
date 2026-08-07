@@ -60,7 +60,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
                 type="button"
                 data-gallery-filter={item.id}
                 aria-pressed={index === 0}
-                className="flex items-center gap-1.5 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-secondary hover:bg-accent aria-[pressed=true]:border-primary aria-[pressed=true]:bg-primary aria-[pressed=true]:text-primary-foreground aria-[pressed=true]:shadow-[0_8px_16px_rgb(9_36_59_/0.18)]"
+                className="flex min-h-11 items-center gap-1.5 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-secondary hover:bg-accent aria-[pressed=true]:border-primary aria-[pressed=true]:bg-primary aria-[pressed=true]:text-primary-foreground aria-[pressed=true]:shadow-[0_8px_16px_rgb(9_36_59_/0.18)]"
               >
                 <FilterIcon className="h-3.5 w-3.5" />
                 {item.label}
@@ -89,7 +89,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
                 key={item.id}
                 data-gallery-case
                 data-gallery-category={item.category}
-                className="panel scroll-mt-32 overflow-hidden rounded-[2rem]"
+                className="panel overflow-hidden rounded-[2rem]"
               >
                 <div className="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden border-b border-border bg-accent/45 p-4">
                   <ClinicalCaseImage
@@ -143,7 +143,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
                     <button
                       type="button"
                       data-gallery-open={dialogId}
-                      className="inline-flex items-center font-semibold text-secondary hover:underline"
+                      className="inline-flex min-h-11 items-center font-semibold text-secondary hover:underline"
                     >
                       View image
                       <ChevronRight className="ml-0.5 h-3.5 w-3.5" />

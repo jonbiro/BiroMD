@@ -1,5 +1,35 @@
 import { expect, test, type Locator, type Page } from "@playwright/test"
 
+const procedureSlugs = [
+  "upper-blepharoplasty",
+  "lower-blepharoplasty",
+  "brow-lift",
+  "ptosis-repair",
+  "entropion-ectropion-repair",
+  "eyelid-cancer-mohs-reconstruction",
+  "tearing-blocked-tear-ducts",
+  "thyroid-eye-disease",
+  "orbital-tumors-trauma",
+  "botox",
+  "dermal-fillers",
+]
+
+const publicRoutes = [
+  "/",
+  "/about",
+  "/services",
+  "/procedures",
+  ...procedureSlugs.map((slug) => `/procedures/${slug}`),
+  "/gallery",
+  "/contact",
+  "/locations",
+  "/locations/westlake-village",
+  "/locations/rancho-cucamonga",
+  "/privacy",
+  "/notice-of-privacy-practices",
+  "/accessibility",
+]
+
 function luminance([red, green, blue]: number[]) {
   const values = [red, green, blue].map((value) => {
     const channel = value / 255
@@ -54,7 +84,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
 
   const navigation = page.getByRole("navigation", { name: "Primary" })
   await expect(navigation).toBeVisible()
-  for (const name of ["About", "Services", "Procedures", "Photos", "Contact"]) {
+  for (const name of ["About", "Services", "Procedures", "Photos", "Offices", "Contact"]) {
     await expect(navigation.getByRole("link", { name, exact: true })).toBeVisible()
   }
   await expect(page.getByRole("button", { name: "Open menu" })).toHaveCount(0)
@@ -67,6 +97,10 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     links.every((link) => link.scrollWidth <= link.clientWidth)
   )
   expect(labelsFit).toBe(true)
+  const targetsAreLargeEnough = await narrowNavigation.getByRole("link").evaluateAll((links) =>
+    links.every((link) => link.getBoundingClientRect().height >= 44)
+  )
+  expect(targetsAreLargeEnough).toBe(true)
 
   const headerSpacing = await page.evaluate(() => {
     const brand = document.querySelector("[data-header-brand]")?.getBoundingClientRect()
@@ -91,6 +125,11 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   await page.getByRole("button", { name: "Switch to dark mode" }).click()
   expect(await textContrast(activeLink)).toBeGreaterThanOrEqual(4.5)
   await expectNoHorizontalOverflow(page)
+
+  await page.goto("/locations/westlake-village")
+  await expect(
+    page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Offices" })
+  ).toHaveAttribute("aria-current", "page")
 })
 
 test("site containers stay fluid and centered between breakpoints", async ({ page }) => {
@@ -116,6 +155,11 @@ test("contact page uses official office request links", async ({ page }) => {
     "https://www.pacificeyemd.com/request-an-appointment/"
   )
   await expect(page.getByText("A request is not confirmed until the office contacts you.")).toBeVisible()
+  await expect(page.getByRole("link", { name: "Email Scheduling" })).toHaveAttribute(
+    "href",
+    /^mailto:info@biromd\.com/
+  )
+  await expect(page.locator("form")).toHaveCount(0)
 })
 
 test("dark contact emergency notice uses its dark surface", async ({ page }) => {
@@ -164,18 +208,106 @@ test("gallery labels remain visible without hover", async ({ page }) => {
   await expect(page.locator('script[src^="/_next/"]')).toHaveCount(0)
 })
 
-test("key routes render unique headings", async ({ page }) => {
-  const routes = [
-    ["/about", "Ophthalmic Training. Oculoplastic Focus."],
-    ["/services", "Three Care Pathways, One Individual Assessment"],
-    ["/procedures", "Understand the Evaluation Before Choosing Treatment"],
-    ["/procedures/ptosis-repair", "Ptosis Repair"],
-    ["/locations", "Two Offices for In-Person Consultation"],
-    ["/notice-of-privacy-practices", "Notices of Privacy Practices"],
-  ]
+test("homepage heading has correct readable text and lazy clinical images load", async ({ page }) => {
+  await page.goto("/")
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Specialized Oculoplastic Care for the Eyes and Face"
+  )
 
-  for (const [route, heading] of routes) {
-    await page.goto(route)
-    await expect(page.getByRole("heading", { level: 1, name: heading })).toBeVisible()
+  const clinicalHeading = page.getByRole("heading", {
+    name: "Selected Before-and-After Results",
+  })
+  await clinicalHeading.scrollIntoViewIfNeeded()
+  const clinicalImage = clinicalHeading.locator("xpath=ancestor::section").locator("img").first()
+  if ((await clinicalImage.count()) > 0) {
+    await expect(clinicalImage).toBeVisible()
+    await expect
+      .poll(() => clinicalImage.evaluate((image) => (image as HTMLImageElement).naturalWidth))
+      .toBeGreaterThan(0)
   }
+})
+
+test("detail pages expose breadcrumbs, structured wayfinding, and usable FAQs", async ({ page }) => {
+  await page.goto("/procedures/ptosis-repair")
+  const breadcrumb = page.getByRole("navigation", { name: "Breadcrumb" })
+  await expect(breadcrumb.getByRole("link", { name: "Home" })).toBeVisible()
+  await expect(breadcrumb.getByRole("link", { name: "Procedures" })).toBeVisible()
+  await expect(breadcrumb.getByText("Ptosis Repair", { exact: true })).toHaveAttribute(
+    "aria-current",
+    "page"
+  )
+
+  const firstQuestion = page.locator("details").first()
+  await firstQuestion.locator("summary").click()
+  await expect(firstQuestion).toHaveAttribute("open", "")
+
+  const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
+  expect(schemas.some((schema) => schema.includes('"BreadcrumbList"'))).toBe(true)
+  expect(schemas.some((schema) => schema.includes('"FAQPage"'))).toBe(true)
+
+  await page.goto("/locations/rancho-cucamonga")
+  await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText(
+    "HomeOfficesRancho Cucamonga"
+  )
+})
+
+test("every public route has a sound document structure", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  const titles = new Set<string>()
+
+  for (const route of publicRoutes) {
+    await page.goto(route)
+    const audit = await page.evaluate(() => {
+      const headingLevels = [...document.querySelectorAll("h1, h2, h3, h4, h5, h6")].map(
+        (heading) => Number(heading.tagName.slice(1))
+      )
+      const skippedHeading = headingLevels.some(
+        (level, index) => index > 0 && level > headingLevels[index - 1] + 1
+      )
+      const ids = [...document.querySelectorAll("[id]")].map((element) => element.id)
+      const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index)
+      const unnamedControls = [...document.querySelectorAll("a, button")]
+        .filter((element) => {
+          const label = [
+            element.textContent,
+            element.getAttribute("aria-label"),
+            element.getAttribute("title"),
+          ]
+            .filter(Boolean)
+            .join("")
+            .trim()
+          return !label
+        })
+        .map((element) => element.outerHTML)
+
+      return {
+        title: document.title,
+        h1Count: document.querySelectorAll("h1").length,
+        hasMain: Boolean(document.querySelector("main")),
+        hasFooter: Boolean(document.querySelector("footer")),
+        skippedHeading,
+        duplicateIds,
+        unnamedControls,
+      }
+    })
+
+    expect(audit.title, route).not.toBe("")
+    expect(titles.has(audit.title), `Duplicate title on ${route}: ${audit.title}`).toBe(false)
+    titles.add(audit.title)
+    expect(audit.h1Count, route).toBe(1)
+    expect(audit.hasMain, route).toBe(true)
+    expect(audit.hasFooter, route).toBe(true)
+    expect(audit.skippedHeading, route).toBe(false)
+    expect(audit.duplicateIds, route).toEqual([])
+    expect(audit.unnamedControls, route).toEqual([])
+    await expectNoHorizontalOverflow(page)
+  }
+})
+
+test("unknown routes show a useful custom error page", async ({ page }) => {
+  const response = await page.goto("/this-page-does-not-exist")
+  expect(response?.status()).toBe(404)
+  await expect(page.getByRole("heading", { level: 1, name: "Page not found" })).toBeVisible()
+  await expect(page.getByRole("link", { name: "Back to Home" })).toHaveAttribute("href", "/")
+  await expect(page.getByRole("navigation", { name: "Primary" })).toBeVisible()
 })

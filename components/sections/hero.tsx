@@ -17,7 +17,7 @@ const trustPoints = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pb-16 pt-8 md:pb-24 md:pt-12">
+    <section className="relative overflow-hidden pb-10 pt-6 md:pb-14 md:pt-10">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -left-56 top-0 h-[560px] w-[640px] rounded-full bg-secondary/8" />
         <div className="absolute -right-56 top-16 h-[600px] w-[660px] rounded-full bg-primary/6" />
@@ -26,14 +26,15 @@ export function Hero() {
       <div className="container relative z-10 px-4 md:px-6">
         <div className="panel-strong grid items-center gap-10 overflow-hidden rounded-[2rem] p-6 md:p-10 lg:grid-cols-[1.04fr_0.96fr] lg:gap-14 lg:p-12">
           <div className="relative space-y-7">
-            <p className="eyebrow">
+            <a href="/locations" className="eyebrow transition-colors hover:bg-secondary/15">
               <MapPin className="h-3.5 w-3.5" />
               Westlake Village + Rancho Cucamonga
-            </p>
+            </a>
 
             <div className="space-y-5">
               <h1 className="text-4xl font-semibold leading-[1.02] text-primary min-[360px]:text-5xl sm:text-6xl md:text-7xl">
                 Specialized Oculoplastic Care
+                {" "}
                 <span className="headline-gradient block">for the Eyes and Face</span>
               </h1>
               <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">

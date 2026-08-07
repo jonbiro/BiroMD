@@ -24,7 +24,7 @@ const highlights = [
 
 export function AboutSummary() {
   return (
-    <section className="relative py-16 md:py-20">
+    <section className="relative py-11 md:py-14">
       <div className="container px-4 md:px-6">
         <div className="panel relative overflow-hidden rounded-[2rem] p-8 md:p-12">
           <div className="pointer-events-none absolute left-0 top-0 h-40 w-44 rounded-full bg-secondary/8" />

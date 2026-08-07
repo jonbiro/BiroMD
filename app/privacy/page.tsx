@@ -11,7 +11,7 @@ export const metadata = pageMetadata({
 
 export default function PrivacyPage() {
   return (
-    <div className="space-y-10 pb-20 pt-10 md:pb-24 md:pt-12">
+    <div className="page-stack">
       <PageIntro
         eyebrow="Website Privacy"
         title="Privacy and Communication"
@@ -24,8 +24,8 @@ export default function PrivacyPage() {
             <h2 className="text-3xl font-semibold">What this site collects</h2>
             <p className="mt-2 text-muted-foreground">
               BiroMD.com does not use analytics, advertising trackers, user
-              accounts, or an on-site database. The email fallback form does not
-              submit data to this website; it prepares a message in your own email app.
+              accounts, or an on-site database. Scheduling requests are handled by
+              the selected office, and the optional email link opens your own email app.
             </p>
           </div>
 
@@ -82,7 +82,14 @@ export default function PrivacyPage() {
             <h2 className="text-3xl font-semibold">Website questions</h2>
             <p className="mt-2 text-muted-foreground">
               For a website privacy question that does not contain medical information,
-              email {siteConfig.email}. Call the appropriate office for questions about patient records.
+              email{" "}
+              <a
+                href={`mailto:${siteConfig.email}`}
+                className="font-medium text-secondary underline underline-offset-4"
+              >
+                {siteConfig.email}
+              </a>
+              . Call the appropriate office for questions about patient records.
             </p>
           </div>
         </div>

@@ -10,7 +10,7 @@ export const metadata = pageMetadata({
 
 export default function AccessibilityPage() {
   return (
-    <div className="space-y-10 pb-20 pt-10 md:pb-24 md:pt-12">
+    <div className="page-stack">
       <PageIntro
         eyebrow="Accessibility"
         title="Accessing Our Website and Services"
@@ -23,7 +23,7 @@ export default function AccessibilityPage() {
             <h2 className="text-3xl font-semibold">Website support</h2>
             <p className="mt-2 text-muted-foreground">
               The site supports keyboard navigation, visible focus indicators,
-              labeled form controls, reduced-motion preferences, responsive text,
+              descriptive links and controls, reduced-motion preferences, responsive text,
               and light or dark color themes.
             </p>
           </div>
@@ -55,7 +55,14 @@ export default function AccessibilityPage() {
             <p className="mt-2 text-muted-foreground">
               When reporting a problem, include the page address, the task you
               were trying to complete, and the browser or assistive technology
-              you were using. Do not include private medical information.
+              you were using. Email{" "}
+              <a
+                className="font-medium text-secondary underline underline-offset-4"
+                href={`mailto:${siteConfig.email}?subject=Website%20accessibility%20feedback`}
+              >
+                {siteConfig.email}
+              </a>
+              , and do not include private medical information.
             </p>
           </div>
         </div>

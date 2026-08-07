@@ -42,26 +42,61 @@ export default async function LocationPage({
   const { slug } = await params
   const office = offices.find((item) => item.id === slug)
   if (!office) notFound()
+  const officeUrl = absoluteUrl(`/locations/${office.id}`)
+  const physicianId = absoluteUrl("/#physician")
+  const breadcrumbId = `${officeUrl}#breadcrumb`
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "MedicalClinic",
-    "@id": absoluteUrl(`/locations/${office.id}#office`),
-    name: `${siteConfig.shortName} - ${office.name}`,
-    url: absoluteUrl(`/locations/${office.id}`),
-    telephone: office.phoneHref,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: office.streetAddress,
-      addressLocality: office.addressLocality,
-      addressRegion: office.addressRegion,
-      postalCode: office.postalCode,
-      addressCountry: "US",
-    },
+    "@graph": [
+      {
+        "@type": "MedicalClinic",
+        "@id": `${officeUrl}#office`,
+        name: `${siteConfig.shortName} - ${office.name}`,
+        url: officeUrl,
+        sameAs: office.practiceUrl,
+        telephone: office.phoneHref,
+        medicalSpecialty: "Ophthalmology",
+        availableLanguage: siteConfig.languages,
+        employee: { "@id": physicianId },
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: office.streetAddress,
+          addressLocality: office.addressLocality,
+          addressRegion: office.addressRegion,
+          postalCode: office.postalCode,
+          addressCountry: "US",
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": breadcrumbId,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: absoluteUrl("/"),
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Offices",
+            item: absoluteUrl("/locations"),
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: office.name,
+            item: officeUrl,
+          },
+        ],
+      },
+    ],
   }
 
   return (
-    <div className="space-y-10 pb-20 pt-10 md:space-y-12 md:pb-24 md:pt-12">
+    <div className="page-stack">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
@@ -70,6 +105,10 @@ export default async function LocationPage({
         eyebrow="Office Location"
         title={`Oculoplastic Care in ${office.name}`}
         description={`Consultations with ${siteConfig.shortName} are available through ${office.practiceName}. Request an appointment online or call the office directly.`}
+        breadcrumbs={[
+          { label: "Offices", href: "/locations" },
+          { label: office.name },
+        ]}
         actions={
           <>
             <Button asChild>

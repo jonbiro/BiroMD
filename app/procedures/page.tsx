@@ -13,7 +13,7 @@ export const metadata = pageMetadata({
 
 export default function ProceduresPage() {
   return (
-    <div className="space-y-10 pb-20 pt-10 md:space-y-12 md:pb-24 md:pt-12">
+    <div className="page-stack">
       <PageIntro
         eyebrow="Procedures"
         title="Understand the Evaluation Before Choosing Treatment"
@@ -25,7 +25,7 @@ export default function ProceduresPage() {
           <article
             id={category.id}
             key={category.title}
-            className="panel scroll-mt-32 rounded-3xl p-7 md:p-8"
+            className="panel rounded-3xl p-7 md:p-8"
           >
             <h2 className="text-3xl font-medium text-primary">{category.title}</h2>
             <p className="mt-2 max-w-3xl text-sm text-muted-foreground">

@@ -10,7 +10,7 @@ const serviceIcons = {
 
 export function ServicesPreview() {
   return (
-    <section className="relative py-16 md:py-20">
+    <section className="relative py-11 md:py-14">
       <div className="container px-4 md:px-6">
         <div className="panel relative overflow-hidden rounded-[2rem] p-8 md:p-12">
           <div className="pointer-events-none absolute -right-24 top-0 h-52 w-56 rounded-full bg-primary/8" />

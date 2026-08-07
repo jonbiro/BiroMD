@@ -2,11 +2,12 @@ import {
   AlertTriangle,
   ArrowUpRight,
   CalendarDays,
+  LockKeyhole,
+  Mail,
   MapPin,
   Navigation,
   PhoneCall,
 } from "lucide-react"
-import { ContactIntakeForm } from "@/components/contact-intake-form"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
 import { pageMetadata, siteConfig } from "@/lib/site"
@@ -20,7 +21,7 @@ export const metadata = pageMetadata({
 
 export default function ContactPage() {
   return (
-    <div className="space-y-10 pb-20 pt-10 md:space-y-12 md:pb-24 md:pt-12">
+    <div className="page-stack">
       <PageIntro
         eyebrow="Appointments"
         title="Choose an Office to Request a Consultation"
@@ -94,18 +95,29 @@ export default function ContactPage() {
       </section>
 
       <section className="container px-4 md:px-6">
-        <div className="panel-strong mx-auto max-w-3xl rounded-[1.8rem] p-6 md:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-            Email fallback
-          </p>
-          <h2 className="mt-2 text-3xl font-medium text-primary">
-            Prepare a Scheduling Email
-          </h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            If the office request pages are not convenient, create a short email
-            with contact details only. Do not include medical information or photographs.
-          </p>
-          <div className="mt-6"><ContactIntakeForm /></div>
+        <div className="panel-strong mx-auto flex max-w-3xl flex-col gap-5 rounded-[1.8rem] p-6 md:flex-row md:items-center md:justify-between md:p-8">
+          <div className="max-w-xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
+              Email alternative
+            </p>
+            <h2 className="mt-2 text-3xl font-medium text-primary">
+              Ask a Scheduling Question
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Use ordinary email only for non-urgent scheduling questions. Do not
+              include medical details, photographs, insurance, or payment information.
+            </p>
+            <p className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
+              <LockKeyhole className="mt-0.5 h-3.5 w-3.5 shrink-0 text-secondary" />
+              This opens your email app; it does not submit information through this website.
+            </p>
+          </div>
+          <Button variant="outline" className="shrink-0" asChild>
+            <a href={`mailto:${siteConfig.email}?subject=Consultation%20scheduling%20question`}>
+              <Mail className="mr-2 h-4 w-4" />
+              Email Scheduling
+            </a>
+          </Button>
         </div>
       </section>
 

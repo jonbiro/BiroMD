@@ -4,13 +4,13 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { navItems } from "@/lib/site"
 
 const navClass =
-  "flex min-w-0 items-center justify-center rounded-xl px-1 py-2.5 text-[0.68rem] font-semibold text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground aria-[current=page]:bg-primary aria-[current=page]:text-primary-foreground aria-[current=page]:shadow-[0_8px_20px_rgb(9_36_59_/0.24)] sm:rounded-full sm:px-4 sm:text-sm"
+  "flex min-h-11 min-w-0 items-center justify-center rounded-xl px-2 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground aria-[current=page]:bg-primary aria-[current=page]:text-primary-foreground aria-[current=page]:shadow-[0_8px_20px_rgb(9_36_59_/0.24)] sm:rounded-full sm:px-3 sm:text-sm"
 
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 px-3 pb-2 pt-3 md:px-6">
       <div className="container relative px-0">
-        <div className="panel relative flex h-20 items-center justify-between overflow-hidden rounded-2xl px-4 md:px-6">
+        <div className="panel relative flex h-16 items-center justify-between overflow-hidden rounded-2xl px-4 md:h-20 md:px-6">
           <div className="pointer-events-none absolute -left-20 top-0 h-32 w-40 rounded-full bg-secondary/8" />
           <div className="pointer-events-none absolute -right-20 bottom-0 h-32 w-44 rounded-full bg-primary/8" />
 
@@ -42,14 +42,14 @@ export default function Header() {
         <nav
           aria-label="Primary"
           data-floating-navigation
-          className="panel relative z-40 mx-auto -mt-3 grid max-w-3xl grid-cols-6 gap-0.5 rounded-2xl p-1.5 shadow-[0_14px_30px_rgb(5_16_32_/0.14)] min-[360px]:grid-cols-5 sm:gap-1 sm:rounded-full"
+          className="panel relative z-40 mx-auto -mt-1 grid max-w-4xl grid-cols-3 gap-1 rounded-2xl p-1.5 shadow-[0_14px_30px_rgb(5_16_32_/0.14)] sm:-mt-3 sm:grid-cols-6 sm:rounded-full"
         >
-          {navItems.map((item, index) => (
+          {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
               data-nav-item
-              className={`${navClass} col-span-2 min-[360px]:col-span-1 ${index === 3 ? "max-[359px]:col-start-2" : ""}`}
+              className={navClass}
             >
               {item.label}
             </a>

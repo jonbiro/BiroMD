@@ -68,6 +68,7 @@ export const navItems = [
   { href: "/services", label: "Services" },
   { href: "/procedures", label: "Procedures" },
   { href: "/gallery", label: "Photos" },
+  { href: "/locations", label: "Offices" },
   { href: "/contact", label: "Contact" },
 ] as const
 
@@ -103,6 +104,7 @@ export function pageMetadata({
     alternates: { canonical: url },
     openGraph: {
       type: "website",
+      locale: "en_US",
       url,
       title: `${title} | ${siteConfig.name}`,
       description,

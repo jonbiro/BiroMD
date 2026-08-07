@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle2, Languages, Ribbon, ShieldPlus } from "lucide-react"
+import { ArrowRight, CheckCircle2, Languages, MapPin, Ribbon, ShieldPlus } from "lucide-react"
 import { ResponsivePortrait } from "@/components/responsive-portrait"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
@@ -20,7 +20,7 @@ const milestones = [
 
 export default function AboutPage() {
   return (
-    <div className="space-y-10 pb-20 pt-10 md:space-y-12 md:pb-24 md:pt-12">
+    <div className="page-stack">
       <PageIntro
         eyebrow="Meet the Surgeon"
         title="Ophthalmic Training. Oculoplastic Focus."
@@ -84,22 +84,36 @@ export default function AboutPage() {
       <section className="container px-4 md:px-6">
         <div className="rounded-[1.8rem] border border-primary/20 bg-primary p-8 text-primary-foreground shadow-lg md:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground/75">
-            Training and Professional Membership
+            Training and Clinical Focus
           </p>
           <ul className="mt-4 grid gap-3 text-sm sm:grid-cols-2 md:text-base">
             <li className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4" />
-              Oculoplastic fellowship, Wills Eye Hospital
+              Two-year oculoplastic, orbital, and neuro-ophthalmology fellowship, Wills Eye Hospital
             </li>
             <li className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4" />
-              American Academy of Ophthalmology
+              Board-certified ophthalmologist
             </li>
             <li className="flex items-center gap-2 sm:col-span-2">
               <CheckCircle2 className="h-4 w-4" />
               Ophthalmology residency, University of South Florida
             </li>
           </ul>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Button variant="outline" size="sm" asChild>
+              <a href="/procedures">
+                Explore Procedures
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </a>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <a href="/locations">
+                <MapPin className="mr-2 h-4 w-4" />
+                Choose an Office
+              </a>
+            </Button>
+          </div>
         </div>
       </section>
     </div>
