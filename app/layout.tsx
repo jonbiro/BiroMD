@@ -4,31 +4,35 @@ import "./globals.css"
 import { cn } from "@/lib/utils"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import { ThemeProvider } from "@/components/theme-provider"
+import { SiteControlsScript } from "@/components/site-controls-script"
 import { SkipLink } from "@/components/skip-link"
 import { absoluteUrl, siteConfig } from "@/lib/site"
 
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
+  display: "swap",
 })
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
 })
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f8fb" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#030711" },
   ],
 }
 
-const socialImage = absoluteUrl("/images/dr-biro-portrait.png")
+const socialImage = absoluteUrl("/images/biromd-social-card.png")
+const portraitImage = absoluteUrl("/images/portrait/dr-biro-portrait-960.webp")
+const physicianId = absoluteUrl("/#physician")
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -37,9 +41,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  alternates: {
-    canonical: absoluteUrl("/"),
-  },
+  alternates: { canonical: absoluteUrl("/") },
   keywords: [
     "Oculoplastic surgery",
     "Eyelid surgery",
@@ -47,11 +49,15 @@ export const metadata: Metadata = {
     "Ptosis repair",
     "Orbital surgery",
     "Ophthalmologist Los Angeles",
+    "Oculoplastic surgeon Westlake Village",
+    "Oculoplastic surgeon Rancho Cucamonga",
     "Dr Nicolas Biro",
   ],
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
   category: "healthcare",
+  referrer: "strict-origin-when-cross-origin",
+  formatDetection: { email: false, address: false, telephone: false },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -64,7 +70,7 @@ export const metadata: Metadata = {
         url: socialImage,
         width: 1200,
         height: 630,
-        alt: `${siteConfig.shortName} portrait`,
+        alt: `${siteConfig.name}, Oculoplastic Surgery`,
       },
     ],
   },
@@ -74,25 +80,51 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [socialImage],
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 }
 
-const physicianSchema = {
+const organizationSchema = {
   "@context": "https://schema.org",
-  "@type": "Physician",
-  name: siteConfig.name,
-  description: siteConfig.description,
-  medicalSpecialty: "Ophthalmology",
-  areaServed: siteConfig.areaServed,
-  availableLanguage: siteConfig.languages,
-  email: siteConfig.email,
-  telephone: siteConfig.phoneHref,
-  image: socialImage,
-  url: absoluteUrl("/"),
+  "@graph": [
+    {
+      "@type": "Physician",
+      "@id": physicianId,
+      name: siteConfig.name,
+      description: siteConfig.description,
+      medicalSpecialty: "Ophthalmology",
+      areaServed: siteConfig.areaServed,
+      availableLanguage: siteConfig.languages,
+      email: siteConfig.email,
+      image: portraitImage,
+      url: absoluteUrl("/"),
+      sameAs: siteConfig.offices.map((office) => office.practiceUrl),
+      workLocation: siteConfig.offices.map((office) => ({
+        "@id": absoluteUrl(`/locations/${office.id}#office`),
+      })),
+    },
+    ...siteConfig.offices.map((office) => ({
+      "@type": "MedicalClinic",
+      "@id": absoluteUrl(`/locations/${office.id}#office`),
+      name: `${siteConfig.shortName} - ${office.name}`,
+      url: absoluteUrl(`/locations/${office.id}`),
+      telephone: office.phoneHref,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: office.streetAddress,
+        addressLocality: office.addressLocality,
+        addressRegion: office.addressRegion,
+        postalCode: office.postalCode,
+        addressCountry: "US",
+      },
+      employee: { "@id": physicianId },
+      availableLanguage: siteConfig.languages,
+      medicalSpecialty: "Ophthalmology",
+    })),
+  ],
 }
+
+const themeInitScript =
+  'try{document.documentElement.classList.toggle("dark",localStorage.getItem("biromd-theme")==="dark")}catch{}'
 
 export default function RootLayout({
   children,
@@ -101,6 +133,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans text-foreground antialiased",
@@ -108,29 +143,23 @@ export default function RootLayout({
           cormorant.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(physicianSchema) }}
-          />
-          <div className="relative flex min-h-screen flex-col">
-            <SkipLink />
-            <Header />
-            <main
-              id="main-content"
-              className="relative flex-1 focus:outline-none"
-              tabIndex={-1}
-            >
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </ThemeProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <div className="relative flex min-h-screen flex-col">
+          <SkipLink />
+          <Header />
+          <main
+            id="main-content"
+            className="relative flex-1 focus:outline-none"
+            tabIndex={-1}
+          >
+            {children}
+          </main>
+          <Footer />
+        </div>
+        <SiteControlsScript />
       </body>
     </html>
   )

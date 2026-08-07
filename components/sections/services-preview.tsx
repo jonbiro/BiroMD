@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { ArrowRight, Dot, ShieldCheck, Sparkles, Syringe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { servicePathways } from "@/lib/services"
@@ -11,76 +10,77 @@ const serviceIcons = {
 
 export function ServicesPreview() {
   return (
-    <section className="relative py-20 md:py-24">
+    <section className="relative py-16 md:py-20">
       <div className="container px-4 md:px-6">
         <div className="panel relative overflow-hidden rounded-[2rem] p-8 md:p-12">
-          <div className="pointer-events-none absolute -right-24 top-0 h-52 w-56 rounded-full bg-primary/10" />
-          <div className="pointer-events-none absolute left-0 bottom-0 h-44 w-52 rounded-full bg-secondary/10" />
+          <div className="pointer-events-none absolute -right-24 top-0 h-52 w-56 rounded-full bg-primary/8" />
 
           <div className="relative">
-            <div className="mb-10 flex flex-col gap-5 md:mb-14 md:flex-row md:items-end md:justify-between">
+            <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
               <div className="max-w-2xl space-y-4">
                 <p className="eyebrow">
                   <Dot className="h-3.5 w-3.5" />
-                  Care Spectrum
+                  Care Pathways
                 </p>
                 <h2 className="text-4xl font-semibold text-primary sm:text-5xl">
-                  Comprehensive Treatment,
-                  <span className="headline-gradient block">Singular Standards</span>
+                  Start with the Concern You Want Evaluated
                 </h2>
                 <p className="text-lg text-muted-foreground">
-                  Every service pathway is structured around diagnostic precision,
-                  conservative planning, and outcomes that feel naturally aligned.
+                  Explore cosmetic, reconstructive, and non-surgical options,
+                  then review the individual procedure pages before consultation.
                 </p>
               </div>
 
               <Button variant="outline" asChild>
-                <Link href="/services">
-                  See All Services
+                <a href="/services">
+                  Compare Services
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
+                </a>
               </Button>
             </div>
 
             <div className="grid gap-5 lg:grid-cols-3">
               {servicePathways.map((service) => {
                 const ServiceIcon = serviceIcons[service.id]
-
                 return (
-                <article
-                  key={service.title}
-                  className="panel group rounded-2xl p-6 transition duration-300 hover:-translate-y-1"
-                >
-                  <div className="mb-5 inline-flex rounded-xl border border-secondary/35 bg-secondary/10 p-2 text-secondary">
-                    <ServiceIcon className="h-5 w-5" />
-                  </div>
-                  <h3 className="text-2xl font-medium text-primary">{service.title}</h3>
-                  <p className="mt-3 text-sm text-muted-foreground">{service.summary}</p>
-                  <ul className="mt-5 space-y-2 text-sm text-foreground/90">
-                    {service.highlights.map((item) => (
-                      <li key={item} className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </article>
+                  <article key={service.title} className="rounded-2xl border border-border bg-background p-6">
+                    <div className="mb-5 inline-flex rounded-xl border border-secondary/30 bg-secondary/8 p-2 text-secondary">
+                      <ServiceIcon className="h-5 w-5" />
+                    </div>
+                    <h3 className="text-2xl font-medium text-primary">{service.title}</h3>
+                    <p className="mt-3 text-sm text-muted-foreground">{service.summary}</p>
+                    <ul className="mt-5 space-y-2 text-sm text-foreground/90">
+                      {service.highlights.map((item) => (
+                        <li key={item} className="flex items-center gap-2">
+                          <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    <a
+                      href={`/procedures#${service.id}`}
+                      className="mt-5 inline-flex items-center text-sm font-semibold text-secondary hover:underline"
+                    >
+                      Review procedures
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </a>
+                  </article>
                 )
               })}
             </div>
 
-            <div className="mt-10 rounded-2xl border border-border/70 bg-primary p-6 text-primary-foreground shadow-lg md:mt-12 md:flex md:items-center md:justify-between">
+            <div className="panel-strong mt-10 rounded-2xl p-6 md:flex md:items-center md:justify-between md:gap-8">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground/70">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
                   Next Step
                 </p>
-                <p className="mt-2 text-lg">
-                  Unsure which pathway fits your goals? A consultation is the
-                  fastest way to define a safe, tailored plan.
+                <p className="mt-2 text-lg text-foreground/90">
+                  Consultation is the appropriate place to confirm the diagnosis,
+                  candidacy, alternatives, and expected recovery.
                 </p>
               </div>
-              <Button className="mt-4 md:mt-0" asChild>
-                <Link href="/contact">Book Consultation</Link>
+              <Button className="mt-4 shrink-0 md:mt-0" asChild>
+                <a href="/contact">Request Consultation</a>
               </Button>
             </div>
           </div>

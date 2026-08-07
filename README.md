@@ -1,51 +1,67 @@
 # BiroMD Website
 
-Professional website for Nicolas Biro, M.D., built with Next.js App Router and static export.
+Public website for Nicolas Biro, M.D., built with the Next.js App Router and a
+static export.
 
 ## Stack
 
-- Next.js 16 + React 19
+- Next.js 16 and React 19
 - TypeScript
 - Tailwind CSS v4
-- Framer Motion
+- Playwright browser checks
+- Sharp image generation
 
-## Local Development
+## Local development
 
 ```bash
 npm install
-npm run dev
+GALLERY_AUTHORIZED_CASE_IDS=lower-blepharoplasty npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000). With no gallery allowlist,
+no clinical cases or clinical image derivatives are exposed locally.
 
-## Scripts
+## Validation
 
-- `npm run dev` - start development server
-- `npm run lint` - run ESLint
-- `npm run build` - production build + static export
+```bash
+GALLERY_AUTHORIZED_CASE_IDS=lower-blepharoplasty,eyelid-trauma,scalp-reconstruction,eyebrow-reconstruction npm run build
+GALLERY_AUTHORIZED_CASE_IDS=lower-blepharoplasty,eyelid-trauma,scalp-reconstruction,eyebrow-reconstruction npm run verify:export
+npm run test:e2e
+npm run lint
+npm audit
+```
 
-## Static Export Notes
+The export verifier checks required routes, sitemap entries, internal links,
+responsive image budgets, social-card dimensions, and the clinical asset allowlist.
+Playwright checks mobile overflow/navigation, light and dark consultation-button
+contrast, office scheduling links, gallery labels, and key routes.
 
-The project is configured with `output: 'export'` in `next.config.ts`.
+## Static export
 
-- Development and production both run at the site root.
-- Production is intended for the GitHub Pages custom domain `biromd.com`.
-- See `docs/domain-cutover.md` for the required GitHub Pages and DNS setup.
+The project uses `output: "export"` in `next.config.ts` and deploys to GitHub
+Pages at `biromd.com`. See `docs/domain-cutover.md` and
+`docs/hosting-hardening.md` for hosting details and limitations.
 
-## Contact Email Behavior
+## Scheduling and privacy
 
-The static site does not receive form submissions. The scheduling form opens a
-pre-filled email containing contact details and office preference only. It does
-not solicit medical details.
+Office appointment buttons open each office's official request page. The email
+fallback prepares a local email and does not submit data through this website.
+Medical privacy documents are linked by office from
+`/notice-of-privacy-practices`.
 
-## Clinical Gallery Publication
+## Clinical gallery
 
-Patient cases are excluded from production unless their case IDs are explicitly
-allowlisted at build time after authorization review. See
-`docs/gallery-publication.md`.
+Clinical sources live outside `public/`. A build generates metadata-free public
+derivatives only for case IDs explicitly authorized through
+`GALLERY_AUTHORIZED_CASE_IDS`, then verifies and prunes the export. See
+`docs/gallery-publication.md` for the required authorization review and the
+public-repository limitation.
 
-## Project Structure
+## Project structure
 
-- `app/` - route pages, layout, metadata routes
-- `components/` - shared UI and section components
-- `lib/site.ts` - site config, URL helpers, page metadata helper
+- `app/` - routes, layout, and metadata
+- `components/` - shared UI and page sections
+- `lib/` - site, procedure, service, and gallery data
+- `clinical-assets/` - controlled gallery source directory; never copied wholesale
+- `scripts/` - image generation and export verification
+- `tests/` - browser regression checks

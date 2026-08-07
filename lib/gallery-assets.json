@@ -1,0 +1,26 @@
+[
+  {
+    "id": "lower-blepharoplasty",
+    "file": "lower-blepharoplasty.jpg",
+    "comparisonLayout": "vertical",
+    "comparisonLabel": "Top: Before | Bottom: After"
+  },
+  {
+    "id": "eyelid-trauma",
+    "file": "mohs-eyelid-reconstruction.jpg",
+    "comparisonLayout": "vertical",
+    "comparisonLabel": "Top: Before | Bottom: After"
+  },
+  {
+    "id": "scalp-reconstruction",
+    "file": "scalp-reconstruction.jpg",
+    "comparisonLayout": "horizontal",
+    "comparisonLabel": "Left: Before | Right: After"
+  },
+  {
+    "id": "eyebrow-reconstruction",
+    "file": "eyebrow-defect-reconstruction.jpg",
+    "comparisonLayout": "vertical",
+    "comparisonLabel": "Top: Before | Bottom: After"
+  }
+]

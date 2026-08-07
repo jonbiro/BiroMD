@@ -1,96 +1,20 @@
-"use client"
-
-import * as React from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { Dot, Menu, Phone, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
 import { navItems, siteConfig } from "@/lib/site"
-import { cn } from "@/lib/utils"
+
+const navClass =
+  "rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground aria-[current=page]:bg-primary aria-[current=page]:text-primary-foreground aria-[current=page]:shadow-[0_8px_20px_rgb(9_36_59_/0.24)]"
 
 export default function Header() {
-  const pathname = usePathname()
-  const [isOpen, setIsOpen] = React.useState(false)
-  const menuButtonRef = React.useRef<HTMLButtonElement>(null)
-  const menuDialogRef = React.useRef<HTMLDivElement>(null)
-  const previousFocusRef = React.useRef<HTMLElement | null>(null)
-
-  React.useEffect(() => {
-    setIsOpen(false)
-  }, [pathname])
-
-  React.useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : ""
-
-    return () => {
-      document.body.style.overflow = ""
-    }
-  }, [isOpen])
-
-  React.useEffect(() => {
-    if (!isOpen) {
-      return
-    }
-
-    previousFocusRef.current =
-      document.activeElement instanceof HTMLElement
-        ? document.activeElement
-        : menuButtonRef.current
-
-    const dialog = menuDialogRef.current
-    const focusableElements = dialog
-      ? Array.from(
-          dialog.querySelectorAll<HTMLElement>(
-            'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-          )
-        )
-      : []
-
-    focusableElements[0]?.focus()
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsOpen(false)
-      }
-
-      if (event.key === "Tab" && focusableElements.length > 0) {
-        const firstElement = focusableElements[0]
-        const lastElement = focusableElements[focusableElements.length - 1]
-
-        if (event.shiftKey && document.activeElement === firstElement) {
-          event.preventDefault()
-          lastElement.focus()
-        } else if (!event.shiftKey && document.activeElement === lastElement) {
-          event.preventDefault()
-          firstElement.focus()
-        }
-      }
-    }
-
-    window.addEventListener("keydown", handleKeyDown)
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown)
-      previousFocusRef.current?.focus()
-    }
-  }, [isOpen])
-
-  const isItemActive = (href: string) =>
-    pathname === href || pathname.startsWith(`${href}/`)
-
   return (
     <header className="sticky top-0 z-50 px-3 pb-2 pt-3 md:px-6">
       <div className="container relative px-0">
         <div className="panel relative flex h-20 items-center justify-between overflow-hidden rounded-2xl px-4 md:h-24 md:px-6">
-          <div className="pointer-events-none absolute -left-20 top-0 h-32 w-40 rounded-full bg-secondary/10" />
-          <div className="pointer-events-none absolute -right-20 bottom-0 h-32 w-44 rounded-full bg-primary/10" />
+          <div className="pointer-events-none absolute -left-20 top-0 h-32 w-40 rounded-full bg-secondary/8" />
+          <div className="pointer-events-none absolute -right-20 bottom-0 h-32 w-44 rounded-full bg-primary/8" />
 
-          <Link
-            href="/"
-            className="group relative z-30 inline-flex flex-col leading-tight"
-            onClick={() => setIsOpen(false)}
-          >
+          <a href="/" className="group relative z-30 inline-flex flex-col leading-tight">
             <span className="font-serif text-[1.45rem] font-semibold text-primary transition-colors group-hover:text-secondary md:text-3xl">
               Nicolas Biro, M.D.
             </span>
@@ -98,120 +22,93 @@ export default function Header() {
               <Dot className="h-3.5 w-3.5 text-secondary" />
               Oculoplastic Surgery
             </span>
-          </Link>
+          </a>
 
           <nav
             aria-label="Primary"
-            className="hidden items-center gap-1 rounded-full border border-border/70 bg-card/85 p-1 md:flex"
+            className="hidden items-center gap-1 rounded-full border border-border/70 bg-card p-1 xl:flex"
           >
-            {navItems.map((item) => {
-              const active = isItemActive(item.href)
-
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={active ? "page" : undefined}
-                  className={cn(
-                    "rounded-full px-4 py-2 text-sm font-medium transition",
-                    active
-                      ? "bg-primary text-primary-foreground shadow-[0_8px_20px_rgb(9_36_59_/0.32)]"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                  )}
-                >
-                  {item.label}
-                </Link>
-              )
-            })}
+            {navItems.map((item) => (
+              <a key={item.href} href={item.href} data-nav-item className={navClass}>
+                {item.label}
+              </a>
+            ))}
           </nav>
 
           <div className="relative z-30 flex items-center gap-2 md:gap-3">
-            <div className="hidden md:block">
-              <ModeToggle />
-            </div>
-            <Button className="hidden md:inline-flex" asChild>
-              <Link href="/contact">
+            <div className="hidden xl:block"><ModeToggle /></div>
+            <Button className="hidden xl:inline-flex" asChild>
+              <a href="/contact">
                 <Phone className="mr-2 h-4 w-4" />
-                Book Consultation
-              </Link>
+                Request Consultation
+              </a>
             </Button>
-            <Button
-              ref={menuButtonRef}
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              onClick={() => setIsOpen((value) => !value)}
-              aria-expanded={isOpen}
-              aria-controls="mobile-menu"
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-            >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
+
+            <details data-mobile-menu className="group xl:hidden">
+              <summary
+                className="inline-flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full border border-transparent text-foreground hover:bg-accent [&::-webkit-details-marker]:hidden"
+                role="button"
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+              >
+                <Menu className="h-6 w-6 group-open:hidden" />
+                <X className="hidden h-6 w-6 group-open:block" />
+              </summary>
+
+              <button
+                type="button"
+                data-menu-close
+                className="fixed inset-0 z-20 bg-slate-950/55"
+                aria-label="Close menu overlay"
+                tabIndex={-1}
+              />
+              <div
+                id="mobile-menu"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="mobile-menu-title"
+                className="panel-strong fixed inset-x-5 top-[5.5rem] z-30 max-h-[calc(100vh-7rem)] overflow-y-auto rounded-2xl p-6"
+              >
+                <h2 id="mobile-menu-title" className="sr-only">Site navigation</h2>
+                <nav aria-label="Mobile primary" className="grid gap-2">
+                  {navItems.map((item) => (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      data-nav-item
+                      className="rounded-xl px-4 py-3 text-base font-medium text-foreground transition-colors hover:bg-accent aria-[current=page]:bg-primary aria-[current=page]:text-primary-foreground"
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </nav>
+
+                <div className="mt-5 flex items-center justify-between rounded-xl border border-border bg-background px-4 py-3">
+                  <span className="text-sm text-muted-foreground">Color theme</span>
+                  <ModeToggle />
+                </div>
+
+                <Button asChild className="mt-4 w-full">
+                  <a href="/contact">Request Consultation</a>
+                </Button>
+
+                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                  {siteConfig.offices.map((office) => (
+                    <a
+                      key={office.id}
+                      href={`tel:${office.phoneHref}`}
+                      className="rounded-xl border border-border bg-card px-3 py-2 text-center text-sm font-medium text-foreground hover:border-secondary"
+                    >
+                      Call {office.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </details>
           </div>
         </div>
       </div>
-
-      {isOpen ? (
-        <>
-          <button
-            type="button"
-            onClick={() => setIsOpen(false)}
-            className="fixed inset-0 z-20 bg-slate-950/45 md:hidden"
-            aria-label="Close menu overlay"
-            tabIndex={-1}
-          />
-
-          <div
-            ref={menuDialogRef}
-            id="mobile-menu"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="mobile-menu-title"
-            className="panel-strong absolute inset-x-5 top-[5.5rem] z-30 rounded-2xl p-6 md:hidden"
-          >
-            <h2 id="mobile-menu-title" className="sr-only">
-              Site navigation
-            </h2>
-            <nav aria-label="Mobile primary" className="grid gap-2">
-              {navItems.map((item) => {
-                const active = isItemActive(item.href)
-
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    aria-current={active ? "page" : undefined}
-                    className={cn(
-                      "rounded-xl px-4 py-3 text-base font-medium transition",
-                      active
-                        ? "bg-primary text-primary-foreground"
-                        : "text-foreground hover:bg-accent"
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                )
-              })}
-            </nav>
-
-            <div className="mt-5 flex items-center justify-between rounded-xl border border-border/70 bg-background/70 px-4 py-3">
-              <span className="text-sm text-muted-foreground">Theme</span>
-              <ModeToggle />
-            </div>
-
-            <Button asChild className="mt-4 w-full">
-              <Link href="/contact">Schedule Consultation</Link>
-            </Button>
-
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="mt-3 block text-center text-sm text-muted-foreground underline-offset-4 hover:text-secondary hover:underline"
-            >
-              {siteConfig.email}
-            </a>
-          </div>
-        </>
-      ) : null}
     </header>
   )
 }

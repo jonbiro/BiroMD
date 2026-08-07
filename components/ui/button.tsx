@@ -1,35 +1,31 @@
 import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:translate-y-px",
+  "inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full border text-sm font-semibold transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:translate-y-px",
   {
     variants: {
       variant: {
         default:
-          "bg-[#0b3558] text-white shadow-lg shadow-[#0b3558]/25 hover:-translate-y-0.5 hover:bg-[#0a2f4f] hover:shadow-[#0b3558]/35",
-        destructive:
-          "bg-red-600 text-white shadow-sm hover:bg-red-700",
+          "border-[#0b3558] bg-[#0b3558] text-white shadow-md shadow-[#0b3558]/20 hover:bg-[#082c4a] dark:border-[#5d91b8] dark:bg-[#164e77] dark:text-white dark:hover:bg-[#1a5a88]",
+        destructive: "border-red-700 bg-red-700 text-white hover:bg-red-800",
         outline:
-          "border border-border bg-card text-foreground shadow-sm hover:border-secondary/45 hover:bg-accent",
+          "border-border bg-card text-foreground shadow-sm hover:border-secondary hover:bg-accent",
         secondary:
-          "border border-secondary bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/90",
-        ghost: "text-foreground hover:bg-accent",
-        link: "rounded-none px-0 text-primary underline-offset-4 hover:underline",
+          "border-secondary bg-secondary text-secondary-foreground shadow-sm hover:brightness-95",
+        ghost: "border-transparent text-foreground hover:bg-accent",
+        link:
+          "min-h-0 rounded-none border-transparent px-0 text-primary underline-offset-4 hover:underline",
       },
       size: {
         default: "h-11 px-6",
-        sm: "h-9 px-4 text-xs",
+        sm: "h-10 px-4 text-xs",
         lg: "h-12 px-8 text-base",
-        icon: "h-10 w-10",
+        icon: "h-11 w-11 p-0",
       },
     },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
+    defaultVariants: { variant: "default", size: "default" },
   }
 )
 
@@ -38,20 +34,30 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
     asChild?: boolean
   }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
+function Button({
+  className,
+  variant,
+  size,
+  asChild = false,
+  children,
+  ...props
+}: ButtonProps) {
+  const styles = buttonVariants({ variant, size, className })
 
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
+  if (asChild) {
+    if (!React.isValidElement<{ className?: string }>(children)) return null
+
+    return React.cloneElement(children, {
+      ...props,
+      className: cn(styles, children.props.className),
+    })
   }
-)
 
-Button.displayName = "Button"
+  return (
+    <button className={styles} {...props}>
+      {children}
+    </button>
+  )
+}
 
 export { Button, buttonVariants }

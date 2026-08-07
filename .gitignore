@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Generated only from explicitly authorized clinical gallery sources
+/public/images/cases/
+
+# Browser test artifacts
+/test-results/
+/playwright-report/

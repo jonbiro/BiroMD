@@ -1,101 +1,88 @@
-import Image from "next/image"
-import Link from "next/link"
-import { ArrowRight, Dot, Eye, ShieldCheck } from "lucide-react"
+import { ArrowRight, Dot, Eye } from "lucide-react"
+import { ClinicalCaseImage } from "@/components/clinical-case-image"
 import { Button } from "@/components/ui/button"
 import { getPublishedGalleryCases } from "@/lib/gallery-cases"
+import { cn } from "@/lib/utils"
 
 export function BeforeAfterPreview() {
   const previewCases = getPublishedGalleryCases().slice(0, 2)
 
   return (
-    <section className="relative py-20 md:py-24 border-t border-border/40">
+    <section className="relative border-t border-border py-16 md:py-20">
       <div className="container px-4 md:px-6">
-        <div className="flex flex-col gap-5 md:mb-14 md:flex-row md:items-end md:justify-between">
+        <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl space-y-4">
             <p className="eyebrow">
               <Dot className="h-3.5 w-3.5" />
-              Patient Outcomes
+              Clinical Cases
             </p>
             <h2 className="text-4xl font-semibold text-primary sm:text-5xl">
-              Clinical Precision,
-              <span className="headline-gradient block">Restored Confidence</span>
+              Selected Before-and-After Results
             </h2>
             <p className="text-lg text-muted-foreground">
-              Review documented patient outcomes representing the intersection of meticulous surgical function and natural aesthetics.
+              Review the concern, surgical approach, and documented result for
+              selected authorized cases. Individual outcomes vary.
             </p>
           </div>
 
           <Button variant="outline" asChild className="self-start md:self-auto">
-            <Link href="/gallery">
-              View Before & After Photos
+            <a href="/gallery">
+              View Clinical Gallery
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+            </a>
           </Button>
         </div>
 
         {previewCases.length > 0 ? (
-          <div className="grid gap-8 md:grid-cols-2">
-            {previewCases.map((item) => (
-            <article
-              key={item.title}
-              className="panel group overflow-hidden rounded-[2rem] transition-all duration-300 hover:shadow-xl flex flex-col"
-            >
-              <div className="relative aspect-[4/3] w-full bg-accent/30 overflow-hidden border-b border-border/50">
-                <Image
-                  src={item.imagePath}
-                  alt={item.alt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-[1.02]"
-                />
-                <span className="absolute left-4 top-4 rounded-full bg-primary/90 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-primary-foreground backdrop-blur-sm">
-                  {item.category === "cosmetic" ? "Aesthetic" : "Reconstructive"}
-                </span>
-              </div>
-              <div className="p-6 md:p-8 flex-1 flex flex-col justify-between">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-secondary mb-2">
-                    {item.categoryLabel}
-                  </p>
-                  <h3 className="text-2xl font-serif font-semibold text-primary mb-3">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {item.presentation}
-                  </p>
-                </div>
-                <div className="mt-6 pt-5 border-t border-border/40">
-                  <Link
-                    href="/gallery"
-                    className="inline-flex items-center text-sm font-medium text-secondary hover:text-secondary/80 group/link"
-                  >
-                    <Eye className="mr-2 h-4 w-4" />
-                    Compare full case details
-                    <ArrowRight className="ml-1 h-3.5 w-3.5 transition-transform group-hover/link:translate-x-1" />
-                  </Link>
-                </div>
-              </div>
-            </article>
-            ))}
+          <div className="grid gap-6 lg:grid-cols-2">
+            {previewCases.map((item) => {
+              const vertical = item.comparisonLayout === "vertical"
+              return (
+                <a
+                  href={`/gallery#${item.id}`}
+                  key={item.id}
+                  className="panel group overflow-hidden rounded-[1.8rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden border-b border-border bg-accent/45 p-4">
+                    <ClinicalCaseImage
+                      imagePath={item.imagePath}
+                      alt={item.alt}
+                      sizes="(max-width: 1024px) 92vw, 46vw"
+                      className="transition-transform duration-300 group-hover:scale-[1.01]"
+                    />
+                    <div className="pointer-events-none absolute inset-3 text-[0.68rem] font-bold uppercase tracking-[0.14em]">
+                      <span className="absolute left-0 top-0 rounded-full bg-slate-950/85 px-3 py-1.5 text-white">
+                        Before
+                      </span>
+                      <span className={cn(
+                        "absolute rounded-full bg-slate-950/85 px-3 py-1.5 text-white",
+                        vertical ? "bottom-0 left-0" : "right-0 top-0"
+                      )}>
+                        After
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between gap-4 p-5 md:p-6">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-secondary">
+                        {item.categoryLabel}
+                      </p>
+                      <h3 className="mt-1 text-2xl font-semibold text-primary">{item.title}</h3>
+                      <p className="mt-1 text-xs text-muted-foreground">{item.comparisonLabel}</p>
+                    </div>
+                    <Eye className="h-5 w-5 shrink-0 text-secondary" />
+                  </div>
+                </a>
+              )
+            })}
           </div>
         ) : (
-          <div className="panel flex flex-col items-start gap-4 rounded-[2rem] p-7 md:flex-row md:items-center md:justify-between md:p-9">
-            <div className="max-w-2xl">
-              <p className="inline-flex items-center gap-2 text-sm font-semibold text-secondary">
-                <ShieldCheck className="h-4 w-4" />
-                Publication review in progress
-              </p>
-              <h3 className="mt-2 text-3xl font-semibold text-primary">
-                Patient images are published only after authorization review
-              </h3>
-              <p className="mt-2 text-muted-foreground">
-                The practice is confirming written image permissions and final
-                case presentation details before displaying clinical photos.
-              </p>
-            </div>
-            <Button variant="outline" asChild>
-              <Link href="/contact">Discuss Expected Outcomes</Link>
-            </Button>
+          <div className="panel rounded-[1.8rem] p-7 text-center md:p-9">
+            <h3 className="text-2xl font-semibold text-primary">Gallery cases under review</h3>
+            <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground">
+              Clinical cases will appear only after written publication authorization
+              and final presentation review are confirmed.
+            </p>
           </div>
         )}
       </div>

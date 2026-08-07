@@ -1,5 +1,4 @@
-import Link from "next/link"
-import { ArrowRight, Check, Stethoscope } from "lucide-react"
+import { ArrowRight, Stethoscope } from "lucide-react"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
 import { pageMetadata } from "@/lib/site"
@@ -8,7 +7,7 @@ import { procedureCategories } from "@/lib/services"
 export const metadata = pageMetadata({
   title: "Procedures",
   description:
-    "Review the procedures and specialties offered, from blepharoplasty and ptosis repair to injectables and orbital care.",
+    "Explore detailed information about blepharoplasty, ptosis repair, eyelid reconstruction, tear-duct and orbital care, and injectables.",
   path: "/procedures",
 })
 
@@ -17,8 +16,8 @@ export default function ProceduresPage() {
     <div className="space-y-10 pb-20 pt-10 md:space-y-12 md:pb-24 md:pt-12">
       <PageIntro
         eyebrow="Procedures"
-        title="Procedures and Conditions Treated"
-        description="Use this page to review specific treatments. A consultation is required to determine candidacy, alternatives, risks, and the expected recovery for your situation."
+        title="Understand the Evaluation Before Choosing Treatment"
+        description="Explore individual procedures and conditions, what consultation examines, and which questions to bring to an appointment."
       />
 
       <section className="container space-y-8 px-4 md:px-6">
@@ -26,42 +25,49 @@ export default function ProceduresPage() {
           <article
             id={category.id}
             key={category.title}
-            className="panel scroll-mt-32 rounded-3xl p-7"
+            className="panel scroll-mt-32 rounded-3xl p-7 md:p-8"
           >
             <h2 className="text-3xl font-medium text-primary">{category.title}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{category.subtitle}</p>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+            <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
+              {category.subtitle}
+            </p>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {category.items.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-3 rounded-xl border border-border/70 bg-background/75 px-4 py-3 text-sm text-foreground/90"
+                <a
+                  key={item.slug}
+                  href={`/procedures/${item.slug}`}
+                  className="group rounded-2xl border border-border bg-background p-5 transition hover:-translate-y-0.5 hover:border-secondary hover:shadow-md"
                 >
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-secondary" />
-                  {item}
-                </li>
+                  <h3 className="text-2xl font-semibold text-primary">{item.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{item.summary}</p>
+                  <span className="mt-4 inline-flex items-center text-sm font-semibold text-secondary">
+                    What to know
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </a>
               ))}
-            </ul>
+            </div>
           </article>
         ))}
       </section>
 
       <section className="container px-4 md:px-6">
-        <div className="rounded-[1.8rem] border border-border/70 bg-primary p-8 text-primary-foreground shadow-lg md:flex md:items-center md:justify-between md:gap-6">
+        <div className="rounded-[1.8rem] border border-primary/20 bg-primary p-8 text-primary-foreground shadow-lg md:flex md:items-center md:justify-between md:gap-6">
           <div>
             <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground/75">
               <Stethoscope className="h-4 w-4" />
-              Procedure Match Consultation
+              Individual Assessment
             </p>
-            <p className="mt-3 text-lg text-primary-foreground/85">
-              Bring your concerns, goals, and timeline to consultation for a clear
-              recommendation and recovery roadmap.
+            <p className="mt-3 max-w-3xl text-lg text-primary-foreground/85">
+              A consultation is required to determine the diagnosis, candidacy,
+              alternatives, meaningful risks, and expected recovery for your situation.
             </p>
           </div>
-          <Button className="mt-5 md:mt-0" asChild>
-            <Link href="/contact">
-              Schedule Consultation
+          <Button className="mt-5 shrink-0 md:mt-0" asChild>
+            <a href="/contact">
+              Request Consultation
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+            </a>
           </Button>
         </div>
       </section>

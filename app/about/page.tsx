@@ -1,9 +1,8 @@
-import Image from "next/image"
-import Link from "next/link"
 import { ArrowRight, CheckCircle2, Languages, Ribbon, ShieldPlus } from "lucide-react"
+import { ResponsivePortrait } from "@/components/responsive-portrait"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
-import { pageMetadata, siteConfig, withBasePath } from "@/lib/site"
+import { pageMetadata, siteConfig } from "@/lib/site"
 
 export const metadata = pageMetadata({
   title: "About Dr. Biro",
@@ -13,22 +12,10 @@ export const metadata = pageMetadata({
 })
 
 const milestones = [
-  {
-    year: "2005",
-    title: "M.D., University of South Florida College of Medicine",
-  },
-  {
-    year: "2006",
-    title: "Internship, New York University Medical Center",
-  },
-  {
-    year: "2009",
-    title: "Ophthalmology Residency, University of South Florida",
-  },
-  {
-    year: "2011",
-    title: "Oculoplastic Fellowship, Wills Eye Hospital",
-  },
+  { year: "2005", title: "M.D., University of South Florida College of Medicine" },
+  { year: "2006", title: "Internship, New York University Medical Center" },
+  { year: "2009", title: "Ophthalmology Residency, University of South Florida" },
+  { year: "2011", title: "Oculoplastic Fellowship, Wills Eye Hospital" },
 ]
 
 export default function AboutPage() {
@@ -36,49 +23,39 @@ export default function AboutPage() {
     <div className="space-y-10 pb-20 pt-10 md:space-y-12 md:pb-24 md:pt-12">
       <PageIntro
         eyebrow="Meet the Surgeon"
-        title="Experience Built on Discipline and Detail"
-        description={`${siteConfig.shortName} is a board-certified ophthalmologist with advanced fellowship training in ocular plastic and orbital surgery, committed to outcomes that preserve both function and identity.`}
+        title="Ophthalmic Training. Oculoplastic Focus."
+        description={`${siteConfig.shortName} is a board-certified ophthalmologist with advanced fellowship training in ocular plastic and orbital surgery. His approach considers both eye function and the surrounding facial anatomy.`}
         actions={
           <Button asChild>
-            <Link href="/contact">
+            <a href="/contact">
               Request Consultation
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+            </a>
           </Button>
         }
       />
 
       <section className="container px-4 md:px-6">
-        <div className="grid items-start gap-8 lg:grid-cols-[1fr_1.12fr] lg:gap-12">
-          <div className="panel rounded-[1.7rem] p-6 md:p-8">
-            <p className="text-sm font-medium text-foreground">Clinical priorities</p>
-            <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
-              <li className="flex items-start gap-2">
-                <ShieldPlus className="mt-0.5 h-4 w-4 text-secondary" />
-                Functional restoration with durable outcomes.
-              </li>
-              <li className="flex items-start gap-2">
-                <Ribbon className="mt-0.5 h-4 w-4 text-secondary" />
-                Cosmetic planning that respects natural anatomy.
-              </li>
-              <li className="flex items-start gap-2">
-                <Languages className="mt-0.5 h-4 w-4 text-secondary" />
-                Care conversations in {siteConfig.languages.join(", ")}.
-              </li>
-            </ul>
-          </div>
-
+        <div className="grid items-start gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
           <div className="space-y-6">
-            <div className="relative mx-auto max-w-[560px] overflow-hidden rounded-[2rem] border border-border/70 bg-card shadow-2xl">
-              <div className="relative aspect-[4/5]">
-                <Image
-                  src={withBasePath("/images/dr-biro-portrait.png")}
-                  alt="Dr. Nicolas Biro"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 560px"
-                />
-              </div>
+            <div className="panel rounded-[1.7rem] p-6 md:p-8">
+              <h2 className="font-sans text-sm font-semibold text-foreground">
+                Clinical priorities
+              </h2>
+              <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <ShieldPlus className="mt-0.5 h-4 w-4 text-secondary" />
+                  Restore eyelid function and protect the ocular surface.
+                </li>
+                <li className="flex items-start gap-2">
+                  <Ribbon className="mt-0.5 h-4 w-4 text-secondary" />
+                  Plan cosmetic care around natural anatomy and realistic goals.
+                </li>
+                <li className="flex items-start gap-2">
+                  <Languages className="mt-0.5 h-4 w-4 text-secondary" />
+                  Discuss care in {siteConfig.languages.join(", ")}.
+                </li>
+              </ul>
             </div>
 
             <div className="panel rounded-2xl p-5 md:p-6">
@@ -95,11 +72,17 @@ export default function AboutPage() {
               </ol>
             </div>
           </div>
+
+          <div className="relative mx-auto w-full max-w-[560px] overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_22px_54px_rgb(5_16_32_/0.18)]">
+            <div className="relative aspect-[4/5]">
+              <ResponsivePortrait sizes="(max-width: 1024px) 92vw, 560px" />
+            </div>
+          </div>
         </div>
       </section>
 
       <section className="container px-4 md:px-6">
-        <div className="rounded-[1.8rem] border border-border/70 bg-primary p-8 text-primary-foreground shadow-lg md:p-10">
+        <div className="rounded-[1.8rem] border border-primary/20 bg-primary p-8 text-primary-foreground shadow-lg md:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground/75">
             Training and Professional Membership
           </p>

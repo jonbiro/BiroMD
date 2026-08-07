@@ -1,25 +1,21 @@
-"use client"
-
-import * as React from "react"
 import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
-
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 export function ModeToggle() {
-  const { setTheme, theme } = useTheme()
-
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="rounded-full border border-border/70 bg-card/80"
-      aria-label="Toggle color theme"
+    <button
+      type="button"
+      data-theme-toggle
+      className={cn(
+        buttonVariants({ variant: "ghost", size: "icon" }),
+        "relative rounded-full border-border bg-card"
+      )}
+      aria-label="Switch to dark mode"
+      title="Switch to dark mode"
     >
-      <Sun className="h-[1.1rem] w-[1.1rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-[1.1rem] w-[1.1rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+      <Sun data-theme-sun className="h-[1.1rem] w-[1.1rem] dark:hidden" />
+      <Moon data-theme-moon className="hidden h-[1.1rem] w-[1.1rem] dark:block" />
+    </button>
   )
 }
