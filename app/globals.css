@@ -79,6 +79,12 @@ body {
   overflow-x: hidden;
 }
 
+.container {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+}
+
 h1,
 h2,
 h3,

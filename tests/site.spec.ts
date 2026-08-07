@@ -59,6 +59,18 @@ test("mobile navigation exposes calls and does not overflow", async ({ page }) =
   await expectNoHorizontalOverflow(page)
 })
 
+test("site containers stay fluid and centered between breakpoints", async ({ page }) => {
+  await page.setViewportSize({ width: 1257, height: 900 })
+  await page.goto("/")
+
+  const container = page.locator("header > .container")
+  const box = await container.boundingBox()
+
+  expect(box).not.toBeNull()
+  expect(box!.width).toBeGreaterThan(1150)
+  expect(Math.abs(box!.x - (1257 - box!.width) / 2)).toBeLessThan(2)
+})
+
 test("contact page uses official office request links", async ({ page }) => {
   await page.goto("/contact")
   await expect(page.getByRole("link", { name: "Request at Westlake Village" })).toHaveAttribute(
