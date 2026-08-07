@@ -102,6 +102,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     const navigationBox = navigation.getBoundingClientRect()
     const actionsBox = actions.getBoundingClientRect()
     return {
+      shellTouchesViewport: Math.abs(shellBox.top) <= 1,
       navigationInsideShell: shell.contains(navigation),
       navigationBelowTopRow:
         navigationBox.top >= Math.max(brandBox.bottom, actionsBox.bottom) - 1,
@@ -109,6 +110,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     }
   })
   expect(mobileHeaderLayout).toEqual({
+    shellTouchesViewport: true,
     navigationInsideShell: true,
     navigationBelowTopRow: true,
     shellContainsNavigation: true,
@@ -141,15 +143,17 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   await page.setViewportSize({ width: 1024, height: 800 })
   await page.goto("/about")
   const desktopHeaderLayout = await page.evaluate(() => {
+    const shell = document.querySelector("[data-header-shell]")?.getBoundingClientRect()
     const brand = document.querySelector("[data-header-brand]")?.getBoundingClientRect()
     const navigation = document
       .querySelector("[data-floating-navigation]")
       ?.getBoundingClientRect()
     const actions = document.querySelector("[data-header-actions]")?.getBoundingClientRect()
-    if (!brand || !navigation || !actions) return null
+    if (!shell || !brand || !navigation || !actions) return null
 
     const center = (box: DOMRect) => box.top + box.height / 2
     return {
+      shellTouchesViewport: Math.abs(shell.top) <= 1,
       brandBeforeNavigation: brand.right <= navigation.left,
       navigationBeforeActions: navigation.right <= actions.left,
       centersAligned:
@@ -159,6 +163,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     }
   })
   expect(desktopHeaderLayout).toEqual({
+    shellTouchesViewport: true,
     brandBeforeNavigation: true,
     navigationBeforeActions: true,
     centersAligned: true,

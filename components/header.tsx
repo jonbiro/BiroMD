@@ -26,7 +26,7 @@ const navIcons = {
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 px-3 pb-2 pt-3 md:px-6">
+    <header className="sticky top-0 z-50 px-3 pb-2 md:px-6">
       <div className="container px-0">
         <div
           data-header-shell
