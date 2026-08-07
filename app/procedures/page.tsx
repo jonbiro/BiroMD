@@ -1,8 +1,21 @@
-import { ArrowRight, Stethoscope } from "lucide-react"
+import {
+  ArrowRight,
+  ChevronDown,
+  ShieldCheck,
+  Sparkles,
+  Stethoscope,
+  Syringe,
+} from "lucide-react"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
 import { pageMetadata } from "@/lib/site"
 import { procedureCategories } from "@/lib/services"
+
+const categoryIcons = {
+  "cosmetic-eyelid-surgery": Sparkles,
+  "reconstructive-oculoplastics": ShieldCheck,
+  "non-surgical-treatments": Syringe,
+} as const
 
 export const metadata = pageMetadata({
   title: "Procedures",
@@ -19,6 +32,37 @@ export default function ProceduresPage() {
         title="Understand the Evaluation Before Choosing Treatment"
         description="Explore individual procedures and conditions, what consultation examines, and which questions to bring to an appointment."
       />
+
+      <section className="container px-4 md:px-6">
+        <nav
+          aria-label="Jump to a procedure category"
+          className="panel grid gap-2 rounded-2xl p-2 sm:grid-cols-3"
+        >
+          {procedureCategories.map((category) => {
+            const CategoryIcon = categoryIcons[category.id]
+            return (
+              <a
+                key={category.id}
+                href={`#${category.id}`}
+                className="group flex min-h-14 items-center gap-3 rounded-xl border border-transparent bg-accent/55 px-4 py-2.5 transition-colors hover:border-secondary/60 hover:bg-card"
+              >
+                <span className="inline-flex rounded-lg border border-secondary/30 bg-card p-2 text-secondary">
+                  <CategoryIcon className="h-4 w-4" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-semibold leading-tight text-foreground">
+                    {category.title}
+                  </span>
+                  <span className="mt-0.5 block text-xs text-muted-foreground">
+                    {category.items.length} {category.items.length === 1 ? "topic" : "topics"}
+                  </span>
+                </span>
+                <ChevronDown className="h-4 w-4 shrink-0 text-secondary transition-transform group-hover:translate-y-0.5" />
+              </a>
+            )
+          })}
+        </nav>
+      </section>
 
       <section className="container space-y-8 px-4 md:px-6">
         {procedureCategories.map((category) => (

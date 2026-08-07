@@ -24,12 +24,19 @@ export default function ContactPage() {
     <div className="page-stack">
       <PageIntro
         eyebrow="Appointments"
-        title="Choose an Office to Request a Consultation"
-        description="Use the official scheduling page for your preferred office, or call the office directly. A request is not confirmed until the office contacts you."
+        title="Request a Consultation"
+        description="Choose the most convenient office. Request online through its official scheduling service, or call directly. The office will contact you to confirm."
         actions={
-          <Button variant="outline" asChild>
-            <a href="/procedures">Review Procedures</a>
-          </Button>
+          <>
+            {siteConfig.offices.map((office) => (
+              <Button key={office.id} variant="outline" asChild>
+                <a href={`#schedule-${office.id}`}>
+                  <MapPin className="mr-2 h-4 w-4" />
+                  {office.name}
+                </a>
+              </Button>
+            ))}
+          </>
         }
       />
 
@@ -37,7 +44,11 @@ export default function ContactPage() {
         <h2 id="office-options" className="sr-only">Office scheduling options</h2>
         <div className="grid gap-6 lg:grid-cols-2">
           {siteConfig.offices.map((office) => (
-            <article key={office.id} className="panel overflow-hidden rounded-[1.8rem]">
+            <article
+              id={`schedule-${office.id}`}
+              key={office.id}
+              className="panel scroll-mt-44 overflow-hidden rounded-[1.8rem] sm:scroll-mt-36 lg:scroll-mt-28"
+            >
               <div className="border-b border-border bg-accent/55 p-6 md:p-7">
                 <div className="flex items-start justify-between gap-4">
                   <div>

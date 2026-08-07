@@ -2,10 +2,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 
-@theme {
+@theme inline {
   --font-sans: var(--font-outfit);
   --font-serif: var(--font-cormorant);
+}
 
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
@@ -73,7 +75,7 @@ body {
   min-height: 100vh;
   background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 42%, var(--background)) 0, var(--background) 360px);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-outfit), ui-sans-serif, sans-serif;
   line-height: 1.65;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
@@ -93,7 +95,7 @@ h4,
 h5,
 h6 {
   color: var(--primary);
-  font-family: var(--font-serif);
+  font-family: var(--font-cormorant), Georgia, serif;
   letter-spacing: -0.02em;
   text-wrap: balance;
 }

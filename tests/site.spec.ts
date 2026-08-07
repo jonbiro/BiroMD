@@ -119,6 +119,9 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   await page.setViewportSize({ width: 320, height: 700 })
   await page.goto("/")
   const narrowNavigation = page.getByRole("navigation", { name: "Primary" })
+  await expect(
+    page.locator("[data-header-actions]").getByText("Book", { exact: true })
+  ).toBeVisible()
   const labelsFit = await narrowNavigation.getByRole("link").evaluateAll((links) =>
     links.every((link) => link.scrollWidth <= link.clientWidth)
   )
@@ -203,6 +206,12 @@ test("site containers stay fluid and centered between breakpoints", async ({ pag
 
 test("contact page uses official office request links", async ({ page }) => {
   await page.goto("/contact")
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Request a Consultation")
+  for (const office of ["Westlake Village", "Rancho Cucamonga"]) {
+    await expect(
+      page.locator("main").getByRole("link", { name: office, exact: true }).first()
+    ).toHaveAttribute("href", /^#schedule-/)
+  }
   await expect(page.getByRole("link", { name: "Request at Westlake Village" })).toHaveAttribute(
     "href",
     /solutionreach\.com/
@@ -211,7 +220,7 @@ test("contact page uses official office request links", async ({ page }) => {
     "href",
     "https://www.pacificeyemd.com/request-an-appointment/"
   )
-  await expect(page.getByText("A request is not confirmed until the office contacts you.")).toBeVisible()
+  await expect(page.getByText(/The office will contact you to confirm/)).toBeVisible()
   await expect(page.getByRole("link", { name: "Email Scheduling" })).toHaveAttribute(
     "href",
     /^mailto:info@biromd\.com/
@@ -237,6 +246,7 @@ test("gallery labels remain visible without hover", async ({ page }) => {
 
   await expect(cases.first().getByText("Before", { exact: true })).toBeVisible()
   await expect(cases.first().getByText("After", { exact: true })).toBeVisible()
+  await expect(cases.first().locator("[data-gallery-open]")).toHaveCount(1)
 
   const title = await cases.first().getByRole("heading", { level: 2 }).first().innerText()
   await cases.first().getByRole("button", { name: /View larger image/ }).click()
@@ -270,6 +280,17 @@ test("homepage heading has correct readable text and lazy clinical images load",
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Specialized Oculoplastic Care for the Eyes and Face"
   )
+  await page.evaluate(() => document.fonts.ready)
+  const typography = await page.evaluate(() => ({
+    body: getComputedStyle(document.body).fontFamily,
+    heading: getComputedStyle(document.querySelector("h1")!).fontFamily,
+    outfitLoaded: document.fonts.check('16px "Outfit"'),
+    cormorantLoaded: document.fonts.check('16px "Cormorant Garamond"'),
+  }))
+  expect(typography.body).toContain("Outfit")
+  expect(typography.heading).toContain("Cormorant Garamond")
+  expect(typography.outfitLoaded).toBe(true)
+  expect(typography.cormorantLoaded).toBe(true)
 
   const clinicalHeading = page.getByRole("heading", {
     name: "Selected Before-and-After Results",
@@ -285,6 +306,15 @@ test("homepage heading has correct readable text and lazy clinical images load",
 })
 
 test("detail pages expose breadcrumbs, structured wayfinding, and usable FAQs", async ({ page }) => {
+  await page.goto("/procedures")
+  const categoryNavigation = page.getByRole("navigation", {
+    name: "Jump to a procedure category",
+  })
+  await expect(categoryNavigation.getByRole("link")).toHaveCount(3)
+  await expect(
+    categoryNavigation.getByRole("link", { name: /Reconstructive Oculoplastics/ })
+  ).toHaveAttribute("href", "#reconstructive-oculoplastics")
+
   await page.goto("/procedures/ptosis-repair")
   const breadcrumb = page.getByRole("navigation", { name: "Breadcrumb" })
   await expect(breadcrumb.getByRole("link", { name: "Home" })).toBeVisible()

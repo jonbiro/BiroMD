@@ -32,12 +32,12 @@ export function Hero() {
             </a>
 
             <div className="space-y-5">
-              <h1 className="text-4xl font-semibold leading-[1.02] text-primary min-[360px]:text-5xl sm:text-6xl md:text-7xl">
+              <h1 className="text-[2.5rem] font-semibold leading-[0.98] text-primary min-[360px]:text-[2.7rem] min-[480px]:text-5xl sm:text-6xl md:text-7xl">
                 Specialized Oculoplastic Care
                 {" "}
                 <span className="headline-gradient block">for the Eyes and Face</span>
               </h1>
-              <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">
+              <p className="max-w-2xl text-base leading-relaxed text-muted-foreground min-[480px]:text-lg md:text-xl">
                 Dr. Nicolas Biro provides cosmetic and reconstructive care built
                 on ophthalmic training, careful surgical planning, and respect
                 for each patient&apos;s natural anatomy.

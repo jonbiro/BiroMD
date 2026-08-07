@@ -1,5 +1,4 @@
 import {
-  ChevronRight,
   FileText,
   Images,
   Maximize2,
@@ -41,8 +40,8 @@ function ComparisonLabels({ item }: { item: GalleryCase }) {
 
 export function GalleryView({ cases }: GalleryViewProps) {
   return (
-    <div className="space-y-9" data-gallery>
-      <div className="rounded-2xl border border-secondary/30 bg-secondary/8 p-5 text-sm">
+    <div className="space-y-8 md:space-y-9" data-gallery>
+      <div className="rounded-2xl border border-secondary/30 bg-secondary/8 p-4 text-sm md:p-5">
         <p className="font-semibold text-foreground">Clinical image disclosure</p>
         <p className="mt-1 text-muted-foreground">
           Individual anatomy, treatment plans, healing, and results vary. Cases
@@ -51,7 +50,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
       </div>
 
       {cases.length > 0 ? (
-        <div className="flex flex-wrap items-center justify-center gap-2 border-b border-border pb-6" aria-label="Filter clinical cases">
+        <div className="grid grid-cols-3 gap-2 border-b border-border pb-6" aria-label="Filter clinical cases">
           {filters.map((item, index) => {
             const FilterIcon = item.icon
             return (
@@ -60,9 +59,9 @@ export function GalleryView({ cases }: GalleryViewProps) {
                 type="button"
                 data-gallery-filter={item.id}
                 aria-pressed={index === 0}
-                className="flex min-h-11 items-center gap-1.5 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-secondary hover:bg-accent aria-[pressed=true]:border-primary aria-[pressed=true]:bg-primary aria-[pressed=true]:text-primary-foreground aria-[pressed=true]:shadow-[0_8px_16px_rgb(9_36_59_/0.18)]"
+                className="flex min-h-11 min-w-0 items-center justify-center gap-1.5 rounded-full border border-border bg-card px-1.5 py-2.5 text-[0.7rem] font-semibold text-foreground transition-colors hover:border-secondary hover:bg-accent aria-[pressed=true]:border-primary aria-[pressed=true]:bg-primary aria-[pressed=true]:text-primary-foreground aria-[pressed=true]:shadow-[0_8px_16px_rgb(9_36_59_/0.18)] min-[360px]:text-xs sm:px-5 sm:text-sm"
               >
-                <FilterIcon className="h-3.5 w-3.5" />
+                <FilterIcon className="hidden h-3.5 w-3.5 sm:block" />
                 {item.label}
               </button>
             )
@@ -112,7 +111,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
                   </button>
                 </div>
 
-                <div className="space-y-6 p-6 md:p-8">
+                <div className="space-y-5 p-5 md:space-y-6 md:p-8">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">
                       {item.categoryLabel} / {item.focus}
@@ -121,15 +120,15 @@ export function GalleryView({ cases }: GalleryViewProps) {
                     <p className="mt-2 text-xs font-medium text-muted-foreground">{item.comparisonLabel}</p>
                   </div>
 
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-xl border border-border bg-accent/45 p-4">
+                  <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
+                    <div className="rounded-xl border border-border bg-accent/45 p-3.5 sm:p-4">
                       <h3 className="flex items-center gap-1.5 font-sans text-xs font-bold uppercase tracking-[0.12em] text-foreground">
                         <FileText className="h-3.5 w-3.5 text-secondary" />
                         Presentation
                       </h3>
                       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.presentation}</p>
                     </div>
-                    <div className="rounded-xl border border-border bg-accent/45 p-4">
+                    <div className="rounded-xl border border-border bg-accent/45 p-3.5 sm:p-4">
                       <h3 className="flex items-center gap-1.5 font-sans text-xs font-bold uppercase tracking-[0.12em] text-foreground">
                         <ShieldCheck className="h-3.5 w-3.5 text-secondary" />
                         Approach
@@ -138,17 +137,6 @@ export function GalleryView({ cases }: GalleryViewProps) {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
-                    <span>Nicolas Biro, M.D.</span>
-                    <button
-                      type="button"
-                      data-gallery-open={dialogId}
-                      className="inline-flex min-h-11 items-center font-semibold text-secondary hover:underline"
-                    >
-                      View image
-                      <ChevronRight className="ml-0.5 h-3.5 w-3.5" />
-                    </button>
-                  </div>
                 </div>
 
                 <dialog

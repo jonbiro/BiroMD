@@ -76,11 +76,12 @@ export default function Header() {
           >
             <ModeToggle />
             <Button
-              className="w-11 px-0 sm:w-auto sm:px-5 lg:px-3 xl:px-5"
+              className="px-2.5 min-[360px]:px-3 sm:px-5 lg:px-3 xl:px-5"
               asChild
             >
               <a href="/contact" aria-label="Request Consultation">
-                <CalendarDays className="h-4 w-4 sm:mr-2" />
+                <CalendarDays className="mr-1.5 h-4 w-4 sm:mr-2" />
+                <span className="sm:hidden">Book</span>
                 <span className="hidden sm:inline lg:hidden xl:inline">
                   Request Consultation
                 </span>
