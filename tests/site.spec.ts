@@ -90,6 +90,30 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   await expect(page.getByRole("button", { name: "Open menu" })).toHaveCount(0)
   await expectNoHorizontalOverflow(page)
 
+  const mobileHeaderLayout = await page.evaluate(() => {
+    const shell = document.querySelector("[data-header-shell]")
+    const brand = document.querySelector("[data-header-brand]")
+    const navigation = document.querySelector("[data-floating-navigation]")
+    const actions = document.querySelector("[data-header-actions]")
+    if (!shell || !brand || !navigation || !actions) return null
+
+    const shellBox = shell.getBoundingClientRect()
+    const brandBox = brand.getBoundingClientRect()
+    const navigationBox = navigation.getBoundingClientRect()
+    const actionsBox = actions.getBoundingClientRect()
+    return {
+      navigationInsideShell: shell.contains(navigation),
+      navigationBelowTopRow:
+        navigationBox.top >= Math.max(brandBox.bottom, actionsBox.bottom) - 1,
+      shellContainsNavigation: navigationBox.bottom <= shellBox.bottom + 1,
+    }
+  })
+  expect(mobileHeaderLayout).toEqual({
+    navigationInsideShell: true,
+    navigationBelowTopRow: true,
+    shellContainsNavigation: true,
+  })
+
   await page.setViewportSize({ width: 320, height: 700 })
   await page.goto("/")
   const narrowNavigation = page.getByRole("navigation", { name: "Primary" })
@@ -112,6 +136,34 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     (heading) => heading.scrollWidth <= heading.clientWidth
   )
   expect(headingFits).toBe(true)
+  await expectNoHorizontalOverflow(page)
+
+  await page.setViewportSize({ width: 1024, height: 800 })
+  await page.goto("/about")
+  const desktopHeaderLayout = await page.evaluate(() => {
+    const brand = document.querySelector("[data-header-brand]")?.getBoundingClientRect()
+    const navigation = document
+      .querySelector("[data-floating-navigation]")
+      ?.getBoundingClientRect()
+    const actions = document.querySelector("[data-header-actions]")?.getBoundingClientRect()
+    if (!brand || !navigation || !actions) return null
+
+    const center = (box: DOMRect) => box.top + box.height / 2
+    return {
+      brandBeforeNavigation: brand.right <= navigation.left,
+      navigationBeforeActions: navigation.right <= actions.left,
+      centersAligned:
+        Math.max(center(brand), center(navigation), center(actions)) -
+          Math.min(center(brand), center(navigation), center(actions)) <=
+        1,
+    }
+  })
+  expect(desktopHeaderLayout).toEqual({
+    brandBeforeNavigation: true,
+    navigationBeforeActions: true,
+    centersAligned: true,
+  })
+  await expect(page.getByText("Consult", { exact: true })).toBeVisible()
   await expectNoHorizontalOverflow(page)
 
   await page.goto("/procedures/ptosis-repair")
