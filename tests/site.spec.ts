@@ -119,9 +119,11 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   await page.setViewportSize({ width: 320, height: 700 })
   await page.goto("/")
   const narrowNavigation = page.getByRole("navigation", { name: "Primary" })
-  await expect(
-    page.locator("[data-header-actions]").getByText("Book", { exact: true })
-  ).toBeVisible()
+  const mobileBookingLink = page
+    .locator("[data-header-actions]")
+    .getByRole("link", { name: "Book", exact: true })
+  await expect(mobileBookingLink).toBeVisible()
+  await expect(mobileBookingLink).not.toHaveAttribute("aria-label")
   const labelsFit = await narrowNavigation.getByRole("link").evaluateAll((links) =>
     links.every((link) => link.scrollWidth <= link.clientWidth)
   )
@@ -303,6 +305,56 @@ test("homepage heading has correct readable text and lazy clinical images load",
       .poll(() => clinicalImage.evaluate((image) => (image as HTMLImageElement).naturalWidth))
       .toBeGreaterThan(0)
   }
+})
+
+test("patient concerns lead directly to relevant procedure guidance", async ({ page }) => {
+  await page.goto("/")
+  const finder = page.locator("[data-concern-finder]")
+
+  await expect(
+    finder.getByRole("heading", { name: "What would you like help with?" })
+  ).toBeVisible()
+  await expect(finder.locator('a[href^="/procedures/"]')).toHaveCount(6)
+  await expect(finder.getByRole("link", { name: /A drooping upper eyelid/ })).toHaveAttribute(
+    "href",
+    "/procedures/ptosis-repair"
+  )
+  await expect(finder.getByRole("link", { name: /Persistent tearing/ })).toHaveAttribute(
+    "href",
+    "/procedures/tearing-blocked-tear-ducts"
+  )
+})
+
+test("high-intent pages provide verifiable and direct next steps", async ({ page }) => {
+  await page.goto("/procedures/ptosis-repair")
+  const nextStep = page.getByRole("heading", { name: "Discuss Your Concern with Dr. Biro" })
+    .locator("xpath=ancestor::section")
+
+  await expect(nextStep.getByRole("link", { name: "Request appointment" })).toHaveCount(2)
+  await expect(nextStep.getByRole("link", { name: "(805) 987-5300" })).toHaveAttribute(
+    "href",
+    "tel:+18059875300"
+  )
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    /serves Los Angeles patients/
+  )
+
+  await page.goto("/about")
+  const affiliations = page.getByRole("heading", { name: "Practice Locations and Information" })
+    .locator("xpath=ancestor::section")
+  await expect(affiliations.getByRole("link", { name: /DLV Vision/ })).toHaveAttribute(
+    "href",
+    /doughertylaservision\.com/
+  )
+  await expect(affiliations.getByRole("link", { name: /Pacific Eye Institute/ })).toHaveAttribute(
+    "href",
+    /inlandeye\.com/
+  )
+
+  await page.goto("/")
+  const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
+  expect(schemas.some((schema) => schema.includes('"@type":"WebSite"'))).toBe(true)
 })
 
 test("detail pages expose breadcrumbs, structured wayfinding, and usable FAQs", async ({ page }) => {

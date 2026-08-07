@@ -8,7 +8,7 @@ const portraitDir = path.join(root, "public", "images", "portrait")
 
 await mkdir(portraitDir, { recursive: true })
 
-for (const width of [320, 480, 640, 960]) {
+for (const width of [320, 480, 560, 640, 960]) {
   const pipeline = sharp(source).rotate().resize({
     width,
     height: Math.round(width * 1.25),

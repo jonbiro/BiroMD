@@ -1,4 +1,13 @@
-import { ArrowRight, CheckCircle2, Languages, MapPin, Ribbon, ShieldPlus } from "lucide-react"
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Building2,
+  CheckCircle2,
+  Languages,
+  MapPin,
+  Ribbon,
+  ShieldPlus,
+} from "lucide-react"
 import { ResponsivePortrait } from "@/components/responsive-portrait"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
@@ -7,7 +16,7 @@ import { pageMetadata, siteConfig } from "@/lib/site"
 export const metadata = pageMetadata({
   title: "About Dr. Biro",
   description:
-    "Learn about Dr. Nicolas Biro's training, philosophy, and subspecialty focus in oculoplastic surgery.",
+    "Learn about Dr. Nicolas Biro's board-certified ophthalmology training, Wills Eye fellowship, and oculoplastic focus serving Los Angeles patients.",
   path: "/about",
 })
 
@@ -77,6 +86,48 @@ export default function AboutPage() {
             <div className="relative aspect-[4/5]">
               <ResponsivePortrait sizes="(max-width: 1024px) 92vw, 560px" />
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="container px-4 md:px-6" aria-labelledby="practice-affiliations">
+        <div className="panel grid gap-7 rounded-[1.8rem] p-6 md:p-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
+              Practice information
+            </p>
+            <h2
+              id="practice-affiliations"
+              className="mt-2 text-4xl font-semibold text-primary"
+            >
+              Practice Locations and Information
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Dr. Biro sees patients at two ophthalmology practices. Use the
+              official practice pages to verify current location and appointment information.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            {siteConfig.offices.map((office) => (
+              <a
+                key={office.id}
+                href={office.practiceUrl}
+                className="group flex min-h-28 items-center gap-4 rounded-2xl border border-border bg-accent/45 p-4 transition-colors hover:border-secondary hover:bg-card"
+              >
+                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-secondary/30 bg-card text-secondary">
+                  <Building2 className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-semibold text-foreground">{office.practiceName}</span>
+                  <span className="mt-1 block text-sm text-muted-foreground">{office.name}</span>
+                  <span className="mt-2 inline-flex items-center text-xs font-semibold text-secondary">
+                    Official practice page
+                    <ArrowUpRight className="ml-1 h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </span>
+                </span>
+              </a>
+            ))}
           </div>
         </div>
       </section>

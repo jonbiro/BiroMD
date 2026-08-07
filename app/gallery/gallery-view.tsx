@@ -50,7 +50,11 @@ export function GalleryView({ cases }: GalleryViewProps) {
       </div>
 
       {cases.length > 0 ? (
-        <div className="grid grid-cols-3 gap-2 border-b border-border pb-6" aria-label="Filter clinical cases">
+        <div
+          className="grid grid-cols-3 gap-2 border-b border-border pb-6"
+          role="group"
+          aria-label="Filter clinical cases"
+        >
           {filters.map((item, index) => {
             const FilterIcon = item.icon
             return (

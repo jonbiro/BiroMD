@@ -11,6 +11,7 @@ import {
   Info,
 } from "lucide-react"
 import { PageIntro } from "@/components/page-intro"
+import { ConsultationCta } from "@/components/consultation-cta"
 import { Button } from "@/components/ui/button"
 import { absoluteUrl, pageMetadata, siteConfig } from "@/lib/site"
 import { getProcedure, procedures } from "@/lib/procedures"
@@ -32,7 +33,7 @@ export async function generateMetadata({
 
   return pageMetadata({
     title: procedure.title,
-    description: `${procedure.summary} Learn what is evaluated during consultation with ${siteConfig.shortName}.`,
+    description: `${procedure.summary} ${siteConfig.shortName} serves Los Angeles patients.`,
     path: `/procedures/${procedure.slug}`,
   })
 }
@@ -248,6 +249,8 @@ export default async function ProcedurePage({
           </div>
         </section>
       ) : null}
+
+      <ConsultationCta />
     </div>
   )
 }

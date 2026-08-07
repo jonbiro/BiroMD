@@ -79,7 +79,7 @@ export default function Header() {
               className="px-2.5 min-[360px]:px-3 sm:px-5 lg:px-3 xl:px-5"
               asChild
             >
-              <a href="/contact" aria-label="Request Consultation">
+              <a href="/contact">
                 <CalendarDays className="mr-1.5 h-4 w-4 sm:mr-2" />
                 <span className="sm:hidden">Book</span>
                 <span className="hidden sm:inline lg:hidden xl:inline">

@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils"
 
 const portraitPath = "/images/portrait/dr-biro-portrait"
+const portraitWidths = [320, 480, 560, 640, 960]
 
 export function ResponsivePortrait({
   className,
@@ -15,14 +16,14 @@ export function ResponsivePortrait({
     <picture>
       <source
         type="image/avif"
-        srcSet={[320, 480, 640, 960]
+        srcSet={portraitWidths
           .map((width) => `${portraitPath}-${width}.avif ${width}w`)
           .join(", ")}
         sizes={sizes}
       />
       <source
         type="image/webp"
-        srcSet={[320, 480, 640, 960]
+        srcSet={portraitWidths
           .map((width) => `${portraitPath}-${width}.webp ${width}w`)
           .join(", ")}
         sizes={sizes}

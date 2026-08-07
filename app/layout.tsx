@@ -33,6 +33,7 @@ export const viewport: Viewport = {
 const socialImage = absoluteUrl("/images/biromd-social-card.png")
 const portraitImage = absoluteUrl("/images/portrait/dr-biro-portrait-960.webp")
 const physicianId = absoluteUrl("/#physician")
+const websiteId = absoluteUrl("/#website")
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -86,6 +87,15 @@ export const metadata: Metadata = {
 const organizationSchema = {
   "@context": "https://schema.org",
   "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": websiteId,
+      name: siteConfig.name,
+      alternateName: "Biro MD",
+      url: absoluteUrl("/"),
+      inLanguage: "en-US",
+      publisher: { "@id": physicianId },
+    },
     {
       "@type": "Physician",
       "@id": physicianId,
