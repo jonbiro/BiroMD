@@ -19,6 +19,7 @@ const publicRoutes = [
   "/about",
   "/services",
   "/procedures",
+  "/patient-guide",
   ...procedureSlugs.map((slug) => `/procedures/${slug}`),
   "/gallery",
   "/contact",
@@ -84,7 +85,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
 
   const navigation = page.getByRole("navigation", { name: "Primary" })
   await expect(navigation).toBeVisible()
-  for (const name of ["About", "Services", "Procedures", "Photos", "Offices", "Contact"]) {
+  for (const name of ["About", "Procedures", "Your Visit", "Photos", "Offices", "Contact"]) {
     await expect(navigation.getByRole("link", { name, exact: true })).toBeVisible()
   }
   await expect(page.getByRole("button", { name: "Open menu" })).toHaveCount(0)
@@ -143,6 +144,11 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     (heading) => heading.scrollWidth <= heading.clientWidth
   )
   expect(headingFits).toBe(true)
+  const physicianNameFits = await page
+    .locator("[data-header-brand] > span")
+    .first()
+    .evaluate((name) => name.scrollWidth <= name.clientWidth)
+  expect(physicianNameFits).toBe(true)
   await expectNoHorizontalOverflow(page)
 
   await page.setViewportSize({ width: 1024, height: 800 })
@@ -192,6 +198,11 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   await expect(
     page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Offices" })
   ).toHaveAttribute("aria-current", "page")
+
+  await page.goto("/patient-guide")
+  await expect(
+    page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Your Visit" })
+  ).toHaveAttribute("aria-current", "page")
 })
 
 test("site containers stay fluid and centered between breakpoints", async ({ page }) => {
@@ -228,6 +239,21 @@ test("contact page uses official office request links", async ({ page }) => {
     /^mailto:info@biromd\.com/
   )
   await expect(page.locator("form")).toHaveCount(0)
+})
+
+test("new patient guide resolves common scheduling friction", async ({ page }) => {
+  await page.goto("/patient-guide")
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Plan Your Consultation")
+  await expect(page.getByText(/online request is not a confirmed appointment/i)).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Insurance and cost" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Records and images" })).toBeVisible()
+  await expect(page.getByText(/Do not send medical details/)).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: "Choose an Office to Request a Consultation" })
+  ).toBeVisible()
+  await expect(page.getByRole("link", { name: "Request appointment" })).toHaveCount(2)
+  await expectNoHorizontalOverflow(page)
 })
 
 test("dark contact emergency notice uses its dark surface", async ({ page }) => {
@@ -383,10 +409,22 @@ test("detail pages expose breadcrumbs, structured wayfinding, and usable FAQs", 
   const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
   expect(schemas.some((schema) => schema.includes('"BreadcrumbList"'))).toBe(true)
   expect(schemas.some((schema) => schema.includes('"FAQPage"'))).toBe(true)
+  expect(schemas.some((schema) => schema.includes('"citation"'))).toBe(true)
+  await expect(page.getByRole("heading", { name: "Clinical references" })).toBeVisible()
+  await expect(page.getByRole("link", { name: /American Academy of Ophthalmology/ })).toBeVisible()
 
   await page.goto("/locations/rancho-cucamonga")
   await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText(
     "HomeOfficesRancho Cucamonga"
+  )
+  await expect(
+    page.getByRole("heading", { name: "Common Reasons to Seek Oculoplastic Evaluation" })
+  ).toBeVisible()
+  await expect(page.getByText(/contacting the Rancho Cucamonga office\./)).toBeVisible()
+  await expect(page.getByRole("link", { name: /Upper Blepharoplasty/ })).toBeVisible()
+  await expect(page.getByRole("link", { name: "Plan your consultation" })).toHaveAttribute(
+    "href",
+    "/patient-guide"
   )
 })
 
@@ -439,6 +477,16 @@ test("every public route has a sound document structure", async ({ page }) => {
     expect(audit.skippedHeading, route).toBe(false)
     expect(audit.duplicateIds, route).toEqual([])
     expect(audit.unnamedControls, route).toEqual([])
+    if (route.startsWith("/procedures/")) {
+      await expect(page.getByRole("heading", { name: "Clinical references" })).toBeVisible()
+      const medicalSchemas = await page
+        .locator('script[type="application/ld+json"]')
+        .allTextContents()
+      expect(
+        medicalSchemas.some((schema) => schema.includes('"citation"')),
+        `Missing clinical citations on ${route}`
+      ).toBe(true)
+    }
     await expectNoHorizontalOverflow(page)
   }
 })

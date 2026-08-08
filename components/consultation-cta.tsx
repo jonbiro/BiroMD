@@ -2,7 +2,14 @@ import { CalendarDays, MapPin, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { siteConfig } from "@/lib/site"
 
-export function ConsultationCta() {
+export function ConsultationCta({
+  title = "Discuss Your Concern with Dr. Biro",
+  description =
+    "Choose the more convenient office. Your request goes directly to that practice's scheduling service, and the office confirms the appointment.",
+}: {
+  title?: string
+  description?: string
+}) {
   return (
     <section className="container px-4 md:px-6" aria-labelledby="consultation-next-step">
       <div className="panel-strong overflow-hidden rounded-[1.8rem] p-6 md:p-8 lg:grid lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-10 lg:p-10">
@@ -14,11 +21,10 @@ export function ConsultationCta() {
             id="consultation-next-step"
             className="mt-2 text-4xl font-semibold text-primary"
           >
-            Discuss Your Concern with Dr. Biro
+            {title}
           </h2>
           <p className="mt-3 max-w-xl text-muted-foreground">
-            Choose the more convenient office. Your request goes directly to that
-            practice&apos;s scheduling service, and the office confirms the appointment.
+            {description}
           </p>
         </div>
 

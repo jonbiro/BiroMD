@@ -65,6 +65,7 @@ export default async function ProcedurePage({
         description: procedure.summary,
         url: procedureUrl,
         about: { "@type": "MedicalProcedure", name: procedure.title },
+        citation: procedure.sources.map((source) => source.url),
         breadcrumb: { "@id": breadcrumbId },
       },
       {
@@ -204,15 +205,24 @@ export default async function ProcedurePage({
               </details>
             ))}
           </div>
-          {procedure.source ? (
-            <a
-              href={procedure.source.url}
-              className="mt-5 inline-flex items-center text-sm font-semibold text-secondary hover:underline"
-            >
-              {procedure.source.label}
-              <ArrowUpRight className="ml-2 h-4 w-4" />
-            </a>
-          ) : null}
+          <div className="mt-6 border-t border-border pt-5">
+            <h3 className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-foreground">
+              Clinical references
+            </h3>
+            <ul className="mt-2 space-y-1">
+              {procedure.sources.map((source) => (
+                <li key={source.url}>
+                  <a
+                    href={source.url}
+                    className="inline-flex min-h-11 items-center text-sm font-semibold text-secondary underline-offset-4 hover:underline"
+                  >
+                    {source.label}
+                    <ArrowUpRight className="ml-2 h-4 w-4 shrink-0" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 

@@ -15,7 +15,7 @@ export type Procedure = {
   evaluation: string[]
   nextSteps: string
   questions: Array<{ question: string; answer: string }>
-  source?: { label: string; url: string }
+  sources: Array<{ label: string; url: string }>
 }
 
 export const procedures: Procedure[] = [
@@ -60,10 +60,12 @@ export const procedures: Procedure[] = [
           "A photo can provide limited context, but candidacy and a safe plan require an appropriate history and examination.",
       },
     ],
-    source: {
-      label: "American Academy of Ophthalmology: Eyelid Surgery",
-      url: "https://store.aao.org/media/resources/051185/051185-eyelid-surgery-rf1.pdf",
-    },
+    sources: [
+      {
+        label: "American Academy of Ophthalmology: Eyelid Surgery",
+        url: "https://store.aao.org/media/resources/051185/051185-eyelid-surgery-rf1.pdf",
+      },
+    ],
   },
   {
     slug: "lower-blepharoplasty",
@@ -106,10 +108,12 @@ export const procedures: Procedure[] = [
           "No. Anatomy, healing, prior surgery, and the selected technique all influence the result.",
       },
     ],
-    source: {
-      label: "American Academy of Ophthalmology: Eyelid Surgery",
-      url: "https://store.aao.org/media/resources/051185/051185-eyelid-surgery-rf1.pdf",
-    },
+    sources: [
+      {
+        label: "American Academy of Ophthalmology: Eyelid Surgery",
+        url: "https://store.aao.org/media/resources/051185/051185-eyelid-surgery-rf1.pdf",
+      },
+    ],
   },
   {
     slug: "brow-lift",
@@ -150,6 +154,12 @@ export const procedures: Procedure[] = [
         question: "Will the brow look surprised?",
         answer:
           "The goal and degree of change are discussed before treatment. No specific result can be guaranteed, and conservative planning is important.",
+      },
+    ],
+    sources: [
+      {
+        label: "American Academy of Ophthalmology EyeWiki: Brow Ptosis and Repair",
+        url: "https://eyewiki.aao.org/Brow_Ptosis_and_Repair",
       },
     ],
   },
@@ -194,10 +204,12 @@ export const procedures: Procedure[] = [
           "The eyelids are neurologically linked, and their relative heights can change. This possibility is part of surgical planning and consent.",
       },
     ],
-    source: {
-      label: "American Academy of Ophthalmology: Ptosis",
-      url: "https://store.aao.org/media/resources/051207/051207-ptosis-rf1.pdf",
-    },
+    sources: [
+      {
+        label: "American Academy of Ophthalmology: Ptosis",
+        url: "https://store.aao.org/media/resources/051207/051207-ptosis-rf1.pdf",
+      },
+    ],
   },
   {
     slug: "entropion-ectropion-repair",
@@ -240,10 +252,12 @@ export const procedures: Procedure[] = [
           "An inward- or outward-turning lid can damage or expose the cornea, so eye protection is a central part of the evaluation.",
       },
     ],
-    source: {
-      label: "American Academy of Ophthalmology: Entropion",
-      url: "https://eyewiki.aao.org/Entropion",
-    },
+    sources: [
+      {
+        label: "American Academy of Ophthalmology EyeWiki: Entropion",
+        url: "https://eyewiki.aao.org/Entropion",
+      },
+    ],
   },
   {
     slug: "eyelid-cancer-mohs-reconstruction",
@@ -284,6 +298,12 @@ export const procedures: Procedure[] = [
         question: "Will scars disappear completely?",
         answer:
           "All surgery creates scars. Their appearance varies with anatomy, the defect, technique, and individual healing.",
+      },
+    ],
+    sources: [
+      {
+        label: "American Academy of Ophthalmology EyeWiki: Eyelid Reconstruction",
+        url: "https://eyewiki.aao.org/Eyelid_Reconstruction",
       },
     ],
   },
@@ -328,6 +348,12 @@ export const procedures: Procedure[] = [
           "No. Treatment depends on the cause and may be medical, eyelid-directed, drainage-directed, or observational.",
       },
     ],
+    sources: [
+      {
+        label: "American Academy of Ophthalmology EyeWiki: Acquired Tear-Duct Obstruction",
+        url: "https://eyewiki.aao.org/Secondary_Acquired_Nasolacrimal_Duct_Obstruction",
+      },
+    ],
   },
   {
     slug: "thyroid-eye-disease",
@@ -370,10 +396,12 @@ export const procedures: Procedure[] = [
           "Not always. Timing depends on activity, severity, vision risk, symptoms, and response to appropriate medical care.",
       },
     ],
-    source: {
-      label: "American Academy of Ophthalmology: Thyroid Eye Disease",
-      url: "https://eyewiki.aao.org/Thyroid_Eye_Disease",
-    },
+    sources: [
+      {
+        label: "American Academy of Ophthalmology EyeWiki: Thyroid Eye Disease",
+        url: "https://eyewiki.aao.org/Thyroid_Eye_Disease",
+      },
+    ],
   },
   {
     slug: "orbital-tumors-trauma",
@@ -414,6 +442,16 @@ export const procedures: Procedure[] = [
         question: "When is orbital trauma an emergency?",
         answer:
           "Vision loss, severe pain, marked swelling, pupil change, open injury, or other rapidly worsening symptoms require emergency assessment.",
+      },
+    ],
+    sources: [
+      {
+        label: "American Academy of Ophthalmology EyeWiki: Orbital Masses",
+        url: "https://eyewiki.aao.org/Orbital_Masses",
+      },
+      {
+        label: "American Academy of Ophthalmology EyeWiki: Orbital Wall Fractures",
+        url: "https://eyewiki.org/Orbital_Medial_Wall_Fractures",
       },
     ],
   },
@@ -458,6 +496,12 @@ export const procedures: Procedure[] = [
           "Facial movement and muscle pattern need to be assessed directly for individualized treatment planning.",
       },
     ],
+    sources: [
+      {
+        label: "U.S. FDA: Botox Cosmetic Prescribing Information",
+        url: "https://www.accessdata.fda.gov/drugsatfda_docs/label/2024/103000s5316s5319s5323s5326s5331lbl.pdf",
+      },
+    ],
   },
   {
     slug: "dermal-fillers",
@@ -498,6 +542,12 @@ export const procedures: Procedure[] = [
         question: "Why is vision risk discussed?",
         answer:
           "Rare vascular complications from facial filler can affect vision. Patients should understand the risk and the office's emergency plan before treatment.",
+      },
+    ],
+    sources: [
+      {
+        label: "U.S. FDA: Dermal Fillers",
+        url: "https://www.fda.gov/medical-devices/aesthetic-cosmetic-devices/dermal-fillers-soft-tissue-fillers",
       },
     ],
   },

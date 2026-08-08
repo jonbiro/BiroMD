@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import {
   ArrowLeft,
+  ArrowRight,
   ArrowUpRight,
   CalendarDays,
   MapPin,
@@ -11,6 +12,18 @@ import {
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
 import { absoluteUrl, offices, pageMetadata, siteConfig } from "@/lib/site"
+import { procedures } from "@/lib/procedures"
+
+const featuredProcedureSlugs = new Set([
+  "upper-blepharoplasty",
+  "ptosis-repair",
+  "eyelid-cancer-mohs-reconstruction",
+  "tearing-blocked-tear-ducts",
+])
+
+const featuredProcedures = procedures.filter((procedure) =>
+  featuredProcedureSlugs.has(procedure.slug)
+)
 
 export const dynamicParams = false
 
@@ -55,6 +68,7 @@ export default async function LocationPage({
         name: `${siteConfig.shortName} - ${office.name}`,
         url: officeUrl,
         sameAs: office.practiceUrl,
+        hasMap: office.mapUrl,
         telephone: office.phoneHref,
         medicalSpecialty: "Ophthalmology",
         availableLanguage: siteConfig.languages,
@@ -181,14 +195,60 @@ export default async function LocationPage({
         </div>
       </section>
 
+      <section className="container px-4 md:px-6" aria-labelledby="office-care-pathways">
+        <div className="panel rounded-[1.8rem] p-6 md:p-8">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
+              Areas of care
+            </p>
+            <h2 id="office-care-pathways" className="mt-2 text-4xl font-semibold text-primary">
+              Common Reasons to Seek Oculoplastic Evaluation
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Review a few common starting points before contacting the {office.name}{" "}
+              office. Consultation determines the diagnosis and whether treatment is appropriate.
+            </p>
+          </div>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {featuredProcedures.map((procedure) => (
+              <a
+                key={procedure.slug}
+                href={`/procedures/${procedure.slug}`}
+                className="group flex min-h-40 flex-col rounded-2xl border border-border bg-background p-4 transition-[border-color,box-shadow,transform] hover:-translate-y-0.5 hover:border-secondary hover:shadow-md"
+              >
+                <h3 className="text-2xl font-semibold leading-tight text-primary">
+                  {procedure.title}
+                </h3>
+                <p className="mt-2 flex-1 text-sm text-muted-foreground">
+                  {procedure.summary}
+                </p>
+                <span className="mt-4 inline-flex items-center text-sm font-semibold text-secondary">
+                  What to know
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="container px-4 md:px-6">
-        <a
-          href="/locations"
-          className="inline-flex items-center text-sm font-semibold text-secondary hover:underline"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          All office locations
-        </a>
+        <div className="flex flex-wrap gap-x-6 gap-y-3">
+          <a
+            href="/locations"
+            className="inline-flex min-h-11 items-center text-sm font-semibold text-secondary hover:underline"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            All office locations
+          </a>
+          <a
+            href="/patient-guide"
+            className="inline-flex min-h-11 items-center text-sm font-semibold text-secondary hover:underline"
+          >
+            Plan your consultation
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </a>
+        </div>
       </section>
     </div>
   )

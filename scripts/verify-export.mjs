@@ -22,6 +22,7 @@ const routes = [
   "/about",
   "/services",
   "/procedures",
+  "/patient-guide",
   ...procedureSlugs.map((slug) => `/procedures/${slug}`),
   "/gallery",
   "/contact",

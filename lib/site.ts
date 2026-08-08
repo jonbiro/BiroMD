@@ -63,10 +63,20 @@ export const siteConfig = {
   serviceAreaLabel: "Los Angeles",
 } as const
 
+export const primaryNavItems = [
+  { href: "/about", label: "About" },
+  { href: "/procedures", label: "Procedures" },
+  { href: "/patient-guide", label: "Your Visit" },
+  { href: "/gallery", label: "Photos" },
+  { href: "/locations", label: "Offices" },
+  { href: "/contact", label: "Contact" },
+] as const
+
 export const navItems = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
   { href: "/procedures", label: "Procedures" },
+  { href: "/patient-guide", label: "Your Visit" },
   { href: "/gallery", label: "Photos" },
   { href: "/locations", label: "Offices" },
   { href: "/contact", label: "Contact" },

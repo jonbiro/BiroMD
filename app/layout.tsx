@@ -7,6 +7,7 @@ import Footer from "@/components/footer"
 import { SiteControlsScript } from "@/components/site-controls-script"
 import { SkipLink } from "@/components/skip-link"
 import { absoluteUrl, siteConfig } from "@/lib/site"
+import { procedures } from "@/lib/procedures"
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -102,6 +103,7 @@ const organizationSchema = {
       name: siteConfig.name,
       description: siteConfig.description,
       medicalSpecialty: "Ophthalmology",
+      knowsAbout: procedures.map((procedure) => procedure.title),
       areaServed: siteConfig.areaServed,
       availableLanguage: siteConfig.languages,
       email: siteConfig.email,
