@@ -85,7 +85,7 @@ export function Hero() {
               <div className="relative aspect-[4/3] min-[480px]:aspect-[3/2] lg:aspect-[4/5]">
                 <ResponsivePortrait
                   priority
-                  className="object-[center_22%] lg:object-center"
+                  className="object-top"
                   sizes="(max-width: 768px) calc(100vw - 72px), (max-width: 1200px) 44vw, 540px"
                 />
               </div>

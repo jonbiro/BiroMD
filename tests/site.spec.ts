@@ -110,6 +110,18 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   for (const name of ["Symptoms", "Procedures", "Dr. Biro", "Your Visit", "Results", "Offices"]) {
     await expect(navigation.getByRole("link", { name, exact: true })).toBeVisible()
   }
+  const navItemsHaveDistinctSurfaces = await navigation.getByRole("link").evaluateAll((links) =>
+    links.every((link) => {
+      const styles = getComputedStyle(link)
+      return (
+        Number.parseFloat(styles.borderTopWidth) >= 1 &&
+        styles.borderTopStyle === "solid" &&
+        styles.borderTopColor !== "rgba(0, 0, 0, 0)" &&
+        styles.backgroundColor !== "rgba(0, 0, 0, 0)"
+      )
+    })
+  )
+  expect(navItemsHaveDistinctSurfaces).toBe(true)
   const allLinksInsideNavigation = await navigation.evaluate((nav) => {
     const navBox = nav.getBoundingClientRect()
     return [...nav.querySelectorAll("a")].every((link) => {
@@ -409,7 +421,7 @@ test("authorized gallery cases have shareable detail pages", async ({ page }) =>
   await expectNoHorizontalOverflow(page)
 })
 
-test("homepage heading has correct readable text and lazy clinical images load", async ({ page }) => {
+test("homepage heading is readable and graphic cases stay on the results page", async ({ page }) => {
   await page.goto("/")
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Specialized Oculoplastic Care for the Eyes and Face"
@@ -426,17 +438,15 @@ test("homepage heading has correct readable text and lazy clinical images load",
   expect(typography.outfitLoaded).toBe(true)
   expect(typography.cormorantLoaded).toBe(true)
 
-  const clinicalHeading = page.getByRole("heading", {
-    name: "Selected Before-and-After Results",
-  })
-  await clinicalHeading.scrollIntoViewIfNeeded()
-  const clinicalImage = clinicalHeading.locator("xpath=ancestor::section").locator("img").first()
-  if ((await clinicalImage.count()) > 0) {
-    await expect(clinicalImage).toBeVisible()
-    await expect
-      .poll(() => clinicalImage.evaluate((image) => (image as HTMLImageElement).naturalWidth))
-      .toBeGreaterThan(0)
-  }
+  await expect(
+    page.getByRole("heading", { name: "Selected Before-and-After Results" })
+  ).toHaveCount(0)
+  await expect(page.locator('main a[href^="/gallery/"]')).toHaveCount(0)
+  const portrait = page.getByRole("img", { name: "Dr. Nicolas Biro" }).first()
+  await expect(portrait).toBeVisible()
+  await expect.poll(() => portrait.evaluate((image) => getComputedStyle(image).objectPosition)).toBe(
+    "50% 0%"
+  )
 })
 
 test("patient concerns lead directly to relevant procedure guidance", async ({ page }) => {

@@ -13,7 +13,7 @@ for (const width of [320, 480, 560, 640, 960]) {
     width,
     height: Math.round(width * 1.25),
     fit: "cover",
-    position: "attention",
+    position: "north",
   })
 
   await pipeline

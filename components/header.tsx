@@ -6,7 +6,7 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { primaryNavItems } from "@/lib/site"
 
 const navClass =
-  "relative flex min-h-11 min-w-0 items-center justify-center rounded-lg border-b-2 border-transparent text-[0.6875rem] font-semibold text-muted-foreground transition-colors hover:bg-accent/60 hover:text-primary aria-[current=page]:border-secondary aria-[current=page]:bg-accent aria-[current=page]:text-primary sm:text-sm lg:min-h-12 lg:px-2.5 xl:px-3.5"
+  "relative flex min-h-11 min-w-0 items-center justify-center rounded-lg border border-border bg-card/85 text-[0.6875rem] font-semibold text-foreground shadow-[0_1px_2px_rgb(5_16_32_/0.08)] transition-[color,background-color,border-color,box-shadow] hover:border-secondary hover:bg-accent hover:text-primary aria-[current=page]:border-primary aria-[current=page]:bg-primary aria-[current=page]:text-primary-foreground aria-[current=page]:shadow-[0_4px_12px_rgb(5_16_32_/0.18)] sm:text-sm lg:min-h-11 lg:rounded-full lg:px-3 xl:px-3.5"
 
 const narrowNavLabels: Record<(typeof primaryNavItems)[number]["href"], string> = {
   "/concerns": "Signs",
@@ -41,7 +41,7 @@ export default function Header() {
           <nav
             aria-label="Primary"
             data-floating-navigation
-            className="relative z-10 col-span-2 row-start-2 -mx-4 grid w-[calc(100%+2rem)] grid-cols-6 items-center lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:mx-0 lg:flex lg:w-auto lg:justify-center"
+            className="relative z-10 col-span-2 row-start-2 -mx-4 grid w-[calc(100%+2rem)] grid-cols-6 items-center gap-0.5 px-1 pb-1 lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:mx-0 lg:flex lg:w-auto lg:justify-center lg:gap-1.5 lg:p-0"
           >
             {primaryNavItems.map((item) => (
               <a
