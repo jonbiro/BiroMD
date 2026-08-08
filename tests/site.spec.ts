@@ -422,6 +422,7 @@ test("authorized gallery cases have shareable detail pages", async ({ page }) =>
 })
 
 test("homepage heading is readable and graphic cases stay on the results page", async ({ page }) => {
+  await page.setViewportSize({ width: 736, height: 758 })
   await page.goto("/")
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Specialized Oculoplastic Care for the Eyes and Face"
@@ -444,9 +445,22 @@ test("homepage heading is readable and graphic cases stay on the results page", 
   await expect(page.locator('main a[href^="/gallery/"]')).toHaveCount(0)
   const portrait = page.getByRole("img", { name: "Dr. Nicolas Biro" }).first()
   await expect(portrait).toBeVisible()
-  await expect.poll(() => portrait.evaluate((image) => getComputedStyle(image).objectPosition)).toBe(
-    "50% 0%"
-  )
+  await expect
+    .poll(() => portrait.evaluate((image) => (image as HTMLImageElement).naturalWidth))
+    .toBeGreaterThan(0)
+  const portraitFraming = await portrait.evaluate((image) => {
+    const portraitImage = image as HTMLImageElement
+    const frame = portraitImage.parentElement!.parentElement!.getBoundingClientRect()
+    return {
+      fit: getComputedStyle(portraitImage).objectFit,
+      frameRatio: frame.width / frame.height,
+      naturalRatio: portraitImage.naturalWidth / portraitImage.naturalHeight,
+      frameWidth: frame.width,
+    }
+  })
+  expect(portraitFraming.fit).toBe("contain")
+  expect(Math.abs(portraitFraming.frameRatio - portraitFraming.naturalRatio)).toBeLessThan(0.01)
+  expect(portraitFraming.frameWidth).toBeLessThanOrEqual(440)
 })
 
 test("patient concerns lead directly to relevant procedure guidance", async ({ page }) => {

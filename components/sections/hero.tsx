@@ -79,14 +79,14 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="relative order-4 mx-auto w-full max-w-[540px] lg:order-none">
+          <div className="relative order-4 mx-auto w-full max-w-[440px] lg:order-none lg:max-w-[540px]">
             <div className="absolute -bottom-8 -right-8 h-44 w-44 rounded-full border border-primary/20 bg-primary/8" />
             <div className="relative overflow-hidden rounded-[1.6rem] border border-border/70 bg-card shadow-[0_20px_50px_rgb(10_29_55_/0.16)] md:rounded-[2.2rem] lg:shadow-[0_24px_65px_rgb(10_29_55_/0.2)]">
-              <div className="relative aspect-[4/3] min-[480px]:aspect-[3/2] lg:aspect-[4/5]">
+              <div className="relative aspect-[4/5]">
                 <ResponsivePortrait
                   priority
-                  className="object-top"
-                  sizes="(max-width: 768px) calc(100vw - 72px), (max-width: 1200px) 44vw, 540px"
+                  className="object-contain"
+                  sizes="(max-width: 480px) calc(100vw - 72px), (max-width: 1023px) 440px, (max-width: 1200px) 44vw, 540px"
                 />
               </div>
               <div className="border-t border-border/70 bg-card p-4 lg:p-5">
