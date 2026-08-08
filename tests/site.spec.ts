@@ -239,6 +239,9 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     .getByRole("link", { name: "Procedures" })
   expect(await textContrast(activeLink)).toBeGreaterThanOrEqual(4.5)
   await page.getByRole("button", { name: "Switch to dark mode" }).click()
+  await expect(page.locator("html")).toHaveClass(/dark/)
+  await expect(page.getByRole("button", { name: "Switch to light mode" })).toBeVisible()
+  await page.waitForTimeout(400)
   expect(await textContrast(activeLink)).toBeGreaterThanOrEqual(4.5)
   await expectNoHorizontalOverflow(page)
 
