@@ -22,7 +22,7 @@ export default function NoticeOfPrivacyPracticesPage() {
       <section className="container px-4 md:px-6">
         <div className="grid gap-6 lg:grid-cols-2">
           {siteConfig.offices.map((office) => (
-            <article key={office.id} className="panel rounded-[1.8rem] p-6 md:p-8">
+            <article key={office.id} className="panel min-w-0 rounded-[1.8rem] p-6 md:p-8">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
                 {office.name}
               </p>
@@ -31,25 +31,32 @@ export default function NoticeOfPrivacyPracticesPage() {
               </h2>
               <p className="mt-3 text-sm text-muted-foreground">{office.address}</p>
               <div className="mt-6 grid gap-3">
-                <Button asChild>
+                <Button
+                  className="h-auto w-full min-w-0 whitespace-normal px-4 py-2 text-center leading-snug"
+                  asChild
+                >
                   <a href={office.noticeUrl}>
-                    <FileText className="mr-2 h-4 w-4" />
+                    <FileText className="mr-2 h-4 w-4 shrink-0" />
                     Patient Privacy Document
-                    <ArrowUpRight className="ml-2 h-4 w-4" />
+                    <ArrowUpRight className="ml-2 h-4 w-4 shrink-0" />
                   </a>
                 </Button>
-                <Button variant="outline" asChild>
+                <Button
+                  variant="outline"
+                  className="h-auto w-full min-w-0 whitespace-normal px-4 py-2 text-center leading-snug"
+                  asChild
+                >
                   <a href={office.privacyUrl}>
                     Practice Privacy Policy
-                    <ArrowUpRight className="ml-2 h-4 w-4" />
+                    <ArrowUpRight className="ml-2 h-4 w-4 shrink-0" />
                   </a>
                 </Button>
                 <a
-                  className="mt-2 inline-flex items-center text-sm font-semibold text-secondary hover:underline"
+                  className="mt-2 inline-flex min-w-0 items-start text-sm font-semibold text-secondary hover:underline"
                   href={`tel:${office.phoneHref}`}
                 >
-                  <Phone className="mr-2 h-4 w-4" />
-                  Call {office.phoneDisplay} with privacy questions
+                  <Phone className="mr-2 mt-0.5 h-4 w-4 shrink-0" />
+                  <span className="min-w-0">Call {office.phoneDisplay} with privacy questions</span>
                 </a>
               </div>
             </article>

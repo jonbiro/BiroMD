@@ -3,7 +3,7 @@ import { patientFeedbackProfiles } from "@/lib/site"
 
 export function ReputationLinks() {
   return (
-    <section className="relative border-t border-border py-11 md:py-14" aria-labelledby="patient-feedback-title">
+    <section className="relative border-t border-border py-8 md:py-14" aria-labelledby="patient-feedback-title">
       <div className="container px-4 md:px-6">
         <div className="panel-strong grid gap-8 rounded-[2rem] p-6 md:p-9 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-10 lg:p-10">
           <div>
@@ -30,7 +30,7 @@ export function ReputationLinks() {
                 key={profile.url}
                 href={profile.url}
                 rel="external"
-                className="group flex min-h-24 items-center gap-4 rounded-2xl border border-border bg-background p-4 transition-[border-color,box-shadow,transform] hover:-translate-y-0.5 hover:border-secondary hover:shadow-md"
+                className="group flex min-h-20 items-center gap-3 rounded-2xl border border-border bg-background p-3.5 transition-[border-color,box-shadow,transform] hover:-translate-y-0.5 hover:border-secondary hover:shadow-md min-[480px]:min-h-24 min-[480px]:gap-4 min-[480px]:p-4"
               >
                 <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-secondary/30 bg-secondary/8 text-secondary">
                   <MessageSquareQuote className="h-5 w-5" aria-hidden="true" />

@@ -24,12 +24,12 @@ const highlights = [
 
 export function AboutSummary() {
   return (
-    <section className="relative py-11 md:py-14">
+    <section className="relative py-8 md:py-14">
       <div className="container px-4 md:px-6">
-        <div className="panel relative overflow-hidden rounded-[2rem] p-8 md:p-12">
+        <div className="panel relative overflow-hidden rounded-[2rem] p-6 min-[480px]:p-8 md:p-12">
           <div className="pointer-events-none absolute left-0 top-0 h-40 w-44 rounded-full bg-secondary/8" />
 
-          <div className="relative grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
+          <div className="relative grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
             <div className="space-y-5">
               <p className="eyebrow">
                 <Dot className="h-3.5 w-3.5" />
@@ -49,8 +49,8 @@ export function AboutSummary() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               {highlights.map((highlight) => (
-                <article key={highlight.title} className="rounded-2xl border border-border bg-background p-5">
-                  <div className="mb-4 inline-flex rounded-xl border border-secondary/30 bg-secondary/8 p-2 text-secondary">
+                <article key={highlight.title} className="rounded-2xl border border-border bg-background p-4 min-[480px]:p-5">
+                  <div className="mb-3 inline-flex rounded-xl border border-secondary/30 bg-secondary/8 p-2 text-secondary min-[480px]:mb-4">
                     <highlight.icon className="h-5 w-5" />
                   </div>
                   <h3 className="text-2xl font-medium text-primary">{highlight.title}</h3>
@@ -58,7 +58,7 @@ export function AboutSummary() {
                 </article>
               ))}
 
-              <article className="rounded-2xl border border-border bg-accent/55 p-5 sm:col-span-2">
+              <article className="rounded-2xl border border-border bg-accent/55 p-4 min-[480px]:p-5 sm:col-span-2">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
                   Clinical Focus
                 </p>

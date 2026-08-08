@@ -20,7 +20,7 @@ export default function LocationsPage() {
       />
       <section className="container grid gap-6 px-4 md:grid-cols-2 md:px-6">
         {siteConfig.offices.map((office) => (
-          <article key={office.id} className="panel rounded-[1.8rem] p-6 md:p-8">
+          <article key={office.id} className="panel min-w-0 rounded-[1.8rem] p-6 md:p-8">
             <MapPin className="h-6 w-6 text-secondary" />
             <p className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
               {office.practiceName}
@@ -34,14 +34,14 @@ export default function LocationsPage() {
               <Phone className="mr-2 h-4 w-4" />
               {office.phoneDisplay}
             </a>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Button asChild>
+            <div className="mt-7 flex flex-col gap-3 lg:flex-row">
+              <Button className="w-full lg:flex-1 lg:px-4" asChild>
                 <a href={office.bookingUrl}>
                   <CalendarDays className="mr-2 h-4 w-4" />
                   Request Appointment
                 </a>
               </Button>
-              <Button variant="outline" asChild>
+              <Button variant="outline" className="w-full lg:flex-1 lg:px-4" asChild>
                 <a href={`/locations/${office.id}`}>
                   Office Details
                   <ArrowRight className="ml-2 h-4 w-4" />

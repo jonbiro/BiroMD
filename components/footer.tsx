@@ -4,7 +4,7 @@ import { navItems, siteConfig } from "@/lib/site"
 
 export default function Footer() {
   return (
-    <footer className="relative mt-14 pb-6 md:mt-16 md:pb-8">
+    <footer className="relative mt-10 pb-6 md:mt-16 md:pb-8">
       <div className="container px-4 md:px-6">
         <div className="panel-strong relative overflow-hidden rounded-[2rem] px-6 py-8 md:px-10 md:py-10">
           <div className="pointer-events-none absolute -left-24 top-0 h-56 w-56 rounded-full bg-secondary/8" />

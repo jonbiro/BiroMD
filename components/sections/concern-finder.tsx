@@ -57,7 +57,7 @@ export function ConcernFinder() {
       data-concern-finder
     >
       <div className="container px-4 md:px-6">
-        <div className="panel-strong grid gap-8 overflow-hidden rounded-[2rem] p-6 md:p-9 lg:grid-cols-[0.72fr_1.28fr] lg:gap-10 lg:p-10">
+        <div className="panel-strong grid gap-7 overflow-hidden rounded-[2rem] p-6 md:gap-8 md:p-9 lg:grid-cols-[0.72fr_1.28fr] lg:gap-10 lg:p-10">
           <div className="relative flex flex-col items-start justify-center">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
               Find a starting point
@@ -88,9 +88,9 @@ export function ConcernFinder() {
                   <a
                     key={concern.href}
                     href={concern.href}
-                    className="group flex min-h-28 items-center gap-4 rounded-2xl border border-border bg-background p-4 transition-[border-color,box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:border-secondary hover:shadow-md"
+                    className="group flex min-h-0 items-center gap-3 rounded-2xl border border-border bg-background p-3.5 transition-[border-color,box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:border-secondary hover:shadow-md min-[480px]:min-h-28 min-[480px]:gap-4 min-[480px]:p-4"
                   >
-                    <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-secondary/30 bg-secondary/8 text-secondary">
+                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-secondary/30 bg-secondary/8 text-secondary min-[480px]:h-11 min-[480px]:w-11">
                       <ConcernIcon className="h-5 w-5" aria-hidden="true" />
                     </span>
                     <span className="min-w-0 flex-1">

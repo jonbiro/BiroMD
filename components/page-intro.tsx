@@ -27,7 +27,7 @@ export function PageIntro({
         <div className="pointer-events-none absolute -left-24 top-0 h-56 w-56 rounded-full bg-secondary/10" />
         <div className="pointer-events-none absolute -right-20 bottom-0 h-52 w-52 rounded-full bg-primary/10" />
 
-        <div className="relative max-w-3xl space-y-5">
+        <div className="relative max-w-3xl space-y-4 min-[480px]:space-y-5">
           {breadcrumbs?.length ? (
             <nav aria-label="Breadcrumb">
               <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs font-medium text-muted-foreground">
@@ -58,13 +58,15 @@ export function PageIntro({
             <Dot className="h-3.5 w-3.5" />
             {eyebrow}
           </p>
-          <h1 className="text-[2.35rem] font-semibold leading-[0.98] text-primary min-[360px]:text-[2.65rem] min-[480px]:text-5xl sm:text-6xl">
+          <h1 className="text-[2.35rem] font-semibold leading-[1.02] text-primary min-[360px]:text-[2.65rem] min-[480px]:text-5xl sm:text-6xl">
             {title}
           </h1>
           <p className="max-w-2xl text-base leading-relaxed text-muted-foreground min-[480px]:text-lg">
             {description}
           </p>
-          {actions ? <div className="flex flex-wrap gap-3 pt-1">{actions}</div> : null}
+          {actions ? (
+            <div className="grid gap-3 pt-1 sm:flex sm:flex-wrap">{actions}</div>
+          ) : null}
         </div>
       </div>
     </section>

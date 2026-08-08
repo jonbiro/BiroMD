@@ -10,13 +10,13 @@ const serviceIcons = {
 
 export function ServicesPreview() {
   return (
-    <section className="relative py-11 md:py-14">
+    <section className="relative py-8 md:py-14">
       <div className="container px-4 md:px-6">
-        <div className="panel relative overflow-hidden rounded-[2rem] p-8 md:p-12">
+        <div className="panel relative overflow-hidden rounded-[2rem] p-6 min-[480px]:p-8 md:p-12">
           <div className="pointer-events-none absolute -right-24 top-0 h-52 w-56 rounded-full bg-primary/8" />
 
           <div className="relative">
-            <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <div className="mb-8 flex flex-col gap-5 md:mb-10 md:flex-row md:items-end md:justify-between">
               <div className="max-w-2xl space-y-4">
                 <p className="eyebrow">
                   <Dot className="h-3.5 w-3.5" />
@@ -43,11 +43,13 @@ export function ServicesPreview() {
               {servicePathways.map((service) => {
                 const ServiceIcon = serviceIcons[service.id]
                 return (
-                  <article key={service.title} className="rounded-2xl border border-border bg-background p-6">
-                    <div className="mb-5 inline-flex rounded-xl border border-secondary/30 bg-secondary/8 p-2 text-secondary">
-                      <ServiceIcon className="h-5 w-5" />
+                  <article key={service.title} className="rounded-2xl border border-border bg-background p-5 lg:p-6">
+                    <div className="flex items-start gap-3 lg:block">
+                      <div className="inline-flex shrink-0 rounded-xl border border-secondary/30 bg-secondary/8 p-2 text-secondary lg:mb-5">
+                        <ServiceIcon className="h-5 w-5" />
+                      </div>
+                      <h3 className="pt-1 text-2xl font-medium text-primary lg:pt-0">{service.title}</h3>
                     </div>
-                    <h3 className="text-2xl font-medium text-primary">{service.title}</h3>
                     <p className="mt-3 text-sm text-muted-foreground">{service.summary}</p>
                     <ul className="mt-5 space-y-2 text-sm text-foreground/90">
                       {service.highlights.map((item) => (
@@ -69,7 +71,7 @@ export function ServicesPreview() {
               })}
             </div>
 
-            <div className="panel-strong mt-10 rounded-2xl p-6 md:flex md:items-center md:justify-between md:gap-8">
+            <div className="panel-strong mt-8 rounded-2xl p-5 min-[480px]:p-6 md:mt-10 md:flex md:items-center md:justify-between md:gap-8">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
                   Next Step

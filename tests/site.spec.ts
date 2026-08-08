@@ -280,6 +280,22 @@ test("site containers stay fluid and centered between breakpoints", async ({ pag
   expect(Math.abs(box!.x - (1257 - box!.width) / 2)).toBeLessThan(2)
 })
 
+test("office and privacy actions fit at narrow and tablet breakpoints", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 })
+  await page.goto("/notice-of-privacy-practices")
+  await expectNoHorizontalOverflow(page, "privacy notices at 320px")
+  await expect(page.getByRole("link", { name: "Patient Privacy Document" }).first()).toBeVisible()
+
+  await page.setViewportSize({ width: 820, height: 850 })
+  await page.goto("/locations")
+  await expectNoHorizontalOverflow(page, "locations at 820px")
+  for (const link of await page.getByRole("link", { name: "Office Details" }).all()) {
+    const box = await link.boundingBox()
+    expect(box).not.toBeNull()
+    expect(box!.x + box!.width).toBeLessThanOrEqual(820)
+  }
+})
+
 test("contact page uses official office request links", async ({ page }) => {
   await page.goto("/contact")
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Request a Consultation")
