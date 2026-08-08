@@ -12,6 +12,7 @@ export type GalleryCase = {
   alt: string
   comparisonLayout: "vertical" | "horizontal"
   comparisonLabel: string
+  relatedProcedureSlug?: string
 }
 
 const assetsById = new Map(galleryAssets.map((asset) => [asset.id, asset]))
@@ -41,6 +42,7 @@ const galleryCases: GalleryCase[] = [
       "The patient presented with prominent lower-eyelid fat pads that contributed to a persistently tired appearance.",
     technique:
       "A transconjunctival lower blepharoplasty was performed. Fat was conservatively repositioned and contoured to soften the lid-cheek junction while avoiding an over-hollowed appearance.",
+    relatedProcedureSlug: "lower-blepharoplasty",
     alt: "Before and after lower blepharoplasty showing under-eye rejuvenation",
     ...assetFor("lower-blepharoplasty"),
   },
@@ -54,6 +56,7 @@ const galleryCases: GalleryCase[] = [
       "The patient had a full-thickness eyelid defect after Mohs surgery for periocular skin cancer.",
     technique:
       "The eyelid layers were reconstructed and carefully aligned to restore margin position, support eyelid closure, and protect the ocular surface.",
+    relatedProcedureSlug: "eyelid-cancer-mohs-reconstruction",
     alt: "Before and after Mohs cancer removal eyelid reconstruction",
     ...assetFor("eyelid-trauma"),
   },
@@ -97,4 +100,8 @@ export function getAuthorizedGalleryCaseIds(): Set<string> {
 export function getPublishedGalleryCases(): GalleryCase[] {
   const authorizedIds = getAuthorizedGalleryCaseIds()
   return galleryCases.filter((item) => authorizedIds.has(item.id))
+}
+
+export function getPublishedGalleryCase(id: string): GalleryCase | undefined {
+  return getPublishedGalleryCases().find((item) => item.id === id)
 }

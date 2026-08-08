@@ -6,7 +6,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { SiteControlsScript } from "@/components/site-controls-script"
 import { SkipLink } from "@/components/skip-link"
-import { absoluteUrl, siteConfig } from "@/lib/site"
+import { absoluteUrl, physicianProfileUrls, siteConfig } from "@/lib/site"
 import { procedures } from "@/lib/procedures"
 
 const outfit = Outfit({
@@ -35,6 +35,8 @@ const socialImage = absoluteUrl("/images/biromd-social-card.png")
 const portraitImage = absoluteUrl("/images/portrait/dr-biro-portrait-960.webp")
 const physicianId = absoluteUrl("/#physician")
 const websiteId = absoluteUrl("/#website")
+const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim()
+const bingSiteVerification = process.env.BING_SITE_VERIFICATION?.trim()
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -82,6 +84,12 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [socialImage],
   },
+  verification: {
+    ...(googleSiteVerification ? { google: googleSiteVerification } : {}),
+    ...(bingSiteVerification
+      ? { other: { "msvalidate.01": bingSiteVerification } }
+      : {}),
+  },
   robots: { index: true, follow: true },
 }
 
@@ -109,7 +117,7 @@ const organizationSchema = {
       email: siteConfig.email,
       image: portraitImage,
       url: absoluteUrl("/"),
-      sameAs: siteConfig.offices.map((office) => office.practiceUrl),
+      sameAs: physicianProfileUrls,
       workLocation: siteConfig.offices.map((office) => ({
         "@id": absoluteUrl(`/locations/${office.id}#office`),
       })),

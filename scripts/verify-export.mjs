@@ -17,18 +17,33 @@ const procedureSlugs = [
   "botox",
   "dermal-fillers",
 ]
+const concernSlugs = [
+  "droopy-heavy-upper-eyelids",
+  "under-eye-bags",
+  "constant-watery-eyes",
+  "eyelid-turning-in-or-out",
+  "eyelid-lesion-mohs-reconstruction",
+  "bulging-eyes-thyroid-eye-disease",
+  "sudden-eyelid-drooping",
+]
+const manifest = await loadManifest()
+const authorized = authorizedIds(manifest)
 const routes = [
   "/",
   "/about",
+  "/concerns",
+  ...concernSlugs.map((slug) => `/concerns/${slug}`),
   "/services",
   "/procedures",
   "/patient-guide",
   ...procedureSlugs.map((slug) => `/procedures/${slug}`),
   "/gallery",
+  ...[...authorized].map((id) => `/gallery/${id}`),
   "/contact",
   "/locations",
   "/locations/westlake-village",
   "/locations/rancho-cucamonga",
+  "/referrals",
   "/privacy",
   "/notice-of-privacy-practices",
   "/accessibility",
@@ -106,8 +121,6 @@ if (socialMetadata.width !== 1200 || socialMetadata.height !== 630) {
   throw new Error("Social sharing image must be exactly 1200x630.")
 }
 
-const manifest = await loadManifest()
-const authorized = authorizedIds(manifest)
 const allowedStems = new Set(
   manifest.filter(({ id }) => authorized.has(id)).map(({ file }) => assetStem(file))
 )
@@ -149,6 +162,9 @@ for (const asset of manifest.filter(({ id }) => !authorized.has(id))) {
 }
 
 const sitemap = await readFile(path.join(outDir, "sitemap.xml"), "utf8")
+if (!sitemap.includes("<lastmod>")) {
+  throw new Error("Sitemap entries must include publication or update dates.")
+}
 for (const route of routes) {
   const expected = new URL(route, "https://biromd.com").toString()
   if (!sitemap.includes(expected)) throw new Error(`Sitemap is missing ${route}`)

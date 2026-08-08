@@ -32,7 +32,7 @@ export async function generateMetadata({
   if (!procedure) return {}
 
   return pageMetadata({
-    title: procedure.title,
+    title: `${procedure.title} in Los Angeles`,
     description: `${procedure.summary} ${siteConfig.shortName} serves Los Angeles patients.`,
     path: `/procedures/${procedure.slug}`,
   })

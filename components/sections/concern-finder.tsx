@@ -1,50 +1,51 @@
 import {
+  AlertTriangle,
   ArrowRight,
   Droplets,
   Eye,
   RotateCcw,
   ScanFace,
   ShieldCheck,
-  Sparkles,
+  Stethoscope,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const concerns = [
   {
-    title: "A drooping upper eyelid",
-    detail: "Ptosis evaluation and repair",
-    href: "/procedures/ptosis-repair",
+    title: "Droopy or heavy upper eyelids",
+    detail: "Skin, ptosis, and brow evaluation",
+    href: "/concerns/droopy-heavy-upper-eyelids",
     icon: Eye,
   },
   {
-    title: "Excess upper-eyelid skin",
-    detail: "Upper blepharoplasty",
-    href: "/procedures/upper-blepharoplasty",
-    icon: Sparkles,
-  },
-  {
     title: "Under-eye bags or fullness",
-    detail: "Lower blepharoplasty",
-    href: "/procedures/lower-blepharoplasty",
+    detail: "Lower-eyelid and lid-cheek evaluation",
+    href: "/concerns/under-eye-bags",
     icon: ScanFace,
   },
   {
     title: "An eyelid turning in or out",
-    detail: "Entropion and ectropion repair",
-    href: "/procedures/entropion-ectropion-repair",
+    detail: "Eye protection and eyelid position",
+    href: "/concerns/eyelid-turning-in-or-out",
     icon: RotateCcw,
   },
   {
-    title: "Persistent tearing",
-    detail: "Tear-duct evaluation",
-    href: "/procedures/tearing-blocked-tear-ducts",
+    title: "Constant watery eyes",
+    detail: "Eye-surface, eyelid, and tear drainage",
+    href: "/concerns/constant-watery-eyes",
     icon: Droplets,
   },
   {
-    title: "Reconstruction after skin cancer",
-    detail: "Eyelid and Mohs reconstruction",
-    href: "/procedures/eyelid-cancer-mohs-reconstruction",
+    title: "Eyelid lesion or Mohs reconstruction",
+    detail: "Lesion and reconstruction planning",
+    href: "/concerns/eyelid-lesion-mohs-reconstruction",
     icon: ShieldCheck,
+  },
+  {
+    title: "Bulging eyes or thyroid eye disease",
+    detail: "Eyelid, eye movement, and orbital evaluation",
+    href: "/concerns/bulging-eyes-thyroid-eye-disease",
+    icon: Stethoscope,
   },
 ]
 
@@ -72,40 +73,50 @@ export function ConcernFinder() {
               cover. Symptoms can have more than one cause.
             </p>
             <Button variant="outline" className="mt-6" asChild>
-              <a href="/procedures">
-                View all procedures
+              <a href="/concerns">
+                View all symptom guides
                 <ArrowRight className="ml-2 h-4 w-4" />
               </a>
             </Button>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
-            {concerns.map((concern) => {
-              const ConcernIcon = concern.icon
-              return (
-                <a
-                  key={concern.href}
-                  href={concern.href}
-                  className="group flex min-h-28 items-center gap-4 rounded-2xl border border-border bg-background p-4 transition-[border-color,box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:border-secondary hover:shadow-md"
-                >
-                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-secondary/30 bg-secondary/8 text-secondary">
-                    <ConcernIcon className="h-5 w-5" aria-hidden="true" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-semibold leading-snug text-foreground">
-                      {concern.title}
+          <div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {concerns.map((concern) => {
+                const ConcernIcon = concern.icon
+                return (
+                  <a
+                    key={concern.href}
+                    href={concern.href}
+                    className="group flex min-h-28 items-center gap-4 rounded-2xl border border-border bg-background p-4 transition-[border-color,box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:border-secondary hover:shadow-md"
+                  >
+                    <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-secondary/30 bg-secondary/8 text-secondary">
+                      <ConcernIcon className="h-5 w-5" aria-hidden="true" />
                     </span>
-                    <span className="mt-1 block text-sm text-muted-foreground">
-                      {concern.detail}
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-semibold leading-snug text-foreground">
+                        {concern.title}
+                      </span>
+                      <span className="mt-1 block text-sm text-muted-foreground">
+                        {concern.detail}
+                      </span>
                     </span>
-                  </span>
-                  <ArrowRight
-                    className="h-4 w-4 shrink-0 text-secondary transition-transform group-hover:translate-x-1"
-                    aria-hidden="true"
-                  />
-                </a>
-              )
-            })}
+                    <ArrowRight
+                      className="h-4 w-4 shrink-0 text-secondary transition-transform group-hover:translate-x-1"
+                      aria-hidden="true"
+                    />
+                  </a>
+                )
+              })}
+            </div>
+            <a
+              href="/concerns/sudden-eyelid-drooping"
+              className="mt-3 flex min-h-14 items-center gap-3 rounded-2xl border border-amber-300/70 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-950 transition-colors hover:border-amber-500 dark:border-amber-500/45 dark:bg-amber-950/45 dark:text-amber-100"
+            >
+              <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span className="flex-1">Sudden eyelid drooping? Read when to seek urgent care.</span>
+              <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+            </a>
           </div>
         </div>
       </div>

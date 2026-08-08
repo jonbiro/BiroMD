@@ -26,7 +26,7 @@ export const offices = [
     id: "rancho-cucamonga",
     name: "Rancho Cucamonga",
     practiceName: "Pacific Eye Institute",
-    practiceUrl: "https://inlandeye.com/location/",
+    practiceUrl: "https://www.pacificeyemd.com/doctors/nicolas-biro-m-d/",
     address: "9481 Haven Ave, Suite 200, Rancho Cucamonga, CA 91730",
     streetAddress: "9481 Haven Ave, Suite 200",
     addressLocality: "Rancho Cucamonga",
@@ -44,6 +44,32 @@ export const offices = [
 ] as const
 
 export type Office = (typeof offices)[number]
+
+export const physicianProfileUrls = [
+  offices[0].practiceUrl,
+  offices[1].practiceUrl,
+  "https://www.healthgrades.com/physician/dr-nicolas-biro-xv4fv",
+  "https://doctor.webmd.com/doctor/nicolas-biro-28e322ee-dec5-11e7-9f4c-005056a225bf-overview",
+  "https://www.linkedin.com/in/nicolas-biro-045a92105",
+] as const
+
+export const patientFeedbackProfiles = [
+  {
+    name: "Healthgrades",
+    description: "Independent physician profile and patient feedback",
+    url: "https://www.healthgrades.com/physician/dr-nicolas-biro-xv4fv",
+  },
+  {
+    name: "WebMD Care",
+    description: "Independent physician profile and patient feedback",
+    url: "https://doctor.webmd.com/doctor/nicolas-biro-28e322ee-dec5-11e7-9f4c-005056a225bf-overview",
+  },
+  {
+    name: "Pacific Eye Institute",
+    description: "Patient feedback published by the affiliated practice",
+    url: "https://inlandeye.com/about/reviews/",
+  },
+] as const
 
 export const siteConfig = {
   name: "Nicolas Biro, M.D.",
@@ -74,11 +100,13 @@ export const primaryNavItems = [
 
 export const navItems = [
   { href: "/about", label: "About" },
+  { href: "/concerns", label: "Symptoms" },
   { href: "/services", label: "Services" },
   { href: "/procedures", label: "Procedures" },
   { href: "/patient-guide", label: "Your Visit" },
   { href: "/gallery", label: "Photos" },
   { href: "/locations", label: "Offices" },
+  { href: "/referrals", label: "Referrals" },
   { href: "/contact", label: "Contact" },
 ] as const
 

@@ -7,6 +7,7 @@ import {
   X,
 } from "lucide-react"
 import { ClinicalCaseImage } from "@/components/clinical-case-image"
+import { Button } from "@/components/ui/button"
 import type { GalleryCase } from "@/lib/gallery-cases"
 import { cn } from "@/lib/utils"
 
@@ -140,7 +141,11 @@ export function GalleryView({ cases }: GalleryViewProps) {
                       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.technique}</p>
                     </div>
                   </div>
-
+                  <Button variant="outline" asChild className="w-full sm:w-auto">
+                    <a href={`/gallery/${item.id}`}>
+                      Read case details
+                    </a>
+                  </Button>
                 </div>
 
                 <dialog

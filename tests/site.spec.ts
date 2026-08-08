@@ -14,18 +14,37 @@ const procedureSlugs = [
   "dermal-fillers",
 ]
 
+const concernSlugs = [
+  "droopy-heavy-upper-eyelids",
+  "under-eye-bags",
+  "constant-watery-eyes",
+  "eyelid-turning-in-or-out",
+  "eyelid-lesion-mohs-reconstruction",
+  "bulging-eyes-thyroid-eye-disease",
+  "sudden-eyelid-drooping",
+]
+
+const galleryCaseIds = (process.env.GALLERY_AUTHORIZED_CASE_IDS ?? "")
+  .split(",")
+  .map((id) => id.trim())
+  .filter(Boolean)
+
 const publicRoutes = [
   "/",
   "/about",
+  "/concerns",
+  ...concernSlugs.map((slug) => `/concerns/${slug}`),
   "/services",
   "/procedures",
   "/patient-guide",
   ...procedureSlugs.map((slug) => `/procedures/${slug}`),
   "/gallery",
+  ...galleryCaseIds.map((id) => `/gallery/${id}`),
   "/contact",
   "/locations",
   "/locations/westlake-village",
   "/locations/rancho-cucamonga",
+  "/referrals",
   "/privacy",
   "/notice-of-privacy-practices",
   "/accessibility",
@@ -58,12 +77,14 @@ async function textContrast(locator: Locator) {
     (Math.min(foreground, background) + 0.05)
 }
 
-async function expectNoHorizontalOverflow(page: Page) {
+async function expectNoHorizontalOverflow(page: Page, context = "page") {
   const dimensions = await page.evaluate(() => ({
     viewport: document.documentElement.clientWidth,
     content: document.documentElement.scrollWidth,
   }))
-  expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport + 1)
+  expect(dimensions.content, `Horizontal overflow on ${context}`).toBeLessThanOrEqual(
+    dimensions.viewport + 1
+  )
 }
 
 test("primary consultation action is readable in light and dark mode", async ({ page }) => {
@@ -303,6 +324,25 @@ test("gallery labels remain visible without hover", async ({ page }) => {
   await expect(page.locator('script[src^="/_next/"]')).toHaveCount(0)
 })
 
+test("authorized gallery cases have shareable detail pages", async ({ page }) => {
+  test.skip(galleryCaseIds.length === 0, "No gallery cases are authorized for this build")
+
+  const caseId = galleryCaseIds[0]
+  await page.goto("/gallery")
+  await expect(page.locator(`a[href="/gallery/${caseId}"]`).first()).toBeVisible()
+
+  await page.goto(`/gallery/${caseId}`)
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Before and After")
+  await expect(page.getByText("Before", { exact: true })).toBeVisible()
+  await expect(page.getByText("After", { exact: true })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "What Was Evaluated" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Results Are Individual" })).toBeVisible()
+  await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText("Gallery")
+  const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
+  expect(schemas.some((schema) => schema.includes('"ImageObject"'))).toBe(true)
+  await expectNoHorizontalOverflow(page)
+})
+
 test("homepage heading has correct readable text and lazy clinical images load", async ({ page }) => {
   await page.goto("/")
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
@@ -340,15 +380,56 @@ test("patient concerns lead directly to relevant procedure guidance", async ({ p
   await expect(
     finder.getByRole("heading", { name: "What would you like help with?" })
   ).toBeVisible()
-  await expect(finder.locator('a[href^="/procedures/"]')).toHaveCount(6)
-  await expect(finder.getByRole("link", { name: /A drooping upper eyelid/ })).toHaveAttribute(
+  await expect(finder.locator('a[href^="/concerns/"]')).toHaveCount(7)
+  await expect(finder.getByRole("link", { name: /Droopy or heavy upper eyelids/ })).toHaveAttribute(
+    "href",
+    "/concerns/droopy-heavy-upper-eyelids"
+  )
+  await expect(finder.getByRole("link", { name: /Constant watery eyes/ })).toHaveAttribute(
+    "href",
+    "/concerns/constant-watery-eyes"
+  )
+  await expect(finder.getByRole("link", { name: /Sudden eyelid drooping/ })).toHaveAttribute(
+    "href",
+    "/concerns/sudden-eyelid-drooping"
+  )
+})
+
+test("symptom guides explain evaluation and urgent next steps", async ({ page }) => {
+  await page.goto("/concerns")
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Start With What You Notice"
+  )
+  await expect(page.locator('main a[href^="/concerns/"]')).toHaveCount(7)
+
+  await page.goto("/concerns/droopy-heavy-upper-eyelids")
+  await expect(page.getByRole("heading", { name: "Possible contributors" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "What Evaluation May Cover" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Clinical references" })).toBeVisible()
+  await expect(page.getByRole("link", { name: "Ptosis Repair" })).toHaveAttribute(
     "href",
     "/procedures/ptosis-repair"
   )
-  await expect(finder.getByRole("link", { name: /Persistent tearing/ })).toHaveAttribute(
-    "href",
-    "/procedures/tearing-blocked-tear-ducts"
+  const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
+  expect(schemas.some((schema) => schema.includes('"MedicalWebPage"'))).toBe(true)
+  expect(schemas.some((schema) => schema.includes('"citation"'))).toBe(true)
+  await expect(page.locator("body")).not.toContainText(/medically reviewed by/i)
+
+  await page.goto("/concerns/sudden-eyelid-drooping")
+  await expect(page.getByRole("heading", { name: "Do not wait for routine web scheduling" })).toBeVisible()
+  await expect(page.getByText(/Seek urgent medical care/)).toBeVisible()
+})
+
+test("referring clinicians receive a safe direct pathway", async ({ page }) => {
+  await page.goto("/referrals")
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Plan an Oculoplastic Referral"
   )
+  await expect(page.getByRole("heading", { name: "Contact the Receiving Office" })).toBeVisible()
+  await expect(page.getByText(/should not receive patient records/)).toBeVisible()
+  await expect(page.locator("main form")).toHaveCount(0)
+  await expect(page.locator('main a[href^="mailto:"]')).toHaveCount(0)
+  await expect(page.locator('main a[href^="tel:"]')).toHaveCount(2)
 })
 
 test("high-intent pages provide verifiable and direct next steps", async ({ page }) => {
@@ -375,12 +456,25 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
   )
   await expect(affiliations.getByRole("link", { name: /Pacific Eye Institute/ })).toHaveAttribute(
     "href",
-    /inlandeye\.com/
+    "https://www.pacificeyemd.com/doctors/nicolas-biro-m-d/"
   )
 
   await page.goto("/")
+  const feedback = page.getByRole("heading", {
+    name: "Patient Feedback Beyond This Website",
+  }).locator("xpath=ancestor::section")
+  await expect(feedback.getByRole("link")).toHaveCount(3)
+  await expect(feedback.getByRole("link", { name: /Healthgrades/ })).toHaveAttribute(
+    "href",
+    /healthgrades\.com/
+  )
+  await expect(feedback).not.toContainText(/4\.7|5\.0|star rating/i)
   const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
   expect(schemas.some((schema) => schema.includes('"@type":"WebSite"'))).toBe(true)
+  const physicianSchema = schemas.find((schema) => schema.includes('"@type":"Physician"')) ?? ""
+  expect(physicianSchema).toContain("healthgrades.com")
+  expect(physicianSchema).toContain("doctor.webmd.com")
+  expect(physicianSchema).toContain("linkedin.com")
 })
 
 test("detail pages expose breadcrumbs, structured wayfinding, and usable FAQs", async ({ page }) => {
@@ -477,7 +571,7 @@ test("every public route has a sound document structure", async ({ page }) => {
     expect(audit.skippedHeading, route).toBe(false)
     expect(audit.duplicateIds, route).toEqual([])
     expect(audit.unnamedControls, route).toEqual([])
-    if (route.startsWith("/procedures/")) {
+    if (route.startsWith("/procedures/") || route.startsWith("/concerns/")) {
       await expect(page.getByRole("heading", { name: "Clinical references" })).toBeVisible()
       const medicalSchemas = await page
         .locator('script[type="application/ld+json"]')
@@ -487,7 +581,7 @@ test("every public route has a sound document structure", async ({ page }) => {
         `Missing clinical citations on ${route}`
       ).toBe(true)
     }
-    await expectNoHorizontalOverflow(page)
+    await expectNoHorizontalOverflow(page, route)
   }
 })
 

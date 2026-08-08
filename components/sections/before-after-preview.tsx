@@ -39,7 +39,7 @@ export function BeforeAfterPreview() {
               const vertical = item.comparisonLayout === "vertical"
               return (
                 <a
-                  href={`/gallery#${item.id}`}
+                  href={`/gallery/${item.id}`}
                   key={item.id}
                   className="panel group overflow-hidden rounded-[1.8rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >

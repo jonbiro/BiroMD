@@ -47,7 +47,9 @@ jobs:
       - name: Build static export
         run: npm run build
         env:
+          BING_SITE_VERIFICATION: ${{ vars.BING_SITE_VERIFICATION }}
           GALLERY_AUTHORIZED_CASE_IDS: ${{ vars.GALLERY_AUTHORIZED_CASE_IDS }}
+          GOOGLE_SITE_VERIFICATION: ${{ vars.GOOGLE_SITE_VERIFICATION }}
 
       - name: Verify export and gallery authorization
         run: npm run verify:export
@@ -56,6 +58,8 @@ jobs:
 
       - name: Run browser checks
         run: npm run test:e2e
+        env:
+          GALLERY_AUTHORIZED_CASE_IDS: ${{ vars.GALLERY_AUTHORIZED_CASE_IDS }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
