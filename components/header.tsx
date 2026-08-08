@@ -6,7 +6,16 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { primaryNavItems } from "@/lib/site"
 
 const navClass =
-  "relative flex min-h-11 min-w-0 items-center justify-center rounded-lg border-b-2 border-transparent text-[0.625rem] font-semibold text-muted-foreground transition-colors hover:bg-accent/60 hover:text-primary aria-[current=page]:border-secondary aria-[current=page]:bg-accent aria-[current=page]:text-primary min-[360px]:text-[0.69rem] sm:text-sm lg:min-h-12 lg:px-2.5 xl:px-3.5"
+  "relative flex min-h-11 min-w-0 items-center justify-center rounded-lg border-b-2 border-transparent text-[0.6875rem] font-semibold text-muted-foreground transition-colors hover:bg-accent/60 hover:text-primary aria-[current=page]:border-secondary aria-[current=page]:bg-accent aria-[current=page]:text-primary sm:text-sm lg:min-h-12 lg:px-2.5 xl:px-3.5"
+
+const narrowNavLabels: Record<(typeof primaryNavItems)[number]["href"], string> = {
+  "/concerns": "Symptoms",
+  "/procedures": "Care",
+  "/about": "Dr. Biro",
+  "/patient-guide": "Visit",
+  "/gallery": "Results",
+  "/locations": "Offices",
+}
 
 export default function Header() {
   return (
@@ -38,10 +47,16 @@ export default function Header() {
               <a
                 key={item.href}
                 href={item.href}
+                aria-label={item.label}
                 data-nav-item
                 className={navClass}
               >
-                {item.label}
+                <span className="min-[360px]:hidden" aria-hidden="true">
+                  {narrowNavLabels[item.href]}
+                </span>
+                <span className="hidden min-[360px]:inline" aria-hidden="true">
+                  {item.label}
+                </span>
               </a>
             ))}
           </nav>

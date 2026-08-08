@@ -161,6 +161,14 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     links.every((link) => link.scrollWidth <= link.clientWidth)
   )
   expect(labelsFit).toBe(true)
+  const narrowLabels = await narrowNavigation.getByRole("link").evaluateAll((links) =>
+    links.map((link) => (link as HTMLElement).innerText.trim())
+  )
+  expect(narrowLabels).toEqual(["Symptoms", "Care", "Dr. Biro", "Visit", "Results", "Offices"])
+  const labelsAreReadable = await narrowNavigation.getByRole("link").evaluateAll((links) =>
+    links.every((link) => Number.parseFloat(getComputedStyle(link).fontSize) >= 11)
+  )
+  expect(labelsAreReadable).toBe(true)
   const targetsAreLargeEnough = await narrowNavigation.getByRole("link").evaluateAll((links) =>
     links.every((link) => link.getBoundingClientRect().height >= 44)
   )
