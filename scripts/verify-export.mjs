@@ -47,6 +47,7 @@ const routes = [
   "/privacy",
   "/notice-of-privacy-practices",
   "/accessibility",
+  "/content-standards",
 ]
 
 async function exists(file) {

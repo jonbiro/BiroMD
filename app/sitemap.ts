@@ -32,6 +32,7 @@ const staticEntries: SitemapEntry[] = [
     changeFrequency: "yearly",
   },
   { path: "/accessibility", priority: 0.4, changeFrequency: "yearly" },
+  { path: "/content-standards", priority: 0.5, changeFrequency: "yearly" },
 ]
 
 const entries: SitemapEntry[] = [

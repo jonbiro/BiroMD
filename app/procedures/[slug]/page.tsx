@@ -222,6 +222,14 @@ export default async function ProcedurePage({
                 </li>
               ))}
             </ul>
+            <p className="mt-3 text-sm text-muted-foreground">
+              See how sources, physician-review labels, and corrections are handled in
+              the{" "}
+              <a href="/content-standards" className="font-semibold text-secondary underline-offset-4 hover:underline">
+                BiroMD content standards
+              </a>
+              .
+            </p>
           </div>
         </div>
       </section>

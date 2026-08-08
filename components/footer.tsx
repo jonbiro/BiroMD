@@ -111,6 +111,9 @@ export default function Footer() {
               <a href="/accessibility" className="hover:text-primary hover:underline">
                 Accessibility
               </a>
+              <a href="/content-standards" className="hover:text-primary hover:underline">
+                Content Standards
+              </a>
             </div>
           </div>
         </div>

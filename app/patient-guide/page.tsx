@@ -10,6 +10,7 @@ import {
 } from "lucide-react"
 import { ConsultationCta } from "@/components/consultation-cta"
 import { PageIntro } from "@/components/page-intro"
+import { PrintButton } from "@/components/print-button"
 import { Button } from "@/components/ui/button"
 import { pageMetadata, siteConfig } from "@/lib/site"
 
@@ -63,12 +64,15 @@ export default function PatientGuidePage() {
         title="Plan Your Consultation"
         description="Know how appointment requests work, what may be useful to prepare, and which details to confirm directly with your chosen office."
         actions={
-          <Button asChild>
-            <a href="#choose-office">
-              Choose an Office
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
-          </Button>
+          <>
+            <Button asChild>
+              <a href="#choose-office">
+                Choose an Office
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </a>
+            </Button>
+            <PrintButton />
+          </>
         }
       />
 

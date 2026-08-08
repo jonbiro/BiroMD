@@ -19,6 +19,10 @@ const controlsScript = String.raw`
   });
   syncThemeControls();
 
+  document.querySelectorAll("[data-print-page]").forEach((button) => {
+    button.addEventListener("click", () => window.print());
+  });
+
   const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
   document.querySelectorAll("[data-nav-item]").forEach((link) => {
     const href = link.getAttribute("href") || "";

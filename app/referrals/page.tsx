@@ -8,6 +8,7 @@ import {
   Stethoscope,
 } from "lucide-react"
 import { PageIntro } from "@/components/page-intro"
+import { PrintButton } from "@/components/print-button"
 import { Button } from "@/components/ui/button"
 import { pageMetadata, siteConfig } from "@/lib/site"
 
@@ -42,12 +43,15 @@ export default function ReferralsPage() {
         title="Plan an Oculoplastic Referral"
         description="Choose the office that will receive the referral, confirm that location's current process, and obtain its approved secure method before transmitting records or images."
         actions={
-          <Button asChild>
-            <a href="#referral-offices">
-              Contact an Office
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-            </a>
-          </Button>
+          <>
+            <Button asChild>
+              <a href="#referral-offices">
+                Contact an Office
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </a>
+            </Button>
+            <PrintButton label="Print Referral Guide" />
+          </>
         }
       />
 

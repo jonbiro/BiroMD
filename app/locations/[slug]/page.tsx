@@ -5,6 +5,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   CalendarDays,
+  Download,
   MapPin,
   Navigation,
   Phone,
@@ -176,6 +177,12 @@ export default async function LocationPage({
               <a href={office.practiceUrl}>
                 Practice Website
                 <ArrowUpRight className="ml-2 h-4 w-4" />
+              </a>
+            </Button>
+            <Button variant="outline" asChild>
+              <a href={office.contactCardUrl} download>
+                <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+                Save Office Contact
               </a>
             </Button>
           </div>

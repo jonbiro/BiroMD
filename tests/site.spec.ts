@@ -48,6 +48,7 @@ const publicRoutes = [
   "/privacy",
   "/notice-of-privacy-practices",
   "/accessibility",
+  "/content-standards",
 ]
 
 function luminance([red, green, blue]: number[]) {
@@ -106,9 +107,17 @@ test("floating navigation exposes every primary link without a menu", async ({ p
 
   const navigation = page.getByRole("navigation", { name: "Primary" })
   await expect(navigation).toBeVisible()
-  for (const name of ["About", "Procedures", "Your Visit", "Photos", "Offices", "Contact"]) {
+  for (const name of ["Symptoms", "Procedures", "Dr. Biro", "Your Visit", "Results", "Offices"]) {
     await expect(navigation.getByRole("link", { name, exact: true })).toBeVisible()
   }
+  const allLinksInsideNavigation = await navigation.evaluate((nav) => {
+    const navBox = nav.getBoundingClientRect()
+    return [...nav.querySelectorAll("a")].every((link) => {
+      const linkBox = link.getBoundingClientRect()
+      return linkBox.left >= navBox.left - 1 && linkBox.right <= navBox.right + 1
+    })
+  })
+  expect(allLinksInsideNavigation).toBe(true)
   await expect(page.getByRole("button", { name: "Open menu" })).toHaveCount(0)
   await expectNoHorizontalOverflow(page)
 
@@ -125,6 +134,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     const actionsBox = actions.getBoundingClientRect()
     return {
       shellTouchesViewport: Math.abs(shellBox.top) <= 1,
+      compactHeight: shellBox.height <= 108,
       navigationInsideShell: shell.contains(navigation),
       navigationBelowTopRow:
         navigationBox.top >= Math.max(brandBox.bottom, actionsBox.bottom) - 1,
@@ -133,6 +143,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   })
   expect(mobileHeaderLayout).toEqual({
     shellTouchesViewport: true,
+    compactHeight: true,
     navigationInsideShell: true,
     navigationBelowTopRow: true,
     shellContainsNavigation: true,
@@ -143,7 +154,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   const narrowNavigation = page.getByRole("navigation", { name: "Primary" })
   const mobileBookingLink = page
     .locator("[data-header-actions]")
-    .getByRole("link", { name: "Book", exact: true })
+    .getByRole("link", { name: "Request", exact: true })
   await expect(mobileBookingLink).toBeVisible()
   await expect(mobileBookingLink).not.toHaveAttribute("aria-label")
   const labelsFit = await narrowNavigation.getByRole("link").evaluateAll((links) =>
@@ -200,7 +211,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     navigationBeforeActions: true,
     centersAligned: true,
   })
-  await expect(page.getByText("Consult", { exact: true })).toBeVisible()
+  await expect(page.getByText("Request Visit", { exact: true })).toBeVisible()
   await expectNoHorizontalOverflow(page)
 
   await page.goto("/procedures/ptosis-repair")
@@ -274,6 +285,42 @@ test("new patient guide resolves common scheduling friction", async ({ page }) =
     page.getByRole("heading", { name: "Choose an Office to Request a Consultation" })
   ).toBeVisible()
   await expect(page.getByRole("link", { name: "Request appointment" })).toHaveCount(2)
+  await expect(page.getByRole("button", { name: "Print This Guide" })).toHaveAttribute(
+    "data-print-page",
+    "true"
+  )
+  await expectNoHorizontalOverflow(page)
+})
+
+test("office pages provide portable contact cards", async ({ page }) => {
+  await page.goto("/locations/westlake-village")
+  await expect(page.getByRole("link", { name: "Save Office Contact" })).toHaveAttribute(
+    "href",
+    "/contact-cards/dr-biro-westlake-village.vcf"
+  )
+  await expect(page.getByRole("link", { name: "Save Office Contact" })).toHaveAttribute(
+    "download",
+    ""
+  )
+
+  await page.goto("/locations/rancho-cucamonga")
+  await expect(page.getByRole("link", { name: "Save Office Contact" })).toHaveAttribute(
+    "href",
+    "/contact-cards/dr-biro-rancho-cucamonga.vcf"
+  )
+})
+
+test("content standards disclose review status without overstating approval", async ({ page }) => {
+  await page.goto("/content-standards")
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "How BiroMD Content Is Prepared"
+  )
+  await expect(page.getByRole("heading", { name: "No hidden medical-review claim" })).toBeVisible()
+  await expect(page.getByText(/do not claim physician review while formal approval is pending/i)).toBeVisible()
+  await expect(page.getByRole("link", { name: "Report a Website Correction" })).toHaveAttribute(
+    "href",
+    /^mailto:info@biromd\.com/
+  )
   await expectNoHorizontalOverflow(page)
 })
 
@@ -430,6 +477,10 @@ test("referring clinicians receive a safe direct pathway", async ({ page }) => {
   await expect(page.locator("main form")).toHaveCount(0)
   await expect(page.locator('main a[href^="mailto:"]')).toHaveCount(0)
   await expect(page.locator('main a[href^="tel:"]')).toHaveCount(2)
+  await expect(page.getByRole("button", { name: "Print Referral Guide" })).toHaveAttribute(
+    "data-print-page",
+    "true"
+  )
 })
 
 test("high-intent pages provide verifiable and direct next steps", async ({ page }) => {
