@@ -3,7 +3,6 @@ import {
   CalendarDays,
   Check,
   MapPin,
-  Stethoscope,
 } from "lucide-react"
 import { ResponsivePortrait } from "@/components/responsive-portrait"
 import { Button } from "@/components/ui/button"
@@ -11,8 +10,8 @@ import { siteConfig } from "@/lib/site"
 
 const trustPoints = [
   "Board-certified ophthalmologist",
-  "Fellowship-trained in ocular plastic and orbital surgery",
-  `Consultations in ${siteConfig.languages.join(", ")}`,
+  "Wills Eye oculoplastic fellowship",
+  `Visits in ${siteConfig.languages.join(", ")}`,
 ]
 
 export function Hero() {
@@ -38,9 +37,8 @@ export function Hero() {
                 <span className="headline-gradient block">for the Eyes and Face</span>
               </h1>
               <p className="max-w-2xl text-base leading-relaxed text-muted-foreground min-[480px]:text-lg md:text-xl">
-                Dr. Nicolas Biro provides cosmetic and reconstructive care built
-                on ophthalmic training, careful surgical planning, and respect
-                for each patient&apos;s natural anatomy.
+                Cosmetic and reconstructive care for the eyelids, tear system,
+                and orbit, planned around function and natural expression.
               </p>
             </div>
 
@@ -59,7 +57,7 @@ export function Hero() {
               </Button>
             </div>
 
-            <ul className="order-5 grid gap-2 text-sm text-foreground/90 sm:grid-cols-2">
+            <ul className="order-5 flex flex-wrap gap-x-5 gap-y-2 text-sm text-foreground/90">
               {trustPoints.map((point) => (
                 <li key={point} className="flex items-start gap-2">
                   <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-secondary/12 text-secondary">
@@ -70,12 +68,8 @@ export function Hero() {
               ))}
             </ul>
 
-            <div className="order-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-border/70 pt-5 text-sm text-muted-foreground">
-              <span className="inline-flex items-center gap-2">
-                <Stethoscope className="h-4 w-4 text-secondary" />
-                Consultations by appointment
-              </span>
-              <span>Serving patients in {siteConfig.serviceAreaLabel}</span>
+            <div className="order-6 border-t border-border/70 pt-4 text-sm font-medium text-muted-foreground">
+              Serving patients in {siteConfig.serviceAreaLabel}
             </div>
           </div>
 
@@ -88,15 +82,6 @@ export function Hero() {
                   className="object-contain"
                   sizes="(max-width: 480px) calc(100vw - 72px), (max-width: 1023px) 440px, (max-width: 1200px) 44vw, 540px"
                 />
-              </div>
-              <div className="border-t border-border/70 bg-card p-4 lg:p-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-                  Clinical Approach
-                </p>
-                <p className="mt-1.5 text-sm text-foreground/90 lg:mt-2 lg:text-base">
-                  Restore function, preserve expression, and plan treatment
-                  around the patient&apos;s individual features.
-                </p>
               </div>
             </div>
           </div>

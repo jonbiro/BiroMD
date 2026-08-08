@@ -484,7 +484,7 @@ test("patient concerns lead directly to relevant procedure guidance", async ({ p
   const finder = page.locator("[data-concern-finder]")
 
   await expect(
-    finder.getByRole("heading", { name: "What would you like help with?" })
+    finder.getByRole("heading", { name: "What Brings You In?" })
   ).toBeVisible()
   await expect(finder.locator('a[href^="/concerns/"]')).toHaveCount(7)
   await expect(finder.getByRole("link", { name: /Droopy or heavy upper eyelids/ })).toHaveAttribute(
@@ -571,9 +571,9 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
 
   await page.goto("/")
   const feedback = page.getByRole("heading", {
-    name: "Patient Feedback Beyond This Website",
+    name: "Independent Patient Feedback",
   }).locator("xpath=ancestor::section")
-  await expect(feedback.getByRole("link")).toHaveCount(3)
+  await expect(feedback.locator('a[rel="external"]')).toHaveCount(3)
   await expect(feedback.getByRole("link", { name: /Healthgrades/ })).toHaveAttribute(
     "href",
     /healthgrades\.com/
@@ -585,6 +585,21 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
   expect(physicianSchema).toContain("healthgrades.com")
   expect(physicianSchema).toContain("doctor.webmd.com")
   expect(physicianSchema).toContain("linkedin.com")
+})
+
+test("homepage stays concise while preserving key patient pathways", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("/")
+
+  const wordCount = await page.locator("main").evaluate((main) =>
+    (main.textContent ?? "").trim().split(/\s+/).filter(Boolean).length
+  )
+  expect(wordCount).toBeLessThanOrEqual(225)
+  await expect(page.getByRole("link", { name: "Request Consultation" }).first()).toBeVisible()
+  await expect(page.locator("[data-concern-finder]").locator('a[href^="/concerns/"]')).toHaveCount(7)
+  await expect(page.locator('main a[href^="/procedures#"]')).toHaveCount(3)
+  await expect(page.getByRole("heading", { name: "Independent Patient Feedback" })).toBeVisible()
+  await expect(page.getByText("Clinical Approach", { exact: true })).toHaveCount(0)
 })
 
 test("detail pages expose breadcrumbs, structured wayfinding, and usable FAQs", async ({ page }) => {

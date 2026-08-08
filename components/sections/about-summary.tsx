@@ -1,72 +1,65 @@
-import { Dot, Globe2, GraduationCap, HeartHandshake } from "lucide-react"
+import { ArrowRight, ArrowUpRight, Dot, MessageSquareQuote } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { siteConfig } from "@/lib/site"
-
-const highlights = [
-  {
-    title: "Fellowship Training",
-    description:
-      "Two-year fellowship in ocular plastic and orbital surgery at Wills Eye Hospital.",
-    icon: GraduationCap,
-  },
-  {
-    title: "Multilingual Visits",
-    description: `Consultations available in ${siteConfig.languages.join(", ")}.`,
-    icon: Globe2,
-  },
-  {
-    title: "Individual Planning",
-    description:
-      "Recommendations account for symptoms, eye function, anatomy, and realistic treatment goals.",
-    icon: HeartHandshake,
-  },
-]
+import { patientFeedbackProfiles } from "@/lib/site"
 
 export function AboutSummary() {
   return (
-    <section className="relative py-8 md:py-14">
+    <section className="relative py-8 md:py-14" aria-labelledby="about-summary-title">
       <div className="container px-4 md:px-6">
-        <div className="panel relative overflow-hidden rounded-[2rem] p-6 min-[480px]:p-8 md:p-12">
+        <div className="panel-strong relative overflow-hidden rounded-[2rem] p-6 min-[480px]:p-8 md:p-10">
           <div className="pointer-events-none absolute left-0 top-0 h-40 w-44 rounded-full bg-secondary/8" />
 
-          <div className="relative grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
-            <div className="space-y-5">
+          <div className="relative grid gap-7 lg:grid-cols-[0.8fr_1.2fr] lg:items-end lg:gap-10">
+            <div className="space-y-4">
               <p className="eyebrow">
                 <Dot className="h-3.5 w-3.5" />
-                About Dr. Biro
+                Meet Dr. Biro
               </p>
-              <h2 className="text-4xl font-semibold text-primary sm:text-5xl">
-                Training, Judgment, and Clear Planning
+              <h2
+                id="about-summary-title"
+                className="text-4xl font-semibold text-primary sm:text-5xl"
+              >
+                Ophthalmic Training. Oculoplastic Focus.
               </h2>
-              <p className="text-lg text-muted-foreground">
-                {siteConfig.shortName} combines ophthalmic training with a focused
-                understanding of the eyelids, orbit, tear system, and surrounding face.
+              <p className="text-base text-muted-foreground min-[480px]:text-lg">
+                Care is planned around eye function, facial anatomy, natural expression,
+                and each patient&apos;s goals.
               </p>
-              <Button variant="outline" size="lg" asChild>
-                <a href="/about">View Biography and Training</a>
+              <Button variant="outline" asChild>
+                <a href="/about">
+                  Meet Dr. Biro
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
               </Button>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              {highlights.map((highlight) => (
-                <article key={highlight.title} className="rounded-2xl border border-border bg-background p-4 min-[480px]:p-5">
-                  <div className="mb-3 inline-flex rounded-xl border border-secondary/30 bg-secondary/8 p-2 text-secondary min-[480px]:mb-4">
-                    <highlight.icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="text-2xl font-medium text-primary">{highlight.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{highlight.description}</p>
-                </article>
-              ))}
-
-              <article className="rounded-2xl border border-border bg-accent/55 p-4 min-[480px]:p-5 sm:col-span-2">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-                  Clinical Focus
-                </p>
-                <p className="mt-2 text-base text-foreground/90">
-                  Eyelid surgery and reconstruction, ptosis repair, orbital and
-                  tear-duct care, and selected non-surgical treatments.
-                </p>
-              </article>
+            <div className="rounded-2xl border border-border bg-background p-5">
+              <h3 className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
+                Independent Patient Feedback
+              </h3>
+              <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                {patientFeedbackProfiles.map((profile) => (
+                  <a
+                    key={profile.url}
+                    href={profile.url}
+                    rel="external"
+                    className="group flex min-h-12 items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-sm font-semibold text-foreground transition-colors hover:border-secondary hover:bg-accent"
+                  >
+                    <MessageSquareQuote
+                      className="h-4 w-4 shrink-0 text-secondary"
+                      aria-hidden="true"
+                    />
+                    <span className="min-w-0 flex-1">{profile.name}</span>
+                    <ArrowUpRight
+                      className="h-3.5 w-3.5 shrink-0 text-secondary transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
+                  </a>
+                ))}
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Profiles are managed by each publisher; BiroMD does not republish reviews.
+              </p>
             </div>
           </div>
         </div>

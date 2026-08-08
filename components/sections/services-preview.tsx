@@ -8,6 +8,12 @@ const serviceIcons = {
   "non-surgical-treatments": Syringe,
 } as const
 
+const serviceSummaries = {
+  "cosmetic-eyelid-surgery": "Upper eyelid, lower eyelid, and brow surgery.",
+  "reconstructive-oculoplastics": "Functional eyelid, tear-duct, orbital, and Mohs reconstruction.",
+  "non-surgical-treatments": "Botulinum toxin and fillers for selected patients.",
+} as const
+
 export function ServicesPreview() {
   return (
     <section className="relative py-8 md:py-14">
@@ -16,74 +22,50 @@ export function ServicesPreview() {
           <div className="pointer-events-none absolute -right-24 top-0 h-52 w-56 rounded-full bg-primary/8" />
 
           <div className="relative">
-            <div className="mb-8 flex flex-col gap-5 md:mb-10 md:flex-row md:items-end md:justify-between">
-              <div className="max-w-2xl space-y-4">
+            <div className="mb-7 flex flex-col gap-5 md:mb-8 md:flex-row md:items-end md:justify-between">
+              <div className="max-w-2xl space-y-3">
                 <p className="eyebrow">
                   <Dot className="h-3.5 w-3.5" />
-                  Care Pathways
+                  Procedures
                 </p>
                 <h2 className="text-4xl font-semibold text-primary sm:text-5xl">
-                  Start with the Concern You Want Evaluated
+                  Explore Care Options
                 </h2>
-                <p className="text-lg text-muted-foreground">
-                  Explore cosmetic, reconstructive, and non-surgical options,
-                  then review the individual procedure pages before consultation.
-                </p>
               </div>
 
               <Button variant="outline" asChild>
-                <a href="/services">
-                  Compare Services
+                <a href="/procedures">
+                  All Procedures
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
               </Button>
             </div>
 
-            <div className="grid gap-5 lg:grid-cols-3">
+            <div className="grid gap-4 lg:grid-cols-3">
               {servicePathways.map((service) => {
                 const ServiceIcon = serviceIcons[service.id]
                 return (
-                  <article key={service.title} className="rounded-2xl border border-border bg-background p-5 lg:p-6">
+                  <a
+                    key={service.title}
+                    href={`/procedures#${service.id}`}
+                    className="group flex min-h-40 flex-col rounded-2xl border border-border bg-background p-5 transition-[border-color,box-shadow,transform] hover:-translate-y-0.5 hover:border-secondary hover:shadow-md"
+                  >
                     <div className="flex items-start gap-3 lg:block">
                       <div className="inline-flex shrink-0 rounded-xl border border-secondary/30 bg-secondary/8 p-2 text-secondary lg:mb-5">
-                        <ServiceIcon className="h-5 w-5" />
+                        <ServiceIcon className="h-5 w-5" aria-hidden="true" />
                       </div>
                       <h3 className="pt-1 text-2xl font-medium text-primary lg:pt-0">{service.title}</h3>
                     </div>
-                    <p className="mt-3 text-sm text-muted-foreground">{service.summary}</p>
-                    <ul className="mt-5 space-y-2 text-sm text-foreground/90">
-                      {service.highlights.map((item) => (
-                        <li key={item} className="flex items-center gap-2">
-                          <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                    <a
-                      href={`/procedures#${service.id}`}
-                      className="mt-5 inline-flex items-center text-sm font-semibold text-secondary hover:underline"
-                    >
-                      Review procedures
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </a>
-                  </article>
+                    <p className="mt-3 text-sm text-muted-foreground">
+                      {serviceSummaries[service.id]}
+                    </p>
+                    <span className="mt-auto inline-flex items-center pt-4 text-sm font-semibold text-secondary">
+                      Explore
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </a>
                 )
               })}
-            </div>
-
-            <div className="panel-strong mt-8 rounded-2xl p-5 min-[480px]:p-6 md:mt-10 md:flex md:items-center md:justify-between md:gap-8">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-                  Next Step
-                </p>
-                <p className="mt-2 text-lg text-foreground/90">
-                  Consultation is the appropriate place to confirm the diagnosis,
-                  candidacy, alternatives, and expected recovery.
-                </p>
-              </div>
-              <Button className="mt-4 shrink-0 md:mt-0" asChild>
-                <a href="/contact">Request Consultation</a>
-              </Button>
             </div>
           </div>
         </div>
