@@ -158,13 +158,21 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   await expect(mobileBookingLink).toBeVisible()
   await expect(mobileBookingLink).not.toHaveAttribute("aria-label")
   const labelsFit = await narrowNavigation.getByRole("link").evaluateAll((links) =>
-    links.every((link) => link.scrollWidth <= link.clientWidth)
+    links.every((link) => {
+      const visibleLabel = [...link.querySelectorAll("span")].find(
+        (label) => getComputedStyle(label).display !== "none"
+      )
+      if (!visibleLabel) return false
+      const linkBox = link.getBoundingClientRect()
+      const labelBox = visibleLabel.getBoundingClientRect()
+      return labelBox.left >= linkBox.left - 1 && labelBox.right <= linkBox.right + 1
+    })
   )
   expect(labelsFit).toBe(true)
   const narrowLabels = await narrowNavigation.getByRole("link").evaluateAll((links) =>
     links.map((link) => (link as HTMLElement).innerText.trim())
   )
-  expect(narrowLabels).toEqual(["Symptoms", "Care", "Dr. Biro", "Visit", "Results", "Offices"])
+  expect(narrowLabels).toEqual(["Signs", "Care", "Dr. Biro", "Visit", "Results", "Offices"])
   const labelsAreReadable = await narrowNavigation.getByRole("link").evaluateAll((links) =>
     links.every((link) => Number.parseFloat(getComputedStyle(link).fontSize) >= 11)
   )

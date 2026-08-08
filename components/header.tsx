@@ -9,7 +9,7 @@ const navClass =
   "relative flex min-h-11 min-w-0 items-center justify-center rounded-lg border-b-2 border-transparent text-[0.6875rem] font-semibold text-muted-foreground transition-colors hover:bg-accent/60 hover:text-primary aria-[current=page]:border-secondary aria-[current=page]:bg-accent aria-[current=page]:text-primary sm:text-sm lg:min-h-12 lg:px-2.5 xl:px-3.5"
 
 const narrowNavLabels: Record<(typeof primaryNavItems)[number]["href"], string> = {
-  "/concerns": "Symptoms",
+  "/concerns": "Signs",
   "/procedures": "Care",
   "/about": "Dr. Biro",
   "/patient-guide": "Visit",
