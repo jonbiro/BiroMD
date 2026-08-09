@@ -4,7 +4,10 @@ import { cn } from "@/lib/utils"
 
 function ComparisonBadge({ children }: { children: string }) {
   return (
-    <span className="absolute left-3 top-3 z-10 rounded-full bg-slate-950/88 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-white shadow-sm">
+    <span
+      data-comparison-badge
+      className="absolute left-3 top-3 z-10 rounded-full bg-slate-950/88 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-white shadow-sm"
+    >
       {children}
     </span>
   )
@@ -13,12 +16,14 @@ function ComparisonBadge({ children }: { children: string }) {
 export function ClinicalComparisonPreview({
   image,
   sizes,
-  compact = false,
+  fullSizes,
+  deferred = false,
   className,
 }: {
   image: GalleryCaseImage
   sizes: string
-  compact?: boolean
+  fullSizes?: string
+  deferred?: boolean
   className?: string
 }) {
   if (image.comparisonLayout === "vertical") {
@@ -41,6 +46,7 @@ export function ClinicalComparisonPreview({
             width={image.width}
             height={image.height}
             sizes={sizes}
+            deferred={deferred}
             className="h-full w-full object-cover object-top"
           />
           <ComparisonBadge>Before</ComparisonBadge>
@@ -52,6 +58,7 @@ export function ClinicalComparisonPreview({
             width={image.width}
             height={image.height}
             sizes={sizes}
+            deferred={deferred}
             className="h-full w-full object-cover object-bottom"
           />
           <ComparisonBadge>After</ComparisonBadge>
@@ -66,7 +73,7 @@ export function ClinicalComparisonPreview({
         "relative flex w-full items-center justify-center overflow-hidden bg-accent/45",
         className
       )}
-      style={{ aspectRatio: compact ? "12 / 5" : `${image.width} / ${image.height}` }}
+      style={{ aspectRatio: `${image.width} / ${image.height}` }}
       data-comparison-preview
       data-comparison-layout="side-by-side"
     >
@@ -75,14 +82,15 @@ export function ClinicalComparisonPreview({
         alt={image.alt}
         width={image.width}
         height={image.height}
-        sizes={sizes}
+        sizes={fullSizes ?? sizes}
+        deferred={deferred}
         className="h-full w-full object-contain"
       />
       <div className="pointer-events-none absolute inset-3 z-10 text-[0.68rem] font-bold uppercase tracking-[0.14em]">
-        <span className="absolute left-0 top-0 rounded-full bg-slate-950/88 px-3 py-1.5 text-white shadow-sm">
+        <span data-comparison-badge className="absolute left-0 top-0 rounded-full bg-slate-950/88 px-3 py-1.5 text-white shadow-sm">
           Before
         </span>
-        <span className="absolute right-0 top-0 rounded-full bg-slate-950/88 px-3 py-1.5 text-white shadow-sm">
+        <span data-comparison-badge className="absolute right-0 top-0 rounded-full bg-slate-950/88 px-3 py-1.5 text-white shadow-sm">
           After
         </span>
       </div>

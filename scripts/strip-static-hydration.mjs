@@ -32,9 +32,10 @@ for (const file of exportedFiles.filter((item) => item.endsWith(".html"))) {
 }
 
 let removed = 0
+const preservedTextFiles = new Set(["robots.txt", "security.txt"])
 for (const file of exportedFiles) {
   const isNextScript = file.includes(`${path.sep}_next${path.sep}static${path.sep}chunks${path.sep}`) && file.endsWith(".js")
-  const isRouteState = file.endsWith(".txt") && path.basename(file) !== "robots.txt"
+  const isRouteState = file.endsWith(".txt") && !preservedTextFiles.has(path.basename(file))
   if (isNextScript || isRouteState) {
     await unlink(file)
     removed += 1

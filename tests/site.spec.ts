@@ -440,6 +440,17 @@ test("content standards disclose review status without overstating approval", as
   await expectNoHorizontalOverflow(page)
 })
 
+test("security reports have a stable disclosure contact", async ({ request }) => {
+  const response = await request.get("/.well-known/security.txt")
+  expect(response.ok()).toBe(true)
+  const securityPolicy = await response.text()
+  expect(securityPolicy).toContain("Contact: mailto:info@biromd.com")
+  expect(securityPolicy).toContain("Expires: 2027-08-08T23:59:59Z")
+  expect(securityPolicy).toContain(
+    "Canonical: https://biromd.com/.well-known/security.txt"
+  )
+})
+
 test("dark contact emergency notice uses its dark surface", async ({ page }) => {
   await page.goto("/contact")
   await page.getByRole("button", { name: "Switch to dark mode" }).click()
@@ -542,23 +553,103 @@ test("graphic gallery cases require an explicit reveal", async ({ page }) => {
   const enlarge = clinicalCase.getByRole("button", {
     name: "View larger image for Periocular Lesion Removal",
   })
+  const mediaImage = clinicalCase.locator("[data-sensitive-media] img").first()
+  const mediaSource = clinicalCase
+    .locator('[data-sensitive-media] source[type="image/avif"]')
+    .first()
+  const dialog = page.locator("#gallery-dialog-periocular-lesion-removal")
+  const dialogSource = dialog.locator('source[type="image/avif"]').first()
 
   await expect(warning).toBeVisible()
   await expect(clinicalCase.getByText(/hidden until you choose to view it/i)).toBeVisible()
+  await expect(page.getByText(/do not load unless you choose to view them/i)).toBeVisible()
   await expect(clinicalCase.locator("[data-sensitive-preview]")).toHaveAttribute(
     "src",
     /-warning\.webp$/
   )
+  await expect(mediaImage).toHaveAttribute("src", /-warning\.webp$/)
+  await expect(mediaSource).not.toHaveAttribute("srcset", /.+/)
+  await expect(mediaSource).toHaveAttribute(
+    "data-clinical-srcset",
+    /periocular-lesion-removal-1200\.avif 1200w/
+  )
+  await expect(dialogSource).not.toHaveAttribute("srcset", /.+/)
   await expect(reveal).toBeVisible()
   await expect(enlarge).toBeDisabled()
   await reveal.click()
   await expect(reveal).toBeHidden()
   await expect(enlarge).toBeEnabled()
+  await expect(mediaImage).toHaveAttribute("src", /periocular-lesion-removal\.jpg$/)
+  await expect(mediaSource).toHaveAttribute(
+    "srcset",
+    /periocular-lesion-removal-1200\.avif 1200w/
+  )
+  await expect(dialogSource).not.toHaveAttribute("srcset", /.+/)
+  await enlarge.click()
+  await expect(dialog).toBeVisible()
+  await expect(dialogSource).toHaveAttribute(
+    "srcset",
+    /periocular-lesion-removal-1200\.avif 1200w/
+  )
+  await dialog.getByRole("button", { name: "Close enlarged image" }).click()
   const hide = clinicalCase.getByRole("button", { name: "Hide sensitive clinical image" })
   await expect(hide).toBeVisible()
   await hide.click()
   await expect(warning).toBeVisible()
   await expect(enlarge).toBeDisabled()
+
+  await page.goto("/gallery/periocular-lesion-removal")
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    "content",
+    /noimageindex/
+  )
+  const sensitiveSchemas = await page
+    .locator('script[type="application/ld+json"]')
+    .allTextContents()
+  const sensitivePageSchema = sensitiveSchemas.find((schema) =>
+    schema.includes('"@type":"MedicalWebPage"')
+  ) ?? ""
+  expect(sensitivePageSchema).not.toContain("periocular-lesion-removal.jpg")
+  const detailReveal = page.getByRole("button", { name: /View sensitive clinical image/i })
+  await detailReveal.click()
+  await expect(page.getByRole("button", { name: "Hide sensitive clinical image" })).toBeFocused()
+})
+
+test("horizontal gallery comparisons remain large enough to evaluate", async ({ page }) => {
+  test.skip(
+    !galleryCaseIds.includes("scalp-reconstruction"),
+    "The horizontal comparison case is not authorized for this build"
+  )
+
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("/gallery")
+  const clinicalCase = page.locator("#scalp-reconstruction")
+  await clinicalCase
+    .getByRole("button", { name: /View sensitive clinical image/i })
+    .click()
+
+  const preview = clinicalCase.locator("[data-comparison-preview]")
+  const previewBox = await preview.boundingBox()
+  expect(previewBox).not.toBeNull()
+  expect(previewBox!.height).toBeGreaterThan(250)
+  expect(previewBox!.width / previewBox!.height).toBeGreaterThan(1)
+  expect(previewBox!.width / previewBox!.height).toBeLessThan(1.2)
+  await expect(
+    clinicalCase.locator('[data-sensitive-media] source[type="image/avif"]').first()
+  ).toHaveAttribute("sizes", /\(max-width: 768px\) 92vw/)
+  await expect(clinicalCase.getByText("Enlarge", { exact: true })).toBeVisible()
+  const toolbarBox = await clinicalCase.locator("[data-sensitive-toolbar]").boundingBox()
+  const badgeBoxes = await Promise.all(
+    (await clinicalCase.locator("[data-comparison-badge]").all()).map((badge) =>
+      badge.boundingBox()
+    )
+  )
+  expect(toolbarBox).not.toBeNull()
+  for (const badgeBox of badgeBoxes) {
+    expect(badgeBox).not.toBeNull()
+    expect(badgeBox!.y).toBeGreaterThanOrEqual(toolbarBox!.y + toolbarBox!.height)
+  }
+  await expectNoHorizontalOverflow(page, "horizontal gallery comparison at 390px")
 })
 
 test("homepage heading is readable and graphic cases stay on the results page", async ({ page }) => {

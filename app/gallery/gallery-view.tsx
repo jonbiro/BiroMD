@@ -28,7 +28,9 @@ export function GalleryView({ cases }: GalleryViewProps) {
         <p className="font-semibold text-foreground">About these photographs</p>
         <p className="mt-1 text-muted-foreground">
           Published with written authorization. Framing and file format may be
-          standardized; anatomy and outcomes are not retouched. Individual results vary.
+          standardized; anatomy and outcomes are not retouched. Sensitive surgical
+          photographs stay covered and do not load unless you choose to view them.
+          Individual results vary.
         </p>
       </div>
 
@@ -96,8 +98,9 @@ export function GalleryView({ cases }: GalleryViewProps) {
                   >
                     <ClinicalComparisonPreview
                       image={primaryImage}
-                      compact
                       sizes="(max-width: 768px) 46vw, (max-width: 1280px) 23vw, 16vw"
+                      fullSizes="(max-width: 768px) 92vw, (max-width: 1280px) 46vw, 32vw"
+                      deferred={item.sensitive}
                     />
                   </div>
                   <button
@@ -107,9 +110,9 @@ export function GalleryView({ cases }: GalleryViewProps) {
                     className="absolute inset-0 z-20 flex items-end justify-end p-4 focus-visible:outline-offset-[-5px] disabled:pointer-events-none"
                     aria-label={`View larger image for ${item.title}`}
                   >
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#0b3558] text-xs font-semibold text-white shadow-lg dark:bg-[#164e77] sm:h-auto sm:w-auto sm:gap-2 sm:px-3.5 sm:py-2">
+                    <span className="inline-flex min-h-10 items-center justify-center gap-2 rounded-full bg-[#0b3558] px-3.5 py-2 text-xs font-semibold text-white shadow-lg dark:bg-[#164e77]">
                       <Maximize2 className="h-4 w-4" />
-                      <span className="hidden sm:inline">Full image</span>
+                      <span>Enlarge</span>
                     </span>
                   </button>
                   {item.sensitive && item.sensitiveLabel ? (
@@ -168,6 +171,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
                       width={primaryImage.width}
                       height={primaryImage.height}
                       sizes="95vw"
+                      deferred={item.sensitive}
                       className="max-h-full max-w-full"
                     />
                   </div>

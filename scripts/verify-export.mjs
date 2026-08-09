@@ -139,6 +139,16 @@ if (socialMetadata.width !== 1200 || socialMetadata.height !== 630) {
   throw new Error("Social sharing image must be exactly 1200x630.")
 }
 
+const securityPolicy = await readFile(
+  path.join(outDir, ".well-known", "security.txt"),
+  "utf8"
+)
+for (const field of ["Contact:", "Expires:", "Canonical:"]) {
+  if (!securityPolicy.includes(field)) {
+    throw new Error(`Security disclosure is missing ${field}`)
+  }
+}
+
 const allowedStems = new Set(
   manifest
     .filter((asset) => authorized.has(assetCaseId(asset)))
@@ -169,6 +179,8 @@ for (const asset of manifest.filter((asset) => authorized.has(assetCaseId(asset)
     `${stem}-720.webp`,
     `${stem}-960.avif`,
     `${stem}-960.webp`,
+    `${stem}-1200.avif`,
+    `${stem}-1200.webp`,
   ]) {
     if (!exportedGalleryFiles.includes(file)) {
       throw new Error(`Authorized gallery asset missing from export: ${file}`)

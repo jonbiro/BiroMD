@@ -33,6 +33,10 @@ Source filenames must be anonymous and source metadata must be removed before co
 Cropping, spacing, and output format may be standardized, but facial anatomy, skin,
 healing, and the apparent result must not be retouched or generated.
 
+Cases marked as sensitive use a blurred warning derivative until the visitor explicitly
+reveals the clinical image. The full image sources are attached only after that action,
+and sensitive case pages use `noimageindex` and omit clinical `ImageObject` markup.
+
 Do not store patient names, record numbers, authorization documents, or other
 protected health information in this repository or its variables.
 

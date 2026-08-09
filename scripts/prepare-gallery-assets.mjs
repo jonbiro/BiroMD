@@ -32,7 +32,7 @@ for (const asset of manifest.filter((asset) => authorized.has(assetCaseId(asset)
     .webp({ quality: 42, effort: 4 })
     .toFile(path.join(publicDir, `${stem}-warning.webp`))
 
-  for (const width of [480, 720, 960]) {
+  for (const width of [480, 720, 960, 1200]) {
     const image = sharp(source)
       .rotate()
       .resize({ width, withoutEnlargement: false })

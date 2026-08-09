@@ -43,11 +43,18 @@ export async function generateMetadata({
     }
   }
 
-  return pageMetadata({
+  const metadata = pageMetadata({
     title: `${item.title} Before and After`,
     description: `${item.presentation} Review the documented surgical approach and authorized before-and-after image. Individual results vary.`,
     path: `/gallery/${item.id}`,
   })
+
+  return item.sensitive
+    ? {
+        ...metadata,
+        robots: { index: true, follow: true, noimageindex: true },
+      }
+    : metadata
 }
 
 export default async function GalleryCasePage({
@@ -110,8 +117,12 @@ export default async function GalleryCasePage({
               name: procedure.title,
             }))
           : { "@type": "MedicalCondition", name: item.focus },
-        image: imageObjects,
-        primaryImageOfPage: imageObjects[0],
+        ...(item.sensitive
+          ? {}
+          : {
+              image: imageObjects,
+              primaryImageOfPage: imageObjects[0],
+            }),
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
       },
       {
@@ -173,6 +184,8 @@ export default async function GalleryCasePage({
               <ClinicalComparisonPreview
                 image={primaryImage}
                 sizes="(max-width: 1024px) 46vw, 27vw"
+                fullSizes="(max-width: 1024px) 92vw, 54vw"
+                deferred={item.sensitive}
               />
             </div>
             {item.sensitive && item.sensitiveLabel ? (
@@ -226,12 +239,28 @@ export default async function GalleryCasePage({
             {item.images.slice(1).map((image) => (
               <article key={image.imagePath} className="panel self-start overflow-hidden rounded-[1.8rem]">
                 <div
-                  className="relative flex items-center justify-center bg-accent/45"
+                  className={`relative flex items-center justify-center bg-accent/45 ${item.sensitive ? "min-h-[17rem]" : ""}`}
+                  data-sensitive-image={item.sensitive ? "true" : undefined}
+                  tabIndex={item.sensitive ? -1 : undefined}
                 >
-                  <ClinicalComparisonPreview
-                    image={image}
-                    sizes="(max-width: 768px) 46vw, 23vw"
-                  />
+                  <div
+                    data-sensitive-media={item.sensitive ? "true" : undefined}
+                    aria-hidden={item.sensitive ? "true" : undefined}
+                    className={`flex w-full items-center justify-center ${item.sensitive ? "min-h-[17rem]" : ""}`}
+                  >
+                    <ClinicalComparisonPreview
+                      image={image}
+                      sizes="(max-width: 768px) 46vw, 23vw"
+                      fullSizes="(max-width: 768px) 92vw, 46vw"
+                      deferred={item.sensitive}
+                    />
+                  </div>
+                  {item.sensitive && item.sensitiveLabel ? (
+                    <ClinicalImageCover
+                      label={item.sensitiveLabel}
+                      imagePath={image.imagePath}
+                    />
+                  ) : null}
                 </div>
                 <div className="border-t border-border px-5 py-4">
                   <h3 className="text-2xl font-semibold text-primary">{image.viewLabel}</h3>

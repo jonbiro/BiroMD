@@ -311,3 +311,7 @@ li {
 [data-sensitive-image]:not([data-sensitive-revealed="true"]) [data-sensitive-media] {
   visibility: hidden;
 }
+
+[data-sensitive-revealed="true"] [data-comparison-badge] {
+  top: 3.75rem;
+}

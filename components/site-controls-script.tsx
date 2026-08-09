@@ -30,6 +30,19 @@ const controlsScript = String.raw`
     if (active) link.setAttribute("aria-current", "page");
   });
 
+  const hydrateClinicalImages = (root) => {
+    root?.querySelectorAll("[data-clinical-srcset]").forEach((source) => {
+      const srcset = source.getAttribute("data-clinical-srcset");
+      if (srcset) source.setAttribute("srcset", srcset);
+      source.removeAttribute("data-clinical-srcset");
+    });
+    root?.querySelectorAll("[data-clinical-src]").forEach((image) => {
+      const src = image.getAttribute("data-clinical-src");
+      if (src) image.setAttribute("src", src);
+      image.removeAttribute("data-clinical-src");
+    });
+  };
+
   document.querySelectorAll("[data-gallery]").forEach((gallery) => {
     const filters = [...gallery.querySelectorAll("[data-gallery-filter]")];
     const cases = [...gallery.querySelectorAll("[data-gallery-case]")];
@@ -58,6 +71,7 @@ const controlsScript = String.raw`
     const hide = toolbar?.querySelector("[data-sensitive-hide]");
     cover?.querySelector("[data-sensitive-reveal]")?.addEventListener("click", (event) => {
       event.stopPropagation();
+      hydrateClinicalImages(media);
       cover.hidden = true;
       if (toolbar) toolbar.hidden = false;
       container.setAttribute("data-sensitive-revealed", "true");
@@ -65,6 +79,8 @@ const controlsScript = String.raw`
       if (opener) {
         opener.disabled = false;
         opener.focus();
+      } else if (hide) {
+        hide.focus();
       } else {
         container.focus();
       }
@@ -85,6 +101,7 @@ const controlsScript = String.raw`
     button.addEventListener("click", () => {
       const dialog = document.getElementById(button.getAttribute("data-gallery-open") || "");
       if (!dialog?.showModal) return;
+      hydrateClinicalImages(dialog);
       galleryOpeners.set(dialog, button);
       dialog.showModal();
       document.body.style.overflow = "hidden";
