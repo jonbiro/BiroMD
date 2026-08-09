@@ -5,25 +5,35 @@ import sharp from "sharp"
 const root = process.cwd()
 const source = path.join(root, "brand-assets", "dr-biro-portrait.png")
 const portraitDir = path.join(root, "public", "images", "portrait")
+const responsivePortraits = [
+  { source, stem: "dr-biro-portrait", position: "north" },
+  {
+    source: path.join(root, "brand-assets", "dr-biro-about-portrait.png"),
+    stem: "dr-biro-about-portrait",
+    position: "centre",
+  },
+]
 
 await mkdir(portraitDir, { recursive: true })
 
-for (const width of [320, 480, 560, 640, 960]) {
-  const pipeline = sharp(source).rotate().resize({
-    width,
-    height: Math.round(width * 1.25),
-    fit: "cover",
-    position: "north",
-  })
+for (const portrait of responsivePortraits) {
+  for (const width of [320, 480, 560, 640, 960]) {
+    const pipeline = sharp(portrait.source).rotate().resize({
+      width,
+      height: Math.round(width * 1.25),
+      fit: "cover",
+      position: portrait.position,
+    })
 
-  await pipeline
-    .clone()
-    .avif({ quality: 58, effort: 6 })
-    .toFile(path.join(portraitDir, `dr-biro-portrait-${width}.avif`))
-  await pipeline
-    .clone()
-    .webp({ quality: 80, smartSubsample: true })
-    .toFile(path.join(portraitDir, `dr-biro-portrait-${width}.webp`))
+    await pipeline
+      .clone()
+      .avif({ quality: 58, effort: 6 })
+      .toFile(path.join(portraitDir, `${portrait.stem}-${width}.avif`))
+    await pipeline
+      .clone()
+      .webp({ quality: 80, smartSubsample: true })
+      .toFile(path.join(portraitDir, `${portrait.stem}-${width}.webp`))
+  }
 }
 
 const socialPortrait = await sharp(source)
@@ -75,4 +85,4 @@ await sharp(background)
   .png({ compressionLevel: 9, palette: true, quality: 90 })
   .toFile(path.join(root, "public", "images", "biromd-social-card.png"))
 
-console.log("Generated responsive portrait and social sharing assets.")
+console.log("Generated responsive portraits and social sharing assets.")

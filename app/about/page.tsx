@@ -84,7 +84,10 @@ export default function AboutPage() {
 
           <div className="relative mx-auto w-full max-w-[560px] overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_22px_54px_rgb(5_16_32_/0.18)]">
             <div className="relative aspect-[4/5]">
-              <ResponsivePortrait sizes="(max-width: 1024px) 92vw, 560px" />
+              <ResponsivePortrait
+                portrait="about"
+                sizes="(max-width: 1024px) 92vw, 560px"
+              />
             </div>
           </div>
         </div>

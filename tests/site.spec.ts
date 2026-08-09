@@ -547,6 +547,17 @@ test("homepage heading is readable and graphic cases stay on the results page", 
   expect(portraitFraming.fit).toBe("contain")
   expect(Math.abs(portraitFraming.frameRatio - portraitFraming.naturalRatio)).toBeLessThan(0.01)
   expect(portraitFraming.frameWidth).toBeLessThanOrEqual(440)
+
+  await page.goto("/about")
+  const aboutPortrait = page.getByRole("img", { name: "Dr. Nicolas Biro" })
+  await expect(aboutPortrait).toHaveAttribute(
+    "src",
+    new RegExp(`/images/portrait/dr-biro-about-portrait-960\\.webp\\?v=${brandAssetVersion}$`)
+  )
+  await expect(aboutPortrait.locator("xpath=preceding-sibling::source").first()).toHaveAttribute(
+    "srcset",
+    new RegExp(`/images/portrait/dr-biro-about-portrait-320\\.avif\\?v=${brandAssetVersion}`)
+  )
 })
 
 test("patient concerns lead directly to relevant procedure guidance", async ({ page }) => {

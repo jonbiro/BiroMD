@@ -1,18 +1,26 @@
 import { cn } from "@/lib/utils"
 import { versionedBrandAsset } from "@/lib/brand-assets"
 
-const portraitPath = "/images/portrait/dr-biro-portrait"
 const portraitWidths = [320, 480, 560, 640, 960]
+
+const portraitPaths = {
+  primary: "/images/portrait/dr-biro-portrait",
+  about: "/images/portrait/dr-biro-about-portrait",
+} as const
 
 export function ResponsivePortrait({
   className,
+  portrait = "primary",
   priority = false,
   sizes,
 }: {
   className?: string
+  portrait?: keyof typeof portraitPaths
   priority?: boolean
   sizes: string
 }) {
+  const portraitPath = portraitPaths[portrait]
+
   return (
     <picture>
       <source

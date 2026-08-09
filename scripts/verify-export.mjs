@@ -108,14 +108,22 @@ if (await exists(path.join(outDir, "images", "dr-biro-portrait.png"))) {
 
 const portraitDir = path.join(outDir, "images", "portrait")
 const portraitFiles = await readdir(portraitDir)
-let portraitBytes = 0
 for (const file of portraitFiles) {
   const bytes = (await stat(path.join(portraitDir, file))).size
-  portraitBytes += bytes
   if (bytes > 100_000) throw new Error(`Responsive portrait exceeds 100 KB: ${file}`)
 }
-if (portraitBytes > 320_000) {
-  throw new Error(`Responsive portrait set exceeds 320 KB: ${portraitBytes}`)
+
+for (const stem of ["dr-biro-portrait", "dr-biro-about-portrait"]) {
+  const files = portraitFiles.filter((file) => file.startsWith(`${stem}-`))
+  if (files.length !== 10) {
+    throw new Error(`Responsive portrait set is incomplete: ${stem}`)
+  }
+  const portraitBytes = (
+    await Promise.all(files.map((file) => stat(path.join(portraitDir, file))))
+  ).reduce((total, file) => total + file.size, 0)
+  if (portraitBytes > 320_000) {
+    throw new Error(`Responsive portrait set exceeds 320 KB: ${stem} (${portraitBytes})`)
+  }
 }
 
 const socialCard = path.join(outDir, "images", "biromd-social-card.png")
