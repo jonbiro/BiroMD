@@ -563,6 +563,14 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
   )
 
   await page.goto("/about")
+  const timeline = page.getByRole("heading", { name: "Training Timeline" })
+    .locator("xpath=..")
+  await expect(timeline.getByRole("listitem").filter({ hasText: "Ophthalmology Residency" }))
+    .toContainText("2012")
+  await expect(timeline.getByRole("listitem").filter({ hasText: "Oculoplastic Fellowship" }))
+    .toContainText("2014")
+  await expect(timeline).not.toContainText("2009")
+  await expect(timeline).not.toContainText("2011")
   const affiliations = page.getByRole("heading", { name: "Practice Locations and Information" })
     .locator("xpath=ancestor::section")
   await expect(affiliations.getByRole("link", { name: /DLV Vision/ })).toHaveAttribute(

@@ -23,8 +23,8 @@ export const metadata = pageMetadata({
 const milestones = [
   { year: "2005", title: "M.D., University of South Florida College of Medicine" },
   { year: "2006", title: "Internship, New York University Medical Center" },
-  { year: "2009", title: "Ophthalmology Residency, University of South Florida" },
-  { year: "2011", title: "Oculoplastic Fellowship, Wills Eye Hospital" },
+  { year: "2012", title: "Ophthalmology Residency, University of South Florida" },
+  { year: "2014", title: "Oculoplastic Fellowship, Wills Eye Hospital" },
 ]
 
 export default function AboutPage() {
