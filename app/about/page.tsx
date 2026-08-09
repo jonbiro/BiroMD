@@ -103,12 +103,12 @@ export default function AboutPage() {
               Practice Locations and Information
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Dr. Biro sees patients at three ophthalmology practices. Use the
+              Dr. Biro sees patients at four ophthalmology practices. Use the
               official practice pages to verify current location and appointment information.
             </p>
           </div>
 
-          <div className="mt-7 grid gap-3 md:grid-cols-3">
+          <div className="mt-7 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             {siteConfig.offices.map((office) => (
               <a
                 key={office.id}

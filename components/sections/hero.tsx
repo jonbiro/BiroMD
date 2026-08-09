@@ -27,7 +27,7 @@ export function Hero() {
           <div className="contents lg:relative lg:block lg:space-y-7">
             <a href="/locations" className="eyebrow order-1 justify-self-start transition-colors hover:bg-secondary/15">
               <MapPin className="h-3.5 w-3.5" />
-              Three Office Locations
+              Four Office Locations
             </a>
 
             <div className="order-2 space-y-4 lg:space-y-5">

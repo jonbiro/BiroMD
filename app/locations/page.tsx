@@ -6,7 +6,7 @@ import { pageMetadata, siteConfig } from "@/lib/site"
 export const metadata = pageMetadata({
   title: "Office Locations",
   description:
-    "Find office and appointment information for Dr. Nicolas Biro in Burbank, Westlake Village, and Rancho Cucamonga.",
+    "Find office and appointment information for Dr. Nicolas Biro in downtown Los Angeles, Burbank, Westlake Village, and Rancho Cucamonga.",
   path: "/locations",
 })
 
@@ -15,10 +15,10 @@ export default function LocationsPage() {
     <div className="page-stack">
       <PageIntro
         eyebrow="Locations"
-        title="Three Offices for Consultation"
+        title="Four Offices for Consultation"
         description="Choose the office that is most convenient. Request online where available, or call directly."
       />
-      <section className="container grid gap-6 px-4 lg:grid-cols-3 md:px-6">
+      <section className="container grid gap-6 px-4 lg:grid-cols-2 md:px-6">
         {siteConfig.offices.map((office) => (
           <article key={office.id} className="panel min-w-0 rounded-[1.8rem] p-6 md:p-8">
             <MapPin className="h-6 w-6 text-secondary" />

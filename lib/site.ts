@@ -66,6 +66,26 @@ export const offices = [
     privacyUrl: null,
     noticeUrl: null,
   },
+  {
+    id: "downtown-los-angeles",
+    name: "Downtown Los Angeles",
+    practiceName: "Laser Eye Center",
+    practiceUrl: "https://www.lasereyecenter.com/dr-nicolas-biro/",
+    address: "1127 Wilshire Blvd, Suite 1209, Los Angeles, CA 90017",
+    streetAddress: "1127 Wilshire Blvd, Suite 1209",
+    addressLocality: "Los Angeles",
+    addressRegion: "CA",
+    postalCode: "90017",
+    phoneDisplay: "(800) 805-2737",
+    phoneHref: "+18008052737",
+    appointmentMode: "online",
+    bookingUrl: "https://www.lasereyecenter.com/locations/#site-contact-form",
+    contactCardUrl: "/contact-cards/dr-biro-downtown-los-angeles.vcf",
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=1127%20Wilshire%20Blvd%20Suite%201209%2C%20Los%20Angeles%2C%20CA%2090017",
+    privacyUrl: "https://www.lasereyecenter.com/privacy-policy/",
+    noticeUrl: null,
+  },
 ] as const
 
 export type Office = (typeof offices)[number]
@@ -73,6 +93,7 @@ export type Office = (typeof offices)[number]
 export const physicianProfileUrls = [
   offices[0].practiceUrl,
   offices[1].practiceUrl,
+  offices[3].practiceUrl,
   "https://www.healthgrades.com/physician/dr-nicolas-biro-xv4fv",
   "https://doctor.webmd.com/doctor/nicolas-biro-28e322ee-dec5-11e7-9f4c-005056a225bf-overview",
   "https://www.linkedin.com/in/nicolas-biro-045a92105",
@@ -103,15 +124,15 @@ export const siteConfig = {
   url: "https://biromd.com",
   basePath: "",
   description:
-    "Board-certified ophthalmologist providing cosmetic and reconstructive oculoplastic care in Burbank, Westlake Village, and Rancho Cucamonga, California.",
+    "Board-certified ophthalmologist providing cosmetic and reconstructive oculoplastic care at four locations serving the greater Los Angeles area.",
   email: "info@biromd.com",
   phoneDisplay: offices[0].phoneDisplay,
   phoneHref: offices[0].phoneHref,
-  location: "Burbank, Westlake Village, and Rancho Cucamonga, California",
+  location: "Burbank, downtown Los Angeles, Westlake Village, and Rancho Cucamonga, California",
   offices,
   languages: ["English", "Spanish", "French"],
-  areaServed: ["Los Angeles"],
-  serviceAreaLabel: "Los Angeles",
+  areaServed: ["Greater Los Angeles area"],
+  serviceAreaLabel: "the greater Los Angeles area",
 } as const
 
 export const primaryNavItems = [

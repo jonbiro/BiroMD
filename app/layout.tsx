@@ -56,6 +56,7 @@ export const metadata: Metadata = {
     "Ptosis repair",
     "Orbital surgery",
     "Ophthalmologist Los Angeles",
+    "Oculoplastic surgeon downtown Los Angeles",
     "Oculoplastic surgeon Burbank",
     "Oculoplastic surgeon Westlake Village",
     "Oculoplastic surgeon Rancho Cucamonga",

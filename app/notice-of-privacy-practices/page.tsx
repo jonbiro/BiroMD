@@ -20,7 +20,7 @@ export default function NoticeOfPrivacyPracticesPage() {
       />
 
       <section className="container px-4 md:px-6">
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-2">
           {siteConfig.offices.map((office) => (
             <article key={office.id} className="panel min-w-0 rounded-[1.8rem] p-6 md:p-8">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">

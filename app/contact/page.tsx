@@ -15,7 +15,7 @@ import { pageMetadata, siteConfig } from "@/lib/site"
 export const metadata = pageMetadata({
   title: "Request a Consultation",
   description:
-    "Choose the Burbank, Westlake Village, or Rancho Cucamonga office to request an oculoplastic consultation with Dr. Nicolas Biro.",
+    "Choose the downtown Los Angeles, Burbank, Westlake Village, or Rancho Cucamonga office to request an oculoplastic consultation with Dr. Nicolas Biro.",
   path: "/contact",
 })
 
@@ -42,7 +42,7 @@ export default function ContactPage() {
 
       <section className="container px-4 md:px-6" aria-labelledby="office-options">
         <h2 id="office-options" className="sr-only">Office scheduling options</h2>
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-2">
           {siteConfig.offices.map((office) => (
             <article
               id={`schedule-${office.id}`}

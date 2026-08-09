@@ -28,7 +28,7 @@ export function ConsultationCta({
           </p>
         </div>
 
-        <div className="mt-7 grid gap-3 md:grid-cols-3">
+        <div className="mt-7 grid gap-3 md:grid-cols-2">
           {siteConfig.offices.map((office) => (
             <article
               key={office.id}

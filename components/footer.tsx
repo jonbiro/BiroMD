@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="pointer-events-none absolute -left-24 top-0 h-56 w-56 rounded-full bg-secondary/8" />
           <div className="pointer-events-none absolute -right-24 bottom-0 h-52 w-56 rounded-full bg-primary/8" />
 
-          <div className="relative grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+          <div className="relative grid gap-8 md:grid-cols-2 lg:grid-cols-[0.9fr_1.65fr_0.75fr_1fr] lg:gap-8">
             <div className="space-y-4">
               <p className="font-serif text-2xl font-semibold text-primary md:text-3xl">
                 {siteConfig.name}
@@ -31,7 +31,7 @@ export default function Footer() {
               <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.24em] text-secondary">
                 Offices
               </h2>
-              <ul className="space-y-4 text-sm text-foreground/90">
+              <ul className="grid gap-x-5 gap-y-4 text-sm text-foreground/90 lg:grid-cols-2">
                 {siteConfig.offices.map((office) => (
                   <li key={office.id} className="space-y-1.5">
                     <a

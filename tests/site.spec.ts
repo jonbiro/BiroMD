@@ -46,6 +46,7 @@ const publicRoutes = [
   "/locations/westlake-village",
   "/locations/rancho-cucamonga",
   "/locations/burbank",
+  "/locations/downtown-los-angeles",
   "/referrals",
   "/privacy",
   "/notice-of-privacy-practices",
@@ -287,7 +288,7 @@ test("office and privacy actions fit at narrow and tablet breakpoints", async ({
   await page.goto("/notice-of-privacy-practices")
   await expectNoHorizontalOverflow(page, "privacy notices at 320px")
   await expect(page.getByRole("link", { name: "Patient Privacy Document" }).first()).toBeVisible()
-  await expect(page.getByText("Online privacy document not currently published")).toBeVisible()
+  await expect(page.getByText("Online privacy document not currently published")).toHaveCount(2)
 
   await page.setViewportSize({ width: 820, height: 850 })
   await page.goto("/locations")
@@ -302,7 +303,12 @@ test("office and privacy actions fit at narrow and tablet breakpoints", async ({
 test("contact page uses official office request links", async ({ page }) => {
   await page.goto("/contact")
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Request a Consultation")
-  for (const office of ["Westlake Village", "Rancho Cucamonga", "Burbank"]) {
+  for (const office of [
+    "Westlake Village",
+    "Rancho Cucamonga",
+    "Burbank",
+    "Downtown Los Angeles",
+  ]) {
     await expect(
       page.locator("main").getByRole("link", { name: office, exact: true }).first()
     ).toHaveAttribute("href", /^#schedule-/)
@@ -318,6 +324,12 @@ test("contact page uses official office request links", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Call Burbank" })).toHaveAttribute(
     "href",
     "tel:+18187620647"
+  )
+  await expect(
+    page.getByRole("link", { name: "Request at Downtown Los Angeles" })
+  ).toHaveAttribute(
+    "href",
+    "https://www.lasereyecenter.com/locations/#site-contact-form"
   )
   await expect(page.getByText(/The office will contact you to confirm/)).toBeVisible()
   await expect(page.getByRole("link", { name: "Email Scheduling" })).toHaveAttribute(
@@ -338,7 +350,7 @@ test("new patient guide resolves common scheduling friction", async ({ page }) =
   await expect(
     page.getByRole("heading", { name: "Choose an Office to Request a Consultation" })
   ).toBeVisible()
-  await expect(page.getByRole("link", { name: "Request appointment" })).toHaveCount(2)
+  await expect(page.getByRole("link", { name: "Request appointment" })).toHaveCount(3)
   await expect(page.getByRole("link", { name: "Call for appointment" })).toHaveAttribute(
     "href",
     "tel:+18187620647"
@@ -383,6 +395,24 @@ test("office pages provide portable contact cards", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Save Office Contact" })).toHaveAttribute(
     "href",
     "/contact-cards/dr-biro-burbank.vcf"
+  )
+
+  await page.goto("/locations/downtown-los-angeles")
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Oculoplastic Care in Downtown Los Angeles"
+  )
+  await expect(page.getByText(/1127 Wilshire Blvd, Suite 1209/).first()).toBeVisible()
+  await expect(page.getByRole("link", { name: "Request Appointment" })).toHaveAttribute(
+    "href",
+    "https://www.lasereyecenter.com/locations/#site-contact-form"
+  )
+  await expect(page.getByRole("link", { name: "Practice Website" })).toHaveAttribute(
+    "href",
+    "https://www.lasereyecenter.com/dr-nicolas-biro/"
+  )
+  await expect(page.getByRole("link", { name: "Save Office Contact" })).toHaveAttribute(
+    "href",
+    "/contact-cards/dr-biro-downtown-los-angeles.vcf"
   )
 })
 
@@ -575,7 +605,7 @@ test("referring clinicians receive a safe direct pathway", async ({ page }) => {
   await expect(page.getByText(/should not receive patient records/)).toBeVisible()
   await expect(page.locator("main form")).toHaveCount(0)
   await expect(page.locator('main a[href^="mailto:"]')).toHaveCount(0)
-  await expect(page.locator('main a[href^="tel:"]')).toHaveCount(3)
+  await expect(page.locator('main a[href^="tel:"]')).toHaveCount(4)
   await expect(page.getByRole("button", { name: "Print Referral Guide" })).toHaveAttribute(
     "data-print-page",
     "true"
@@ -587,7 +617,7 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
   const nextStep = page.getByRole("heading", { name: "Discuss Your Concern with Dr. Biro" })
     .locator("xpath=ancestor::section")
 
-  await expect(nextStep.getByRole("link", { name: "Request appointment" })).toHaveCount(2)
+  await expect(nextStep.getByRole("link", { name: "Request appointment" })).toHaveCount(3)
   await expect(nextStep.getByRole("link", { name: "Call for appointment" })).toHaveAttribute(
     "href",
     "tel:+18187620647"
@@ -624,6 +654,10 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
     "href",
     "https://www.acvci.com/"
   )
+  await expect(affiliations.getByRole("link", { name: /Laser Eye Center/ })).toHaveAttribute(
+    "href",
+    "https://www.lasereyecenter.com/dr-nicolas-biro/"
+  )
 
   await page.goto("/")
   const feedback = page.getByRole("heading", {
@@ -641,6 +675,7 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
   expect(physicianSchema).toContain("healthgrades.com")
   expect(physicianSchema).toContain("doctor.webmd.com")
   expect(physicianSchema).toContain("linkedin.com")
+  expect(physicianSchema).toContain("lasereyecenter.com/dr-nicolas-biro")
 })
 
 test("homepage stays concise while preserving key patient pathways", async ({ page }) => {
@@ -655,6 +690,9 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
   await expect(page.locator("[data-concern-finder]").locator('a[href^="/concerns/"]')).toHaveCount(7)
   await expect(page.locator('main a[href^="/procedures#"]')).toHaveCount(3)
   await expect(page.getByRole("heading", { name: "Independent Patient Feedback" })).toBeVisible()
+  await expect(
+    page.getByText("Serving patients in the greater Los Angeles area").first()
+  ).toBeVisible()
   await expect(page.getByText("Clinical Approach", { exact: true })).toHaveCount(0)
 })
 

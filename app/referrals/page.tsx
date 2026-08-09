@@ -128,7 +128,7 @@ export default function ReferralsPage() {
             </p>
           </div>
 
-          <div className="mt-7 grid gap-4 lg:grid-cols-3">
+          <div className="mt-7 grid gap-4 lg:grid-cols-2">
             {siteConfig.offices.map((office) => (
               <article key={office.id} className="rounded-2xl border border-border bg-background p-5">
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-secondary">

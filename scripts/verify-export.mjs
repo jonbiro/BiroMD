@@ -44,6 +44,7 @@ const routes = [
   "/locations/westlake-village",
   "/locations/rancho-cucamonga",
   "/locations/burbank",
+  "/locations/downtown-los-angeles",
   "/referrals",
   "/privacy",
   "/notice-of-privacy-practices",

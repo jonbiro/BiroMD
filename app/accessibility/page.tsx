@@ -34,7 +34,7 @@ export default function AccessibilityPage() {
               If you encounter an accessibility barrier or need information in
               another format, call the most convenient office:
             </p>
-            <ul className="mt-4 grid gap-3 sm:grid-cols-3">
+            <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {siteConfig.offices.map((office) => (
                 <li key={office.id}>
                   <a
