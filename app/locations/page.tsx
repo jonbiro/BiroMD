@@ -28,7 +28,7 @@ export default function LocationsPage() {
             <h2 className="mt-2 text-4xl font-semibold text-primary">{office.name}</h2>
             <p className="mt-3 text-muted-foreground">{office.address}</p>
             <a
-              className="mt-4 inline-flex items-center font-semibold text-secondary hover:underline"
+              className="mt-2 inline-flex min-h-11 items-center font-semibold text-secondary underline-offset-4 hover:underline"
               href={`tel:${office.phoneHref}`}
             >
               <Phone className="mr-2 h-4 w-4" />

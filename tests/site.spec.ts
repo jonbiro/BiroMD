@@ -91,6 +91,16 @@ async function expectNoHorizontalOverflow(page: Page, context = "page") {
   )
 }
 
+async function expectMinimumTargetHeight(locator: Locator, context: string) {
+  const heights = await locator.evaluateAll((elements) =>
+    elements.map((element) => element.getBoundingClientRect().height)
+  )
+  expect(heights.length, `No targets found for ${context}`).toBeGreaterThan(0)
+  for (const height of heights) {
+    expect(height, `Undersized target in ${context}`).toBeGreaterThanOrEqual(44)
+  }
+}
+
 test("primary consultation action is readable in light and dark mode", async ({ page }) => {
   await page.goto("/")
   const cta = page.getByRole("link", { name: "Request Consultation" }).first()
@@ -591,15 +601,18 @@ test("homepage heading is readable and graphic cases stay on the results page", 
     .toBeGreaterThan(0)
   const portraitFraming = await portrait.evaluate((image) => {
     const portraitImage = image as HTMLImageElement
-    const frame = portraitImage.parentElement!.parentElement!.getBoundingClientRect()
+    const frameElement = portraitImage.parentElement!.parentElement!
+    const frame = frameElement.getBoundingClientRect()
     return {
       fit: getComputedStyle(portraitImage).objectFit,
+      frameBackground: getComputedStyle(frameElement).backgroundColor,
       frameRatio: frame.width / frame.height,
       naturalRatio: portraitImage.naturalWidth / portraitImage.naturalHeight,
       frameWidth: frame.width,
     }
   })
   expect(portraitFraming.fit).toBe("contain")
+  expect(portraitFraming.frameBackground).toBe("rgb(63, 65, 67)")
   expect(Math.abs(portraitFraming.frameRatio - portraitFraming.naturalRatio)).toBeLessThan(0.01)
   expect(portraitFraming.frameWidth).toBeLessThanOrEqual(440)
 
@@ -804,6 +817,68 @@ test("detail pages expose breadcrumbs, structured wayfinding, and usable FAQs", 
   await expect(page.getByRole("link", { name: "Plan your consultation" })).toHaveAttribute(
     "href",
     "/patient-guide"
+  )
+})
+
+test("long patient education pages provide mobile in-page navigation", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+
+  for (const route of [
+    "/procedures/ptosis-repair",
+    "/concerns/droopy-heavy-upper-eyelids",
+    "/patient-guide",
+  ]) {
+    await page.goto(route)
+    const navigation = page.getByRole("navigation", { name: "On this page" })
+    await expect(navigation).toBeVisible()
+    const links = navigation.getByRole("link")
+    await expectMinimumTargetHeight(links, `${route} in-page navigation`)
+
+    const hrefs = await links.evaluateAll((elements) =>
+      elements.map((element) => element.getAttribute("href") ?? "")
+    )
+    for (const href of hrefs) {
+      expect(href, `Invalid in-page link on ${route}`).toMatch(/^#[a-z0-9-]+$/)
+      await expect(page.locator(href), `Missing in-page target ${href} on ${route}`).toHaveCount(1)
+    }
+    await expectNoHorizontalOverflow(page, `${route} in-page navigation`)
+  }
+
+  await page.goto("/procedures/ptosis-repair")
+  await page.evaluate(() => {
+    document.documentElement.style.scrollBehavior = "auto"
+  })
+  await page
+    .getByRole("navigation", { name: "On this page" })
+    .getByRole("link", { name: "Recovery" })
+    .click()
+  const anchorPosition = await page.evaluate(() => ({
+    headerBottom: document.querySelector("header")!.getBoundingClientRect().bottom,
+    targetTop: document.querySelector("#recovery")!.getBoundingClientRect().top,
+  }))
+  expect(anchorPosition.targetTop).toBeGreaterThanOrEqual(anchorPosition.headerBottom)
+  expect(anchorPosition.targetTop - anchorPosition.headerBottom).toBeLessThan(32)
+})
+
+test("office secondary actions meet mobile touch-target guidance", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+
+  await page.goto("/locations")
+  await expectMinimumTargetHeight(
+    page.locator('main a[href^="tel:"]'),
+    "office index phone links"
+  )
+
+  await page.goto("/contact")
+  await expectMinimumTargetHeight(
+    page.getByRole("link", { name: "View office details" }),
+    "contact office detail links"
+  )
+
+  await page.goto("/locations/downtown-los-angeles")
+  await expectMinimumTargetHeight(
+    page.locator('main a[href^="tel:"]'),
+    "office detail phone links"
   )
 })
 

@@ -11,6 +11,7 @@ import {
   Info,
 } from "lucide-react"
 import { PageIntro } from "@/components/page-intro"
+import { PageJumpLinks } from "@/components/page-jump-links"
 import { ConsultationCta } from "@/components/consultation-cta"
 import { Button } from "@/components/ui/button"
 import { absoluteUrl, pageMetadata, siteConfig } from "@/lib/site"
@@ -137,8 +138,18 @@ export default async function ProcedurePage({
         }
       />
 
+      <PageJumpLinks
+        items={[
+          { href: "#overview", label: "Overview" },
+          { href: "#consultation", label: "Consultation" },
+          { href: "#recovery", label: "Recovery" },
+          { href: "#questions", label: "Questions" },
+          { href: "#related-procedures", label: "Related Care" },
+        ]}
+      />
+
       <section className="container grid gap-6 px-4 lg:grid-cols-[1.05fr_0.95fr] md:px-6">
-        <article className="panel rounded-[1.8rem] p-6 md:p-8">
+        <article id="overview" className="panel rounded-[1.8rem] p-6 md:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
             Overview
           </p>
@@ -160,7 +171,7 @@ export default async function ProcedurePage({
           </ul>
         </article>
 
-        <aside className="panel rounded-[1.8rem] p-6 md:p-8">
+        <aside id="consultation" className="panel rounded-[1.8rem] p-6 md:p-8">
           <ClipboardCheck className="h-6 w-6 text-secondary" />
           <h2 className="mt-4 text-3xl font-semibold text-primary">
             What Consultation Covers
@@ -175,7 +186,7 @@ export default async function ProcedurePage({
         </aside>
       </section>
 
-      <section className="container px-4 md:px-6">
+      <section id="recovery" className="container px-4 md:px-6">
         <div className="panel rounded-[1.8rem] p-6 md:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
             Recovery and Next Steps
@@ -187,7 +198,11 @@ export default async function ProcedurePage({
         </div>
       </section>
 
-      <section className="container px-4 md:px-6" aria-labelledby="procedure-faq">
+      <section
+        id="questions"
+        className="container px-4 md:px-6"
+        aria-labelledby="procedure-faq"
+      >
         <div className="panel rounded-[1.8rem] p-6 md:p-8">
           <h2 id="procedure-faq" className="text-3xl font-semibold text-primary">
             Common Questions
@@ -247,7 +262,7 @@ export default async function ProcedurePage({
       </section>
 
       {related.length > 0 ? (
-        <section className="container px-4 md:px-6">
+        <section id="related-procedures" className="container px-4 md:px-6">
           <h2 className="text-3xl font-semibold text-primary">Related Procedures</h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {related.map((item) => (

@@ -76,7 +76,7 @@ export function Hero() {
           <div className="relative order-4 mx-auto w-full max-w-[440px] lg:order-none lg:max-w-[540px]">
             <div className="absolute -bottom-8 -right-8 h-44 w-44 rounded-full border border-primary/20 bg-primary/8" />
             <div className="relative overflow-hidden rounded-[1.6rem] border border-border/70 bg-card shadow-[0_20px_50px_rgb(10_29_55_/0.16)] md:rounded-[2.2rem] lg:shadow-[0_24px_65px_rgb(10_29_55_/0.2)]">
-              <div className="relative aspect-[4/5]">
+              <div className="relative aspect-[4/5] bg-[#3f4143]">
                 <ResponsivePortrait
                   priority
                   className="object-contain"

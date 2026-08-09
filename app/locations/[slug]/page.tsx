@@ -166,7 +166,10 @@ export default async function LocationPage({
               <Phone className="mt-0.5 h-5 w-5 shrink-0 text-secondary" />
               <div>
                 <p className="font-semibold text-foreground">Phone</p>
-                <a className="text-secondary hover:underline" href={`tel:${office.phoneHref}`}>
+                <a
+                  className="inline-flex min-h-11 items-center font-semibold text-secondary underline-offset-4 hover:underline"
+                  href={`tel:${office.phoneHref}`}
+                >
                   {office.phoneDisplay}
                 </a>
               </div>

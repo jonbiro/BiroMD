@@ -12,6 +12,7 @@ import {
 } from "lucide-react"
 import { ConsultationCta } from "@/components/consultation-cta"
 import { PageIntro } from "@/components/page-intro"
+import { PageJumpLinks } from "@/components/page-jump-links"
 import { Button } from "@/components/ui/button"
 import { getPatientConcern, patientConcerns } from "@/lib/concerns"
 import { getProcedure } from "@/lib/procedures"
@@ -126,8 +127,21 @@ export default async function ConcernPage({
         }
       />
 
+      <PageJumpLinks
+        items={[
+          { href: "#possible-contributors", label: "Possible Causes" },
+          { href: "#evaluation", label: "Evaluation" },
+          { href: "#urgent-guidance", label: "Urgent Signs" },
+          { href: "#care-options", label: "Care Options" },
+        ]}
+      />
+
       {concern.urgentPage ? (
-        <section className="container px-4 md:px-6" aria-labelledby="urgent-action">
+        <section
+          id="urgent-guidance"
+          className="container px-4 md:px-6"
+          aria-labelledby="urgent-action"
+        >
           <div className="flex items-start gap-3 rounded-2xl border border-amber-300/70 bg-amber-50 p-5 text-amber-950 dark:border-amber-500/45 dark:bg-amber-950/45 dark:text-amber-100 md:p-6">
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
             <div>
@@ -141,7 +155,10 @@ export default async function ConcernPage({
       ) : null}
 
       <section className="container grid gap-6 px-4 lg:grid-cols-[1.05fr_0.95fr] md:px-6">
-        <article className="panel rounded-[1.8rem] p-6 md:p-8">
+        <article
+          id="possible-contributors"
+          className="panel rounded-[1.8rem] p-6 md:p-8"
+        >
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
             Why evaluation matters
           </p>
@@ -163,7 +180,7 @@ export default async function ConcernPage({
           </ul>
         </article>
 
-        <aside className="panel rounded-[1.8rem] p-6 md:p-8">
+        <aside id="evaluation" className="panel rounded-[1.8rem] p-6 md:p-8">
           <ClipboardCheck className="h-6 w-6 text-secondary" aria-hidden="true" />
           <h2 className="mt-4 text-3xl font-semibold text-primary">
             What Evaluation May Cover
@@ -182,7 +199,11 @@ export default async function ConcernPage({
       </section>
 
       {!concern.urgentPage ? (
-        <section className="container px-4 md:px-6" aria-labelledby="when-to-seek-care">
+        <section
+          id="urgent-guidance"
+          className="container px-4 md:px-6"
+          aria-labelledby="when-to-seek-care"
+        >
           <div className="flex items-start gap-3 rounded-2xl border border-amber-300/70 bg-amber-50 p-5 text-amber-950 dark:border-amber-500/45 dark:bg-amber-950/45 dark:text-amber-100 md:p-6">
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
             <div>
@@ -195,7 +216,11 @@ export default async function ConcernPage({
         </section>
       ) : null}
 
-      <section className="container px-4 md:px-6" aria-labelledby="related-care">
+      <section
+        id="care-options"
+        className="container px-4 md:px-6"
+        aria-labelledby="related-care"
+      >
         <div className="panel rounded-[1.8rem] p-6 md:p-8">
           <h2 id="related-care" className="text-3xl font-semibold text-primary">
             Related Care Pathways

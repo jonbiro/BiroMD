@@ -47,7 +47,7 @@ export default function ContactPage() {
             <article
               id={`schedule-${office.id}`}
               key={office.id}
-              className="panel scroll-mt-44 overflow-hidden rounded-[1.8rem] sm:scroll-mt-36 lg:scroll-mt-28"
+              className="panel overflow-hidden rounded-[1.8rem]"
             >
               <div className="border-b border-border bg-accent/55 p-6 md:p-7 lg:min-h-44">
                 <div className="flex items-start justify-between gap-4">
@@ -105,7 +105,7 @@ export default function ContactPage() {
                 </div>
                 <a
                   href={`/locations/${office.id}`}
-                  className="block text-center text-sm font-semibold text-secondary underline-offset-4 hover:underline"
+                  className="flex min-h-11 items-center justify-center text-center text-sm font-semibold text-secondary underline-offset-4 hover:underline"
                 >
                   View office details
                 </a>

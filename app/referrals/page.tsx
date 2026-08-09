@@ -112,7 +112,7 @@ export default function ReferralsPage() {
         </div>
       </section>
 
-      <section id="referral-offices" className="container scroll-mt-44 px-4 sm:scroll-mt-36 md:px-6 lg:scroll-mt-28" aria-labelledby="referral-office-title">
+      <section id="referral-offices" className="container px-4 md:px-6" aria-labelledby="referral-office-title">
         <div className="panel-strong rounded-[1.8rem] p-6 md:p-8 lg:p-10">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">

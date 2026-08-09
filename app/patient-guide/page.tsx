@@ -10,6 +10,7 @@ import {
 } from "lucide-react"
 import { ConsultationCta } from "@/components/consultation-cta"
 import { PageIntro } from "@/components/page-intro"
+import { PageJumpLinks } from "@/components/page-jump-links"
 import { PrintButton } from "@/components/print-button"
 import { Button } from "@/components/ui/button"
 import { pageMetadata, siteConfig } from "@/lib/site"
@@ -76,7 +77,21 @@ export default function PatientGuidePage() {
         }
       />
 
-      <section className="container px-4 md:px-6" aria-labelledby="request-process">
+      <PageJumpLinks
+        items={[
+          { href: "#appointment-process", label: "Request Process" },
+          { href: "#prepare", label: "Prepare" },
+          { href: "#consultation", label: "Consultation" },
+          { href: "#before-visit", label: "Before Your Visit" },
+          { href: "#choose-office", label: "Choose an Office" },
+        ]}
+      />
+
+      <section
+        id="appointment-process"
+        className="container px-4 md:px-6"
+        aria-labelledby="request-process"
+      >
         <div className="panel overflow-hidden rounded-[1.8rem] p-6 md:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
             Appointment process
@@ -99,7 +114,7 @@ export default function PatientGuidePage() {
       </section>
 
       <section className="container grid gap-6 px-4 lg:grid-cols-2 md:px-6">
-        <article className="panel rounded-[1.8rem] p-6 md:p-8">
+        <article id="prepare" className="panel rounded-[1.8rem] p-6 md:p-8">
           <FileHeart className="h-6 w-6 text-secondary" aria-hidden="true" />
           <h2 className="mt-4 text-3xl font-semibold text-primary">
             What May Be Useful to Prepare
@@ -118,7 +133,7 @@ export default function PatientGuidePage() {
           </ul>
         </article>
 
-        <article className="panel rounded-[1.8rem] p-6 md:p-8">
+        <article id="consultation" className="panel rounded-[1.8rem] p-6 md:p-8">
           <ClipboardCheck className="h-6 w-6 text-secondary" aria-hidden="true" />
           <h2 className="mt-4 text-3xl font-semibold text-primary">
             What Consultation May Include
@@ -138,7 +153,11 @@ export default function PatientGuidePage() {
         </article>
       </section>
 
-      <section className="container px-4 md:px-6" aria-labelledby="questions-before-visit">
+      <section
+        id="before-visit"
+        className="container px-4 md:px-6"
+        aria-labelledby="questions-before-visit"
+      >
         <div className="panel-strong rounded-[1.8rem] p-6 md:p-8">
           <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <div>
@@ -210,7 +229,7 @@ export default function PatientGuidePage() {
         </div>
       </section>
 
-      <div id="choose-office" className="scroll-mt-44 sm:scroll-mt-36 lg:scroll-mt-28">
+      <div id="choose-office">
         <ConsultationCta
           title="Choose an Office to Request a Consultation"
           description="Select the more convenient location, then use its official request service or call directly. The office confirms availability."
