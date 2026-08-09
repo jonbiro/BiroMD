@@ -1,5 +1,6 @@
 import { readdir, rm } from "node:fs/promises"
 import {
+  assetCaseId,
   assetStem,
   authorizedIds,
   exportDir,
@@ -11,7 +12,7 @@ const manifest = await loadManifest()
 const authorized = authorizedIds(manifest)
 const allowedStems = new Set(
   manifest
-    .filter(({ id }) => authorized.has(id))
+    .filter((asset) => authorized.has(assetCaseId(asset)))
     .map(({ file }) => assetStem(file))
 )
 

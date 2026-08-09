@@ -24,8 +24,8 @@ no clinical cases or clinical image derivatives are exposed locally.
 ## Validation
 
 ```bash
-GALLERY_AUTHORIZED_CASE_IDS=lower-blepharoplasty,eyelid-trauma,scalp-reconstruction,eyebrow-reconstruction npm run build
-GALLERY_AUTHORIZED_CASE_IDS=lower-blepharoplasty,eyelid-trauma,scalp-reconstruction,eyebrow-reconstruction npm run verify:export
+GALLERY_AUTHORIZED_CASE_IDS=upper-lower-blepharoplasty,upper-blepharoplasty,lower-blepharoplasty,periocular-lesion-removal,eyelid-trauma,scalp-reconstruction,eyebrow-reconstruction npm run build
+GALLERY_AUTHORIZED_CASE_IDS=upper-lower-blepharoplasty,upper-blepharoplasty,lower-blepharoplasty,periocular-lesion-removal,eyelid-trauma,scalp-reconstruction,eyebrow-reconstruction npm run verify:export
 npm run test:e2e
 npm run lint
 npm audit

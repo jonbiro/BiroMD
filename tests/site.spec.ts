@@ -486,14 +486,53 @@ test("authorized gallery cases have shareable detail pages", async ({ page }) =>
 
   await page.goto(`/gallery/${caseId}`)
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Before and After")
-  await expect(page.getByText("Before", { exact: true })).toBeVisible()
-  await expect(page.getByText("After", { exact: true })).toBeVisible()
+  await expect(page.getByText("Before", { exact: true }).first()).toBeVisible()
+  await expect(page.getByText("After", { exact: true }).first()).toBeVisible()
   await expect(page.getByRole("heading", { name: "What Was Evaluated" })).toBeVisible()
   await expect(page.getByRole("heading", { name: "Results Are Individual" })).toBeVisible()
   await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText("Gallery")
   const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
   expect(schemas.some((schema) => schema.includes('"ImageObject"'))).toBe(true)
   await expectNoHorizontalOverflow(page)
+})
+
+test("multi-view gallery cases preserve matched comparisons", async ({ page }) => {
+  test.skip(
+    !galleryCaseIds.includes("upper-lower-blepharoplasty"),
+    "The multi-view case is not authorized for this build"
+  )
+
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("/gallery/upper-lower-blepharoplasty")
+  await expect(
+    page.getByRole("heading", { name: "Matched Views of the Same Case" })
+  ).toBeVisible()
+  await expect(page.getByRole("heading", { name: "First oblique view" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Second oblique view" })).toBeVisible()
+  await expect(
+    page.locator('main img[alt*="upper and lower blepharoplasty"]')
+  ).toHaveCount(3)
+  await expectNoHorizontalOverflow(page, "multi-view gallery case at 390px")
+})
+
+test("graphic gallery cases require an explicit reveal", async ({ page }) => {
+  test.skip(
+    !galleryCaseIds.includes("periocular-lesion-removal"),
+    "The sensitive case is not authorized for this build"
+  )
+
+  await page.goto("/gallery")
+  const clinicalCase = page.locator("#periocular-lesion-removal")
+  const reveal = clinicalCase.getByRole("button", { name: "Show Clinical Image" })
+  const enlarge = clinicalCase.getByRole("button", {
+    name: "View larger image for Periocular Lesion Removal",
+  })
+
+  await expect(reveal).toBeVisible()
+  await expect(enlarge).toBeDisabled()
+  await reveal.click()
+  await expect(reveal).toBeHidden()
+  await expect(enlarge).toBeEnabled()
 })
 
 test("homepage heading is readable and graphic cases stay on the results page", async ({ page }) => {

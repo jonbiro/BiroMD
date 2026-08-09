@@ -1,7 +1,14 @@
 import { access, readdir, readFile, stat } from "node:fs/promises"
 import path from "node:path"
 import sharp from "sharp"
-import { assetStem, authorizedIds, exportDir, loadManifest, root } from "./gallery-assets.mjs"
+import {
+  assetCaseId,
+  assetStem,
+  authorizedIds,
+  exportDir,
+  loadManifest,
+  root,
+} from "./gallery-assets.mjs"
 
 const outDir = path.join(root, "out")
 const procedureSlugs = [
@@ -133,7 +140,9 @@ if (socialMetadata.width !== 1200 || socialMetadata.height !== 630) {
 }
 
 const allowedStems = new Set(
-  manifest.filter(({ id }) => authorized.has(id)).map(({ file }) => assetStem(file))
+  manifest
+    .filter((asset) => authorized.has(assetCaseId(asset)))
+    .map(({ file }) => assetStem(file))
 )
 let exportedGalleryFiles = []
 try {
@@ -149,7 +158,7 @@ for (const file of exportedGalleryFiles) {
   if (!allowed) throw new Error(`Unauthorized clinical asset exported: ${file}`)
 }
 
-for (const asset of manifest.filter(({ id }) => authorized.has(id))) {
+for (const asset of manifest.filter((asset) => authorized.has(assetCaseId(asset)))) {
   const stem = assetStem(asset.file)
   for (const file of [
     asset.file,
@@ -166,9 +175,9 @@ for (const asset of manifest.filter(({ id }) => authorized.has(id))) {
   }
 }
 
-for (const asset of manifest.filter(({ id }) => !authorized.has(id))) {
+for (const asset of manifest.filter((asset) => !authorized.has(assetCaseId(asset)))) {
   if (html.includes(`/images/cases/${asset.file}`)) {
-    throw new Error(`Unauthorized gallery case appears in HTML: ${asset.id}`)
+    throw new Error(`Unauthorized gallery case appears in HTML: ${assetCaseId(asset)}`)
   }
 }
 

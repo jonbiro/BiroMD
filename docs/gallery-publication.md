@@ -15,6 +15,10 @@ Use a comma-separated allowlist, for example:
 lower-blepharoplasty,eyelid-trauma
 ```
 
+Several image assets may share one `caseId` in `lib/gallery-assets.json`. Authorizing
+that case ID publishes every listed view for that case, so the final review must cover
+the complete image set rather than only its primary image.
+
 Before adding a case ID, the practice owner must confirm and retain:
 
 - signed authorization permitting public marketing use of the images and the
@@ -24,6 +28,10 @@ Before adding a case ID, the practice owner must confirm and retain:
 - comparable before-and-after presentation without alteration that distorts the result;
 - a removal process for revocation where applicable; and
 - final review of the visible results-vary disclosure.
+
+Source filenames must be anonymous and source metadata must be removed before commit.
+Cropping, spacing, and output format may be standardized, but facial anatomy, skin,
+healing, and the apparent result must not be retouched or generated.
 
 Do not store patient names, record numbers, authorization documents, or other
 protected health information in this repository or its variables.

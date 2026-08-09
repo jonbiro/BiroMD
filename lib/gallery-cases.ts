@@ -1,5 +1,26 @@
 import galleryAssets from "@/lib/gallery-assets.json"
 
+type GalleryAsset = {
+  id: string
+  caseId?: string
+  file: string
+  width: number
+  height: number
+  viewLabel: string
+  comparisonLayout: "vertical" | "horizontal"
+  comparisonLabel: string
+}
+
+export type GalleryCaseImage = {
+  imagePath: string
+  alt: string
+  width: number
+  height: number
+  viewLabel: string
+  comparisonLayout: "vertical" | "horizontal"
+  comparisonLabel: string
+}
+
 export type GalleryCase = {
   id: string
   title: string
@@ -8,30 +29,62 @@ export type GalleryCase = {
   focus: string
   presentation: string
   technique: string
-  imagePath: string
-  alt: string
-  comparisonLayout: "vertical" | "horizontal"
-  comparisonLabel: string
-  relatedProcedureSlug?: string
+  images: GalleryCaseImage[]
+  relatedProcedureSlugs?: string[]
+  sensitive?: boolean
+  sensitiveLabel?: string
 }
 
-const assetsById = new Map(galleryAssets.map((asset) => [asset.id, asset]))
+const assets = galleryAssets as GalleryAsset[]
 
-function assetFor(id: string) {
-  const asset = assetsById.get(id)
+function assetsFor(caseId: string, alt: string): GalleryCaseImage[] {
+  const caseAssets = assets.filter((asset) => (asset.caseId ?? asset.id) === caseId)
 
-  if (!asset) {
-    throw new Error(`Missing gallery asset manifest entry for ${id}`)
+  if (caseAssets.length === 0) {
+    throw new Error(`Missing gallery asset manifest entry for ${caseId}`)
   }
 
-  return {
+  return caseAssets.map((asset) => ({
     imagePath: `/images/cases/${asset.file}`,
-    comparisonLayout: asset.comparisonLayout as GalleryCase["comparisonLayout"],
+    alt: `${alt}, ${asset.viewLabel.toLowerCase()}`,
+    width: asset.width,
+    height: asset.height,
+    viewLabel: asset.viewLabel,
+    comparisonLayout: asset.comparisonLayout,
     comparisonLabel: asset.comparisonLabel,
-  }
+  }))
 }
 
 const galleryCases: GalleryCase[] = [
+  {
+    id: "upper-lower-blepharoplasty",
+    title: "Upper and Lower Blepharoplasty",
+    category: "cosmetic",
+    categoryLabel: "Cosmetic Surgery",
+    focus: "Multi-Angle Eyelid Rejuvenation",
+    presentation:
+      "The patient sought improvement in upper-eyelid heaviness and lower-eyelid fullness.",
+    technique:
+      "Upper and lower blepharoplasty was performed. Frontal and oblique photographs document the result from three matched viewpoints.",
+    relatedProcedureSlugs: ["upper-blepharoplasty", "lower-blepharoplasty"],
+    images: assetsFor(
+      "upper-lower-blepharoplasty",
+      "Before and after upper and lower blepharoplasty"
+    ),
+  },
+  {
+    id: "upper-blepharoplasty",
+    title: "Upper Blepharoplasty",
+    category: "cosmetic",
+    categoryLabel: "Cosmetic Surgery",
+    focus: "Upper-Eyelid Contour",
+    presentation:
+      "The patient sought improvement in upper-eyelid heaviness and hooding.",
+    technique:
+      "Upper blepharoplasty was performed with the goal of reducing excess upper-eyelid tissue while preserving a natural contour. Three viewpoints are included.",
+    relatedProcedureSlugs: ["upper-blepharoplasty"],
+    images: assetsFor("upper-blepharoplasty", "Before and after upper blepharoplasty"),
+  },
   {
     id: "lower-blepharoplasty",
     title: "Lower Blepharoplasty",
@@ -42,9 +95,28 @@ const galleryCases: GalleryCase[] = [
       "The patient presented with prominent lower-eyelid fat pads that contributed to a persistently tired appearance.",
     technique:
       "A transconjunctival lower blepharoplasty was performed. Fat was conservatively repositioned and contoured to soften the lid-cheek junction while avoiding an over-hollowed appearance.",
-    relatedProcedureSlug: "lower-blepharoplasty",
-    alt: "Before and after lower blepharoplasty showing under-eye rejuvenation",
-    ...assetFor("lower-blepharoplasty"),
+    relatedProcedureSlugs: ["lower-blepharoplasty"],
+    images: assetsFor(
+      "lower-blepharoplasty",
+      "Before and after lower blepharoplasty showing under-eye rejuvenation"
+    ),
+  },
+  {
+    id: "periocular-lesion-removal",
+    title: "Periocular Lesion Removal",
+    category: "reconstructive",
+    categoryLabel: "Periocular Surgery",
+    focus: "Inner Eyelid Region",
+    presentation:
+      "A periocular lesion near the inner eyelid region was evaluated for removal.",
+    technique:
+      "The supplied photographs document the lesion before treatment and the healed appearance after removal.",
+    images: assetsFor(
+      "periocular-lesion-removal",
+      "Before and after removal of a lesion near the inner eyelid region"
+    ),
+    sensitive: true,
+    sensitiveLabel: "This comparison includes a visible periocular lesion before treatment.",
   },
   {
     id: "eyelid-trauma",
@@ -56,9 +128,13 @@ const galleryCases: GalleryCase[] = [
       "The patient had a full-thickness eyelid defect after Mohs surgery for periocular skin cancer.",
     technique:
       "The eyelid layers were reconstructed and carefully aligned to restore margin position, support eyelid closure, and protect the ocular surface.",
-    relatedProcedureSlug: "eyelid-cancer-mohs-reconstruction",
-    alt: "Before and after Mohs cancer removal eyelid reconstruction",
-    ...assetFor("eyelid-trauma"),
+    relatedProcedureSlugs: ["eyelid-cancer-mohs-reconstruction"],
+    images: assetsFor(
+      "eyelid-trauma",
+      "Before and after Mohs cancer removal eyelid reconstruction"
+    ),
+    sensitive: true,
+    sensitiveLabel: "This comparison includes a visible eyelid surgical defect.",
   },
   {
     id: "scalp-reconstruction",
@@ -70,8 +146,12 @@ const galleryCases: GalleryCase[] = [
       "The patient had a large scalp defect after Mohs surgery for skin cancer removal.",
     technique:
       "A rotational flap was designed and advanced to close the defect with reduced tension while preserving the surrounding hair-bearing tissue.",
-    alt: "Before and after scalp reconstruction showing Mohs defect closure",
-    ...assetFor("scalp-reconstruction"),
+    images: assetsFor(
+      "scalp-reconstruction",
+      "Before and after scalp reconstruction showing Mohs defect closure"
+    ),
+    sensitive: true,
+    sensitiveLabel: "This comparison includes an open scalp surgical defect.",
   },
   {
     id: "eyebrow-reconstruction",
@@ -83,8 +163,12 @@ const galleryCases: GalleryCase[] = [
       "The patient had a surgical defect above the eyebrow and lateral forehead after skin cancer excision.",
     technique:
       "An advancement-transposition flap was planned along natural forehead lines to close the defect while limiting distortion of the eyebrow.",
-    alt: "Before and after forehead and eyebrow reconstruction",
-    ...assetFor("eyebrow-reconstruction"),
+    images: assetsFor(
+      "eyebrow-reconstruction",
+      "Before and after forehead and eyebrow reconstruction"
+    ),
+    sensitive: true,
+    sensitiveLabel: "This comparison includes a visible forehead surgical defect.",
   },
 ]
 

@@ -1,25 +1,106 @@
 [
   {
+    "id": "upper-lower-blepharoplasty-front",
+    "caseId": "upper-lower-blepharoplasty",
+    "file": "upper-lower-blepharoplasty-front.jpg",
+    "width": 1200,
+    "height": 1932,
+    "viewLabel": "Frontal view",
+    "comparisonLayout": "vertical",
+    "comparisonLabel": "Top: Before | Bottom: After"
+  },
+  {
+    "id": "upper-lower-blepharoplasty-oblique-one",
+    "caseId": "upper-lower-blepharoplasty",
+    "file": "upper-lower-blepharoplasty-oblique-one.jpg",
+    "width": 1200,
+    "height": 1932,
+    "viewLabel": "First oblique view",
+    "comparisonLayout": "vertical",
+    "comparisonLabel": "Top: Before | Bottom: After"
+  },
+  {
+    "id": "upper-lower-blepharoplasty-oblique-two",
+    "caseId": "upper-lower-blepharoplasty",
+    "file": "upper-lower-blepharoplasty-oblique-two.jpg",
+    "width": 1200,
+    "height": 1932,
+    "viewLabel": "Second oblique view",
+    "comparisonLayout": "vertical",
+    "comparisonLabel": "Top: Before | Bottom: After"
+  },
+  {
+    "id": "upper-blepharoplasty-front",
+    "caseId": "upper-blepharoplasty",
+    "file": "upper-blepharoplasty-front.jpg",
+    "width": 1200,
+    "height": 1932,
+    "viewLabel": "Frontal view",
+    "comparisonLayout": "vertical",
+    "comparisonLabel": "Top: Before | Bottom: After"
+  },
+  {
+    "id": "upper-blepharoplasty-oblique-one",
+    "caseId": "upper-blepharoplasty",
+    "file": "upper-blepharoplasty-oblique-one.jpg",
+    "width": 1200,
+    "height": 1932,
+    "viewLabel": "First oblique view",
+    "comparisonLayout": "vertical",
+    "comparisonLabel": "Top: Before | Bottom: After"
+  },
+  {
+    "id": "upper-blepharoplasty-oblique-two",
+    "caseId": "upper-blepharoplasty",
+    "file": "upper-blepharoplasty-oblique-two.jpg",
+    "width": 1200,
+    "height": 1932,
+    "viewLabel": "Second oblique view",
+    "comparisonLayout": "vertical",
+    "comparisonLabel": "Top: Before | Bottom: After"
+  },
+  {
     "id": "lower-blepharoplasty",
     "file": "lower-blepharoplasty.jpg",
+    "width": 558,
+    "height": 1024,
+    "viewLabel": "Frontal view",
+    "comparisonLayout": "vertical",
+    "comparisonLabel": "Top: Before | Bottom: After"
+  },
+  {
+    "id": "periocular-lesion-removal",
+    "file": "periocular-lesion-removal.jpg",
+    "width": 1200,
+    "height": 1932,
+    "viewLabel": "Oblique view",
     "comparisonLayout": "vertical",
     "comparisonLabel": "Top: Before | Bottom: After"
   },
   {
     "id": "eyelid-trauma",
     "file": "mohs-eyelid-reconstruction.jpg",
+    "width": 621,
+    "height": 1024,
+    "viewLabel": "Primary view",
     "comparisonLayout": "vertical",
     "comparisonLabel": "Top: Before | Bottom: After"
   },
   {
     "id": "scalp-reconstruction",
     "file": "scalp-reconstruction.jpg",
+    "width": 1024,
+    "height": 929,
+    "viewLabel": "Surgical view",
     "comparisonLayout": "horizontal",
     "comparisonLabel": "Left: Before | Right: After"
   },
   {
     "id": "eyebrow-reconstruction",
     "file": "eyebrow-defect-reconstruction.jpg",
+    "width": 1024,
+    "height": 1024,
+    "viewLabel": "Primary view",
     "comparisonLayout": "vertical",
     "comparisonLabel": "Top: Before | Bottom: After"
   }

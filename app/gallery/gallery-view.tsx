@@ -1,14 +1,14 @@
 import {
-  FileText,
   Images,
   Maximize2,
   ShieldCheck,
   Sparkles,
   X,
 } from "lucide-react"
+import { ClinicalImageCover } from "@/components/clinical-image-cover"
 import { ClinicalCaseImage } from "@/components/clinical-case-image"
 import { Button } from "@/components/ui/button"
-import type { GalleryCase } from "@/lib/gallery-cases"
+import type { GalleryCase, GalleryCaseImage } from "@/lib/gallery-cases"
 import { cn } from "@/lib/utils"
 
 type GalleryViewProps = { cases: GalleryCase[] }
@@ -20,8 +20,8 @@ const filters: Array<{ id: GalleryFilter; label: string; icon: typeof Images }> 
   { id: "reconstructive", label: "Reconstructive", icon: ShieldCheck },
 ]
 
-function ComparisonLabels({ item }: { item: GalleryCase }) {
-  const vertical = item.comparisonLayout === "vertical"
+function ComparisonLabels({ image }: { image: GalleryCaseImage }) {
+  const vertical = image.comparisonLayout === "vertical"
   return (
     <div className="pointer-events-none absolute inset-3 z-10 text-[0.68rem] font-bold uppercase tracking-[0.14em]">
       <span className="absolute left-0 top-0 rounded-full bg-slate-950/85 px-3 py-1.5 text-white shadow-sm">
@@ -47,6 +47,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
         <p className="mt-1 text-muted-foreground">
           Individual anatomy, treatment plans, healing, and results vary. Cases
           appear here only after written publication authorization is confirmed.
+          Framing and file format may be standardized; anatomy and outcomes are not retouched.
         </p>
       </div>
 
@@ -84,29 +85,48 @@ export function GalleryView({ cases }: GalleryViewProps) {
           </p>
         </div>
       ) : (
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="grid items-start gap-6 md:grid-cols-2 xl:grid-cols-3">
           {cases.map((item) => {
             const dialogId = `gallery-dialog-${item.id}`
+            const primaryImage = item.images[0]
             return (
               <article
                 id={item.id}
                 key={item.id}
                 data-gallery-case
                 data-gallery-category={item.category}
-                className="panel overflow-hidden rounded-[2rem]"
+                className="panel self-start overflow-hidden rounded-[2rem]"
               >
-                <div className="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden border-b border-border bg-accent/45 p-4">
-                  <ClinicalCaseImage
-                    imagePath={item.imagePath}
-                    alt={item.alt}
-                    sizes="(max-width: 1024px) 92vw, 46vw"
-                    className="transition-transform duration-300 hover:scale-[1.01]"
-                  />
-                  <ComparisonLabels item={item} />
+                <div
+                  className="relative w-full overflow-hidden border-b border-border bg-accent/45"
+                  style={{
+                    aspectRatio: item.sensitive
+                      ? "4 / 3"
+                      : `${primaryImage.width} / ${primaryImage.height}`,
+                  }}
+                  data-sensitive-image={item.sensitive ? "true" : undefined}
+                  tabIndex={item.sensitive ? -1 : undefined}
+                >
+                  <div
+                    data-sensitive-media={item.sensitive ? "true" : undefined}
+                    aria-hidden={item.sensitive ? "true" : undefined}
+                    className="flex h-full w-full items-center justify-center p-3"
+                  >
+                    <ClinicalCaseImage
+                      imagePath={primaryImage.imagePath}
+                      alt={primaryImage.alt}
+                      width={primaryImage.width}
+                      height={primaryImage.height}
+                      sizes="(max-width: 768px) 92vw, (max-width: 1280px) 46vw, 31vw"
+                      className="transition-transform duration-300 hover:scale-[1.01]"
+                    />
+                  </div>
+                  <ComparisonLabels image={primaryImage} />
                   <button
                     type="button"
                     data-gallery-open={dialogId}
-                    className="absolute inset-0 z-20 flex items-end justify-end p-4 focus-visible:outline-offset-[-5px]"
+                    disabled={item.sensitive}
+                    className="absolute inset-0 z-20 flex items-end justify-end p-4 focus-visible:outline-offset-[-5px] disabled:pointer-events-none"
                     aria-label={`View larger image for ${item.title}`}
                   >
                     <span className="inline-flex items-center gap-2 rounded-full bg-primary px-3.5 py-2 text-xs font-semibold text-primary-foreground shadow-lg">
@@ -114,36 +134,27 @@ export function GalleryView({ cases }: GalleryViewProps) {
                       View larger
                     </span>
                   </button>
+                  {item.sensitive && item.sensitiveLabel ? (
+                    <ClinicalImageCover label={item.sensitiveLabel} />
+                  ) : null}
                 </div>
 
-                <div className="space-y-5 p-5 md:space-y-6 md:p-8">
+                <div className="space-y-4 p-5 md:p-6">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">
                       {item.categoryLabel} / {item.focus}
                     </p>
                     <h2 className="mt-2 text-3xl font-semibold text-primary">{item.title}</h2>
-                    <p className="mt-2 text-xs font-medium text-muted-foreground">{item.comparisonLabel}</p>
-                  </div>
-
-                  <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
-                    <div className="rounded-xl border border-border bg-accent/45 p-3.5 sm:p-4">
-                      <h3 className="flex items-center gap-1.5 font-sans text-xs font-bold uppercase tracking-[0.12em] text-foreground">
-                        <FileText className="h-3.5 w-3.5 text-secondary" />
-                        Presentation
-                      </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.presentation}</p>
-                    </div>
-                    <div className="rounded-xl border border-border bg-accent/45 p-3.5 sm:p-4">
-                      <h3 className="flex items-center gap-1.5 font-sans text-xs font-bold uppercase tracking-[0.12em] text-foreground">
-                        <ShieldCheck className="h-3.5 w-3.5 text-secondary" />
-                        Approach
-                      </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.technique}</p>
+                    <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-muted-foreground">
+                      <span>{primaryImage.comparisonLabel}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>{item.images.length} {item.images.length === 1 ? "view" : "matched views"}</span>
                     </div>
                   </div>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{item.presentation}</p>
                   <Button variant="outline" asChild className="w-full sm:w-auto">
                     <a href={`/gallery/${item.id}`}>
-                      Read case details
+                      {item.images.length > 1 ? `View all ${item.images.length} comparisons` : "Read case details"}
                     </a>
                   </Button>
                 </div>
@@ -158,7 +169,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-200">{item.categoryLabel}</p>
                       <h2 id={`${dialogId}-title`} className="mt-1 text-2xl font-semibold text-white">{item.title}</h2>
-                      <p className="mt-1 text-xs text-slate-300">{item.comparisonLabel}</p>
+                      <p className="mt-1 text-xs text-slate-300">{primaryImage.viewLabel} · {primaryImage.comparisonLabel}</p>
                     </div>
                     <button
                       type="button"
@@ -170,7 +181,14 @@ export function GalleryView({ cases }: GalleryViewProps) {
                     </button>
                   </div>
                   <div className="mt-20 flex h-[calc(100dvh-9rem)] w-full max-w-6xl items-center justify-center">
-                    <ClinicalCaseImage imagePath={item.imagePath} alt={item.alt} sizes="95vw" className="max-h-full max-w-full" />
+                    <ClinicalCaseImage
+                      imagePath={primaryImage.imagePath}
+                      alt={primaryImage.alt}
+                      width={primaryImage.width}
+                      height={primaryImage.height}
+                      sizes="95vw"
+                      className="max-h-full max-w-full"
+                    />
                   </div>
                 </dialog>
               </article>

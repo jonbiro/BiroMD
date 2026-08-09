@@ -2,6 +2,7 @@ import { mkdir, rm } from "node:fs/promises"
 import path from "node:path"
 import sharp from "sharp"
 import {
+  assetCaseId,
   assetStem,
   authorizedIds,
   loadManifest,
@@ -15,7 +16,7 @@ const authorized = authorizedIds(manifest)
 await rm(publicDir, { recursive: true, force: true })
 await mkdir(publicDir, { recursive: true })
 
-for (const asset of manifest.filter(({ id }) => authorized.has(id))) {
+for (const asset of manifest.filter((asset) => authorized.has(assetCaseId(asset)))) {
   const source = path.join(sourceDir, asset.file)
   const stem = assetStem(asset.file)
 

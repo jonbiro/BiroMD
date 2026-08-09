@@ -49,6 +49,23 @@ const controlsScript = String.raw`
     });
   });
 
+  document.querySelectorAll("[data-sensitive-image]").forEach((container) => {
+    const cover = container.querySelector("[data-sensitive-cover]");
+    const media = container.querySelector("[data-sensitive-media]");
+    const opener = container.querySelector("[data-gallery-open]");
+    cover?.querySelector("[data-sensitive-reveal]")?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      cover.hidden = true;
+      media?.removeAttribute("aria-hidden");
+      if (opener) {
+        opener.disabled = false;
+        opener.focus();
+      } else {
+        container.focus();
+      }
+    });
+  });
+
   const galleryOpeners = new WeakMap();
   document.querySelectorAll("[data-gallery-open]").forEach((button) => {
     button.addEventListener("click", () => {

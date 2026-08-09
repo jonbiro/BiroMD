@@ -3,12 +3,16 @@ import { cn } from "@/lib/utils"
 export function ClinicalCaseImage({
   imagePath,
   alt,
+  width,
+  height,
   className,
   sizes,
   loading = "lazy",
 }: {
   imagePath: string
   alt: string
+  width: number
+  height: number
   className?: string
   sizes: string
   loading?: "eager" | "lazy"
@@ -30,8 +34,8 @@ export function ClinicalCaseImage({
       <img
         src={imagePath}
         alt={alt}
-        width="960"
-        height="960"
+        width={width}
+        height={height}
         loading={loading}
         decoding="async"
         className={cn("h-full w-full object-contain", className)}

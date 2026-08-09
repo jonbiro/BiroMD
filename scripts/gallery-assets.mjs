@@ -19,7 +19,7 @@ export function authorizedIds(manifest) {
       .map((id) => id.trim())
       .filter(Boolean)
   )
-  const known = new Set(manifest.map((asset) => asset.id))
+  const known = new Set(manifest.map(assetCaseId))
   const unknown = [...requested].filter((id) => !known.has(id))
 
   if (unknown.length > 0) {
@@ -27,6 +27,10 @@ export function authorizedIds(manifest) {
   }
 
   return requested
+}
+
+export function assetCaseId(asset) {
+  return asset.caseId ?? asset.id
 }
 
 export function assetStem(file) {

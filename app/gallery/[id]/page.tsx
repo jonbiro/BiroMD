@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { ArrowLeft, ArrowRight, CalendarDays, FileText, ShieldCheck } from "lucide-react"
+import { ClinicalImageCover } from "@/components/clinical-image-cover"
 import { ClinicalCaseImage } from "@/components/clinical-case-image"
 import { ConsultationCta } from "@/components/consultation-cta"
 import { PageIntro } from "@/components/page-intro"
@@ -8,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import {
   getPublishedGalleryCase,
   getPublishedGalleryCases,
-  type GalleryCase,
+  type GalleryCaseImage,
 } from "@/lib/gallery-cases"
 import { getProcedure } from "@/lib/procedures"
 import { absoluteUrl, pageMetadata } from "@/lib/site"
@@ -51,8 +52,8 @@ export async function generateMetadata({
   })
 }
 
-function ComparisonLabels({ item }: { item: GalleryCase }) {
-  const vertical = item.comparisonLayout === "vertical"
+function ComparisonLabels({ image }: { image: GalleryCaseImage }) {
+  const vertical = image.comparisonLayout === "vertical"
 
   return (
     <div className="pointer-events-none absolute inset-3 z-10 text-[0.68rem] font-bold uppercase tracking-[0.14em]">
@@ -104,10 +105,18 @@ export default async function GalleryCasePage({
     )
   }
 
-  const procedure = item.relatedProcedureSlug
-    ? getProcedure(item.relatedProcedureSlug)
-    : undefined
+  const procedures = (item.relatedProcedureSlugs ?? [])
+    .map((slug) => getProcedure(slug))
+    .filter((procedure) => procedure !== undefined)
+  const primaryImage = item.images[0]
   const pageUrl = absoluteUrl(`/gallery/${item.id}`)
+  const imageObjects = item.images.map((image) => ({
+    "@type": "ImageObject",
+    contentUrl: absoluteUrl(image.imagePath),
+    caption: image.alt,
+    width: image.width,
+    height: image.height,
+  }))
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -117,14 +126,14 @@ export default async function GalleryCasePage({
         name: `${item.title} Before and After`,
         description: item.presentation,
         url: pageUrl,
-        about: procedure
-          ? { "@type": "MedicalProcedure", name: procedure.title }
+        about: procedures.length > 0
+          ? procedures.map((procedure) => ({
+              "@type": "MedicalProcedure",
+              name: procedure.title,
+            }))
           : { "@type": "MedicalCondition", name: item.focus },
-        primaryImageOfPage: {
-          "@type": "ImageObject",
-          contentUrl: absoluteUrl(item.imagePath),
-          caption: item.alt,
-        },
+        image: imageObjects,
+        primaryImageOfPage: imageObjects[0],
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
       },
       {
@@ -173,17 +182,34 @@ export default async function GalleryCasePage({
 
       <section className="container grid gap-6 px-4 lg:grid-cols-[1.08fr_0.92fr] md:px-6">
         <div className="panel overflow-hidden rounded-[1.8rem]">
-          <div className="relative flex aspect-[4/3] items-center justify-center bg-accent/45 p-4 md:p-6">
-            <ClinicalCaseImage
-              imagePath={item.imagePath}
-              alt={item.alt}
-              sizes="(max-width: 1024px) 92vw, 54vw"
-              className="max-h-full max-w-full"
-            />
-            <ComparisonLabels item={item} />
+          <div
+            className="relative flex items-center justify-center bg-accent/45"
+            style={{ aspectRatio: `${primaryImage.width} / ${primaryImage.height}` }}
+            data-sensitive-image={item.sensitive ? "true" : undefined}
+            tabIndex={item.sensitive ? -1 : undefined}
+          >
+            <div
+              data-sensitive-media={item.sensitive ? "true" : undefined}
+              aria-hidden={item.sensitive ? "true" : undefined}
+              className="flex h-full w-full items-center justify-center p-4 md:p-6"
+            >
+              <ClinicalCaseImage
+                imagePath={primaryImage.imagePath}
+                alt={primaryImage.alt}
+                width={primaryImage.width}
+                height={primaryImage.height}
+                sizes="(max-width: 1024px) 92vw, 54vw"
+                className="max-h-full max-w-full"
+              />
+            </div>
+            <ComparisonLabels image={primaryImage} />
+            {item.sensitive && item.sensitiveLabel ? (
+              <ClinicalImageCover label={item.sensitiveLabel} />
+            ) : null}
           </div>
           <p className="border-t border-border px-5 py-4 text-sm text-muted-foreground md:px-6">
-            {item.comparisonLabel}. Photographs are published with written authorization.
+            {primaryImage.viewLabel}. {primaryImage.comparisonLabel}. Photographs are published
+            with written authorization.
           </p>
         </div>
 
@@ -208,6 +234,46 @@ export default async function GalleryCasePage({
         </div>
       </section>
 
+      {item.images.length > 1 ? (
+        <section className="container px-4 md:px-6" aria-labelledby="additional-case-views">
+          <div className="mb-6 max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">
+              Additional Comparisons
+            </p>
+            <h2 id="additional-case-views" className="mt-2 text-4xl font-semibold text-primary">
+              Matched Views of the Same Case
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Oblique views provide additional context beyond the primary frontal comparison.
+            </p>
+          </div>
+          <div className="grid items-start gap-6 md:grid-cols-2">
+            {item.images.slice(1).map((image) => (
+              <article key={image.imagePath} className="panel self-start overflow-hidden rounded-[1.8rem]">
+                <div
+                  className="relative flex items-center justify-center bg-accent/45 p-4 md:p-5"
+                  style={{ aspectRatio: `${image.width} / ${image.height}` }}
+                >
+                  <ClinicalCaseImage
+                    imagePath={image.imagePath}
+                    alt={image.alt}
+                    width={image.width}
+                    height={image.height}
+                    sizes="(max-width: 768px) 92vw, 46vw"
+                    className="max-h-full max-w-full"
+                  />
+                  <ComparisonLabels image={image} />
+                </div>
+                <div className="border-t border-border px-5 py-4">
+                  <h3 className="text-2xl font-semibold text-primary">{image.viewLabel}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{image.comparisonLabel}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       <section className="container px-4 md:px-6">
         <div className="rounded-[1.8rem] border border-secondary/35 bg-secondary/8 p-6 md:flex md:items-center md:justify-between md:gap-8 md:p-8">
           <div className="max-w-3xl">
@@ -221,17 +287,22 @@ export default async function GalleryCasePage({
               needed to discuss what may be appropriate for you.
             </p>
           </div>
-          {procedure ? (
-            <Button
-              variant="outline"
-              asChild
-              className="mt-5 h-auto min-h-11 max-w-full whitespace-normal py-2.5 text-center md:mt-0 md:shrink-0"
-            >
-              <a href={`/procedures/${procedure.slug}`}>
-                About {procedure.title}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </a>
-            </Button>
+          {procedures.length > 0 ? (
+            <div className="mt-5 flex flex-wrap gap-3 md:mt-0 md:shrink-0">
+              {procedures.map((procedure) => (
+                <Button
+                  key={procedure.slug}
+                  variant="outline"
+                  asChild
+                  className="h-auto min-h-11 max-w-full whitespace-normal py-2.5 text-center"
+                >
+                  <a href={`/procedures/${procedure.slug}`}>
+                    About {procedure.title}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </a>
+                </Button>
+              ))}
+            </div>
           ) : null}
         </div>
       </section>
