@@ -111,6 +111,21 @@ test("primary consultation action is readable in light and dark mode", async ({ 
   await expect(page.locator("html")).toHaveClass(/dark/)
   await expect(page.getByRole("button", { name: "Switch to light mode" })).toBeVisible()
   expect(await textContrast(cta)).toBeGreaterThanOrEqual(4.5)
+  await page.getByRole("button", { name: "Switch to light mode" }).click()
+  await expect.poll(async () => {
+    const lightButtonColors = await cta.evaluate((element) => {
+      const style = getComputedStyle(element)
+      return {
+        background: style.backgroundColor,
+        border: style.borderTopColor,
+      }
+    })
+    const lightBackground = parseRgb(lightButtonColors.background)
+    const lightBorder = parseRgb(lightButtonColors.border)
+    return Math.max(
+      ...lightBorder.map((channel, index) => Math.abs(channel - lightBackground[index]))
+    )
+  }).toBeLessThanOrEqual(2)
   await expectNoHorizontalOverflow(page)
 })
 
@@ -341,7 +356,17 @@ test("contact page uses official office request links", async ({ page }) => {
     "href",
     "https://www.lasereyecenter.com/locations/#site-contact-form"
   )
+  await expect(page.getByText(/For routine, non-urgent appointments/)).toBeVisible()
   await expect(page.getByText(/The office will contact you to confirm/)).toBeVisible()
+  const emergencyNotice = page.locator("[data-emergency-notice]")
+  const firstOffice = page.locator("#schedule-westlake-village")
+  const [emergencyBox, firstOfficeBox] = await Promise.all([
+    emergencyNotice.boundingBox(),
+    firstOffice.boundingBox(),
+  ])
+  expect(emergencyBox).not.toBeNull()
+  expect(firstOfficeBox).not.toBeNull()
+  expect(emergencyBox!.y).toBeLessThan(firstOfficeBox!.y)
   await expect(page.getByRole("link", { name: "Email Scheduling" })).toHaveAttribute(
     "href",
     /^mailto:info@biromd\.com/
@@ -455,8 +480,22 @@ test("dark contact emergency notice uses its dark surface", async ({ page }) => 
   await page.goto("/contact")
   await page.getByRole("button", { name: "Switch to dark mode" }).click()
   const notice = page.locator("[data-emergency-notice]")
-  const background = await notice.evaluate((element) => getComputedStyle(element).backgroundColor)
-  expect(luminance(parseRgb(background))).toBeLessThan(0.12)
+  const styles = await notice.evaluate((element) => {
+    const heading = element.querySelector("h2")!
+    const noticeStyle = getComputedStyle(element)
+    const headingStyle = getComputedStyle(heading)
+    return {
+      background: noticeStyle.backgroundColor,
+      border: noticeStyle.borderTopColor,
+      color: noticeStyle.color,
+      headingColor: headingStyle.color,
+      headingFont: headingStyle.fontFamily,
+    }
+  })
+  expect(luminance(parseRgb(styles.background))).toBeLessThan(0.12)
+  expect(styles.border).not.toBe("rgb(38, 59, 85)")
+  expect(styles.headingColor).toBe(styles.color)
+  expect(styles.headingFont).toContain("Outfit")
 })
 
 test("gallery labels remain visible without hover", async ({ page }) => {
@@ -762,8 +801,31 @@ test("symptom guides explain evaluation and urgent next steps", async ({ page })
   await expect(page.locator("body")).not.toContainText(/medically reviewed by/i)
 
   await page.goto("/concerns/sudden-eyelid-drooping")
-  await expect(page.getByRole("heading", { name: "Do not wait for routine web scheduling" })).toBeVisible()
-  await expect(page.getByText(/Seek urgent medical care/)).toBeVisible()
+  const urgentIntro = page
+    .getByRole("heading", { level: 1, name: "Sudden Eyelid Drooping" })
+    .locator("xpath=ancestor::section")
+  await expect(urgentIntro.getByRole("link", { name: "Read Urgent Warning" })).toHaveAttribute(
+    "href",
+    "#urgent-guidance"
+  )
+  await expect(urgentIntro.getByRole("link", { name: "Request Consultation" })).toHaveCount(0)
+  const urgentGuidance = page.locator("#urgent-guidance")
+  await expect(
+    urgentGuidance.getByRole("heading", { name: "Do not wait for routine web scheduling" })
+  ).toBeVisible()
+  await expect(urgentGuidance.getByText(/Seek urgent medical care/)).toBeVisible()
+  const urgentNavigation = page.getByRole("navigation", { name: "On this page" })
+  await expect(urgentNavigation.getByRole("link").first()).toHaveText("Urgent Signs")
+  const [urgentBox, navigationBox] = await Promise.all([
+    urgentGuidance.boundingBox(),
+    urgentNavigation.boundingBox(),
+  ])
+  expect(urgentBox).not.toBeNull()
+  expect(navigationBox).not.toBeNull()
+  expect(urgentBox!.y).toBeLessThan(navigationBox!.y)
+  await expect(
+    page.locator("main").getByRole("link", { name: /Request (Consultation|appointment)/i })
+  ).toHaveCount(0)
 })
 
 test("referring clinicians receive a safe direct pathway", async ({ page }) => {

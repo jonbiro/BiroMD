@@ -111,12 +111,21 @@ export default async function ConcernPage({
         ]}
         actions={
           <>
-            <Button asChild>
-              <a href="/contact">
-                <CalendarDays className="mr-2 h-4 w-4" aria-hidden="true" />
-                Request Consultation
-              </a>
-            </Button>
+            {concern.urgentPage ? (
+              <Button variant="destructive" asChild>
+                <a href="#urgent-guidance">
+                  <AlertTriangle className="mr-2 h-4 w-4" aria-hidden="true" />
+                  Read Urgent Warning
+                </a>
+              </Button>
+            ) : (
+              <Button asChild>
+                <a href="/contact">
+                  <CalendarDays className="mr-2 h-4 w-4" aria-hidden="true" />
+                  Request Consultation
+                </a>
+              </Button>
+            )}
             <Button variant="outline" asChild>
               <a href="/concerns">
                 <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
@@ -125,15 +134,6 @@ export default async function ConcernPage({
             </Button>
           </>
         }
-      />
-
-      <PageJumpLinks
-        items={[
-          { href: "#possible-contributors", label: "Possible Causes" },
-          { href: "#evaluation", label: "Evaluation" },
-          { href: "#urgent-guidance", label: "Urgent Signs" },
-          { href: "#care-options", label: "Care Options" },
-        ]}
       />
 
       {concern.urgentPage ? (
@@ -153,6 +153,24 @@ export default async function ConcernPage({
           </div>
         </section>
       ) : null}
+
+      <PageJumpLinks
+        items={
+          concern.urgentPage
+            ? [
+                { href: "#urgent-guidance", label: "Urgent Signs" },
+                { href: "#possible-contributors", label: "Possible Factors" },
+                { href: "#evaluation", label: "Evaluation" },
+                { href: "#care-options", label: "Care Options" },
+              ]
+            : [
+                { href: "#possible-contributors", label: "Possible Factors" },
+                { href: "#evaluation", label: "Evaluation" },
+                { href: "#urgent-guidance", label: "Urgent Signs" },
+                { href: "#care-options", label: "Care Options" },
+              ]
+        }
+      />
 
       <section className="container grid gap-6 px-4 lg:grid-cols-[1.05fr_0.95fr] md:px-6">
         <article
@@ -290,10 +308,12 @@ export default async function ConcernPage({
         </div>
       </section>
 
-      <ConsultationCta
-        title="Choose an Office for Oculoplastic Evaluation"
-        description="Select the more convenient office, request an appointment through its official scheduling service, or call directly. The office confirms availability and visit details."
-      />
+      {!concern.urgentPage ? (
+        <ConsultationCta
+          title="Choose an Office for Oculoplastic Evaluation"
+          description="Select the more convenient office, request an appointment through its official scheduling service, or call directly. The office confirms availability and visit details."
+        />
+      ) : null}
     </div>
   )
 }

@@ -62,8 +62,27 @@
   --ring: #65d8d1;
 }
 
-* {
-  border-color: var(--border);
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--primary);
+    font-family: var(--font-cormorant), Georgia, serif;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
 }
 
 html {
@@ -86,23 +105,6 @@ body {
   width: 100%;
   max-width: 80rem;
   margin-inline: auto;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--primary);
-  font-family: var(--font-cormorant), Georgia, serif;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
-}
-
-p,
-li {
-  text-wrap: pretty;
 }
 
 ::selection {

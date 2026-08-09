@@ -25,7 +25,7 @@ export default function ContactPage() {
       <PageIntro
         eyebrow="Appointments"
         title="Request a Consultation"
-        description="Choose the most convenient office. Request online through its official scheduling service, or call directly. The office will contact you to confirm."
+        description="For routine, non-urgent appointments, choose the most convenient office. Request online where available, or call directly. The office will contact you to confirm."
         actions={
           <>
             {siteConfig.offices.map((office) => (
@@ -39,6 +39,22 @@ export default function ContactPage() {
           </>
         }
       />
+
+      <section className="container px-4 md:px-6">
+        <div data-emergency-notice className="flex items-start gap-3 rounded-2xl border border-amber-300/70 bg-amber-50 p-5 text-sm text-amber-950 dark:border-amber-500/45 dark:bg-amber-950/45 dark:text-amber-100">
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
+          <div>
+            <h2 className="font-sans text-base font-semibold text-current">
+              Not for urgent or emergency care
+            </h2>
+            <p className="mt-1">
+              Do not use web forms or email for urgent eye symptoms. Call the
+              appropriate office. For a medical emergency, call 911 or go to the
+              nearest emergency department.
+            </p>
+          </div>
+        </div>
+      </section>
 
       <section className="container px-4 md:px-6" aria-labelledby="office-options">
         <h2 id="office-options" className="sr-only">Office scheduling options</h2>
@@ -142,21 +158,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="container px-4 md:px-6">
-        <div data-emergency-notice className="flex items-start gap-3 rounded-2xl border border-amber-300/70 bg-amber-50 p-5 text-sm text-amber-950 dark:border-amber-500/45 dark:bg-amber-950/45 dark:text-amber-100">
-          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
-          <div>
-            <h2 className="font-sans text-base font-semibold text-current">
-              Not for urgent or emergency care
-            </h2>
-            <p className="mt-1">
-              Do not use web forms or email for urgent eye symptoms. Call the
-              appropriate office. For a medical emergency, call 911 or go to the
-              nearest emergency department.
-            </p>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }
