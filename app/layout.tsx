@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Cormorant_Garamond, Outfit } from "next/font/google"
 import "./globals.css"
-import { cn } from "@/lib/utils"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { SiteControlsScript } from "@/components/site-controls-script"
@@ -148,8 +147,15 @@ const organizationSchema = {
   ],
 }
 
-const themeInitScript =
-  'try{document.documentElement.classList.toggle("dark",localStorage.getItem("biromd-theme")==="dark")}catch{}'
+const themeInitScript = String.raw`
+(() => {
+  let savedTheme = null;
+  try { savedTheme = localStorage.getItem("biromd-theme"); } catch {}
+  const systemPrefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
+  const useDarkTheme = savedTheme === "dark" || (savedTheme !== "light" && systemPrefersDark);
+  document.documentElement.classList.toggle("dark", useDarkTheme);
+})();
+`
 
 export default function RootLayout({
   children,
@@ -161,13 +167,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans text-foreground antialiased",
-          outfit.variable,
-          cormorant.variable
-        )}
-      >
+      <body className={`${outfit.variable} ${cormorant.variable}`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}

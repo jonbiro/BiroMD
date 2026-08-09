@@ -5,7 +5,7 @@ import { patientFeedbackProfiles } from "@/lib/site"
 export function AboutSummary() {
   return (
     <section className="relative py-8 md:py-14" aria-labelledby="about-summary-title">
-      <div className="container px-4 md:px-6">
+      <div className="site-container px-4 md:px-6">
         <div className="panel-strong relative overflow-hidden rounded-[2rem] p-6 min-[480px]:p-8 md:p-10">
           <div className="pointer-events-none absolute left-0 top-0 h-40 w-44 rounded-full bg-secondary/8" />
 

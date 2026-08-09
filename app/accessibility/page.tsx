@@ -17,7 +17,7 @@ export default function AccessibilityPage() {
         description="We want patients with disabilities to be able to access practice information and request communication in a format that works for them."
       />
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="panel mx-auto max-w-4xl space-y-7 rounded-[1.8rem] p-6 md:p-9">
           <div>
             <h2 className="text-3xl font-semibold">Website support</h2>

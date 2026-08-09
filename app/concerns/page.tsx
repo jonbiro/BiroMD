@@ -48,7 +48,7 @@ export default function ConcernsPage() {
         }
       />
 
-      <section className="container px-4 md:px-6" aria-labelledby="concern-guides">
+      <section className="site-container px-4 md:px-6" aria-labelledby="concern-guides">
         <div className="panel rounded-[1.8rem] p-6 md:p-8">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">

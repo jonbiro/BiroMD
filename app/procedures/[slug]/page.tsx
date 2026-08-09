@@ -148,7 +148,7 @@ export default async function ProcedurePage({
         ]}
       />
 
-      <section className="container grid gap-6 px-4 lg:grid-cols-[1.05fr_0.95fr] md:px-6">
+      <section className="site-container grid gap-6 px-4 lg:grid-cols-[1.05fr_0.95fr] md:px-6">
         <article id="overview" className="panel rounded-[1.8rem] p-6 md:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
             Overview
@@ -186,7 +186,7 @@ export default async function ProcedurePage({
         </aside>
       </section>
 
-      <section id="recovery" className="container px-4 md:px-6">
+      <section id="recovery" className="site-container px-4 md:px-6">
         <div className="panel rounded-[1.8rem] p-6 md:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
             Recovery and Next Steps
@@ -200,7 +200,7 @@ export default async function ProcedurePage({
 
       <section
         id="questions"
-        className="container px-4 md:px-6"
+        className="site-container px-4 md:px-6"
         aria-labelledby="procedure-faq"
       >
         <div className="panel rounded-[1.8rem] p-6 md:p-8">
@@ -249,7 +249,7 @@ export default async function ProcedurePage({
         </div>
       </section>
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="flex items-start gap-3 rounded-2xl border border-border bg-accent/45 p-5 text-sm text-muted-foreground">
           <Info className="mt-0.5 h-5 w-5 shrink-0 text-secondary" />
           <p>
@@ -262,7 +262,7 @@ export default async function ProcedurePage({
       </section>
 
       {related.length > 0 ? (
-        <section id="related-procedures" className="container px-4 md:px-6">
+        <section id="related-procedures" className="site-container px-4 md:px-6">
           <h2 className="text-3xl font-semibold text-primary">Related Procedures</h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {related.map((item) => (

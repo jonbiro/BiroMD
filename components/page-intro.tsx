@@ -22,7 +22,7 @@ export function PageIntro({
   breadcrumbs,
 }: PageIntroProps) {
   return (
-    <section className="container px-4 md:px-6">
+    <section className="site-container px-4 md:px-6">
       <div className="panel-strong relative overflow-hidden rounded-[2rem] px-5 py-7 min-[360px]:px-6 md:px-10 md:py-12">
         <div className="pointer-events-none absolute -left-24 top-0 h-56 w-56 rounded-full bg-secondary/10" />
         <div className="pointer-events-none absolute -right-20 bottom-0 h-52 w-52 rounded-full bg-primary/10" />

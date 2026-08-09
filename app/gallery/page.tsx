@@ -21,7 +21,7 @@ export default function GalleryPage() {
         title="Before & After Photos"
         description="Browse authorized before-and-after cases, including additional matched views where available. Individual results vary."
       />
-      <div className="container px-4 md:px-6">
+      <div className="site-container px-4 md:px-6">
         <GalleryView cases={publishedCases} />
       </div>
     </div>

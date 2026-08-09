@@ -89,7 +89,7 @@ export default function PatientGuidePage() {
 
       <section
         id="appointment-process"
-        className="container px-4 md:px-6"
+        className="site-container px-4 md:px-6"
         aria-labelledby="request-process"
       >
         <div className="panel overflow-hidden rounded-[1.8rem] p-6 md:p-8">
@@ -113,7 +113,7 @@ export default function PatientGuidePage() {
         </div>
       </section>
 
-      <section className="container grid gap-6 px-4 lg:grid-cols-2 md:px-6">
+      <section className="site-container grid gap-6 px-4 lg:grid-cols-2 md:px-6">
         <article id="prepare" className="panel rounded-[1.8rem] p-6 md:p-8">
           <FileHeart className="h-6 w-6 text-secondary" aria-hidden="true" />
           <h2 className="mt-4 text-3xl font-semibold text-primary">
@@ -155,7 +155,7 @@ export default function PatientGuidePage() {
 
       <section
         id="before-visit"
-        className="container px-4 md:px-6"
+        className="site-container px-4 md:px-6"
         aria-labelledby="questions-before-visit"
       >
         <div className="panel-strong rounded-[1.8rem] p-6 md:p-8">
@@ -214,7 +214,7 @@ export default function PatientGuidePage() {
         </div>
       </section>
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="flex items-start gap-3 rounded-2xl border border-amber-300/70 bg-amber-50 p-5 text-sm text-amber-950 dark:border-amber-500/45 dark:bg-amber-950/45 dark:text-amber-100">
           <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
           <div>

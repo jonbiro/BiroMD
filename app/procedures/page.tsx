@@ -33,7 +33,7 @@ export default function ProceduresPage() {
         description="Explore individual procedures and conditions, what consultation examines, and which questions to bring to an appointment."
       />
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <nav
           aria-label="Jump to a procedure category"
           className="panel grid gap-2 rounded-2xl p-2 sm:grid-cols-3"
@@ -64,7 +64,7 @@ export default function ProceduresPage() {
         </nav>
       </section>
 
-      <section className="container space-y-8 px-4 md:px-6">
+      <section className="site-container space-y-8 px-4 md:px-6">
         {procedureCategories.map((category) => (
           <article
             id={category.id}
@@ -95,7 +95,7 @@ export default function ProceduresPage() {
         ))}
       </section>
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="rounded-[1.8rem] border border-primary/20 bg-primary p-8 text-primary-foreground shadow-lg md:flex md:items-center md:justify-between md:gap-6">
           <div>
             <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground/75">

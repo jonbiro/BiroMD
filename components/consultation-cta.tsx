@@ -11,7 +11,7 @@ export function ConsultationCta({
   description?: string
 }) {
   return (
-    <section className="container px-4 md:px-6" aria-labelledby="consultation-next-step">
+    <section className="site-container px-4 md:px-6" aria-labelledby="consultation-next-step">
       <div className="panel-strong overflow-hidden rounded-[1.8rem] p-6 md:p-8 lg:p-10">
         <div className="max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">

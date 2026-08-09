@@ -40,7 +40,7 @@ export default function ContactPage() {
         }
       />
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div data-emergency-notice className="flex items-start gap-3 rounded-2xl border border-amber-300/70 bg-amber-50 p-5 text-sm text-amber-950 dark:border-amber-500/45 dark:bg-amber-950/45 dark:text-amber-100">
           <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
           <div>
@@ -56,7 +56,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="container px-4 md:px-6" aria-labelledby="office-options">
+      <section className="site-container px-4 md:px-6" aria-labelledby="office-options">
         <h2 id="office-options" className="sr-only">Office scheduling options</h2>
         <div className="grid gap-6 lg:grid-cols-2">
           {siteConfig.offices.map((office) => (
@@ -131,7 +131,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="panel-strong mx-auto flex max-w-3xl flex-col gap-5 rounded-[1.8rem] p-6 md:flex-row md:items-center md:justify-between md:p-8">
           <div className="max-w-xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">

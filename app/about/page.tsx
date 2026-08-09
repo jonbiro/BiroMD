@@ -44,7 +44,7 @@ export default function AboutPage() {
         }
       />
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="grid items-start gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
           <div className="space-y-6">
             <div className="panel rounded-[1.7rem] p-6 md:p-8">
@@ -93,7 +93,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="container px-4 md:px-6" aria-labelledby="practice-affiliations">
+      <section className="site-container px-4 md:px-6" aria-labelledby="practice-affiliations">
         <div className="panel rounded-[1.8rem] p-6 md:p-8">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
@@ -135,7 +135,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="rounded-[1.8rem] border border-primary/20 bg-primary p-8 text-primary-foreground shadow-lg md:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground/75">
             Training and Clinical Focus

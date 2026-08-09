@@ -1,12 +1,24 @@
 const controlsScript = String.raw`
 (() => {
   const root = document.documentElement;
+  const colorSchemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  const getStoredTheme = () => {
+    try {
+      const value = localStorage.getItem("biromd-theme");
+      return value === "dark" || value === "light" ? value : null;
+    } catch {
+      return null;
+    }
+  };
   const syncThemeControls = () => {
     const dark = root.classList.contains("dark");
     document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
       const label = dark ? "Switch to light mode" : "Switch to dark mode";
       button.setAttribute("aria-label", label);
       button.setAttribute("title", label);
+    });
+    document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
+      meta.setAttribute("content", dark ? "#030711" : "#ffffff");
     });
   };
 
@@ -18,6 +30,22 @@ const controlsScript = String.raw`
     });
   });
   syncThemeControls();
+
+  colorSchemeQuery.addEventListener?.("change", (event) => {
+    if (getStoredTheme() !== null) return;
+    root.classList.toggle("dark", event.matches);
+    syncThemeControls();
+  });
+
+  window.addEventListener("storage", (event) => {
+    if (event.key !== "biromd-theme") return;
+    const storedTheme = getStoredTheme();
+    root.classList.toggle(
+      "dark",
+      storedTheme === "dark" || (storedTheme === null && colorSchemeQuery.matches)
+    );
+    syncThemeControls();
+  });
 
   document.querySelectorAll("[data-print-page]").forEach((button) => {
     button.addEventListener("click", () => window.print());

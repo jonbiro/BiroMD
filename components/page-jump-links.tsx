@@ -7,7 +7,7 @@ type PageJumpLink = {
 
 export function PageJumpLinks({ items }: { items: PageJumpLink[] }) {
   return (
-    <div className="container px-4 md:px-6">
+    <div className="site-container px-4 md:px-6">
       <nav
         aria-label="On this page"
         className="panel flex flex-col gap-3 rounded-[1.4rem] p-3.5 sm:flex-row sm:items-center sm:p-4"

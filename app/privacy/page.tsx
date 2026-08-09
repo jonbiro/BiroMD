@@ -18,7 +18,7 @@ export default function PrivacyPage() {
         description="Important information about using this public website and contacting an office electronically."
       />
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="panel mx-auto max-w-4xl space-y-8 rounded-[1.8rem] p-6 md:p-9">
           <div>
             <h2 className="text-3xl font-semibold">What this site collects</h2>

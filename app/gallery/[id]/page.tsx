@@ -169,7 +169,7 @@ export default async function GalleryCasePage({
         }
       />
 
-      <section className="container grid gap-6 px-4 lg:grid-cols-[1.08fr_0.92fr] md:px-6">
+      <section className="site-container grid gap-6 px-4 lg:grid-cols-[1.08fr_0.92fr] md:px-6">
         <div className="panel overflow-hidden rounded-[1.8rem]">
           <div
             className={`relative flex items-center justify-center bg-accent/45 ${item.sensitive ? "min-h-[17rem]" : ""}`}
@@ -223,7 +223,7 @@ export default async function GalleryCasePage({
       </section>
 
       {item.images.length > 1 ? (
-        <section className="container px-4 md:px-6" aria-labelledby="additional-case-views">
+        <section className="site-container px-4 md:px-6" aria-labelledby="additional-case-views">
           <div className="mb-6 max-w-3xl">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">
               Additional Comparisons
@@ -272,7 +272,7 @@ export default async function GalleryCasePage({
         </section>
       ) : null}
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="rounded-[1.8rem] border border-secondary/35 bg-secondary/8 p-6 md:flex md:items-center md:justify-between md:gap-8 md:p-8">
           <div className="max-w-3xl">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">

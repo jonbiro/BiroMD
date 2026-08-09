@@ -19,7 +19,7 @@ export default function NoticeOfPrivacyPracticesPage() {
         description="Your medical records and clinical communications are handled by the office practice where you receive care. Use its published links below or call the practice for current privacy information."
       />
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="grid gap-6 lg:grid-cols-2">
           {siteConfig.offices.map((office) => (
             <article key={office.id} className="panel min-w-0 rounded-[1.8rem] p-6 md:p-8">
@@ -76,7 +76,7 @@ export default function NoticeOfPrivacyPracticesPage() {
         </div>
       </section>
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="panel mx-auto max-w-4xl rounded-2xl p-6 text-sm text-muted-foreground">
           <h2 className="font-sans text-base font-semibold text-foreground">
             About this website

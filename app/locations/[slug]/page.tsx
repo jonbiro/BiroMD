@@ -148,7 +148,7 @@ export default async function LocationPage({
         }
       />
 
-      <section className="container grid gap-6 px-4 lg:grid-cols-[1.05fr_0.95fr] md:px-6">
+      <section className="site-container grid gap-6 px-4 lg:grid-cols-[1.05fr_0.95fr] md:px-6">
         <div className="panel rounded-[1.8rem] p-6 md:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
             {office.practiceName}
@@ -211,7 +211,7 @@ export default async function LocationPage({
         </div>
       </section>
 
-      <section className="container px-4 md:px-6" aria-labelledby="office-care-pathways">
+      <section className="site-container px-4 md:px-6" aria-labelledby="office-care-pathways">
         <div className="panel rounded-[1.8rem] p-6 md:p-8">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
@@ -248,7 +248,7 @@ export default async function LocationPage({
         </div>
       </section>
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="flex flex-wrap gap-x-6 gap-y-3">
           <a
             href="/locations"

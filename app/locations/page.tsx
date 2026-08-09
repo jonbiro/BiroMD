@@ -18,7 +18,7 @@ export default function LocationsPage() {
         title="Four Offices for Consultation"
         description="Choose the office that is most convenient. Request online where available, or call directly."
       />
-      <section className="container grid gap-6 px-4 lg:grid-cols-2 md:px-6">
+      <section className="site-container grid gap-6 px-4 lg:grid-cols-2 md:px-6">
         {siteConfig.offices.map((office) => (
           <article key={office.id} className="panel min-w-0 rounded-[1.8rem] p-6 md:p-8">
             <MapPin className="h-6 w-6 text-secondary" />

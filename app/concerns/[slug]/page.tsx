@@ -139,7 +139,7 @@ export default async function ConcernPage({
       {concern.urgentPage ? (
         <section
           id="urgent-guidance"
-          className="container px-4 md:px-6"
+          className="site-container px-4 md:px-6"
           aria-labelledby="urgent-action"
         >
           <div className="flex items-start gap-3 rounded-2xl border border-amber-300/70 bg-amber-50 p-5 text-amber-950 dark:border-amber-500/45 dark:bg-amber-950/45 dark:text-amber-100 md:p-6">
@@ -172,7 +172,7 @@ export default async function ConcernPage({
         }
       />
 
-      <section className="container grid gap-6 px-4 lg:grid-cols-[1.05fr_0.95fr] md:px-6">
+      <section className="site-container grid gap-6 px-4 lg:grid-cols-[1.05fr_0.95fr] md:px-6">
         <article
           id="possible-contributors"
           className="panel rounded-[1.8rem] p-6 md:p-8"
@@ -219,7 +219,7 @@ export default async function ConcernPage({
       {!concern.urgentPage ? (
         <section
           id="urgent-guidance"
-          className="container px-4 md:px-6"
+          className="site-container px-4 md:px-6"
           aria-labelledby="when-to-seek-care"
         >
           <div className="flex items-start gap-3 rounded-2xl border border-amber-300/70 bg-amber-50 p-5 text-amber-950 dark:border-amber-500/45 dark:bg-amber-950/45 dark:text-amber-100 md:p-6">
@@ -236,7 +236,7 @@ export default async function ConcernPage({
 
       <section
         id="care-options"
-        className="container px-4 md:px-6"
+        className="site-container px-4 md:px-6"
         aria-labelledby="related-care"
       >
         <div className="panel rounded-[1.8rem] p-6 md:p-8">
@@ -297,7 +297,7 @@ export default async function ConcernPage({
         </div>
       </section>
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="flex items-start gap-3 rounded-2xl border border-border bg-accent/45 p-4 text-sm text-muted-foreground">
           <Info className="mt-0.5 h-4 w-4 shrink-0 text-secondary" aria-hidden="true" />
           <p>

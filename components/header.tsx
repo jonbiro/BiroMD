@@ -20,7 +20,7 @@ const narrowNavLabels: Record<(typeof primaryNavItems)[number]["href"], string> 
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/95 shadow-[0_8px_24px_rgb(5_16_32_/0.06)] backdrop-blur-md dark:shadow-[0_8px_24px_rgb(0_0_0_/0.2)]">
-      <div className="container">
+      <div className="site-container">
         <div
           data-header-shell
           className="relative grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 px-4 pt-1.5 md:px-6 lg:min-h-[4.5rem] lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-5 lg:py-0"

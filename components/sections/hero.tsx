@@ -22,7 +22,7 @@ export function Hero() {
         <div className="absolute -right-56 top-16 h-[600px] w-[660px] rounded-full bg-primary/6" />
       </div>
 
-      <div className="container relative z-10 px-4 md:px-6">
+      <div className="site-container relative z-10 px-4 md:px-6">
         <div className="panel-strong grid items-center gap-6 overflow-hidden rounded-[1.7rem] p-5 min-[360px]:p-6 md:rounded-[2rem] md:p-10 lg:grid-cols-[1.04fr_0.96fr] lg:gap-14 lg:p-12">
           <div className="contents lg:relative lg:block lg:space-y-7">
             <a href="/locations" className="eyebrow order-1 justify-self-start transition-colors hover:bg-secondary/15">

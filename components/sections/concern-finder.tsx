@@ -50,7 +50,7 @@ export function ConcernFinder() {
       aria-labelledby="concern-finder-title"
       data-concern-finder
     >
-      <div className="container px-4 md:px-6">
+      <div className="site-container px-4 md:px-6">
         <div className="panel-strong grid gap-7 overflow-hidden rounded-[2rem] p-6 md:gap-8 md:p-9 lg:grid-cols-[0.72fr_1.28fr] lg:gap-10 lg:p-10">
           <div className="relative flex flex-col items-start justify-center">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">

@@ -129,6 +129,57 @@ test("primary consultation action is readable in light and dark mode", async ({ 
   await expectNoHorizontalOverflow(page)
 })
 
+test("component styles allow utility and interaction states to override them", async ({ page }) => {
+  await page.goto("/")
+
+  const locationEyebrow = page.locator('main a.eyebrow[href="/locations"]')
+  const eyebrowBackground = await locationEyebrow.evaluate(
+    (element) => getComputedStyle(element).backgroundColor
+  )
+  await locationEyebrow.hover()
+  await expect
+    .poll(() => locationEyebrow.evaluate((element) => getComputedStyle(element).backgroundColor))
+    .not.toBe(eyebrowBackground)
+
+  const panel = page.locator("main .panel").first()
+  const panelBackground = await panel.evaluate((element) => {
+    const before = getComputedStyle(element).backgroundColor
+    element.classList.add("bg-amber-50")
+    return before
+  })
+  await expect
+    .poll(() => panel.evaluate((element) => getComputedStyle(element).backgroundColor))
+    .not.toBe(panelBackground)
+})
+
+test("theme follows system preference and preserves an explicit choice", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" })
+  await page.goto("/")
+
+  const root = page.locator("html")
+  const themeColors = page.locator('meta[name="theme-color"]')
+  await expect(root).toHaveClass(/dark/)
+  await expect(page.getByRole("button", { name: "Switch to light mode" })).toBeVisible()
+  await expect.poll(() => themeColors.evaluateAll((metas) => metas.map((meta) => meta.getAttribute("content")))).toEqual(
+    ["#030711", "#030711"]
+  )
+  await expect.poll(() => root.evaluate((element) => getComputedStyle(element).colorScheme)).toBe("dark")
+
+  await page.emulateMedia({ colorScheme: "light" })
+  await expect(root).not.toHaveClass(/dark/)
+  await expect.poll(() => themeColors.evaluateAll((metas) => metas.map((meta) => meta.getAttribute("content")))).toEqual(
+    ["#ffffff", "#ffffff"]
+  )
+
+  await page.emulateMedia({ colorScheme: "dark" })
+  await expect(root).toHaveClass(/dark/)
+  await page.getByRole("button", { name: "Switch to light mode" }).click()
+  await expect(root).not.toHaveClass(/dark/)
+  await page.reload()
+  await expect(root).not.toHaveClass(/dark/)
+  await expect(page.getByRole("button", { name: "Switch to dark mode" })).toBeVisible()
+})
+
 test("floating navigation exposes every primary link without a menu", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto("/")
@@ -300,7 +351,7 @@ test("site containers stay fluid and centered between breakpoints", async ({ pag
   await page.setViewportSize({ width: 1257, height: 900 })
   await page.goto("/")
 
-  const container = page.locator("header > .container")
+  const container = page.locator("header > .site-container")
   const box = await container.boundingBox()
 
   expect(box).not.toBeNull()
@@ -1038,6 +1089,16 @@ test("office secondary actions meet mobile touch-target guidance", async ({ page
 test("every public route has a sound document structure", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   const titles = new Set<string>()
+  const runtimeErrors: string[] = []
+  page.on("pageerror", (error) => runtimeErrors.push(`Page error: ${error.message}`))
+  page.on("console", (message) => {
+    if (message.type() === "error") runtimeErrors.push(`Console error: ${message.text()}`)
+  })
+  page.on("requestfailed", (request) => {
+    runtimeErrors.push(
+      `Request failed: ${request.url()} (${request.failure()?.errorText ?? "unknown error"})`
+    )
+  })
 
   for (const route of publicRoutes) {
     await page.goto(route)
@@ -1050,6 +1111,27 @@ test("every public route has a sound document structure", async ({ page }) => {
       )
       const ids = [...document.querySelectorAll("[id]")].map((element) => element.id)
       const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index)
+      const missingHashTargets = [...document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')]
+        .map((anchor) => anchor.hash.slice(1))
+        .filter((id) => id && !document.getElementById(id))
+      const brokenLoadedImages = [...document.images]
+        .filter((image) => image.complete && image.currentSrc && image.naturalWidth === 0)
+        .map((image) => image.currentSrc)
+      const nestedInteractiveControls = [
+        ...document.querySelectorAll("a a, a button, button a, button button"),
+      ].map((element) => element.outerHTML)
+      const invalidStructuredData = [
+        ...document.querySelectorAll<HTMLScriptElement>('script[type="application/ld+json"]'),
+      ]
+        .map((script) => {
+          try {
+            JSON.parse(script.textContent ?? "")
+            return null
+          } catch (error) {
+            return String(error)
+          }
+        })
+        .filter(Boolean)
       const unnamedControls = [...document.querySelectorAll("a, button")]
         .filter((element) => {
           const label = [
@@ -1071,6 +1153,10 @@ test("every public route has a sound document structure", async ({ page }) => {
         hasFooter: Boolean(document.querySelector("footer")),
         skippedHeading,
         duplicateIds,
+        missingHashTargets,
+        brokenLoadedImages,
+        nestedInteractiveControls,
+        invalidStructuredData,
         unnamedControls,
       }
     })
@@ -1083,6 +1169,10 @@ test("every public route has a sound document structure", async ({ page }) => {
     expect(audit.hasFooter, route).toBe(true)
     expect(audit.skippedHeading, route).toBe(false)
     expect(audit.duplicateIds, route).toEqual([])
+    expect(audit.missingHashTargets, route).toEqual([])
+    expect(audit.brokenLoadedImages, route).toEqual([])
+    expect(audit.nestedInteractiveControls, route).toEqual([])
+    expect(audit.invalidStructuredData, route).toEqual([])
     expect(audit.unnamedControls, route).toEqual([])
     if (route.startsWith("/procedures/") || route.startsWith("/concerns/")) {
       await expect(page.getByRole("heading", { name: "Clinical references" })).toBeVisible()
@@ -1096,6 +1186,8 @@ test("every public route has a sound document structure", async ({ page }) => {
     }
     await expectNoHorizontalOverflow(page, route)
   }
+
+  expect(runtimeErrors).toEqual([])
 })
 
 test("unknown routes show a useful custom error page", async ({ page }) => {

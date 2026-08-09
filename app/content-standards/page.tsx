@@ -87,7 +87,7 @@ export default function ContentStandardsPage() {
         }
       />
 
-      <section className="container px-4 md:px-6" aria-labelledby="content-process">
+      <section className="site-container px-4 md:px-6" aria-labelledby="content-process">
         <div className="panel rounded-[1.8rem] p-6 md:p-8">
           <BookOpenCheck className="h-6 w-6 text-secondary" aria-hidden="true" />
           <h2 id="content-process" className="mt-4 text-4xl font-semibold text-primary">
@@ -107,7 +107,7 @@ export default function ContentStandardsPage() {
         </div>
       </section>
 
-      <section className="container grid gap-4 px-4 md:grid-cols-2 md:px-6" aria-label="Content commitments">
+      <section className="site-container grid gap-4 px-4 md:grid-cols-2 md:px-6" aria-label="Content commitments">
         {commitments.map(({ icon: Icon, title, description }) => (
           <article key={title} className="panel rounded-[1.6rem] p-6">
             <Icon className="h-6 w-6 text-secondary" aria-hidden="true" />
@@ -117,7 +117,7 @@ export default function ContentStandardsPage() {
         ))}
       </section>
 
-      <section className="container px-4 md:px-6" aria-labelledby="maintenance-standard">
+      <section className="site-container px-4 md:px-6" aria-labelledby="maintenance-standard">
         <div className="panel-strong grid gap-6 rounded-[1.8rem] p-6 md:p-8 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <RefreshCw className="h-6 w-6 text-secondary" aria-hidden="true" />

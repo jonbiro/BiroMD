@@ -32,7 +32,7 @@ export default function ServicesPage() {
         description="Start with the type of concern you want evaluated. Each linked procedure page explains what consultation examines and what questions to ask."
       />
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="grid gap-5 lg:grid-cols-3">
           {servicePathways.map((service) => {
             const ServiceIcon = serviceIcons[service.id]
@@ -64,7 +64,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="panel rounded-[1.8rem] p-7 md:p-9">
           <h2 className="text-4xl font-semibold text-primary">What Consultation Covers</h2>
           <ol className="mt-5 grid gap-4 text-sm text-muted-foreground md:grid-cols-3">
@@ -82,7 +82,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="container px-4 md:px-6">
+      <section className="site-container px-4 md:px-6">
         <div className="panel-strong rounded-[1.8rem] p-8 md:flex md:items-center md:justify-between md:gap-8">
           <div>
             <h2 className="text-3xl font-semibold text-primary">Not sure where to start?</h2>
