@@ -5,15 +5,15 @@ import { siteConfig } from "@/lib/site"
 export function ConsultationCta({
   title = "Discuss Your Concern with Dr. Biro",
   description =
-    "Choose the more convenient office. Your request goes directly to that practice's scheduling service, and the office confirms the appointment.",
+    "Choose the most convenient office. Request online where available or call directly, and the office will confirm the appointment.",
 }: {
   title?: string
   description?: string
 }) {
   return (
     <section className="container px-4 md:px-6" aria-labelledby="consultation-next-step">
-      <div className="panel-strong overflow-hidden rounded-[1.8rem] p-6 md:p-8 lg:grid lg:grid-cols-[0.78fr_1.22fr] lg:items-center lg:gap-10 lg:p-10">
-        <div>
+      <div className="panel-strong overflow-hidden rounded-[1.8rem] p-6 md:p-8 lg:p-10">
+        <div className="max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
             Your next step
           </p>
@@ -28,7 +28,7 @@ export function ConsultationCta({
           </p>
         </div>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:mt-0">
+        <div className="mt-7 grid gap-3 md:grid-cols-3">
           {siteConfig.offices.map((office) => (
             <article
               key={office.id}
@@ -42,8 +42,14 @@ export function ConsultationCta({
               <div className="mt-4 space-y-2">
                 <Button className="w-full px-3" asChild>
                   <a href={office.bookingUrl}>
-                    <CalendarDays className="mr-2 h-4 w-4" aria-hidden="true" />
-                    Request appointment
+                    {office.appointmentMode === "online" ? (
+                      <CalendarDays className="mr-2 h-4 w-4" aria-hidden="true" />
+                    ) : (
+                      <Phone className="mr-2 h-4 w-4" aria-hidden="true" />
+                    )}
+                    {office.appointmentMode === "online"
+                      ? "Request appointment"
+                      : "Call for appointment"}
                   </a>
                 </Button>
                 <a

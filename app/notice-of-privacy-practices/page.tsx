@@ -16,11 +16,11 @@ export default function NoticeOfPrivacyPracticesPage() {
       <PageIntro
         eyebrow="Patient Privacy"
         title="Notices of Privacy Practices"
-        description="Your medical records and clinical communications are handled by the office practice where you receive care. Use the links below for that practice's privacy information."
+        description="Your medical records and clinical communications are handled by the office practice where you receive care. Use its published links below or call the practice for current privacy information."
       />
 
       <section className="container px-4 md:px-6">
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-6 lg:grid-cols-3">
           {siteConfig.offices.map((office) => (
             <article key={office.id} className="panel min-w-0 rounded-[1.8rem] p-6 md:p-8">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
@@ -31,26 +31,38 @@ export default function NoticeOfPrivacyPracticesPage() {
               </h2>
               <p className="mt-3 text-sm text-muted-foreground">{office.address}</p>
               <div className="mt-6 grid gap-3">
-                <Button
-                  className="h-auto w-full min-w-0 whitespace-normal px-4 py-2 text-center leading-snug"
-                  asChild
-                >
-                  <a href={office.noticeUrl}>
-                    <FileText className="mr-2 h-4 w-4 shrink-0" />
-                    Patient Privacy Document
-                    <ArrowUpRight className="ml-2 h-4 w-4 shrink-0" />
-                  </a>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="h-auto w-full min-w-0 whitespace-normal px-4 py-2 text-center leading-snug"
-                  asChild
-                >
-                  <a href={office.privacyUrl}>
-                    Practice Privacy Policy
-                    <ArrowUpRight className="ml-2 h-4 w-4 shrink-0" />
-                  </a>
-                </Button>
+                {office.noticeUrl ? (
+                  <Button
+                    className="h-auto w-full min-w-0 whitespace-normal px-4 py-2 text-center leading-snug"
+                    asChild
+                  >
+                    <a href={office.noticeUrl}>
+                      <FileText className="mr-2 h-4 w-4 shrink-0" />
+                      Patient Privacy Document
+                      <ArrowUpRight className="ml-2 h-4 w-4 shrink-0" />
+                    </a>
+                  </Button>
+                ) : (
+                  <div className="rounded-xl border border-border bg-accent/45 p-4 text-sm text-muted-foreground">
+                    <p className="flex items-start gap-2 font-medium text-foreground">
+                      <FileText className="mt-0.5 h-4 w-4 shrink-0 text-secondary" />
+                      Online privacy document not currently published
+                    </p>
+                    <p className="mt-2">Call the practice for its current notice.</p>
+                  </div>
+                )}
+                {office.privacyUrl && (
+                  <Button
+                    variant="outline"
+                    className="h-auto w-full min-w-0 whitespace-normal px-4 py-2 text-center leading-snug"
+                    asChild
+                  >
+                    <a href={office.privacyUrl}>
+                      Practice Privacy Policy
+                      <ArrowUpRight className="ml-2 h-4 w-4 shrink-0" />
+                    </a>
+                  </Button>
+                )}
                 <a
                   className="mt-2 inline-flex min-w-0 items-start text-sm font-semibold text-secondary hover:underline"
                   href={`tel:${office.phoneHref}`}

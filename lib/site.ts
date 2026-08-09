@@ -15,6 +15,7 @@ export const offices = [
     postalCode: "91361",
     phoneDisplay: "(805) 987-5300",
     phoneHref: "+18059875300",
+    appointmentMode: "online",
     bookingUrl:
       "https://schedule.solutionreach.com/scheduling/subscriber/54167/scheduler-basic",
     contactCardUrl: "/contact-cards/dr-biro-westlake-village.vcf",
@@ -36,6 +37,7 @@ export const offices = [
     postalCode: "91730",
     phoneDisplay: "(909) 937-9230",
     phoneHref: "+19099379230",
+    appointmentMode: "online",
     bookingUrl: "https://www.pacificeyemd.com/request-an-appointment/",
     contactCardUrl: "/contact-cards/dr-biro-rancho-cucamonga.vcf",
     mapUrl:
@@ -43,6 +45,26 @@ export const offices = [
     privacyUrl: "https://inlandeye.com/privacy-policy/",
     noticeUrl:
       "https://www.pacificeyemd.com/wp-content/uploads/New-Patient-Paperwork-Jan-2026.pdf",
+  },
+  {
+    id: "burbank",
+    name: "Burbank",
+    practiceName: "A Center for Vision Care",
+    practiceUrl: "https://www.acvci.com/",
+    address: "2031 W Alameda Ave, Suite 300, Burbank, CA 91506",
+    streetAddress: "2031 W Alameda Ave, Suite 300",
+    addressLocality: "Burbank",
+    addressRegion: "CA",
+    postalCode: "91506",
+    phoneDisplay: "(818) 762-0647",
+    phoneHref: "+18187620647",
+    appointmentMode: "phone",
+    bookingUrl: "tel:+18187620647",
+    contactCardUrl: "/contact-cards/dr-biro-burbank.vcf",
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=2031%20W%20Alameda%20Ave%20Suite%20300%2C%20Burbank%2C%20CA%2091506",
+    privacyUrl: null,
+    noticeUrl: null,
   },
 ] as const
 
@@ -81,11 +103,11 @@ export const siteConfig = {
   url: "https://biromd.com",
   basePath: "",
   description:
-    "Board-certified ophthalmologist providing cosmetic and reconstructive oculoplastic care in Westlake Village and Rancho Cucamonga, California.",
+    "Board-certified ophthalmologist providing cosmetic and reconstructive oculoplastic care in Burbank, Westlake Village, and Rancho Cucamonga, California.",
   email: "info@biromd.com",
   phoneDisplay: offices[0].phoneDisplay,
   phoneHref: offices[0].phoneHref,
-  location: "Westlake Village and Rancho Cucamonga, California",
+  location: "Burbank, Westlake Village, and Rancho Cucamonga, California",
   offices,
   languages: ["English", "Spanish", "French"],
   areaServed: ["Los Angeles"],

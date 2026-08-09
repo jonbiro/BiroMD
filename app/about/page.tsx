@@ -91,8 +91,8 @@ export default function AboutPage() {
       </section>
 
       <section className="container px-4 md:px-6" aria-labelledby="practice-affiliations">
-        <div className="panel grid gap-7 rounded-[1.8rem] p-6 md:p-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-          <div>
+        <div className="panel rounded-[1.8rem] p-6 md:p-8">
+          <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
               Practice information
             </p>
@@ -103,12 +103,12 @@ export default function AboutPage() {
               Practice Locations and Information
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Dr. Biro sees patients at two ophthalmology practices. Use the
+              Dr. Biro sees patients at three ophthalmology practices. Use the
               official practice pages to verify current location and appointment information.
             </p>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="mt-7 grid gap-3 md:grid-cols-3">
             {siteConfig.offices.map((office) => (
               <a
                 key={office.id}

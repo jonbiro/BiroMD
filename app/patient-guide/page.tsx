@@ -26,7 +26,7 @@ const requestSteps = [
     number: "01",
     title: "Choose an office",
     description:
-      "Select Westlake Village or Rancho Cucamonga based on convenience and call if you need help choosing.",
+      "Select Burbank, Westlake Village, or Rancho Cucamonga based on convenience, and call if you need help choosing.",
   },
   {
     number: "02",

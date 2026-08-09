@@ -6,7 +6,7 @@ import { pageMetadata, siteConfig } from "@/lib/site"
 export const metadata = pageMetadata({
   title: "Office Locations",
   description:
-    "Find office and appointment information for Dr. Nicolas Biro in Westlake Village and Rancho Cucamonga.",
+    "Find office and appointment information for Dr. Nicolas Biro in Burbank, Westlake Village, and Rancho Cucamonga.",
   path: "/locations",
 })
 
@@ -15,10 +15,10 @@ export default function LocationsPage() {
     <div className="page-stack">
       <PageIntro
         eyebrow="Locations"
-        title="Two Offices for In-Person Consultation"
-        description="Choose the office that is most convenient, then use its official appointment-request page or call directly."
+        title="Three Offices for Consultation"
+        description="Choose the office that is most convenient. Request online where available, or call directly."
       />
-      <section className="container grid gap-6 px-4 md:grid-cols-2 md:px-6">
+      <section className="container grid gap-6 px-4 lg:grid-cols-3 md:px-6">
         {siteConfig.offices.map((office) => (
           <article key={office.id} className="panel min-w-0 rounded-[1.8rem] p-6 md:p-8">
             <MapPin className="h-6 w-6 text-secondary" />
@@ -34,14 +34,20 @@ export default function LocationsPage() {
               <Phone className="mr-2 h-4 w-4" />
               {office.phoneDisplay}
             </a>
-            <div className="mt-7 flex flex-col gap-3 lg:flex-row">
-              <Button className="w-full lg:flex-1 lg:px-4" asChild>
+            <div className="mt-7 flex flex-col gap-3">
+              <Button className="w-full" asChild>
                 <a href={office.bookingUrl}>
-                  <CalendarDays className="mr-2 h-4 w-4" />
-                  Request Appointment
+                  {office.appointmentMode === "online" ? (
+                    <CalendarDays className="mr-2 h-4 w-4" />
+                  ) : (
+                    <Phone className="mr-2 h-4 w-4" />
+                  )}
+                  {office.appointmentMode === "online"
+                    ? "Request Appointment"
+                    : "Call for Appointment"}
                 </a>
               </Button>
-              <Button variant="outline" className="w-full lg:flex-1 lg:px-4" asChild>
+              <Button variant="outline" className="w-full" asChild>
                 <a href={`/locations/${office.id}`}>
                   Office Details
                   <ArrowRight className="ml-2 h-4 w-4" />

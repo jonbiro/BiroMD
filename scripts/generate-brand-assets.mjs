@@ -62,7 +62,7 @@ const foreground = Buffer.from(`
     <text x="75" y="225" fill="#8de0da" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="4">OCULOPLASTIC SURGERY</text>
     <text x="75" y="336" fill="#d9e8f5" font-family="Arial, sans-serif" font-size="31">Specialized care for the eyes</text>
     <text x="75" y="376" fill="#d9e8f5" font-family="Arial, sans-serif" font-size="31">and surrounding face</text>
-    <text x="75" y="514" fill="#b5c9dc" font-family="Arial, sans-serif" font-size="20">Westlake Village + Rancho Cucamonga</text>
+    <text x="75" y="514" fill="#b5c9dc" font-family="Arial, sans-serif" font-size="17">Burbank + Westlake Village + Rancho Cucamonga</text>
     <text x="75" y="553" fill="#8de0da" font-family="Arial, sans-serif" font-size="21" font-weight="700">BIROMD.COM</text>
   </svg>
 `)

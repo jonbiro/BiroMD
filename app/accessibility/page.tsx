@@ -32,22 +32,21 @@ export default function AccessibilityPage() {
             <h2 className="text-3xl font-semibold">Request assistance</h2>
             <p className="mt-2 text-muted-foreground">
               If you encounter an accessibility barrier or need information in
-              another format, call the Westlake Village office at{" "}
-              <a
-                className="font-medium text-secondary underline"
-                href={`tel:${siteConfig.offices[0].phoneHref}`}
-              >
-                {siteConfig.offices[0].phoneDisplay}
-              </a>{" "}
-              or the Rancho Cucamonga office at{" "}
-              <a
-                className="font-medium text-secondary underline"
-                href={`tel:${siteConfig.offices[1].phoneHref}`}
-              >
-                {siteConfig.offices[1].phoneDisplay}
-              </a>
-              .
+              another format, call the most convenient office:
             </p>
+            <ul className="mt-4 grid gap-3 sm:grid-cols-3">
+              {siteConfig.offices.map((office) => (
+                <li key={office.id}>
+                  <a
+                    className="flex min-h-12 flex-col justify-center rounded-xl border border-border bg-accent/45 px-4 py-2 font-medium text-secondary underline underline-offset-4"
+                    href={`tel:${office.phoneHref}`}
+                  >
+                    <span className="text-sm text-foreground">{office.name}</span>
+                    <span>{office.phoneDisplay}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div>

@@ -1,4 +1,5 @@
 import { expect, test, type Locator, type Page } from "@playwright/test"
+import { brandAssetVersion } from "../lib/brand-assets"
 
 const procedureSlugs = [
   "upper-blepharoplasty",
@@ -44,6 +45,7 @@ const publicRoutes = [
   "/locations",
   "/locations/westlake-village",
   "/locations/rancho-cucamonga",
+  "/locations/burbank",
   "/referrals",
   "/privacy",
   "/notice-of-privacy-practices",
@@ -285,6 +287,7 @@ test("office and privacy actions fit at narrow and tablet breakpoints", async ({
   await page.goto("/notice-of-privacy-practices")
   await expectNoHorizontalOverflow(page, "privacy notices at 320px")
   await expect(page.getByRole("link", { name: "Patient Privacy Document" }).first()).toBeVisible()
+  await expect(page.getByText("Online privacy document not currently published")).toBeVisible()
 
   await page.setViewportSize({ width: 820, height: 850 })
   await page.goto("/locations")
@@ -299,7 +302,7 @@ test("office and privacy actions fit at narrow and tablet breakpoints", async ({
 test("contact page uses official office request links", async ({ page }) => {
   await page.goto("/contact")
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Request a Consultation")
-  for (const office of ["Westlake Village", "Rancho Cucamonga"]) {
+  for (const office of ["Westlake Village", "Rancho Cucamonga", "Burbank"]) {
     await expect(
       page.locator("main").getByRole("link", { name: office, exact: true }).first()
     ).toHaveAttribute("href", /^#schedule-/)
@@ -311,6 +314,10 @@ test("contact page uses official office request links", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Request at Rancho Cucamonga" })).toHaveAttribute(
     "href",
     "https://www.pacificeyemd.com/request-an-appointment/"
+  )
+  await expect(page.getByRole("link", { name: "Call Burbank" })).toHaveAttribute(
+    "href",
+    "tel:+18187620647"
   )
   await expect(page.getByText(/The office will contact you to confirm/)).toBeVisible()
   await expect(page.getByRole("link", { name: "Email Scheduling" })).toHaveAttribute(
@@ -332,6 +339,10 @@ test("new patient guide resolves common scheduling friction", async ({ page }) =
     page.getByRole("heading", { name: "Choose an Office to Request a Consultation" })
   ).toBeVisible()
   await expect(page.getByRole("link", { name: "Request appointment" })).toHaveCount(2)
+  await expect(page.getByRole("link", { name: "Call for appointment" })).toHaveAttribute(
+    "href",
+    "tel:+18187620647"
+  )
   await expect(page.getByRole("button", { name: "Print This Guide" })).toHaveAttribute(
     "data-print-page",
     "true"
@@ -354,6 +365,24 @@ test("office pages provide portable contact cards", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Save Office Contact" })).toHaveAttribute(
     "href",
     "/contact-cards/dr-biro-rancho-cucamonga.vcf"
+  )
+
+  await page.goto("/locations/burbank")
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Oculoplastic Care in Burbank"
+  )
+  await expect(page.getByText(/2031 W Alameda Ave, Suite 300/).first()).toBeVisible()
+  await expect(page.getByRole("link", { name: "Call for Appointment" })).toHaveAttribute(
+    "href",
+    "tel:+18187620647"
+  )
+  await expect(page.getByRole("link", { name: "Practice Website" })).toHaveAttribute(
+    "href",
+    "https://www.acvci.com/"
+  )
+  await expect(page.getByRole("link", { name: "Save Office Contact" })).toHaveAttribute(
+    "href",
+    "/contact-cards/dr-biro-burbank.vcf"
   )
 })
 
@@ -461,10 +490,16 @@ test("homepage heading is readable and graphic cases stay on the results page", 
   await expect(page.locator('main a[href^="/gallery/"]')).toHaveCount(0)
   const portrait = page.getByRole("img", { name: "Dr. Nicolas Biro" }).first()
   await expect(portrait).toBeVisible()
-  await expect(portrait).toHaveAttribute("src", /\?v=20260808-headshot$/)
+  await expect(portrait).toHaveAttribute(
+    "src",
+    new RegExp(`\\?v=${brandAssetVersion}$`)
+  )
   await expect(portrait.locator("xpath=preceding-sibling::source")).toHaveCount(2)
   for (const source of await portrait.locator("xpath=preceding-sibling::source").all()) {
-    await expect(source).toHaveAttribute("srcset", /\?v=20260808-headshot/)
+    await expect(source).toHaveAttribute(
+      "srcset",
+      new RegExp(`\\?v=${brandAssetVersion}`)
+    )
   }
   await expect
     .poll(() => portrait.evaluate((image) => (image as HTMLImageElement).naturalWidth))
@@ -540,7 +575,7 @@ test("referring clinicians receive a safe direct pathway", async ({ page }) => {
   await expect(page.getByText(/should not receive patient records/)).toBeVisible()
   await expect(page.locator("main form")).toHaveCount(0)
   await expect(page.locator('main a[href^="mailto:"]')).toHaveCount(0)
-  await expect(page.locator('main a[href^="tel:"]')).toHaveCount(2)
+  await expect(page.locator('main a[href^="tel:"]')).toHaveCount(3)
   await expect(page.getByRole("button", { name: "Print Referral Guide" })).toHaveAttribute(
     "data-print-page",
     "true"
@@ -553,6 +588,10 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
     .locator("xpath=ancestor::section")
 
   await expect(nextStep.getByRole("link", { name: "Request appointment" })).toHaveCount(2)
+  await expect(nextStep.getByRole("link", { name: "Call for appointment" })).toHaveAttribute(
+    "href",
+    "tel:+18187620647"
+  )
   await expect(nextStep.getByRole("link", { name: "(805) 987-5300" })).toHaveAttribute(
     "href",
     "tel:+18059875300"
@@ -580,6 +619,10 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
   await expect(affiliations.getByRole("link", { name: /Pacific Eye Institute/ })).toHaveAttribute(
     "href",
     "https://www.pacificeyemd.com/doctors/nicolas-biro-m-d/"
+  )
+  await expect(affiliations.getByRole("link", { name: /A Center for Vision Care/ })).toHaveAttribute(
+    "href",
+    "https://www.acvci.com/"
   )
 
   await page.goto("/")
