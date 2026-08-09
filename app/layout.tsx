@@ -6,6 +6,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { SiteControlsScript } from "@/components/site-controls-script"
 import { SkipLink } from "@/components/skip-link"
+import { versionedBrandAsset } from "@/lib/brand-assets"
 import { absoluteUrl, physicianProfileUrls, siteConfig } from "@/lib/site"
 import { procedures } from "@/lib/procedures"
 
@@ -31,8 +32,10 @@ export const viewport: Viewport = {
   ],
 }
 
-const socialImage = absoluteUrl("/images/biromd-social-card.png")
-const portraitImage = absoluteUrl("/images/portrait/dr-biro-portrait-960.webp")
+const socialImage = absoluteUrl(versionedBrandAsset("/images/biromd-social-card.png"))
+const portraitImage = absoluteUrl(
+  versionedBrandAsset("/images/portrait/dr-biro-portrait-960.webp")
+)
 const physicianId = absoluteUrl("/#physician")
 const websiteId = absoluteUrl("/#website")
 const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim()

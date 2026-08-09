@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { versionedBrandAsset } from "@/lib/brand-assets"
 
 export const offices = [
   {
@@ -136,7 +137,7 @@ export function pageMetadata({
   path,
 }: PageMetadataOptions): Metadata {
   const url = absoluteUrl(path)
-  const socialImage = absoluteUrl("/images/biromd-social-card.png")
+  const socialImage = absoluteUrl(versionedBrandAsset("/images/biromd-social-card.png"))
 
   return {
     title,

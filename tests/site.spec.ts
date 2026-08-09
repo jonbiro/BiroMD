@@ -461,6 +461,11 @@ test("homepage heading is readable and graphic cases stay on the results page", 
   await expect(page.locator('main a[href^="/gallery/"]')).toHaveCount(0)
   const portrait = page.getByRole("img", { name: "Dr. Nicolas Biro" }).first()
   await expect(portrait).toBeVisible()
+  await expect(portrait).toHaveAttribute("src", /\?v=20260808-headshot$/)
+  await expect(portrait.locator("xpath=preceding-sibling::source")).toHaveCount(2)
+  for (const source of await portrait.locator("xpath=preceding-sibling::source").all()) {
+    await expect(source).toHaveAttribute("srcset", /\?v=20260808-headshot/)
+  }
   await expect
     .poll(() => portrait.evaluate((image) => (image as HTMLImageElement).naturalWidth))
     .toBeGreaterThan(0)
