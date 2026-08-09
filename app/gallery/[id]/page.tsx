@@ -1,19 +1,17 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { ArrowLeft, ArrowRight, CalendarDays, FileText, ShieldCheck } from "lucide-react"
+import { ClinicalComparisonPreview } from "@/components/clinical-comparison-preview"
 import { ClinicalImageCover } from "@/components/clinical-image-cover"
-import { ClinicalCaseImage } from "@/components/clinical-case-image"
 import { ConsultationCta } from "@/components/consultation-cta"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
 import {
   getPublishedGalleryCase,
   getPublishedGalleryCases,
-  type GalleryCaseImage,
 } from "@/lib/gallery-cases"
 import { getProcedure } from "@/lib/procedures"
 import { absoluteUrl, pageMetadata } from "@/lib/site"
-import { cn } from "@/lib/utils"
 
 export const dynamicParams = false
 const emptyGalleryRoute = "gallery-under-review"
@@ -50,26 +48,6 @@ export async function generateMetadata({
     description: `${item.presentation} Review the documented surgical approach and authorized before-and-after image. Individual results vary.`,
     path: `/gallery/${item.id}`,
   })
-}
-
-function ComparisonLabels({ image }: { image: GalleryCaseImage }) {
-  const vertical = image.comparisonLayout === "vertical"
-
-  return (
-    <div className="pointer-events-none absolute inset-3 z-10 text-[0.68rem] font-bold uppercase tracking-[0.14em]">
-      <span className="absolute left-0 top-0 rounded-full bg-slate-950/85 px-3 py-1.5 text-white shadow-sm">
-        Before
-      </span>
-      <span
-        className={cn(
-          "absolute rounded-full bg-slate-950/85 px-3 py-1.5 text-white shadow-sm",
-          vertical ? "bottom-0 left-0" : "right-0 top-0"
-        )}
-      >
-        After
-      </span>
-    </div>
-  )
 }
 
 export default async function GalleryCasePage({
@@ -183,32 +161,29 @@ export default async function GalleryCasePage({
       <section className="container grid gap-6 px-4 lg:grid-cols-[1.08fr_0.92fr] md:px-6">
         <div className="panel overflow-hidden rounded-[1.8rem]">
           <div
-            className="relative flex items-center justify-center bg-accent/45"
-            style={{ aspectRatio: `${primaryImage.width} / ${primaryImage.height}` }}
+            className={`relative flex items-center justify-center bg-accent/45 ${item.sensitive ? "min-h-[17rem]" : ""}`}
             data-sensitive-image={item.sensitive ? "true" : undefined}
             tabIndex={item.sensitive ? -1 : undefined}
           >
             <div
               data-sensitive-media={item.sensitive ? "true" : undefined}
               aria-hidden={item.sensitive ? "true" : undefined}
-              className="flex h-full w-full items-center justify-center p-4 md:p-6"
+              className={`flex w-full items-center justify-center ${item.sensitive ? "min-h-[17rem]" : ""}`}
             >
-              <ClinicalCaseImage
-                imagePath={primaryImage.imagePath}
-                alt={primaryImage.alt}
-                width={primaryImage.width}
-                height={primaryImage.height}
-                sizes="(max-width: 1024px) 92vw, 54vw"
-                className="max-h-full max-w-full"
+              <ClinicalComparisonPreview
+                image={primaryImage}
+                sizes="(max-width: 1024px) 46vw, 27vw"
               />
             </div>
-            <ComparisonLabels image={primaryImage} />
             {item.sensitive && item.sensitiveLabel ? (
-              <ClinicalImageCover label={item.sensitiveLabel} />
+              <ClinicalImageCover
+                label={item.sensitiveLabel}
+                imagePath={primaryImage.imagePath}
+              />
             ) : null}
           </div>
           <p className="border-t border-border px-5 py-4 text-sm text-muted-foreground md:px-6">
-            {primaryImage.viewLabel}. {primaryImage.comparisonLabel}. Photographs are published
+            {primaryImage.viewLabel}. Before-and-after comparison. Photographs are published
             with written authorization.
           </p>
         </div>
@@ -251,22 +226,16 @@ export default async function GalleryCasePage({
             {item.images.slice(1).map((image) => (
               <article key={image.imagePath} className="panel self-start overflow-hidden rounded-[1.8rem]">
                 <div
-                  className="relative flex items-center justify-center bg-accent/45 p-4 md:p-5"
-                  style={{ aspectRatio: `${image.width} / ${image.height}` }}
+                  className="relative flex items-center justify-center bg-accent/45"
                 >
-                  <ClinicalCaseImage
-                    imagePath={image.imagePath}
-                    alt={image.alt}
-                    width={image.width}
-                    height={image.height}
-                    sizes="(max-width: 768px) 92vw, 46vw"
-                    className="max-h-full max-w-full"
+                  <ClinicalComparisonPreview
+                    image={image}
+                    sizes="(max-width: 768px) 46vw, 23vw"
                   />
-                  <ComparisonLabels image={image} />
                 </div>
                 <div className="border-t border-border px-5 py-4">
                   <h3 className="text-2xl font-semibold text-primary">{image.viewLabel}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">{image.comparisonLabel}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">Before-and-after comparison</p>
                 </div>
               </article>
             ))}

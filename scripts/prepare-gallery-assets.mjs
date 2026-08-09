@@ -25,6 +25,13 @@ for (const asset of manifest.filter((asset) => authorized.has(assetCaseId(asset)
     .jpeg({ quality: 88, mozjpeg: true })
     .toFile(path.join(publicDir, asset.file))
 
+  await sharp(source)
+    .rotate()
+    .resize({ width: 48, withoutEnlargement: false })
+    .blur(2)
+    .webp({ quality: 42, effort: 4 })
+    .toFile(path.join(publicDir, `${stem}-warning.webp`))
+
   for (const width of [480, 720, 960]) {
     const image = sharp(source)
       .rotate()

@@ -53,9 +53,14 @@ const controlsScript = String.raw`
     const cover = container.querySelector("[data-sensitive-cover]");
     const media = container.querySelector("[data-sensitive-media]");
     const opener = container.querySelector("[data-gallery-open]");
+    const toolbar = container.querySelector("[data-sensitive-toolbar]");
+    const reveal = cover?.querySelector("[data-sensitive-reveal]");
+    const hide = toolbar?.querySelector("[data-sensitive-hide]");
     cover?.querySelector("[data-sensitive-reveal]")?.addEventListener("click", (event) => {
       event.stopPropagation();
       cover.hidden = true;
+      if (toolbar) toolbar.hidden = false;
+      container.setAttribute("data-sensitive-revealed", "true");
       media?.removeAttribute("aria-hidden");
       if (opener) {
         opener.disabled = false;
@@ -63,6 +68,15 @@ const controlsScript = String.raw`
       } else {
         container.focus();
       }
+    });
+    hide?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      cover.hidden = false;
+      if (toolbar) toolbar.hidden = true;
+      container.removeAttribute("data-sensitive-revealed");
+      media?.setAttribute("aria-hidden", "true");
+      if (opener) opener.disabled = true;
+      reveal?.focus();
     });
   });
 

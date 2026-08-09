@@ -19,7 +19,7 @@ export default function GalleryPage() {
       <PageIntro
         eyebrow="Clinical Cases"
         title="Before & After Photos"
-        description="Explore authorized before-and-after cases with clear labels, additional matched views where available, and procedure context. Individual results vary."
+        description="Browse authorized before-and-after cases, including additional matched views where available. Individual results vary."
       />
       <div className="container px-4 md:px-6">
         <GalleryView cases={publishedCases} />

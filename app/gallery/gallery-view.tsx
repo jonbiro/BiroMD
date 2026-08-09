@@ -5,10 +5,11 @@ import {
   Sparkles,
   X,
 } from "lucide-react"
+import { ClinicalComparisonPreview } from "@/components/clinical-comparison-preview"
 import { ClinicalImageCover } from "@/components/clinical-image-cover"
 import { ClinicalCaseImage } from "@/components/clinical-case-image"
 import { Button } from "@/components/ui/button"
-import type { GalleryCase, GalleryCaseImage } from "@/lib/gallery-cases"
+import type { GalleryCase } from "@/lib/gallery-cases"
 import { cn } from "@/lib/utils"
 
 type GalleryViewProps = { cases: GalleryCase[] }
@@ -20,34 +21,14 @@ const filters: Array<{ id: GalleryFilter; label: string; icon: typeof Images }> 
   { id: "reconstructive", label: "Reconstructive", icon: ShieldCheck },
 ]
 
-function ComparisonLabels({ image }: { image: GalleryCaseImage }) {
-  const vertical = image.comparisonLayout === "vertical"
-  return (
-    <div className="pointer-events-none absolute inset-3 z-10 text-[0.68rem] font-bold uppercase tracking-[0.14em]">
-      <span className="absolute left-0 top-0 rounded-full bg-slate-950/85 px-3 py-1.5 text-white shadow-sm">
-        Before
-      </span>
-      <span
-        className={cn(
-          "absolute rounded-full bg-slate-950/85 px-3 py-1.5 text-white shadow-sm",
-          vertical ? "bottom-0 left-0" : "right-0 top-0"
-        )}
-      >
-        After
-      </span>
-    </div>
-  )
-}
-
 export function GalleryView({ cases }: GalleryViewProps) {
   return (
     <div className="space-y-8 md:space-y-9" data-gallery>
       <div className="rounded-2xl border border-secondary/30 bg-secondary/8 p-4 text-sm md:p-5">
-        <p className="font-semibold text-foreground">Clinical image disclosure</p>
+        <p className="font-semibold text-foreground">About these photographs</p>
         <p className="mt-1 text-muted-foreground">
-          Individual anatomy, treatment plans, healing, and results vary. Cases
-          appear here only after written publication authorization is confirmed.
-          Framing and file format may be standardized; anatomy and outcomes are not retouched.
+          Published with written authorization. Framing and file format may be
+          standardized; anatomy and outcomes are not retouched. Individual results vary.
         </p>
       </div>
 
@@ -98,30 +79,27 @@ export function GalleryView({ cases }: GalleryViewProps) {
                 className="panel self-start overflow-hidden rounded-[2rem]"
               >
                 <div
-                  className="relative w-full overflow-hidden border-b border-border bg-accent/45"
-                  style={{
-                    aspectRatio: item.sensitive
-                      ? "4 / 3"
-                      : `${primaryImage.width} / ${primaryImage.height}`,
-                  }}
+                  className={cn(
+                    "relative w-full overflow-hidden border-b border-border bg-accent/45",
+                    item.sensitive && "min-h-[17rem]"
+                  )}
                   data-sensitive-image={item.sensitive ? "true" : undefined}
                   tabIndex={item.sensitive ? -1 : undefined}
                 >
                   <div
                     data-sensitive-media={item.sensitive ? "true" : undefined}
                     aria-hidden={item.sensitive ? "true" : undefined}
-                    className="flex h-full w-full items-center justify-center p-3"
+                    className={cn(
+                      "flex w-full items-center justify-center",
+                      item.sensitive && "min-h-[17rem]"
+                    )}
                   >
-                    <ClinicalCaseImage
-                      imagePath={primaryImage.imagePath}
-                      alt={primaryImage.alt}
-                      width={primaryImage.width}
-                      height={primaryImage.height}
-                      sizes="(max-width: 768px) 92vw, (max-width: 1280px) 46vw, 31vw"
-                      className="transition-transform duration-300 hover:scale-[1.01]"
+                    <ClinicalComparisonPreview
+                      image={primaryImage}
+                      compact
+                      sizes="(max-width: 768px) 46vw, (max-width: 1280px) 23vw, 16vw"
                     />
                   </div>
-                  <ComparisonLabels image={primaryImage} />
                   <button
                     type="button"
                     data-gallery-open={dialogId}
@@ -129,13 +107,16 @@ export function GalleryView({ cases }: GalleryViewProps) {
                     className="absolute inset-0 z-20 flex items-end justify-end p-4 focus-visible:outline-offset-[-5px] disabled:pointer-events-none"
                     aria-label={`View larger image for ${item.title}`}
                   >
-                    <span className="inline-flex items-center gap-2 rounded-full bg-primary px-3.5 py-2 text-xs font-semibold text-primary-foreground shadow-lg">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#0b3558] text-xs font-semibold text-white shadow-lg dark:bg-[#164e77] sm:h-auto sm:w-auto sm:gap-2 sm:px-3.5 sm:py-2">
                       <Maximize2 className="h-4 w-4" />
-                      View larger
+                      <span className="hidden sm:inline">Full image</span>
                     </span>
                   </button>
                   {item.sensitive && item.sensitiveLabel ? (
-                    <ClinicalImageCover label={item.sensitiveLabel} />
+                    <ClinicalImageCover
+                      label={item.sensitiveLabel}
+                      imagePath={primaryImage.imagePath}
+                    />
                   ) : null}
                 </div>
 
@@ -144,9 +125,9 @@ export function GalleryView({ cases }: GalleryViewProps) {
                     <p className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">
                       {item.categoryLabel} / {item.focus}
                     </p>
-                    <h2 className="mt-2 text-3xl font-semibold text-primary">{item.title}</h2>
+                    <h2 className="mt-2 text-[1.75rem] font-semibold leading-tight text-primary">{item.title}</h2>
                     <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-muted-foreground">
-                      <span>{primaryImage.comparisonLabel}</span>
+                      <span>Before and after</span>
                       <span aria-hidden="true">·</span>
                       <span>{item.images.length} {item.images.length === 1 ? "view" : "matched views"}</span>
                     </div>

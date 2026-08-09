@@ -449,6 +449,10 @@ test("gallery labels remain visible without hover", async ({ page }) => {
   await expect(cases.first().getByText("Before", { exact: true })).toBeVisible()
   await expect(cases.first().getByText("After", { exact: true })).toBeVisible()
   await expect(cases.first().locator("[data-gallery-open]")).toHaveCount(1)
+  const preview = cases.first().locator("[data-comparison-preview]")
+  const previewBox = await preview.boundingBox()
+  expect(previewBox).not.toBeNull()
+  expect(previewBox!.width / previewBox!.height).toBeGreaterThan(2)
 
   const title = await cases.first().getByRole("heading", { level: 2 }).first().innerText()
   await cases.first().getByRole("button", { name: /View larger image/ }).click()
@@ -510,7 +514,7 @@ test("multi-view gallery cases preserve matched comparisons", async ({ page }) =
   await expect(page.getByRole("heading", { name: "First oblique view" })).toBeVisible()
   await expect(page.getByRole("heading", { name: "Second oblique view" })).toBeVisible()
   await expect(
-    page.locator('main img[alt*="upper and lower blepharoplasty"]')
+    page.locator('main [data-comparison-preview][role="img"]')
   ).toHaveCount(3)
   await expectNoHorizontalOverflow(page, "multi-view gallery case at 390px")
 })
@@ -523,16 +527,28 @@ test("graphic gallery cases require an explicit reveal", async ({ page }) => {
 
   await page.goto("/gallery")
   const clinicalCase = page.locator("#periocular-lesion-removal")
-  const reveal = clinicalCase.getByRole("button", { name: "Show Clinical Image" })
+  const warning = clinicalCase.getByText("Sensitive Clinical Content", { exact: true })
+  const reveal = clinicalCase.getByRole("button", { name: /View sensitive clinical image/i })
   const enlarge = clinicalCase.getByRole("button", {
     name: "View larger image for Periocular Lesion Removal",
   })
 
+  await expect(warning).toBeVisible()
+  await expect(clinicalCase.getByText(/hidden until you choose to view it/i)).toBeVisible()
+  await expect(clinicalCase.locator("[data-sensitive-preview]")).toHaveAttribute(
+    "src",
+    /-warning\.webp$/
+  )
   await expect(reveal).toBeVisible()
   await expect(enlarge).toBeDisabled()
   await reveal.click()
   await expect(reveal).toBeHidden()
   await expect(enlarge).toBeEnabled()
+  const hide = clinicalCase.getByRole("button", { name: "Hide sensitive clinical image" })
+  await expect(hide).toBeVisible()
+  await hide.click()
+  await expect(warning).toBeVisible()
+  await expect(enlarge).toBeDisabled()
 })
 
 test("homepage heading is readable and graphic cases stay on the results page", async ({ page }) => {

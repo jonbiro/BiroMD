@@ -162,6 +162,7 @@ for (const asset of manifest.filter((asset) => authorized.has(assetCaseId(asset)
   const stem = assetStem(asset.file)
   for (const file of [
     asset.file,
+    `${stem}-warning.webp`,
     `${stem}-480.avif`,
     `${stem}-480.webp`,
     `${stem}-720.avif`,
