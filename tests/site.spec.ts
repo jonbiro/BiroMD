@@ -974,27 +974,25 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
   expect(wordCount).toBeLessThanOrEqual(225)
   await expect(page.getByRole("link", { name: "Request Consultation" }).first()).toBeVisible()
   await expect(page.locator("[data-concern-finder]").locator('a[href^="/concerns/"]')).toHaveCount(7)
-  const carePathways = page.locator("[data-care-pathway]")
-  await expect(carePathways).toHaveCount(4)
-  await expect(carePathways.getByText("Cosmetic Eyelid Care", { exact: true })).toBeVisible()
-  await expect(carePathways.getByText("Tearing & Tear Ducts", { exact: true })).toBeVisible()
-  await expect(carePathways.getByText("Refine upper lids, lower lids, and brows.")).toBeVisible()
+  const mobileCarePathways = page.locator("[data-mobile-care-pathway]")
+  await expect(mobileCarePathways).toHaveCount(4)
+  await expect(mobileCarePathways.getByText("Cosmetic Eyelid Care", { exact: true })).toBeVisible()
+  await expect(mobileCarePathways.getByText("Tearing & Tear Ducts", { exact: true })).toBeVisible()
   await expect(page.locator("[data-care-pathway-controls]")).toBeHidden()
-  const mobilePathwayLayout = await carePathways.evaluateAll((cards) =>
+  const mobilePathwayLayout = await mobileCarePathways.evaluateAll((cards) =>
     cards.map((card) => {
       const box = card.getBoundingClientRect()
       return { left: box.left, right: box.right, width: box.width, height: box.height }
     })
   )
-  expect(mobilePathwayLayout.every((card) => card.width >= 150 && card.height >= 150)).toBe(true)
-  expect(new Set(mobilePathwayLayout.map((card) => Math.round(card.height))).size).toBe(1)
+  expect(mobilePathwayLayout.every((card) => card.width >= 300 && card.height >= 80)).toBe(true)
   expect(
     mobilePathwayLayout.every(
       (card) => card.left >= 0 && card.right <= 390
     )
   ).toBe(true)
   await expect(
-    carePathways.filter({ hasText: "Orbital & Thyroid Eye Care" })
+    mobileCarePathways.filter({ hasText: "Orbital & Thyroid Eye Care" })
   ).toHaveAttribute("href", "/procedures#reconstructive-oculoplastics")
   await expect(page.getByRole("heading", { name: "Independent Patient Feedback" })).toBeVisible()
   await expect(

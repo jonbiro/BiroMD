@@ -67,28 +67,62 @@ export function ServicesPreview() {
       data-care-pathways
     >
       <div className="site-container px-4 md:px-6">
-        <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between md:mb-6">
+        <div className="mb-4 flex items-end justify-between gap-3 sm:mb-5 md:mb-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-              Four areas of care
+              <span className="sm:hidden">Choose an area</span>
+              <span className="hidden sm:inline">Four areas of care</span>
             </p>
             <h2
               id="care-pathways-title"
-              className="mt-2 text-[2.25rem] font-semibold leading-none text-primary sm:text-5xl"
+              className="mt-1.5 text-[2rem] font-semibold leading-none text-primary sm:mt-2 sm:text-5xl"
             >
-              Explore Specialized Care
+              <span className="sm:hidden">Specialized Care</span>
+              <span className="hidden sm:inline">Explore Specialized Care</span>
             </h2>
           </div>
-          <Button variant="outline" className="self-start sm:self-auto" asChild>
+          <Button variant="outline" size="sm" className="shrink-0 px-3 sm:px-4" asChild>
             <a href="/procedures">
-              All Procedures
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              <span className="sm:hidden">View All</span>
+              <span className="hidden sm:inline">All Procedures</span>
+              <ArrowRight className="ml-1.5 h-4 w-4 sm:ml-2" aria-hidden="true" />
             </a>
           </Button>
         </div>
 
         <div
-          className="care-pathway-rail"
+          className="grid gap-2 sm:hidden"
+          aria-label="Oculoplastic care pathways"
+          data-mobile-care-pathways
+        >
+          {carePathways.map((pathway) => {
+            const PathwayIcon = pathway.icon
+            return (
+              <a
+                key={pathway.title}
+                href={pathway.href}
+                className="group grid min-h-[5.25rem] grid-cols-[2.75rem_minmax(0,1fr)_1rem] items-center gap-3 rounded-[1.1rem] border border-border bg-card px-3 py-2.5 shadow-[0_5px_16px_rgb(5_16_32_/0.07)] transition-[border-color,box-shadow,transform] hover:-translate-y-0.5 hover:border-secondary hover:shadow-md"
+                data-mobile-care-pathway
+              >
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-[0.85rem] border border-secondary/30 bg-secondary/8 text-secondary">
+                  <PathwayIcon className="h-5 w-5" strokeWidth={1.7} aria-hidden="true" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[0.625rem] font-bold uppercase leading-4 tracking-[0.13em] text-secondary">
+                    {pathway.eyebrow}
+                  </span>
+                  <span className="mt-0.5 block font-serif text-[1.35rem] font-semibold leading-[1.05] tracking-[-0.02em] text-primary">
+                    {pathway.title}
+                  </span>
+                </span>
+                <ArrowRight className="h-4 w-4 text-secondary transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+              </a>
+            )
+          })}
+        </div>
+
+        <div
+          className="care-pathway-rail hidden sm:flex"
           aria-label="Oculoplastic care pathways"
           data-care-pathway-rail
         >
@@ -127,16 +161,12 @@ export function ServicesPreview() {
                     />
                   </span>
                 </span>
-                <ArrowRight
-                  className="care-pathway-mobile-arrow"
-                  aria-hidden="true"
-                />
               </a>
             )
           })}
         </div>
         <div
-          className="care-pathway-controls mt-3 flex items-center justify-between gap-3"
+          className="care-pathway-controls mt-3 hidden items-center justify-between gap-3 sm:flex"
           data-care-pathway-controls
         >
           <button
