@@ -22,7 +22,7 @@ type CarePathway = {
 
 const carePathways: readonly CarePathway[] = [
   {
-    eyebrow: "01 / Cosmetic",
+    eyebrow: "Cosmetic",
     title: "Cosmetic Eyelid Care",
     summary: "Refine upper lids, lower lids, and brows.",
     href: "/procedures#cosmetic-eyelid-surgery",
@@ -31,7 +31,7 @@ const carePathways: readonly CarePathway[] = [
     action: "Explore cosmetic eyelid care",
   },
   {
-    eyebrow: "02 / Functional",
+    eyebrow: "Functional",
     title: "Eyelid Function & Reconstruction",
     summary: "Restore eyelid position, protection, and function.",
     href: "/procedures#reconstructive-oculoplastics",
@@ -40,7 +40,7 @@ const carePathways: readonly CarePathway[] = [
     action: "Explore functional eyelid care",
   },
   {
-    eyebrow: "03 / Tear System",
+    eyebrow: "Tear System",
     title: "Tearing & Tear Ducts",
     summary: "Evaluate persistent tearing and drainage problems.",
     href: "/procedures/tearing-blocked-tear-ducts",
@@ -49,7 +49,7 @@ const carePathways: readonly CarePathway[] = [
     action: "Explore tear-duct care",
   },
   {
-    eyebrow: "04 / Orbit",
+    eyebrow: "Orbit",
     title: "Orbital & Thyroid Eye Care",
     summary: "Explore thyroid-related changes, orbital masses, and trauma.",
     href: "/procedures#reconstructive-oculoplastics",
