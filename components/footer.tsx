@@ -15,7 +15,7 @@ export default function Footer() {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <BrandSymbol
-                  className="h-11 w-14 md:h-12 md:w-[3.8rem]"
+                  className="h-14 w-[4.5rem] shrink-0 md:h-16 md:w-[5.2rem]"
                 />
                 <p className="font-serif text-2xl font-semibold leading-none text-primary md:text-3xl">
                   {siteConfig.name}
