@@ -1,9 +1,11 @@
 import {
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
   Droplets,
+  Eye,
   ScanFace,
   ShieldCheck,
-  Sparkles,
   type LucideIcon,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -15,6 +17,7 @@ type CarePathway = {
   href: string
   icon: LucideIcon
   treatment: string
+  action: string
 }
 
 const carePathways: readonly CarePathway[] = [
@@ -23,8 +26,9 @@ const carePathways: readonly CarePathway[] = [
     title: "Cosmetic Eyelid Care",
     summary: "Refine upper lids, lower lids, and brows.",
     href: "/procedures#cosmetic-eyelid-surgery",
-    icon: Sparkles,
+    icon: Eye,
     treatment: "care-pathway--cosmetic",
+    action: "Explore cosmetic eyelid care",
   },
   {
     eyebrow: "02 / Functional",
@@ -33,6 +37,7 @@ const carePathways: readonly CarePathway[] = [
     href: "/procedures#reconstructive-oculoplastics",
     icon: ShieldCheck,
     treatment: "care-pathway--reconstructive",
+    action: "Explore functional eyelid care",
   },
   {
     eyebrow: "03 / Tear System",
@@ -41,14 +46,16 @@ const carePathways: readonly CarePathway[] = [
     href: "/procedures/tearing-blocked-tear-ducts",
     icon: Droplets,
     treatment: "care-pathway--tearing",
+    action: "Explore tear-duct care",
   },
   {
     eyebrow: "04 / Orbit",
-    title: "Orbit & Thyroid Eye",
-    summary: "Assess thyroid-related changes, masses, and trauma.",
-    href: "/procedures/thyroid-eye-disease",
+    title: "Orbital & Thyroid Eye Care",
+    summary: "Explore thyroid-related changes, orbital masses, and trauma.",
+    href: "/procedures#reconstructive-oculoplastics",
     icon: ScanFace,
     treatment: "care-pathway--orbital",
+    action: "Explore orbital care",
   },
 ]
 
@@ -80,7 +87,11 @@ export function ServicesPreview() {
           </Button>
         </div>
 
-        <div className="care-pathway-rail" aria-label="Oculoplastic care pathways">
+        <div
+          className="care-pathway-rail"
+          aria-label="Oculoplastic care pathways"
+          data-care-pathway-rail
+        >
           {carePathways.map((pathway) => {
             const PathwayIcon = pathway.icon
             return (
@@ -99,32 +110,59 @@ export function ServicesPreview() {
                 <span className="care-pathway-scrim" aria-hidden="true" />
 
                 <span className="relative z-10 block">
-                  <span className="block text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white/70">
+                  <span className="block text-xs font-bold uppercase tracking-[0.18em] text-white/75">
                     {pathway.eyebrow}
                   </span>
                   <span className="mt-2 block max-w-[15rem] font-serif text-[1.65rem] font-semibold leading-[1.02] tracking-[-0.02em] text-white min-[480px]:text-3xl">
                     {pathway.title}
                   </span>
-                  <span className="care-pathway-details">
-                    <span className="mt-3 block max-w-[17rem] text-sm leading-relaxed text-white/80">
-                      {pathway.summary}
-                    </span>
-                    <span className="mt-4 inline-flex items-center text-sm font-semibold text-white">
-                      View care
-                      <ArrowRight
-                        className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1"
-                        aria-hidden="true"
-                      />
-                    </span>
+                  <span className="care-pathway-summary mt-3 block max-w-[17rem] text-sm leading-relaxed text-white/85">
+                    {pathway.summary}
+                  </span>
+                  <span className="care-pathway-action mt-4 inline-flex items-center text-sm font-semibold text-white">
+                    {pathway.action}
+                    <ArrowRight
+                      className="ml-2 h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1"
+                      aria-hidden="true"
+                    />
                   </span>
                 </span>
               </a>
             )
           })}
         </div>
-        <p className="mt-3 text-center text-xs text-muted-foreground lg:hidden">
-          Swipe to compare care pathways.
-        </p>
+        <div
+          className="care-pathway-controls mt-3 flex items-center justify-between gap-3"
+          data-care-pathway-controls
+        >
+          <button
+            type="button"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card text-primary shadow-sm transition-colors hover:border-secondary hover:text-secondary disabled:cursor-not-allowed disabled:opacity-35"
+            aria-label="Previous care pathway"
+            data-care-pathway-previous
+          >
+            <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+          </button>
+          <div className="text-center">
+            <p
+              className="text-sm font-semibold text-foreground"
+              aria-live="polite"
+              aria-atomic="true"
+              data-care-pathway-status
+            >
+              1 of {carePathways.length}
+            </p>
+            <p className="text-xs text-muted-foreground">Swipe or use arrows</p>
+          </div>
+          <button
+            type="button"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card text-primary shadow-sm transition-colors hover:border-secondary hover:text-secondary disabled:cursor-not-allowed disabled:opacity-35"
+            aria-label="Next care pathway"
+            data-care-pathway-next
+          >
+            <ChevronRight className="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
       </div>
     </section>
   )

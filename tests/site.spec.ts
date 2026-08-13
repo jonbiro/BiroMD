@@ -976,8 +976,16 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
   await expect(page.locator("[data-concern-finder]").locator('a[href^="/concerns/"]')).toHaveCount(7)
   const carePathways = page.locator("[data-care-pathway]")
   await expect(carePathways).toHaveCount(4)
-  await expect(carePathways.getByText("Cosmetic Eyelid Care")).toBeVisible()
-  await expect(carePathways.getByText("Tearing & Tear Ducts")).toBeVisible()
+  await expect(carePathways.getByText("Cosmetic Eyelid Care", { exact: true })).toBeVisible()
+  await expect(carePathways.getByText("Tearing & Tear Ducts", { exact: true })).toBeVisible()
+  await expect(carePathways.getByText("Refine upper lids, lower lids, and brows.")).toBeVisible()
+  await expect(page.locator("[data-care-pathway-status]")).toHaveText("1 of 4")
+  await expect(page.locator("[data-care-pathway-previous]")).toBeDisabled()
+  await page.locator("[data-care-pathway-next]").click()
+  await expect(page.locator("[data-care-pathway-status]")).toHaveText("2 of 4")
+  await expect(
+    carePathways.filter({ hasText: "Orbital & Thyroid Eye Care" })
+  ).toHaveAttribute("href", "/procedures#reconstructive-oculoplastics")
   await expect(page.getByRole("heading", { name: "Independent Patient Feedback" })).toBeVisible()
   await expect(
     page.getByText("Serving patients in the greater Los Angeles area").first()

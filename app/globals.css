@@ -298,11 +298,15 @@
     background: linear-gradient(to top, rgb(2 10 22 / 0.92) 0%, rgb(2 10 22 / 0.35) 52%, transparent 82%);
   }
 
-  .care-pathway-details {
-    display: block;
+  .care-pathway-action {
+    display: inline-flex;
   }
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+    .care-pathway-controls {
+      display: none !important;
+    }
+
     .care-pathway-rail {
       gap: 0;
       margin-inline: 0;
@@ -325,7 +329,7 @@
       padding: 1.75rem;
       box-shadow: none;
       scroll-snap-align: none;
-      transition: flex-grow 550ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 350ms ease;
+      transition: flex-grow 450ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 300ms ease;
     }
 
     .care-pathway:last-child {
@@ -334,28 +338,25 @@
 
     .care-pathway-rail:hover .care-pathway:not(:hover),
     .care-pathway-rail:focus-within .care-pathway:not(:focus-visible) {
-      filter: saturate(0.75) brightness(0.78);
+      filter: saturate(0.9) brightness(0.9);
     }
 
     .care-pathway:hover,
     .care-pathway:focus-visible {
-      flex-grow: 1.8;
+      flex-grow: 1.35;
       border-color: transparent;
       box-shadow: none;
       transform: none;
     }
 
-    .care-pathway-details {
-      max-height: 0;
-      overflow: hidden;
+    .care-pathway-action {
       opacity: 0;
-      transform: translateY(0.75rem);
-      transition: max-height 450ms ease, opacity 300ms ease 80ms, transform 400ms ease 60ms;
+      transform: translateY(0.45rem);
+      transition: opacity 250ms ease 60ms, transform 300ms ease 40ms;
     }
 
-    .care-pathway:hover .care-pathway-details,
-    .care-pathway:focus-visible .care-pathway-details {
-      max-height: 8rem;
+    .care-pathway:hover .care-pathway-action,
+    .care-pathway:focus-visible .care-pathway-action {
       opacity: 1;
       transform: translateY(0);
     }
@@ -363,7 +364,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .care-pathway,
-    .care-pathway-details,
+    .care-pathway-action,
     .care-pathway-watermark {
       transition-duration: 0.01ms;
     }

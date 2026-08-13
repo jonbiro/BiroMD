@@ -90,6 +90,52 @@ const controlsScript = String.raw`
     });
   });
 
+  document.querySelectorAll("[data-care-pathways]").forEach((section) => {
+    const rail = section.querySelector("[data-care-pathway-rail]");
+    const cards = [...section.querySelectorAll("[data-care-pathway]")];
+    const previous = section.querySelector("[data-care-pathway-previous]");
+    const next = section.querySelector("[data-care-pathway-next]");
+    const status = section.querySelector("[data-care-pathway-status]");
+    if (!rail || cards.length === 0 || !previous || !next || !status) return;
+
+    let currentIndex = 0;
+    let updateFrame = 0;
+    const updateControls = () => {
+      const railCenter = rail.scrollLeft + rail.clientWidth / 2;
+      currentIndex = cards.reduce((closest, card, index) => {
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const closestCard = cards[closest];
+        const closestCenter = closestCard.offsetLeft + closestCard.offsetWidth / 2;
+        return Math.abs(cardCenter - railCenter) < Math.abs(closestCenter - railCenter)
+          ? index
+          : closest;
+      }, 0);
+      status.textContent = String(currentIndex + 1) + " of " + String(cards.length);
+      previous.disabled = currentIndex === 0;
+      next.disabled = currentIndex === cards.length - 1;
+    };
+    const scheduleUpdate = () => {
+      cancelAnimationFrame(updateFrame);
+      updateFrame = requestAnimationFrame(updateControls);
+    };
+    const showCard = (index) => {
+      const card = cards[Math.max(0, Math.min(cards.length - 1, index))];
+      const left = card.offsetLeft - (rail.clientWidth - card.offsetWidth) / 2;
+      rail.scrollTo({
+        left,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+      });
+    };
+
+    previous.addEventListener("click", () => showCard(currentIndex - 1));
+    next.addEventListener("click", () => showCard(currentIndex + 1));
+    rail.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+    updateControls();
+  });
+
   document.querySelectorAll("[data-sensitive-image]").forEach((container) => {
     const cover = container.querySelector("[data-sensitive-cover]");
     const media = container.querySelector("[data-sensitive-media]");
