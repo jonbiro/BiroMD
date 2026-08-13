@@ -62,21 +62,21 @@ const carePathways: readonly CarePathway[] = [
 export function ServicesPreview() {
   return (
     <section
-      className="relative py-8 md:py-14"
+      className="relative py-7 md:py-9"
       aria-labelledby="care-pathways-title"
       data-care-pathways
     >
       <div className="site-container px-4 md:px-6">
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between md:mb-8">
+        <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between md:mb-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-              Find your pathway
+              Four areas of care
             </p>
             <h2
               id="care-pathways-title"
-              className="mt-2 text-4xl font-semibold text-primary sm:text-5xl"
+              className="mt-2 text-[2.25rem] font-semibold leading-none text-primary sm:text-5xl"
             >
-              Explore Care by Concern
+              Explore Specialized Care
             </h2>
           </div>
           <Button variant="outline" className="self-start sm:self-auto" asChild>

@@ -4,12 +4,12 @@ import { patientFeedbackProfiles } from "@/lib/site"
 
 export function AboutSummary() {
   return (
-    <section className="relative py-8 md:py-14" aria-labelledby="about-summary-title">
+    <section className="relative py-7 md:py-9" aria-labelledby="about-summary-title">
       <div className="site-container px-4 md:px-6">
-        <div className="panel-strong relative overflow-hidden rounded-[2rem] p-6 min-[480px]:p-8 md:p-10">
+        <div className="panel-strong relative overflow-hidden rounded-[2rem] p-5 min-[480px]:p-7 md:p-8 lg:p-9">
           <div className="pointer-events-none absolute left-0 top-0 h-40 w-44 rounded-full bg-secondary/8" />
 
-          <div className="relative grid gap-7 lg:grid-cols-[0.8fr_1.2fr] lg:items-end lg:gap-10">
+          <div className="relative grid gap-5 md:grid-cols-[0.82fr_1.18fr] md:items-end md:gap-7 lg:gap-10">
             <div className="space-y-4">
               <p className="eyebrow">
                 <Dot className="h-3.5 w-3.5" />
@@ -17,11 +17,11 @@ export function AboutSummary() {
               </p>
               <h2
                 id="about-summary-title"
-                className="text-4xl font-semibold text-primary sm:text-5xl"
+                className="text-[2.25rem] font-semibold leading-none text-primary sm:text-5xl"
               >
                 Ophthalmic Training. Oculoplastic Focus.
               </h2>
-              <p className="text-base text-muted-foreground min-[480px]:text-lg">
+              <p className="text-sm leading-relaxed text-muted-foreground min-[480px]:text-base">
                 Care is planned around eye function, facial anatomy, natural expression,
                 and each patient&apos;s goals.
               </p>
@@ -33,11 +33,11 @@ export function AboutSummary() {
               </Button>
             </div>
 
-            <div className="rounded-2xl border border-border bg-background p-5">
+            <div className="rounded-2xl border border-border bg-background p-4 min-[480px]:p-5">
               <h3 className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
                 Independent Patient Feedback
               </h3>
-              <div className="mt-4 grid gap-2 sm:grid-cols-3">
+              <div className="mt-3 grid gap-2 min-[420px]:grid-cols-3">
                 {patientFeedbackProfiles.map((profile) => (
                   <a
                     key={profile.url}

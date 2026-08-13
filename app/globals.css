@@ -217,7 +217,7 @@
     isolation: isolate;
     display: flex;
     width: min(82vw, 22rem);
-    min-height: 23rem;
+    min-height: 20rem;
     flex: 0 0 auto;
     align-items: flex-end;
     overflow: hidden;
@@ -274,7 +274,7 @@
 
   .care-pathway-watermark {
     position: absolute;
-    top: 2rem;
+    top: 1rem;
     right: -2.25rem;
     z-index: -1;
     width: 14rem;
@@ -321,7 +321,7 @@
     .care-pathway {
       width: auto;
       min-width: 0;
-      min-height: 26rem;
+      min-height: 22rem;
       flex: 1 1 0%;
       border: 0;
       border-right: 1px solid rgb(255 255 255 / 0.2);

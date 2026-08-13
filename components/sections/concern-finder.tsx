@@ -46,26 +46,26 @@ const concerns = [
 export function ConcernFinder() {
   return (
     <section
-      className="relative py-5 md:py-8"
+      className="relative py-5 md:py-7"
       aria-labelledby="concern-finder-title"
       data-concern-finder
     >
       <div className="site-container px-4 md:px-6">
-        <div className="panel-strong grid gap-7 overflow-hidden rounded-[2rem] p-6 md:gap-8 md:p-9 lg:grid-cols-[0.72fr_1.28fr] lg:gap-10 lg:p-10">
+        <div className="panel-strong grid gap-5 overflow-hidden rounded-[2rem] p-5 min-[360px]:p-6 md:grid-cols-[0.7fr_1.3fr] md:gap-7 md:p-8 lg:gap-10 lg:p-10">
           <div className="relative flex flex-col items-start justify-center">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
               Start with a symptom
             </p>
             <h2
               id="concern-finder-title"
-              className="mt-3 text-4xl font-semibold text-primary sm:text-5xl"
+              className="mt-2 text-[2.25rem] font-semibold leading-none text-primary sm:text-5xl"
             >
               What Brings You In?
             </h2>
-            <p className="mt-4 text-muted-foreground">
-              Choose the closest match. An examination is needed to identify the cause.
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground min-[480px]:text-base">
+              Choose the closest match. An exam is needed to identify the cause.
             </p>
-            <Button variant="outline" className="mt-6" asChild>
+            <Button variant="outline" className="mt-4" asChild>
               <a href="/concerns">
                 All Symptom Guides
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -74,34 +74,31 @@ export function ConcernFinder() {
           </div>
 
           <div>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-2.5 min-[380px]:grid-cols-2">
               {concerns.map((concern) => {
                 const ConcernIcon = concern.icon
                 return (
                   <a
                     key={concern.href}
                     href={concern.href}
-                    className="group flex min-h-20 items-center gap-3 rounded-2xl border border-border bg-background p-3.5 transition-[border-color,box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:border-secondary hover:shadow-md min-[480px]:gap-4 min-[480px]:p-4"
+                    className="group flex min-h-[4.5rem] items-center gap-2.5 rounded-2xl border border-border bg-background p-3 transition-[border-color,box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:border-secondary hover:shadow-md min-[480px]:gap-3 min-[480px]:p-3.5"
                   >
-                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-secondary/30 bg-secondary/8 text-secondary min-[480px]:h-11 min-[480px]:w-11">
-                      <ConcernIcon className="h-5 w-5" aria-hidden="true" />
+                    <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-secondary/30 bg-secondary/8 text-secondary min-[480px]:h-10 min-[480px]:w-10">
+                      <ConcernIcon className="h-[1.125rem] w-[1.125rem]" aria-hidden="true" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block font-semibold leading-snug text-foreground">
+                      <span className="block text-[0.82rem] font-semibold leading-snug text-foreground min-[480px]:text-sm">
                         {concern.title}
                       </span>
                     </span>
-                    <ArrowRight
-                      className="h-4 w-4 shrink-0 text-secondary transition-transform group-hover:translate-x-1"
-                      aria-hidden="true"
-                    />
+                    <ArrowRight className="hidden h-4 w-4 shrink-0 text-secondary transition-transform group-hover:translate-x-1 min-[520px]:block" aria-hidden="true" />
                   </a>
                 )
               })}
             </div>
             <a
               href="/concerns/sudden-eyelid-drooping"
-              className="mt-3 flex min-h-14 items-center gap-3 rounded-2xl border border-amber-300/70 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-950 transition-colors hover:border-amber-500 dark:border-amber-500/45 dark:bg-amber-950/45 dark:text-amber-100"
+              className="mt-2.5 flex min-h-14 items-center gap-3 rounded-2xl border border-amber-300/70 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-950 transition-colors hover:border-amber-500 dark:border-amber-500/45 dark:bg-amber-950/45 dark:text-amber-100"
             >
               <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden="true" />
               <span className="flex-1">Sudden eyelid drooping? Check urgent warning signs.</span>
