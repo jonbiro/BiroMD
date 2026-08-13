@@ -1,6 +1,7 @@
 import {
   CalendarDays,
 } from "lucide-react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
 import { primaryNavItems } from "@/lib/site"
@@ -28,13 +29,26 @@ export default function Header() {
           <a
             href="/"
             data-header-brand
-            className="group relative z-10 inline-flex min-h-12 min-w-0 flex-col justify-center leading-tight lg:min-h-0"
+            className="group relative z-10 inline-flex min-h-12 min-w-0 items-center gap-1.5 leading-tight min-[360px]:gap-2 lg:min-h-0 lg:gap-2.5"
           >
-            <span className="whitespace-nowrap font-serif text-[1.1rem] font-semibold text-primary transition-colors group-hover:text-secondary min-[360px]:text-[1.25rem] lg:text-[1.45rem] xl:text-[1.6rem]">
-              Nicolas Biro, M.D.
-            </span>
-            <span className="whitespace-nowrap text-[0.48rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground min-[360px]:text-[0.54rem] lg:text-[0.6rem]">
-              Oculoplastic Surgery
+            <Image
+              src="/images/brand/oculoplastic-symbol.webp"
+              alt=""
+              aria-hidden="true"
+              width={420}
+              height={330}
+              priority
+              unoptimized
+              fetchPriority="high"
+              className="h-7 w-8 shrink-0 object-contain min-[360px]:h-9 min-[360px]:w-11 lg:h-10 lg:w-12"
+            />
+            <span className="flex min-w-0 flex-col justify-center">
+              <span className="whitespace-nowrap font-serif text-[0.82rem] font-semibold text-primary transition-colors group-hover:text-secondary min-[360px]:text-[1.15rem] lg:text-[1.35rem] xl:text-[1.5rem]">
+                Nicolas Biro, M.D.
+              </span>
+              <span className="whitespace-nowrap text-[0.38rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground min-[360px]:text-[0.5rem] min-[360px]:tracking-[0.18em] lg:text-[0.57rem]">
+                Oculoplastic Surgery
+              </span>
             </span>
           </a>
 
