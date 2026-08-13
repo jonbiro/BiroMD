@@ -286,7 +286,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   const physicianNameFits = await page
     .locator("[data-header-brand] > span > span")
     .first()
-    .evaluate((name) => name.scrollWidth <= name.clientWidth + 1)
+    .evaluate((name) => name.scrollWidth <= name.clientWidth)
   expect(physicianNameFits).toBe(true)
   const brandSymbol = page.locator("[data-header-brand] img")
   await expect(brandSymbol).toBeVisible()

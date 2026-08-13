@@ -29,7 +29,7 @@ export default function Header() {
           <a
             href="/"
             data-header-brand
-            className="group relative z-10 inline-flex min-h-12 min-w-0 items-center gap-1.5 leading-tight min-[360px]:gap-2 lg:min-h-0 lg:gap-2.5"
+            className="group relative z-10 inline-flex min-h-12 min-w-0 items-center gap-1 leading-tight min-[360px]:gap-2 lg:min-h-0 lg:gap-2.5"
           >
             <Image
               src="/images/brand/oculoplastic-symbol.webp"
@@ -40,7 +40,7 @@ export default function Header() {
               priority
               unoptimized
               fetchPriority="high"
-              className="h-7 w-8 shrink-0 object-contain min-[360px]:h-9 min-[360px]:w-11 lg:h-10 lg:w-12"
+              className="h-7 w-7 shrink-0 object-contain min-[360px]:h-9 min-[360px]:w-11 lg:h-10 lg:w-12"
             />
             <span className="flex min-w-0 flex-col justify-center">
               <span className="whitespace-nowrap font-serif text-[0.82rem] font-semibold text-primary transition-colors group-hover:text-secondary min-[360px]:text-[1.15rem] lg:text-[1.35rem] xl:text-[1.5rem]">
@@ -82,7 +82,7 @@ export default function Header() {
             <ModeToggle />
             <Button
               size="sm"
-              className="px-3 min-[360px]:px-3.5 sm:px-5 lg:px-4 xl:px-5"
+              className="px-2 min-[360px]:px-3.5 sm:px-5 lg:px-4 xl:px-5"
               asChild
             >
               <a href="/contact">
