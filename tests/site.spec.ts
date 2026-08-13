@@ -288,7 +288,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     .first()
     .evaluate((name) => name.scrollWidth <= name.clientWidth)
   expect(physicianNameFits).toBe(true)
-  const brandSymbol = page.locator("[data-header-brand] img")
+  const brandSymbol = page.locator("[data-header-brand] img:visible")
   await expect(brandSymbol).toBeVisible()
   await expect(brandSymbol).toHaveAttribute("alt", "")
   await expectNoHorizontalOverflow(page)

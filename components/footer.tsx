@@ -1,5 +1,5 @@
 import { ArrowUpRight, CalendarDays, Mail, MapPin, Phone } from "lucide-react"
-import Image from "next/image"
+import { BrandSymbol } from "@/components/brand-symbol"
 import { Button } from "@/components/ui/button"
 import { navItems, siteConfig } from "@/lib/site"
 
@@ -14,14 +14,8 @@ export default function Footer() {
           <div className="relative grid gap-8 md:grid-cols-2 lg:grid-cols-[0.9fr_1.65fr_0.75fr_1fr] lg:gap-8">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <Image
-                  src="/images/brand/oculoplastic-symbol.webp"
-                  alt=""
-                  aria-hidden="true"
-                  width={420}
-                  height={330}
-                  unoptimized
-                  className="h-11 w-14 shrink-0 object-contain md:h-12 md:w-[3.8rem]"
+                <BrandSymbol
+                  className="h-11 w-14 md:h-12 md:w-[3.8rem]"
                 />
                 <p className="font-serif text-2xl font-semibold leading-none text-primary md:text-3xl">
                   {siteConfig.name}
