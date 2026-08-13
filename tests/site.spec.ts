@@ -979,10 +979,20 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
   await expect(carePathways.getByText("Cosmetic Eyelid Care", { exact: true })).toBeVisible()
   await expect(carePathways.getByText("Tearing & Tear Ducts", { exact: true })).toBeVisible()
   await expect(carePathways.getByText("Refine upper lids, lower lids, and brows.")).toBeVisible()
-  await expect(page.locator("[data-care-pathway-status]")).toHaveText("1 of 4")
-  await expect(page.locator("[data-care-pathway-previous]")).toBeDisabled()
-  await page.locator("[data-care-pathway-next]").click()
-  await expect(page.locator("[data-care-pathway-status]")).toHaveText("2 of 4")
+  await expect(page.locator("[data-care-pathway-controls]")).toBeHidden()
+  const mobilePathwayLayout = await carePathways.evaluateAll((cards) =>
+    cards.map((card) => {
+      const box = card.getBoundingClientRect()
+      return { left: box.left, right: box.right, width: box.width, height: box.height }
+    })
+  )
+  expect(mobilePathwayLayout.every((card) => card.width >= 150 && card.height >= 150)).toBe(true)
+  expect(new Set(mobilePathwayLayout.map((card) => Math.round(card.height))).size).toBe(1)
+  expect(
+    mobilePathwayLayout.every(
+      (card) => card.left >= 0 && card.right <= 390
+    )
+  ).toBe(true)
   await expect(
     carePathways.filter({ hasText: "Orbital & Thyroid Eye Care" })
   ).toHaveAttribute("href", "/procedures#reconstructive-oculoplastics")

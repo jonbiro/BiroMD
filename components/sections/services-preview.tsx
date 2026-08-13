@@ -109,7 +109,7 @@ export function ServicesPreview() {
                 />
                 <span className="care-pathway-scrim" aria-hidden="true" />
 
-                <span className="relative z-10 block">
+                <span className="care-pathway-copy relative z-10 block">
                   <span className="block text-xs font-bold uppercase tracking-[0.18em] text-white/75">
                     {pathway.eyebrow}
                   </span>
@@ -127,6 +127,10 @@ export function ServicesPreview() {
                     />
                   </span>
                 </span>
+                <ArrowRight
+                  className="care-pathway-mobile-arrow"
+                  aria-hidden="true"
+                />
               </a>
             )
           })}
