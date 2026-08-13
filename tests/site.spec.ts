@@ -141,7 +141,7 @@ test("component styles allow utility and interaction states to override them", a
     .poll(() => locationEyebrow.evaluate((element) => getComputedStyle(element).backgroundColor))
     .not.toBe(eyebrowBackground)
 
-  const panel = page.locator("main .panel").first()
+  const panel = page.locator("main .panel-strong").first()
   const panelBackground = await panel.evaluate((element) => {
     const before = getComputedStyle(element).backgroundColor
     element.classList.add("bg-amber-50")
@@ -756,7 +756,7 @@ test("homepage heading is readable and graphic cases stay on the results page", 
     body: getComputedStyle(document.body).fontFamily,
     heading: getComputedStyle(document.querySelector("h1")!).fontFamily,
     outfitLoaded: document.fonts.check('16px "Outfit"'),
-    cormorantLoaded: document.fonts.check('16px "Cormorant Garamond"'),
+    cormorantLoaded: document.fonts.check('600 16px "Cormorant Garamond"'),
   }))
   expect(typography.body).toContain("Outfit")
   expect(typography.heading).toContain("Cormorant Garamond")
@@ -974,7 +974,10 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
   expect(wordCount).toBeLessThanOrEqual(225)
   await expect(page.getByRole("link", { name: "Request Consultation" }).first()).toBeVisible()
   await expect(page.locator("[data-concern-finder]").locator('a[href^="/concerns/"]')).toHaveCount(7)
-  await expect(page.locator('main a[href^="/procedures#"]')).toHaveCount(3)
+  const carePathways = page.locator("[data-care-pathway]")
+  await expect(carePathways).toHaveCount(4)
+  await expect(carePathways.getByText("Cosmetic Eyelid Care")).toBeVisible()
+  await expect(carePathways.getByText("Tearing & Tear Ducts")).toBeVisible()
   await expect(page.getByRole("heading", { name: "Independent Patient Feedback" })).toBeVisible()
   await expect(
     page.getByText("Serving patients in the greater Los Angeles area").first()
