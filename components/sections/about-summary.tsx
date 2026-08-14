@@ -4,12 +4,12 @@ import { patientFeedbackProfiles } from "@/lib/site"
 
 export function AboutSummary() {
   return (
-    <section className="relative py-7 md:py-9" aria-labelledby="about-summary-title">
+    <section className="relative pb-7 pt-2 md:pb-9 md:pt-3" aria-labelledby="about-summary-title">
       <div className="site-container px-4 md:px-6">
         <div className="panel-strong relative overflow-hidden rounded-[2rem] p-5 min-[480px]:p-7 md:p-8 lg:p-9">
           <div className="pointer-events-none absolute left-0 top-0 h-40 w-44 rounded-full bg-secondary/8" />
 
-          <div className="relative grid gap-5 md:grid-cols-[0.82fr_1.18fr] md:items-end md:gap-7 lg:gap-10">
+          <div className="relative grid gap-5 md:grid-cols-[0.82fr_1.18fr] md:items-start md:gap-7 lg:gap-10">
             <div className="space-y-4">
               <p className="eyebrow">
                 <Dot className="h-3.5 w-3.5" />

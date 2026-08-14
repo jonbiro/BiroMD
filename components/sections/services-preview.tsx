@@ -62,7 +62,7 @@ const carePathways: readonly CarePathway[] = [
 export function ServicesPreview() {
   return (
     <section
-      className="relative py-7 md:py-9"
+      className="relative py-7 pb-2 md:py-9 md:pb-3"
       aria-labelledby="care-pathways-title"
       data-care-pathways
     >
@@ -179,7 +179,7 @@ export function ServicesPreview() {
           </button>
           <div className="text-center" suppressHydrationWarning>
             <p
-              className="text-sm font-semibold text-foreground"
+              className="sr-only"
               aria-live="polite"
               aria-atomic="true"
               data-care-pathway-status
