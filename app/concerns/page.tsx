@@ -36,8 +36,8 @@ export default function ConcernsPage() {
     <div className="page-stack">
       <PageIntro
         eyebrow="Symptoms and Concerns"
-        title="Start With What You Notice"
-        description="A symptom can have more than one cause. Use these guides to understand what an oculoplastic evaluation may consider, which procedure pathways may be relevant, and when routine scheduling is not appropriate."
+        title="Find Guidance for Your Concern"
+        description="Learn about common eyelid, tear-system, and orbital concerns, what an evaluation may involve, and when to seek urgent care."
         actions={
           <Button asChild>
             <a href="/contact">
@@ -55,12 +55,12 @@ export default function ConcernsPage() {
               Patient guides
             </p>
             <h2 id="concern-guides" className="mt-2 text-4xl font-semibold text-primary">
-              Choose the Closest Starting Point
+              Explore Common Concerns
             </h2>
             <p className="mt-3 text-muted-foreground">
-              These pages provide general education, not a diagnosis. An
-              examination determines whether an eyelid, eye-surface, tear-system,
-              orbital, or other medical issue is contributing.
+              These guides offer general information about common symptoms and
+              treatment pathways. They are not a diagnosis; an in-person examination
+              is needed to understand what may be causing your concerns.
             </p>
           </div>
 

@@ -824,7 +824,7 @@ test("patient concerns lead directly to relevant procedure guidance", async ({ p
   const finder = page.locator("[data-concern-finder]")
 
   await expect(
-    finder.getByRole("heading", { name: "What Brings You In?" })
+    finder.getByRole("heading", { name: "Explore Common Concerns" })
   ).toBeVisible()
   await expect(finder.locator('a[href^="/concerns/"]')).toHaveCount(6)
   await expect(finder.getByRole("link", { name: /Droopy or heavy upper eyelids/ })).toHaveAttribute(
@@ -841,7 +841,7 @@ test("patient concerns lead directly to relevant procedure guidance", async ({ p
 test("symptom guides explain evaluation and urgent next steps", async ({ page }) => {
   await page.goto("/concerns")
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Start With What You Notice"
+    "Find Guidance for Your Concern"
   )
   await expect(page.locator('main a[href^="/concerns/"]')).toHaveCount(7)
 

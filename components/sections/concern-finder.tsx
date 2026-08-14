@@ -53,20 +53,20 @@ export function ConcernFinder() {
         <div className="panel-strong grid gap-5 overflow-hidden rounded-[2rem] p-5 min-[360px]:p-6 md:grid-cols-[0.7fr_1.3fr] md:gap-7 md:p-8 lg:gap-10 lg:p-10">
           <div className="relative flex flex-col items-start justify-center">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-              Start with a symptom
+              Symptoms and concerns
             </p>
             <h2
               id="concern-finder-title"
               className="mt-2 text-[2.25rem] font-semibold leading-none text-primary sm:text-5xl"
             >
-              What Brings You In?
+              Explore Common Concerns
             </h2>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground min-[480px]:text-base">
-              Choose the closest match. An exam is needed to identify the cause.
+              Find information about symptoms, possible causes, and what an evaluation may involve.
             </p>
             <Button variant="outline" className="mt-4" asChild>
               <a href="/concerns">
-                All Symptom Guides
+                View All Guides
                 <ArrowRight className="ml-2 h-4 w-4" />
               </a>
             </Button>
