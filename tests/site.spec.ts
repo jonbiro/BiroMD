@@ -350,6 +350,14 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   ).toHaveAttribute("aria-current", "page")
 })
 
+test("brand home link uses the canonical domain", async ({ page }) => {
+  await page.goto("/about")
+  await expect(page.locator("[data-header-brand]")).toHaveAttribute(
+    "href",
+    "https://biromd.com/"
+  )
+})
+
 test("site containers stay fluid and centered between breakpoints", async ({ page }) => {
   await page.setViewportSize({ width: 1257, height: 900 })
   await page.goto("/")
@@ -1238,6 +1246,9 @@ test("unknown routes show a useful custom error page", async ({ page }) => {
   const response = await page.goto("/this-page-does-not-exist")
   expect(response?.status()).toBe(404)
   await expect(page.getByRole("heading", { level: 1, name: "Page not found" })).toBeVisible()
-  await expect(page.getByRole("link", { name: "Back to Home" })).toHaveAttribute("href", "/")
+  await expect(page.getByRole("link", { name: "Back to Home" })).toHaveAttribute(
+    "href",
+    "https://biromd.com/"
+  )
   await expect(page.getByRole("navigation", { name: "Primary" })).toBeVisible()
 })

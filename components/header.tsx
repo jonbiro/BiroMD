@@ -4,7 +4,7 @@ import {
 import { BrandSymbol } from "@/components/brand-symbol"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
-import { primaryNavItems } from "@/lib/site"
+import { absoluteUrl, primaryNavItems } from "@/lib/site"
 
 const navClass =
   "relative flex min-h-11 min-w-0 items-center justify-center rounded-lg border border-border bg-card/85 text-[0.6875rem] font-semibold text-foreground shadow-[0_1px_2px_rgb(5_16_32_/0.08)] transition-[color,background-color,border-color,box-shadow] hover:border-secondary hover:bg-accent hover:text-primary aria-[current=page]:border-primary aria-[current=page]:bg-primary aria-[current=page]:text-primary-foreground aria-[current=page]:shadow-[0_4px_12px_rgb(5_16_32_/0.18)] sm:text-sm lg:min-h-11 lg:rounded-full lg:px-3 xl:px-3.5"
@@ -27,7 +27,7 @@ export default function Header() {
           className="relative grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 px-4 pt-1.5 md:px-6 lg:min-h-[4.5rem] lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-5 lg:py-0"
         >
           <a
-            href="/"
+            href={absoluteUrl("/")}
             data-header-brand
             className="group relative z-10 inline-flex min-h-12 min-w-0 items-center gap-1 leading-tight min-[360px]:gap-2 lg:min-h-0 lg:gap-2.5"
           >

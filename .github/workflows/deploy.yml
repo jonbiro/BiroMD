@@ -83,3 +83,7 @@ jobs:
         run: |
           effective_url="$(curl --silent --show-error --fail --location --max-redirs 2 --retry 4 --retry-all-errors --output /dev/null --write-out '%{url_effective}' https://www.biromd.com/)"
           test "$effective_url" = "https://biromd.com/"
+          for path in / /about; do
+            project_url="$(curl --silent --show-error --fail --location --max-redirs 2 --retry 4 --retry-all-errors --output /dev/null --write-out '%{url_effective}' "https://jonbiro.github.io/BiroMD${path}")"
+            test "$project_url" = "https://biromd.com${path}"
+          done

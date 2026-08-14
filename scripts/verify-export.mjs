@@ -115,6 +115,13 @@ if (!homepage.includes('<script src="/site-controls.js" defer=""></script>')) {
 if (!(await exists(path.join(outDir, "CNAME")))) {
   throw new Error("Static export is missing the custom-domain safeguard.")
 }
+if (!/<a href="https:\/\/biromd\.com\/"[^>]*data-header-brand="true"/.test(homepage)) {
+  throw new Error("Header brand must link to the canonical homepage URL.")
+}
+const notFound = await readFile(path.join(outDir, "404.html"), "utf8")
+if (!notFound.includes('<a href="https://biromd.com/"')) {
+  throw new Error("404 page must link to the canonical homepage URL.")
+}
 
 const remainingRuntime = (await readdir(path.join(outDir, "_next", "static", "chunks"))).filter((file) => file.endsWith(".js"))
 if (remainingRuntime.length > 0) {

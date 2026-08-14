@@ -1,5 +1,6 @@
 import { ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { absoluteUrl } from "@/lib/site"
 
 export default function NotFound() {
   return (
@@ -14,7 +15,7 @@ export default function NotFound() {
           homepage to continue browsing.
         </p>
         <Button className="mt-6" asChild>
-          <a href="/">
+          <a href={absoluteUrl("/")}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Home
           </a>

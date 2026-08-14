@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
 import { ChevronRight, Dot, Home } from "lucide-react"
+import { absoluteUrl } from "@/lib/site"
 
 type BreadcrumbItem = {
   label: string
@@ -32,7 +33,10 @@ export function PageIntro({
             <nav aria-label="Breadcrumb">
               <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs font-medium text-muted-foreground">
                 <li>
-                  <a href="/" className="inline-flex min-h-8 items-center gap-1 hover:text-secondary">
+                  <a
+                    href={absoluteUrl("/")}
+                    className="inline-flex min-h-8 items-center gap-1 hover:text-secondary"
+                  >
                     <Home className="h-3.5 w-3.5" />
                     Home
                   </a>
