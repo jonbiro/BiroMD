@@ -12,7 +12,8 @@
     "prebuild": "node scripts/prepare-gallery-assets.mjs",
     "postbuild": "node scripts/copy-security-policy.mjs && node scripts/prune-gallery-assets.mjs && node scripts/strip-static-hydration.mjs",
     "verify:export": "node scripts/verify-export.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "validate:gallery": "node scripts/validate-gallery.mjs"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

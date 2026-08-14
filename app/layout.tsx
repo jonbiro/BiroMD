@@ -3,7 +3,6 @@ import { Cormorant_Garamond, Outfit } from "next/font/google"
 import "./globals.css"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import { SiteControlsScript } from "@/components/site-controls-script"
 import { SkipLink } from "@/components/skip-link"
 import { versionedBrandAsset } from "@/lib/brand-assets"
 import { absoluteUrl, physicianProfileUrls, siteConfig } from "@/lib/site"
@@ -39,6 +38,18 @@ const physicianId = absoluteUrl("/#physician")
 const websiteId = absoluteUrl("/#website")
 const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim()
 const bingSiteVerification = process.env.BING_SITE_VERIFICATION?.trim()
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "form-action 'self'",
+  "img-src 'self' data:",
+  "font-src 'self' data:",
+  "style-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
+  "connect-src 'self'",
+  "frame-src 'none'",
+].join("; ")
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -165,7 +176,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta httpEquiv="Content-Security-Policy" content={contentSecurityPolicy} />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script src="/site-controls.js" defer />
       </head>
       <body className={`${outfit.variable} ${cormorant.variable}`}>
         <script
@@ -184,7 +197,6 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
-        <SiteControlsScript />
       </body>
     </html>
   )

@@ -16,21 +16,21 @@ const trustPoints = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pb-6 pt-3 md:pb-8 md:pt-6">
+    <section className="relative overflow-hidden pb-4 pt-2 md:pb-8 md:pt-6">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -left-56 top-0 h-[560px] w-[640px] rounded-full bg-secondary/8" />
         <div className="absolute -right-56 top-16 h-[600px] w-[660px] rounded-full bg-primary/6" />
       </div>
 
       <div className="site-container relative z-10 px-4 md:px-6">
-        <div className="panel-strong grid items-center gap-6 overflow-hidden rounded-[1.7rem] p-5 min-[360px]:p-6 md:grid-cols-[1.05fr_0.95fr] md:gap-8 md:rounded-[2rem] md:p-8 lg:gap-12 lg:p-10 xl:p-12">
+        <div className="panel-strong grid items-center gap-4 overflow-hidden rounded-[1.7rem] p-4 min-[360px]:p-5 md:grid-cols-[1.05fr_0.95fr] md:gap-8 md:rounded-[2rem] md:p-8 lg:gap-12 lg:p-10 xl:p-12">
           <div className="contents md:relative md:block md:space-y-5 lg:space-y-6">
             <a href="/locations" className="eyebrow order-1 justify-self-start transition-colors hover:bg-secondary/15">
               <MapPin className="h-3.5 w-3.5" />
               Serving {siteConfig.serviceAreaLabel}
             </a>
 
-            <div className="order-2 space-y-3 lg:space-y-4">
+            <div className="order-2 space-y-2.5 lg:space-y-4">
               <h1 className="text-[2.2rem] font-semibold leading-[0.98] text-primary min-[360px]:text-[2.4rem] min-[480px]:text-5xl md:text-[3.35rem] lg:text-6xl xl:text-7xl">
                 Specialized Oculoplastic Care
                 {" "}
@@ -42,7 +42,7 @@ export function Hero() {
               </p>
             </div>
 
-            <div className="order-3 flex flex-col gap-3 sm:flex-row">
+            <div className="order-3 flex flex-col gap-2.5 sm:flex-row sm:gap-3">
               <Button size="lg" asChild>
                 <a href="/contact">
                   <CalendarDays className="mr-2 h-4 w-4" />
@@ -70,7 +70,7 @@ export function Hero() {
 
           </div>
 
-          <div className="relative order-4 mx-auto w-full max-w-[320px] min-[480px]:max-w-[360px] md:order-none md:max-w-none">
+          <div className="relative order-4 mx-auto w-full max-w-[270px] min-[420px]:max-w-[300px] min-[480px]:max-w-[340px] md:order-none md:max-w-none">
             <div className="absolute -bottom-8 -right-8 h-44 w-44 rounded-full border border-primary/20 bg-primary/8" />
             <div className="relative overflow-hidden rounded-[1.6rem] border border-border/70 bg-card shadow-[0_20px_50px_rgb(10_29_55_/0.16)] md:rounded-[2.2rem] lg:shadow-[0_24px_65px_rgb(10_29_55_/0.2)]">
               <div className="relative aspect-[4/5] bg-[#3f4143]">

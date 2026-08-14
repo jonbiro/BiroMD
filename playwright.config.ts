@@ -11,7 +11,13 @@ export default defineConfig({
     trace: "retain-on-failure",
   },
   projects: [
-    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        ...(process.env.CI ? { channel: "chrome" } : {}),
+      },
+    },
   ],
   webServer: {
     command: "node scripts/serve-export.mjs",

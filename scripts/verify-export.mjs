@@ -97,6 +97,17 @@ for (const route of routes) {
   }
 }
 
+const homepage = await readFile(routeFiles.get("/"), "utf8")
+if (!homepage.includes('http-equiv="Content-Security-Policy"')) {
+  throw new Error("Static export is missing its Content Security Policy.")
+}
+if (!homepage.includes('<script src="/site-controls.js" defer=""></script>')) {
+  throw new Error("Static export is missing the site interaction controller.")
+}
+if (!(await exists(path.join(outDir, "CNAME")))) {
+  throw new Error("Static export is missing the custom-domain safeguard.")
+}
+
 const remainingRuntime = (await readdir(path.join(outDir, "_next", "static", "chunks"))).filter((file) => file.endsWith(".js"))
 if (remainingRuntime.length > 0) {
   throw new Error(`Unused Next runtime remains in export: ${remainingRuntime.join(", ")}`)
@@ -197,6 +208,13 @@ for (const asset of manifest.filter((asset) => !authorized.has(assetCaseId(asset
 const sitemap = await readFile(path.join(outDir, "sitemap.xml"), "utf8")
 if (!sitemap.includes("<lastmod>")) {
   throw new Error("Sitemap entries must include publication or update dates.")
+}
+const sitemapDates = [...sitemap.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map(
+  (match) => match[1]
+)
+const currentBuildDate = new Date().toISOString().slice(0, 10)
+if (sitemapDates.length === 0 || sitemapDates.some((date) => date !== currentBuildDate)) {
+  throw new Error("Sitemap update dates must match the current static build date.")
 }
 for (const route of routes) {
   const expected = new URL(route, "https://biromd.com").toString()

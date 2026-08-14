@@ -5,13 +5,13 @@ import { navItems, siteConfig } from "@/lib/site"
 
 export default function Footer() {
   return (
-    <footer className="relative mt-10 pb-6 md:mt-16 md:pb-8">
+    <footer className="relative mt-8 pb-4 md:mt-16 md:pb-8">
       <div className="site-container px-4 md:px-6">
-        <div className="panel-strong relative overflow-hidden rounded-[2rem] px-6 py-8 md:px-10 md:py-10">
+        <div className="panel-strong relative overflow-hidden rounded-[2rem] px-5 py-6 md:px-10 md:py-10">
           <div className="pointer-events-none absolute -left-24 top-0 h-56 w-56 rounded-full bg-secondary/8" />
           <div className="pointer-events-none absolute -right-24 bottom-0 h-52 w-56 rounded-full bg-primary/8" />
 
-          <div className="relative grid gap-8 md:grid-cols-2 lg:grid-cols-[0.9fr_1.65fr_0.75fr_1fr] lg:gap-8">
+          <div className="relative grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-[0.9fr_1.65fr_0.75fr_1fr] lg:gap-8">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <BrandSymbol
@@ -25,6 +25,9 @@ export default function Footer() {
                 Cosmetic and reconstructive oculoplastic care planned around eye
                 function, facial anatomy, and each patient&apos;s goals.
               </p>
+              <p className="text-xs font-medium text-foreground/85">
+                Serving patients in {siteConfig.serviceAreaLabel}
+              </p>
               <Button size="sm" asChild>
                 <a href="/contact">
                   <CalendarDays className="mr-2 h-4 w-4" />
@@ -33,11 +36,15 @@ export default function Footer() {
               </Button>
             </div>
 
-            <div className="space-y-4">
-              <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.24em] text-secondary">
-                Offices
-              </h2>
-              <ul className="grid gap-x-5 gap-y-4 text-sm text-foreground/90 lg:grid-cols-2">
+            <details open className="footer-disclosure border-t border-border pt-1 md:border-0 md:pt-0">
+              <summary className="footer-disclosure-summary">
+                <span>Offices</span>
+                <span className="text-[0.68rem] font-medium normal-case tracking-normal text-muted-foreground md:hidden">
+                  4 locations
+                </span>
+              </summary>
+              <div className="footer-disclosure-content pt-4 md:pt-0">
+                <ul className="grid gap-x-5 gap-y-4 text-sm text-foreground/90 lg:grid-cols-2">
                 {siteConfig.offices.map((office) => (
                   <li key={office.id} className="space-y-1.5">
                     <a
@@ -58,14 +65,14 @@ export default function Footer() {
                     </p>
                   </li>
                 ))}
-              </ul>
-            </div>
+                </ul>
+              </div>
+            </details>
 
-            <div className="space-y-4">
-              <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.24em] text-secondary">
-                Explore
-              </h2>
-              <ul className="grid grid-cols-2 gap-x-4 gap-y-2.5 text-sm text-muted-foreground">
+            <details open className="footer-disclosure border-t border-border pt-1 md:border-0 md:pt-0">
+              <summary className="footer-disclosure-summary">Explore</summary>
+              <div className="footer-disclosure-content pt-4 md:pt-0">
+                <ul className="grid grid-cols-2 gap-x-4 gap-y-2.5 text-sm text-muted-foreground">
                 {navItems.map((item) => (
                   <li key={item.href}>
                     <a
@@ -77,27 +84,27 @@ export default function Footer() {
                     </a>
                   </li>
                 ))}
-              </ul>
-            </div>
+                </ul>
+              </div>
+            </details>
 
-            <div className="space-y-4 rounded-2xl border border-border bg-card p-5">
-              <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.24em] text-secondary">
-                Practice Information
-              </h2>
-              <ul className="space-y-3 text-sm text-muted-foreground">
+            <details open className="footer-disclosure rounded-2xl border border-border bg-card px-4 py-1 md:p-5">
+              <summary className="footer-disclosure-summary">Practice Information</summary>
+              <div className="footer-disclosure-content pb-4 pt-3 md:pb-0 md:pt-0">
+                <ul className="space-y-3 text-sm text-muted-foreground">
                 <li>Board-certified ophthalmologist</li>
                 <li>Fellowship-trained at Wills Eye Hospital</li>
                 <li>Consultations in {siteConfig.languages.join(", ")}</li>
-                <li>Serving patients in {siteConfig.serviceAreaLabel}</li>
-              </ul>
-              <a
-                href={`mailto:${siteConfig.email}`}
-                className="inline-flex items-center text-sm text-secondary hover:underline"
-              >
-                <Mail className="mr-2 h-4 w-4" />
-                {siteConfig.email}
-              </a>
-            </div>
+                </ul>
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="mt-4 inline-flex items-center text-sm text-secondary hover:underline"
+                >
+                  <Mail className="mr-2 h-4 w-4" />
+                  {siteConfig.email}
+                </a>
+              </div>
+            </details>
           </div>
 
           <div className="relative mt-8 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 text-xs text-muted-foreground md:flex-row md:items-center">

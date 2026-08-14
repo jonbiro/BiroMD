@@ -412,6 +412,11 @@ test("contact page uses official office request links", async ({ page }) => {
   )
   await expect(page.getByText(/For routine, non-urgent appointments/)).toBeVisible()
   await expect(page.getByText(/The office will contact you to confirm/)).toBeVisible()
+  const questions = page.getByText("Questions worth confirming with your chosen office")
+  await expect(questions).toBeVisible()
+  await questions.click()
+  await expect(page.getByRole("heading", { name: "Timing and preparation" })).toBeVisible()
+  await expect(page.getByText(/whether testing or dilation may be needed/i)).toBeVisible()
   const emergencyNotice = page.locator("[data-emergency-notice]")
   const firstOffice = page.locator("#schedule-westlake-village")
   const [emergencyBox, firstOfficeBox] = await Promise.all([
@@ -435,6 +440,8 @@ test("new patient guide resolves common scheduling friction", async ({ page }) =
   await expect(page.getByText(/online request is not a confirmed appointment/i)).toBeVisible()
   await expect(page.getByRole("heading", { name: "Insurance and cost" })).toBeVisible()
   await expect(page.getByRole("heading", { name: "Records and images" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Timing and preparation" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "After-visit questions" })).toBeVisible()
   await expect(page.getByText(/Do not send medical details/)).toBeVisible()
   await expect(
     page.getByRole("heading", { name: "Choose an Office to Request a Consultation" })
@@ -999,6 +1006,24 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
     page.getByText("Serving patients in the greater Los Angeles area").first()
   ).toBeVisible()
   await expect(page.getByText("Clinical Approach", { exact: true })).toHaveCount(0)
+})
+
+test("mobile footer keeps the next step visible and details compact", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("/")
+
+  const footer = page.locator("footer")
+  await expect(footer.getByRole("link", { name: "Request Consultation" })).toBeVisible()
+  await expect(footer.getByText(/Serving patients in the greater Los Angeles area/)).toBeVisible()
+  for (const details of await footer.locator("details.footer-disclosure").all()) {
+    expect(await details.getAttribute("open")).toBeNull()
+  }
+
+  const footerHeight = await footer.evaluate((element) => element.getBoundingClientRect().height)
+  expect(footerHeight).toBeLessThan(750)
+  await footer.locator("summary").filter({ hasText: "Offices" }).click()
+  await expect(footer.getByRole("link", { name: "Westlake Village" })).toBeVisible()
+  await expectNoHorizontalOverflow(page)
 })
 
 test("detail pages expose breadcrumbs, structured wayfinding, and usable FAQs", async ({ page }) => {

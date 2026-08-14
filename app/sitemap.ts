@@ -12,7 +12,9 @@ type SitemapEntry = {
   changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]
 }
 
-const lastUpdated = "2026-08-08"
+// Static exports are deployments, so the build date is the most reliable shared
+// revision signal until individual pages have approved medical-review dates.
+const lastUpdated = new Date().toISOString().slice(0, 10)
 
 const staticEntries: SitemapEntry[] = [
   { path: "/", priority: 1, changeFrequency: "monthly" },

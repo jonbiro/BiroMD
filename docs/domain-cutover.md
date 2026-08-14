@@ -1,7 +1,9 @@
 # biromd.com GitHub Pages cutover
 
 The repository's GitHub Pages custom domain is configured as `biromd.com`, and
-the application builds for the root of that domain.
+the application builds for the root of that domain. `public/CNAME` keeps that
+domain attached to every static export, while the deployment workflow verifies
+that `www.biromd.com` resolves to the canonical HTTPS URL.
 
 The domain provider must use DNS records rather than URL forwarding. At
 Squarespace Domains:

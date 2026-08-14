@@ -183,6 +183,7 @@ export function ServicesPreview() {
               aria-live="polite"
               aria-atomic="true"
               data-care-pathway-status
+              suppressHydrationWarning
             >
               1 of {carePathways.length}
             </p>

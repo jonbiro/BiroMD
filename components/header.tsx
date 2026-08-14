@@ -57,6 +57,7 @@ export default function Header() {
                 aria-label={item.label}
                 data-nav-item
                 className={navClass}
+                suppressHydrationWarning
               >
                 <span className="min-[360px]:hidden" aria-hidden="true">
                   {narrowNavLabels[item.href]}

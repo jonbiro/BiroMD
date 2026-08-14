@@ -2,6 +2,7 @@ import {
   AlertTriangle,
   ArrowUpRight,
   CalendarDays,
+  ChevronDown,
   LockKeyhole,
   Mail,
   MapPin,
@@ -10,6 +11,7 @@ import {
 } from "lucide-react"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
+import { appointmentQuestions } from "@/lib/appointment"
 import { pageMetadata, siteConfig } from "@/lib/site"
 
 export const metadata = pageMetadata({
@@ -54,6 +56,28 @@ export default function ContactPage() {
             </p>
           </div>
         </div>
+      </section>
+
+      <section className="site-container px-4 md:px-6" aria-label="Questions to confirm">
+        <details className="group rounded-2xl border border-border bg-card px-5 py-4 shadow-sm">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 font-semibold text-foreground marker:content-none">
+            Questions worth confirming with your chosen office
+            <ChevronDown
+              className="h-5 w-5 shrink-0 text-secondary transition-transform group-open:rotate-180"
+              aria-hidden="true"
+            />
+          </summary>
+          <div className="grid gap-3 border-t border-border pb-1 pt-4 sm:grid-cols-2">
+            {appointmentQuestions.map((question) => (
+              <div key={question.title} className="rounded-xl bg-accent/55 p-4">
+                <h2 className="font-sans text-sm font-semibold text-foreground">
+                  {question.title}
+                </h2>
+                <p className="mt-1.5 text-sm text-muted-foreground">{question.detail}</p>
+              </div>
+            ))}
+          </div>
+        </details>
       </section>
 
       <section className="site-container px-4 md:px-6" aria-labelledby="office-options">

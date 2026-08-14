@@ -13,6 +13,7 @@ import { PageIntro } from "@/components/page-intro"
 import { PageJumpLinks } from "@/components/page-jump-links"
 import { PrintButton } from "@/components/print-button"
 import { Button } from "@/components/ui/button"
+import { appointmentQuestions } from "@/lib/appointment"
 import { pageMetadata, siteConfig } from "@/lib/site"
 
 export const metadata = pageMetadata({
@@ -171,24 +172,19 @@ export default function PatientGuidePage() {
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-2xl border border-border bg-background p-4">
-                <h3 className="font-sans text-sm font-semibold text-foreground">
-                  Insurance and cost
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Ask about insurance participation, referrals, expected charges,
-                  and payment policies before the visit.
-                </p>
-              </div>
-              <div className="rounded-2xl border border-border bg-background p-4">
-                <h3 className="font-sans text-sm font-semibold text-foreground">
-                  Records and images
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Ask which records are relevant and how the office wants them
-                  transferred securely.
-                </p>
-              </div>
+              {appointmentQuestions.map((question) => (
+                <div
+                  key={question.title}
+                  className="rounded-2xl border border-border bg-background p-4"
+                >
+                  <h3 className="font-sans text-sm font-semibold text-foreground">
+                    {question.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {question.detail}
+                  </p>
+                </div>
+              ))}
               <div className="rounded-2xl border border-border bg-background p-4">
                 <h3 className="flex items-center gap-2 font-sans text-sm font-semibold text-foreground">
                   <Languages className="h-4 w-4 text-secondary" aria-hidden="true" />

@@ -27,13 +27,16 @@ no clinical cases or clinical image derivatives are exposed locally.
 GALLERY_AUTHORIZED_CASE_IDS=upper-lower-blepharoplasty,upper-blepharoplasty,lower-blepharoplasty,periocular-lesion-removal,eyelid-trauma,scalp-reconstruction,eyebrow-reconstruction npm run build
 GALLERY_AUTHORIZED_CASE_IDS=upper-lower-blepharoplasty,upper-blepharoplasty,lower-blepharoplasty,periocular-lesion-removal,eyelid-trauma,scalp-reconstruction,eyebrow-reconstruction npm run verify:export
 npm run test:e2e
+npm run validate:gallery
 npm run lint
 npm audit
 ```
 
 The export verifier checks required routes, sitemap entries, internal links,
 responsive image budgets, social-card dimensions, and the clinical asset allowlist.
-Playwright checks every public route, mobile overflow/navigation, light and dark
+`validate:gallery` derives the complete authorized case list from the manifest and
+runs the build, export verifier, and all gallery browser checks. Playwright checks
+every public route, mobile overflow/navigation, light and dark
 consultation-button contrast, office scheduling links, breadcrumbs, and gallery behavior.
 
 ## Static export
