@@ -1,5 +1,4 @@
 import {
-  AlertTriangle,
   ArrowRight,
   Droplets,
   Eye,
@@ -96,14 +95,6 @@ export function ConcernFinder() {
                 )
               })}
             </div>
-            <a
-              href="/concerns/sudden-eyelid-drooping"
-              className="mt-2.5 flex min-h-14 items-center gap-3 rounded-2xl border border-amber-300/70 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-950 transition-colors hover:border-amber-500 dark:border-amber-500/45 dark:bg-amber-950/45 dark:text-amber-100"
-            >
-              <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden="true" />
-              <span className="flex-1">Sudden eyelid drooping? Check urgent warning signs.</span>
-              <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
-            </a>
           </div>
         </div>
       </div>

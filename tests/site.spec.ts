@@ -826,7 +826,7 @@ test("patient concerns lead directly to relevant procedure guidance", async ({ p
   await expect(
     finder.getByRole("heading", { name: "What Brings You In?" })
   ).toBeVisible()
-  await expect(finder.locator('a[href^="/concerns/"]')).toHaveCount(7)
+  await expect(finder.locator('a[href^="/concerns/"]')).toHaveCount(6)
   await expect(finder.getByRole("link", { name: /Droopy or heavy upper eyelids/ })).toHaveAttribute(
     "href",
     "/concerns/droopy-heavy-upper-eyelids"
@@ -835,10 +835,7 @@ test("patient concerns lead directly to relevant procedure guidance", async ({ p
     "href",
     "/concerns/constant-watery-eyes"
   )
-  await expect(finder.getByRole("link", { name: /Sudden eyelid drooping/ })).toHaveAttribute(
-    "href",
-    "/concerns/sudden-eyelid-drooping"
-  )
+  await expect(finder).not.toContainText("Sudden eyelid drooping")
 })
 
 test("symptom guides explain evaluation and urgent next steps", async ({ page }) => {
@@ -980,7 +977,7 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
   )
   expect(wordCount).toBeLessThanOrEqual(225)
   await expect(page.getByRole("link", { name: "Request Consultation" }).first()).toBeVisible()
-  await expect(page.locator("[data-concern-finder]").locator('a[href^="/concerns/"]')).toHaveCount(7)
+  await expect(page.locator("[data-concern-finder]").locator('a[href^="/concerns/"]')).toHaveCount(6)
   const mobileCarePathways = page.locator("[data-mobile-care-pathway]")
   await expect(mobileCarePathways).toHaveCount(4)
   await expect(mobileCarePathways.getByText("Cosmetic Eyelid Care", { exact: true })).toBeVisible()
