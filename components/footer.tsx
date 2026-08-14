@@ -36,7 +36,11 @@ export default function Footer() {
               </Button>
             </div>
 
-            <details open className="footer-disclosure border-t border-border pt-1 md:border-0 md:pt-0">
+            <details
+              open
+              suppressHydrationWarning
+              className="footer-disclosure border-t border-border pt-1 md:border-0 md:pt-0"
+            >
               <summary className="footer-disclosure-summary">
                 <span>Offices</span>
                 <span className="text-[0.68rem] font-medium normal-case tracking-normal text-muted-foreground md:hidden">
@@ -69,7 +73,11 @@ export default function Footer() {
               </div>
             </details>
 
-            <details open className="footer-disclosure border-t border-border pt-1 md:border-0 md:pt-0">
+            <details
+              open
+              suppressHydrationWarning
+              className="footer-disclosure border-t border-border pt-1 md:border-0 md:pt-0"
+            >
               <summary className="footer-disclosure-summary">Explore</summary>
               <div className="footer-disclosure-content pt-4 md:pt-0">
                 <ul className="grid grid-cols-2 gap-x-4 gap-y-2.5 text-sm text-muted-foreground">
@@ -88,7 +96,11 @@ export default function Footer() {
               </div>
             </details>
 
-            <details open className="footer-disclosure rounded-2xl border border-border bg-card px-4 py-1 md:p-5">
+            <details
+              open
+              suppressHydrationWarning
+              className="footer-disclosure rounded-2xl border border-border bg-card px-4 py-1 md:p-5"
+            >
               <summary className="footer-disclosure-summary">Practice Information</summary>
               <div className="footer-disclosure-content pb-4 pt-3 md:pb-0 md:pt-0">
                 <ul className="space-y-3 text-sm text-muted-foreground">

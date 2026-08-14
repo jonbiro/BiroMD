@@ -177,7 +177,7 @@ export function ServicesPreview() {
           >
             <ChevronLeft className="h-5 w-5" aria-hidden="true" />
           </button>
-          <div className="text-center">
+          <div className="text-center" suppressHydrationWarning>
             <p
               className="text-sm font-semibold text-foreground"
               aria-live="polite"

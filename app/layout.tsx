@@ -178,13 +178,15 @@ export default function RootLayout({
       <head>
         <meta httpEquiv="Content-Security-Policy" content={contentSecurityPolicy} />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <script src="/site-controls.js" defer />
-      </head>
-      <body className={`${outfit.variable} ${cormorant.variable}`}>
+        {process.env.NODE_ENV === "production" ? (
+          <script src="/site-controls.js" defer />
+        ) : null}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
+      </head>
+      <body className={`${outfit.variable} ${cormorant.variable}`}>
         <div className="relative flex min-h-screen flex-col">
           <SkipLink />
           <Header />

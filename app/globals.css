@@ -399,8 +399,8 @@
     }
 
     .care-pathway-action {
-      opacity: 0;
-      transform: translateY(0.45rem);
+      opacity: 0.72;
+      transform: translateY(0);
       transition: opacity 250ms ease 60ms, transform 300ms ease 40ms;
     }
 
