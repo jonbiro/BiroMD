@@ -29,7 +29,7 @@ export function Hero() {
           <div className="contents md:relative md:block md:space-y-5 lg:space-y-6">
             <a href="/locations" className="eyebrow order-1 justify-self-start transition-colors hover:bg-secondary/15">
               <MapPin className="h-3.5 w-3.5" />
-              Serving {siteConfig.serviceAreaLabel}
+              Serving Greater Los Angeles
             </a>
 
             <div className="order-2 space-y-2.5 lg:space-y-4">
@@ -44,20 +44,30 @@ export function Hero() {
               </p>
             </div>
 
-            <div className="order-3 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
-              <Button size="lg" asChild>
+            <div className="order-3 grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:items-center sm:gap-3">
+              <Button size="lg" className="col-span-2 w-full sm:w-auto" asChild>
                 <a href="/contact">
                   <CalendarDays className="mr-2 h-4 w-4" />
                   Request Consultation
                 </a>
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button
+                size="sm"
+                variant="outline"
+                className="w-full px-2 text-xs min-[400px]:text-sm sm:w-auto sm:px-4"
+                asChild
+              >
                 <a href="/procedures">
                   Explore Procedures
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
               </Button>
-              <Button variant="outline" size="sm" asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full px-2 text-xs min-[400px]:text-sm sm:w-auto sm:px-4"
+                asChild
+              >
                 <a href="/about">
                   Meet Dr. Biro
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
