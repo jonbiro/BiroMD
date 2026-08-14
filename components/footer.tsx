@@ -17,7 +17,7 @@ export default function Footer() {
                 <BrandSymbol
                   className="h-14 w-[4.5rem] shrink-0 md:h-16 md:w-[5.2rem]"
                 />
-                <p className="font-serif text-2xl font-semibold leading-none text-primary md:text-3xl">
+                <p className="font-serif text-2xl font-semibold leading-none text-primary md:text-3xl lg:whitespace-nowrap">
                   {siteConfig.name}
                 </p>
               </div>

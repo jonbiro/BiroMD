@@ -32,8 +32,8 @@ export default function AboutPage() {
     <div className="page-stack">
       <PageIntro
         eyebrow="Meet the Surgeon"
-        title="Ophthalmic Training. Oculoplastic Focus."
-        description={`${siteConfig.shortName} is a board-certified ophthalmologist with advanced fellowship training in ocular plastic and orbital surgery. His approach considers both eye function and the surrounding facial anatomy.`}
+        title="Ophthalmology Training. Oculoplastic Care."
+        description={`${siteConfig.shortName} is a board-certified ophthalmologist with advanced fellowship training in oculoplastic and orbital surgery. His approach considers both eye function and the surrounding facial anatomy.`}
         actions={
           <Button asChild>
             <a href="/contact">
@@ -49,14 +49,18 @@ export default function AboutPage() {
         aria-label="Dr. Biro's clinical priorities and training"
       >
         <div className="grid items-start gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
-          <div className="order-1 relative mx-auto w-full max-w-[560px] overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_22px_54px_rgb(5_16_32_/0.18)] lg:order-2">
+          <figure className="order-1 relative mx-auto w-full max-w-[560px] overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_22px_54px_rgb(5_16_32_/0.18)] lg:order-2">
             <div className="relative aspect-[4/5]">
               <ResponsivePortrait
                 portrait="about"
                 sizes="(max-width: 1024px) 92vw, 560px"
               />
             </div>
-          </div>
+            <figcaption className="border-t border-border bg-card px-5 py-4 text-sm text-muted-foreground md:px-6">
+              <span className="block font-semibold text-foreground">Dr. Nicolas Biro</span>
+              <span className="mt-1 block">Board-certified ophthalmologist with fellowship training in oculoplastic and orbital surgery.</span>
+            </figcaption>
+          </figure>
 
           <div className="order-2 space-y-5 lg:order-1 lg:space-y-6">
             <div className="panel rounded-[1.7rem] p-5 md:p-7">
@@ -119,10 +123,10 @@ export default function AboutPage() {
               id="practice-affiliations"
               className="mt-2 text-4xl font-semibold text-primary"
             >
-              Practice Locations and Information
+              Where Dr. Biro Sees Patients
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Dr. Biro sees patients at four ophthalmology practices. Use the
+              Dr. Biro sees patients through four ophthalmology practices. Use the
               official practice pages to verify current location and appointment information.
             </p>
           </div>
@@ -157,15 +161,15 @@ export default function AboutPage() {
             Training and Clinical Focus
           </p>
           <ul className="mt-4 grid gap-3 text-sm sm:grid-cols-2 md:text-base">
-            <li className="flex items-center gap-2">
+            <li className="flex items-start gap-2 rounded-xl bg-primary-foreground/8 p-3">
               <CheckCircle2 className="h-4 w-4" />
               Two-year oculoplastic, orbital, and neuro-ophthalmology fellowship, Wills Eye Hospital
             </li>
-            <li className="flex items-center gap-2">
+            <li className="flex items-start gap-2 rounded-xl bg-primary-foreground/8 p-3">
               <CheckCircle2 className="h-4 w-4" />
               Board-certified ophthalmologist
             </li>
-            <li className="flex items-center gap-2 sm:col-span-2">
+            <li className="flex items-start gap-2 rounded-xl bg-primary-foreground/8 p-3 sm:col-span-2">
               <CheckCircle2 className="h-4 w-4" />
               Ophthalmology residency, University of South Florida
             </li>

@@ -36,8 +36,8 @@ export default function ConcernsPage() {
     <div className="page-stack">
       <PageIntro
         eyebrow="Symptoms and Concerns"
-        title="Find Guidance for Your Concern"
-        description="Learn about common eyelid, tear-system, and orbital concerns, what an evaluation may involve, and when to seek urgent care."
+        title="Understand Your Eye and Eyelid Concerns"
+        description="Learn what may contribute to common eyelid, tear-system, and orbital symptoms, what an evaluation may involve, and when to seek urgent care."
         actions={
           <Button asChild>
             <a href="/contact">
@@ -107,7 +107,7 @@ export default function ConcernsPage() {
                       concern.urgentPage ? "text-current" : "text-secondary"
                     )}
                   >
-                    {concern.urgentPage ? "Read urgent guidance" : "What to know"}
+                    {concern.urgentPage ? "Read urgent guidance" : "Read the guide"}
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                   </span>
                 </a>

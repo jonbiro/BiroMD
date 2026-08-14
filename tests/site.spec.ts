@@ -841,7 +841,7 @@ test("patient concerns lead directly to relevant procedure guidance", async ({ p
 test("symptom guides explain evaluation and urgent next steps", async ({ page }) => {
   await page.goto("/concerns")
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Find Guidance for Your Concern"
+    "Understand Your Eye and Eyelid Concerns"
   )
   await expect(page.locator('main a[href^="/concerns/"]')).toHaveCount(7)
 
@@ -930,7 +930,7 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
     .toContainText("2014")
   await expect(timeline).not.toContainText("2009")
   await expect(timeline).not.toContainText("2011")
-  const affiliations = page.getByRole("heading", { name: "Practice Locations and Information" })
+  const affiliations = page.getByRole("heading", { name: "Where Dr. Biro Sees Patients" })
     .locator("xpath=ancestor::section")
   await expect(affiliations.getByRole("link", { name: /DLV Vision/ })).toHaveAttribute(
     "href",

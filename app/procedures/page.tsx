@@ -29,8 +29,8 @@ export default function ProceduresPage() {
     <div className="page-stack">
       <PageIntro
         eyebrow="Procedures"
-        title="Understand the Evaluation Before Choosing Treatment"
-        description="Explore individual procedures and conditions, what consultation examines, and which questions to bring to an appointment."
+        title="Procedures and Treatment Options"
+        description="Learn what each procedure is for, what the evaluation may cover, and which questions to bring to your consultation."
       />
 
       <section className="site-container px-4 md:px-6">
@@ -85,7 +85,7 @@ export default function ProceduresPage() {
                   <h3 className="text-2xl font-semibold text-primary">{item.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{item.summary}</p>
                   <span className="mt-4 inline-flex items-center text-sm font-semibold text-secondary">
-                    What to know
+                    View procedure guide
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
                 </a>

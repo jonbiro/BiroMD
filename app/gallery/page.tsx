@@ -18,8 +18,8 @@ export default function GalleryPage() {
     <div className="page-stack">
       <PageIntro
         eyebrow="Clinical Cases"
-        title="Before & After Photos"
-        description="Browse authorized before-and-after cases, including additional matched views where available. Individual results vary."
+        title="Authorized Before-and-After Cases"
+        description="Browse selected, authorized clinical cases with matched views where available. Photos are for education only, and individual results vary."
       />
       <div className="site-container px-4 md:px-6">
         <GalleryView cases={publishedCases} />

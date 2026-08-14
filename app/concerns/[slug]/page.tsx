@@ -261,7 +261,7 @@ export default async function ConcernPage({
                   {procedure.summary}
                 </p>
                 <span className="mt-4 inline-flex items-center text-sm font-semibold text-secondary">
-                  What to know
+                  View procedure guide
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                 </span>
               </a>

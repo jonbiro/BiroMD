@@ -65,7 +65,9 @@ export function PageIntro({
             {description}
           </p>
           {actions ? (
-            <div className="grid gap-3 pt-1 sm:flex sm:flex-wrap">{actions}</div>
+            <div className="grid grid-cols-2 gap-2.5 pt-1 [&>*]:w-full [&>*]:justify-center [&>*:only-child]:col-span-2 sm:flex sm:flex-wrap sm:gap-3 sm:[&>*]:w-auto">
+              {actions}
+            </div>
           ) : null}
         </div>
       </div>

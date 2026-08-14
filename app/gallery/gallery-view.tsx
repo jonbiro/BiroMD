@@ -1,5 +1,6 @@
 import {
   Images,
+  Info,
   Maximize2,
   ShieldCheck,
   Sparkles,
@@ -24,14 +25,20 @@ const filters: Array<{ id: GalleryFilter; label: string; icon: typeof Images }> 
 export function GalleryView({ cases }: GalleryViewProps) {
   return (
     <div className="space-y-8 md:space-y-9" data-gallery>
-      <div className="rounded-2xl border border-secondary/30 bg-secondary/8 p-4 text-sm md:p-5">
-        <p className="font-semibold text-foreground">About these photographs</p>
-        <p className="mt-1 text-muted-foreground">
-          Published with written authorization. Framing and file format may be
-          standardized; anatomy and outcomes are not retouched. Sensitive surgical
-          photographs stay covered and do not load unless you choose to view them.
-          Individual results vary.
-        </p>
+      <div className="flex items-start gap-3 rounded-2xl border border-secondary/30 bg-secondary/8 p-4 text-sm md:p-5">
+        <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-secondary/30 bg-card text-secondary">
+          <Info className="h-4 w-4" aria-hidden="true" />
+        </span>
+        <div>
+          <p className="font-semibold text-foreground">Before you view</p>
+          <p className="mt-1 text-muted-foreground">
+            These cases are published with written authorization. Framing and file
+            format may be standardized; anatomy and outcomes are not retouched.
+            Sensitive surgical photographs stay covered and do not load unless you
+            choose to view them.
+            Individual results vary.
+          </p>
+        </div>
       </div>
 
       {cases.length > 0 ? (

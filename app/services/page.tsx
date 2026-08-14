@@ -28,8 +28,8 @@ export default function ServicesPage() {
     <div className="page-stack">
       <PageIntro
         eyebrow="Services"
-        title="Three Care Pathways, One Individual Assessment"
-        description="Start with the type of concern you want evaluated. Each linked procedure page explains what consultation examines and what questions to ask."
+        title="Care Planned Around Your Goals"
+        description="Start with the type of concern you want evaluated. Each care pathway links to procedure guides that explain what a consultation may cover."
       />
 
       <section className="site-container px-4 md:px-6">
@@ -55,7 +55,7 @@ export default function ServicesPage() {
                   href={`/procedures#${service.id}`}
                   className="mt-6 inline-flex items-center text-sm font-semibold text-secondary hover:underline"
                 >
-                  Review related procedures
+                  View related procedures
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
               </article>
@@ -66,7 +66,7 @@ export default function ServicesPage() {
 
       <section className="site-container px-4 md:px-6">
         <div className="panel rounded-[1.8rem] p-7 md:p-9">
-          <h2 className="text-4xl font-semibold text-primary">What Consultation Covers</h2>
+          <h2 className="text-4xl font-semibold text-primary">What to Expect at a Consultation</h2>
           <ol className="mt-5 grid gap-4 text-sm text-muted-foreground md:grid-cols-3">
             {[
               ["1. Assessment", "Medical and eye history, symptoms, goals, and examination of the relevant anatomy."],

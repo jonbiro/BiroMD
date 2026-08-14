@@ -15,8 +15,8 @@ export default function LocationsPage() {
     <div className="page-stack">
       <PageIntro
         eyebrow="Locations"
-        title="Four Offices for Consultation"
-        description="Choose the office that is most convenient. Request online where available, or call directly."
+        title="Choose Your Convenient Office"
+        description="Dr. Biro sees patients at four Los Angeles-area offices. Request online where available, or call the office directly."
       />
       <section className="site-container grid gap-6 px-4 lg:grid-cols-2 md:px-6">
         {siteConfig.offices.map((office) => (
