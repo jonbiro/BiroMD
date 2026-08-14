@@ -1,12 +1,14 @@
 import {
   ArrowRight,
+  ArrowUpRight,
   CalendarDays,
   Check,
   MapPin,
+  MessageSquareQuote,
 } from "lucide-react"
 import { ResponsivePortrait } from "@/components/responsive-portrait"
 import { Button } from "@/components/ui/button"
-import { siteConfig } from "@/lib/site"
+import { patientFeedbackProfiles, siteConfig } from "@/lib/site"
 
 const trustPoints = [
   "Board-certified ophthalmologist",
@@ -42,7 +44,7 @@ export function Hero() {
               </p>
             </div>
 
-            <div className="order-3 flex flex-col gap-2.5 sm:flex-row sm:gap-3">
+            <div className="order-3 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
               <Button size="lg" asChild>
                 <a href="/contact">
                   <CalendarDays className="mr-2 h-4 w-4" />
@@ -55,6 +57,13 @@ export function Hero() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
               </Button>
+              <a
+                href="/about"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-2 text-sm font-semibold text-secondary transition-colors hover:bg-secondary/10 hover:text-secondary sm:px-3"
+              >
+                Meet Dr. Biro
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </a>
             </div>
 
             <ul className="order-5 grid gap-x-4 gap-y-2 text-sm text-foreground/90 min-[480px]:grid-cols-2 md:grid-cols-1 xl:grid-cols-2">
@@ -67,6 +76,34 @@ export function Hero() {
                 </li>
               ))}
             </ul>
+
+            <div className="order-6 rounded-2xl border border-secondary/25 bg-secondary/6 p-3 min-[480px]:p-3.5">
+              <div className="flex items-center gap-2">
+                <MessageSquareQuote className="h-4 w-4 shrink-0 text-secondary" aria-hidden="true" />
+                <h2 className="font-sans text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-secondary">
+                  Independent Patient Feedback
+                </h2>
+              </div>
+              <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5">
+                {patientFeedbackProfiles.map((profile) => (
+                  <a
+                    key={profile.url}
+                    href={profile.url}
+                    rel="external"
+                    className="group inline-flex min-h-8 items-center gap-1 text-xs font-semibold text-foreground transition-colors hover:text-secondary"
+                  >
+                    {profile.name}
+                    <ArrowUpRight
+                      className="h-3.5 w-3.5 text-secondary transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
+                  </a>
+                ))}
+              </div>
+              <p className="mt-2 text-[0.68rem] leading-snug text-muted-foreground">
+                Profiles are managed by each publisher; BiroMD does not republish reviews.
+              </p>
+            </div>
 
           </div>
 
