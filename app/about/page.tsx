@@ -44,50 +44,66 @@ export default function AboutPage() {
         }
       />
 
-      <section className="site-container px-4 md:px-6">
-        <div className="grid items-start gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
-          <div className="space-y-6">
-            <div className="panel rounded-[1.7rem] p-6 md:p-8">
-              <h2 className="font-sans text-sm font-semibold text-foreground">
-                Clinical priorities
-              </h2>
-              <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <ShieldPlus className="mt-0.5 h-4 w-4 text-secondary" />
-                  Restore eyelid function and protect the ocular surface.
-                </li>
-                <li className="flex items-start gap-2">
-                  <Ribbon className="mt-0.5 h-4 w-4 text-secondary" />
-                  Plan cosmetic care around natural anatomy and realistic goals.
-                </li>
-                <li className="flex items-start gap-2">
-                  <Languages className="mt-0.5 h-4 w-4 text-secondary" />
-                  Discuss care in {siteConfig.languages.join(", ")}.
-                </li>
-              </ul>
-            </div>
-
-            <div className="panel rounded-2xl p-5 md:p-6">
-              <h2 className="text-3xl font-medium text-primary">Training Timeline</h2>
-              <ol className="mt-4 space-y-3">
-                {milestones.map((milestone) => (
-                  <li key={milestone.year} className="flex gap-4 text-sm">
-                    <span className="w-14 shrink-0 font-semibold text-secondary">
-                      {milestone.year}
-                    </span>
-                    <span className="text-muted-foreground">{milestone.title}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-
-          <div className="relative mx-auto w-full max-w-[560px] overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_22px_54px_rgb(5_16_32_/0.18)]">
+      <section
+        className="site-container px-4 md:px-6"
+        aria-label="Dr. Biro's clinical priorities and training"
+      >
+        <div className="grid items-start gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
+          <div className="order-1 relative mx-auto w-full max-w-[560px] overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_22px_54px_rgb(5_16_32_/0.18)] lg:order-2">
             <div className="relative aspect-[4/5]">
               <ResponsivePortrait
                 portrait="about"
                 sizes="(max-width: 1024px) 92vw, 560px"
               />
+            </div>
+          </div>
+
+          <div className="order-2 space-y-5 lg:order-1 lg:space-y-6">
+            <div className="panel rounded-[1.7rem] p-5 md:p-7">
+              <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
+                Clinical priorities
+              </h2>
+              <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
+                <li className="flex items-start gap-3 rounded-xl bg-accent/45 p-3">
+                  <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-secondary/25 bg-card text-secondary">
+                    <ShieldPlus className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  <span className="pt-1">Restore eyelid function and protect the ocular surface.</span>
+                </li>
+                <li className="flex items-start gap-3 rounded-xl bg-accent/45 p-3">
+                  <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-secondary/25 bg-card text-secondary">
+                    <Ribbon className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  <span className="pt-1">Plan cosmetic care around natural anatomy and realistic goals.</span>
+                </li>
+                <li className="flex items-start gap-3 rounded-xl bg-accent/45 p-3">
+                  <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-secondary/25 bg-card text-secondary">
+                    <Languages className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  <span className="pt-1">Discuss care in {siteConfig.languages.join(", ")}.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="panel rounded-[1.7rem] p-5 md:p-7">
+              <h2 className="text-3xl font-medium text-primary">Training Timeline</h2>
+              <ol className="relative mt-5 space-y-5 border-l border-secondary/30 pl-5">
+                {milestones.map((milestone) => (
+                  <li
+                    key={milestone.year}
+                    className="relative grid grid-cols-[3.5rem_1fr] gap-3 text-sm"
+                  >
+                    <span
+                      className="absolute -left-[1.82rem] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-card bg-secondary ring-1 ring-secondary/30"
+                      aria-hidden="true"
+                    />
+                    <span className="font-semibold text-secondary">
+                      {milestone.year}
+                    </span>
+                    <span className="leading-relaxed text-muted-foreground">{milestone.title}</span>
+                  </li>
+                ))}
+              </ol>
             </div>
           </div>
         </div>
