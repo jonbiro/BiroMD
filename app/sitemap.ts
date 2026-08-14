@@ -12,9 +12,17 @@ type SitemapEntry = {
   changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]
 }
 
-// Static exports are deployments, so the build date is the most reliable shared
-// revision signal until individual pages have approved medical-review dates.
-const lastUpdated = new Date().toISOString().slice(0, 10)
+// Keep the date aligned with the practice's Pacific time zone rather than UTC,
+// which can make a late-evening Los Angeles build look future-dated locally.
+const dateParts = new Intl.DateTimeFormat("en-US", {
+  timeZone: "America/Los_Angeles",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).formatToParts(new Date())
+const datePart = (type: Intl.DateTimeFormatPartTypes) =>
+  dateParts.find((part) => part.type === type)?.value ?? ""
+const lastUpdated = `${datePart("year")}-${datePart("month")}-${datePart("day")}`
 
 const staticEntries: SitemapEntry[] = [
   { path: "/", priority: 1, changeFrequency: "monthly" },

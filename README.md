@@ -34,6 +34,8 @@ npm audit
 
 The export verifier checks required routes, sitemap entries, internal links,
 responsive image budgets, social-card dimensions, and the clinical asset allowlist.
+It intentionally requires `GALLERY_AUTHORIZED_CASE_IDS` so a local verification
+cannot accidentally approve unpublished clinical cases.
 `validate:gallery` derives the complete authorized case list from the manifest and
 runs the build, export verifier, and all gallery browser checks. Playwright checks
 every public route, mobile overflow/navigation, light and dark

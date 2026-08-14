@@ -33,6 +33,14 @@ const concernSlugs = [
   "bulging-eyes-thyroid-eye-disease",
   "sudden-eyelid-drooping",
 ]
+if (!process.env.GALLERY_AUTHORIZED_CASE_IDS?.trim()) {
+  console.error(
+    "GALLERY_AUTHORIZED_CASE_IDS is required. Set the approved case IDs explicitly " +
+      "or run npm run validate:gallery for the full authorized-gallery validation."
+  )
+  process.exit(1)
+}
+
 const manifest = await loadManifest()
 const authorized = authorizedIds(manifest)
 const routes = [
@@ -212,7 +220,15 @@ if (!sitemap.includes("<lastmod>")) {
 const sitemapDates = [...sitemap.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map(
   (match) => match[1]
 )
-const currentBuildDate = new Date().toISOString().slice(0, 10)
+const buildDateParts = new Intl.DateTimeFormat("en-US", {
+  timeZone: "America/Los_Angeles",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).formatToParts(new Date())
+const buildDatePart = (type) =>
+  buildDateParts.find((part) => part.type === type)?.value ?? ""
+const currentBuildDate = `${buildDatePart("year")}-${buildDatePart("month")}-${buildDatePart("day")}`
 if (sitemapDates.length === 0 || sitemapDates.some((date) => date !== currentBuildDate)) {
   throw new Error("Sitemap update dates must match the current static build date.")
 }
