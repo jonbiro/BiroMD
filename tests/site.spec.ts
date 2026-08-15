@@ -45,7 +45,9 @@ const publicRoutes = [
   "/patient-guide",
   ...procedureSlugs.map((slug) => `/procedures/${slug}`),
   "/gallery",
-  ...galleryCaseIds.map((id) => `/gallery/${id}`),
+  ...galleryCaseIds
+    .filter((id) => !galleryRouteAliases[id])
+    .map((id) => `/gallery/${id}`),
   "/contact",
   "/locations",
   "/locations/westlake-village",
