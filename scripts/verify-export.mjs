@@ -245,7 +245,13 @@ const currentBuildDate = `${buildDatePart("year")}-${buildDatePart("month")}-${b
 if (sitemapDates.length === 0 || sitemapDates.some((date) => date !== currentBuildDate)) {
   throw new Error("Sitemap update dates must match the current static build date.")
 }
+const legacyGalleryRoutes = new Set(
+  [...authorized]
+    .filter((id) => galleryRouteAliases[id])
+    .map((id) => `/gallery/${id}`)
+)
 for (const route of routes) {
+  if (legacyGalleryRoutes.has(route)) continue
   const expected = new URL(route, "https://biromd.com").toString()
   if (!sitemap.includes(expected)) throw new Error(`Sitemap is missing ${route}`)
 }
