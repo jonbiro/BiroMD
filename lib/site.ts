@@ -140,7 +140,7 @@ export const primaryNavItems = [
   { href: "/procedures", label: "Procedures" },
   { href: "/about", label: "Dr. Biro" },
   { href: "/patient-guide", label: "Your Visit" },
-  { href: "/gallery", label: "Case Gallery" },
+  { href: "/gallery", label: "Results" },
   { href: "/locations", label: "Offices" },
 ] as const
 
@@ -150,7 +150,7 @@ export const navItems = [
   { href: "/services", label: "Care Pathways" },
   { href: "/procedures", label: "Procedures" },
   { href: "/patient-guide", label: "Your Visit" },
-  { href: "/gallery", label: "Case Gallery" },
+  { href: "/gallery", label: "Results" },
   { href: "/locations", label: "Offices" },
   { href: "/referrals", label: "Referrals" },
   { href: "/contact", label: "Contact" },

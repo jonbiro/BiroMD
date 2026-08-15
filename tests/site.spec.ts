@@ -193,7 +193,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
 
   const navigation = page.getByRole("navigation", { name: "Primary" })
   await expect(navigation).toBeVisible()
-  for (const name of ["Symptoms", "Procedures", "Dr. Biro", "Your Visit", "Case Gallery", "Offices"]) {
+  for (const name of ["Symptoms", "Procedures", "Dr. Biro", "Your Visit", "Results", "Offices"]) {
     await expect(navigation.getByRole("link", { name, exact: true })).toBeVisible()
   }
   const navItemsHaveDistinctSurfaces = await navigation.getByRole("link").evaluateAll((links) =>
@@ -666,7 +666,7 @@ test("authorized gallery cases have shareable detail pages", async ({ page }) =>
   await expect(page.getByText("After", { exact: true }).first()).toBeVisible()
   await expect(page.getByRole("heading", { name: "What Was Evaluated" })).toBeVisible()
   await expect(page.getByRole("heading", { name: "Results Are Individual" })).toBeVisible()
-  await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText("Case Gallery")
+  await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText("Results")
   const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
   expect(schemas.some((schema) => schema.includes('"ImageObject"'))).toBe(true)
   await expectNoHorizontalOverflow(page)

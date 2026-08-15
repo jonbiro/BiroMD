@@ -85,14 +85,14 @@ export default async function GalleryCasePage({
           title="Before & After Cases Under Review"
           description="Cases are published only after the practice confirms written image authorization and reviews the final presentation."
           breadcrumbs={[
-            { label: "Case Gallery", href: "/gallery" },
+            { label: "Results", href: "/gallery" },
             { label: "Under review" },
           ]}
           actions={
             <Button variant="outline" asChild>
               <a href="/gallery">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Return to Case Gallery
+                Return to Results
               </a>
             </Button>
           }
@@ -114,11 +114,11 @@ export default async function GalleryCasePage({
         />
         <div className="page-stack">
           <PageIntro
-            eyebrow="Case Gallery"
+            eyebrow="Results"
             title="This case has moved"
             description="The clinical case you requested is now available at its updated address."
             breadcrumbs={[
-              { label: "Case Gallery", href: "/gallery" },
+              { label: "Results", href: "/gallery" },
               { label: "Case moved" },
             ]}
             actions={
@@ -175,7 +175,7 @@ export default async function GalleryCasePage({
         "@id": `${pageUrl}#breadcrumb`,
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
-          { "@type": "ListItem", position: 2, name: "Case Gallery", item: absoluteUrl("/gallery") },
+          { "@type": "ListItem", position: 2, name: "Results", item: absoluteUrl("/gallery") },
           { "@type": "ListItem", position: 3, name: item.title, item: pageUrl },
         ],
       },
@@ -193,7 +193,7 @@ export default async function GalleryCasePage({
         title={`${item.title} Before and After`}
         description="An authorized clinical case showing the presenting concern and surgical approach. Every patient heals differently, and individual results vary."
         breadcrumbs={[
-          { label: "Case Gallery", href: "/gallery" },
+          { label: "Results", href: "/gallery" },
           { label: item.title },
         ]}
         actions={
