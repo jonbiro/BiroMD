@@ -618,6 +618,40 @@ test("gallery labels remain visible without hover", async ({ page }) => {
   await expect(page.locator('script[src^="/_next/"]')).toHaveCount(0)
 })
 
+test("gallery cases keep compact vertical spacing on desktop", async ({ page }) => {
+  await page.goto("/gallery")
+  const cases = page.locator("article[id]")
+  const caseCount = await cases.count()
+  test.skip(caseCount < 3, "Fewer than three gallery cases are authorized for this build")
+
+  await page.setViewportSize({ width: 1237, height: 790 })
+  await page.reload()
+  const boxes = await cases.evaluateAll((elements) =>
+    elements
+      .map((element) => {
+        const box = element.getBoundingClientRect()
+        return { x: Math.round(box.x), y: box.y, bottom: box.bottom }
+      })
+      .filter((box) => box.bottom > box.y)
+  )
+  const columns = new Map<number, Array<{ y: number; bottom: number }>>()
+  for (const box of boxes) {
+    const column = columns.get(box.x) ?? []
+    column.push({ y: box.y, bottom: box.bottom })
+    columns.set(box.x, column)
+  }
+
+  expect(columns.size).toBe(2)
+  for (const column of columns.values()) {
+    column.sort((a, b) => a.y - b.y)
+    for (let index = 1; index < column.length; index += 1) {
+      const gap = column[index].y - column[index - 1].bottom
+      expect(gap).toBeGreaterThanOrEqual(20)
+      expect(gap).toBeLessThanOrEqual(28)
+    }
+  }
+})
+
 test("authorized gallery cases have shareable detail pages", async ({ page }) => {
   test.skip(galleryCaseIds.length === 0, "No gallery cases are authorized for this build")
 

@@ -75,7 +75,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
           </p>
         </div>
       ) : (
-        <div className="grid items-start gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="columns-1 gap-6 md:columns-2 xl:columns-3">
           {cases.map((item) => {
             const dialogId = `gallery-dialog-${item.id}`
             const primaryImage = item.images[0]
@@ -85,7 +85,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
                 key={item.id}
                 data-gallery-case
                 data-gallery-category={item.category}
-                className="panel self-start overflow-hidden rounded-[2rem]"
+                className="panel mb-6 w-full break-inside-avoid overflow-hidden rounded-[2rem]"
               >
                 <div
                   className={cn(
