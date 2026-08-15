@@ -34,7 +34,7 @@ export async function generateMetadata({
 
   return pageMetadata({
     title: `${procedure.title} in Los Angeles`,
-    description: `${procedure.summary} ${siteConfig.shortName} serves Los Angeles patients.`,
+    description: `${procedure.summary} ${siteConfig.shortName} serves patients across the Greater Los Angeles area.`,
     path: `/procedures/${procedure.slug}`,
   })
 }
@@ -125,7 +125,7 @@ export default async function ProcedurePage({
             <Button asChild>
               <a href="/contact">
                 <CalendarDays className="mr-2 h-4 w-4" />
-                Request Consultation
+                Request a Consultation
               </a>
             </Button>
             <Button variant="outline" asChild>
@@ -192,7 +192,7 @@ export default async function ProcedurePage({
             Recovery and Next Steps
           </p>
           <h2 className="mt-2 text-3xl font-semibold text-primary">
-            Plan Around the Individual Treatment
+            How Treatment Is Individualized
           </h2>
           <p className="mt-4 max-w-4xl text-muted-foreground">{procedure.nextSteps}</p>
         </div>

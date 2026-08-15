@@ -460,7 +460,7 @@ export const procedures: Procedure[] = [
     title: "Botulinum Toxin Injections",
     shortTitle: "Botulinum toxin injections",
     categoryId: "non-surgical-treatments",
-    categoryLabel: "Non-Surgical Treatment",
+    categoryLabel: "Injectables",
     summary:
       "Targeted injection planning for selected facial movement lines or medically appropriate periocular indications.",
     overview:
@@ -508,7 +508,7 @@ export const procedures: Procedure[] = [
     title: "Dermal Fillers",
     shortTitle: "Dermal fillers",
     categoryId: "non-surgical-treatments",
-    categoryLabel: "Non-Surgical Treatment",
+    categoryLabel: "Injectables",
     summary:
       "Conservative filler evaluation for selected facial or periocular volume concerns after an anatomy-focused assessment.",
     overview:

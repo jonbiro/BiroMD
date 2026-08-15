@@ -41,7 +41,7 @@ export default function ConcernsPage() {
         actions={
           <Button asChild>
             <a href="/contact">
-              Request Consultation
+              Request a Consultation
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </a>
           </Button>

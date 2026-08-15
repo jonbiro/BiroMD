@@ -14,7 +14,7 @@ const narrowNavLabels: Record<(typeof primaryNavItems)[number]["href"], string> 
   "/procedures": "Care",
   "/about": "Dr. Biro",
   "/patient-guide": "Visit",
-  "/gallery": "Results",
+  "/gallery": "Cases",
   "/locations": "Offices",
 }
 
@@ -79,10 +79,10 @@ export default function Header() {
               className="px-2 min-[360px]:px-3.5 sm:px-5 lg:px-4 xl:px-5"
               asChild
             >
-              <a href="/contact">
+              <a href="/contact" aria-label="Request a consultation">
                 <CalendarDays className="mr-1.5 h-4 w-4 sm:mr-2" aria-hidden="true" />
-                <span className="sm:hidden">Request</span>
-                <span className="hidden sm:inline">Request Visit</span>
+                <span className="sm:hidden">Consult</span>
+                <span className="hidden sm:inline">Request a Consultation</span>
               </a>
             </Button>
           </div>

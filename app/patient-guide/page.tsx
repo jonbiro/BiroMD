@@ -118,7 +118,7 @@ export default function PatientGuidePage() {
         <article id="prepare" className="panel rounded-[1.8rem] p-6 md:p-8">
           <FileHeart className="h-6 w-6 text-secondary" aria-hidden="true" />
           <h2 className="mt-4 text-3xl font-semibold text-primary">
-            What May Be Useful to Prepare
+            What to Bring to Your Consultation
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
             Requirements vary by office and concern. Ask the scheduling team what

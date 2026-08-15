@@ -78,7 +78,7 @@ export default function ReferralsPage() {
         <article className="panel rounded-[1.8rem] p-6 md:p-8">
           <FileLock2 className="h-6 w-6 text-secondary" aria-hidden="true" />
           <h2 className="mt-4 text-3xl font-semibold text-primary">
-            Information That May Help Triage
+            Information to Include with a Referral
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
             Ask the receiving office what it needs and how it wants the

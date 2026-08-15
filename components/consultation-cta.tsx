@@ -47,9 +47,7 @@ export function ConsultationCta({
                     ) : (
                       <Phone className="mr-2 h-4 w-4" aria-hidden="true" />
                     )}
-                    {office.appointmentMode === "online"
-                      ? "Request appointment"
-                      : "Call for appointment"}
+                    Request a Consultation
                   </a>
                 </Button>
                 <a

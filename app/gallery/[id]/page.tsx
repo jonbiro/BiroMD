@@ -7,6 +7,7 @@ import { ConsultationCta } from "@/components/consultation-cta"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
 import {
+  galleryCasePath,
   getPublishedGalleryCase,
   getPublishedGalleryCases,
 } from "@/lib/gallery-cases"
@@ -19,7 +20,10 @@ const emptyGalleryRoute = "gallery-under-review"
 export function generateStaticParams() {
   const cases = getPublishedGalleryCases()
   return cases.length > 0
-    ? cases.map((item) => ({ id: item.id }))
+    ? cases.flatMap((item) => [
+        { id: item.id },
+        ...(item.slug && item.slug !== item.id ? [{ id: item.slug }] : []),
+      ])
     : [{ id: emptyGalleryRoute }]
 }
 
@@ -34,7 +38,7 @@ export async function generateMetadata({
     if (id !== emptyGalleryRoute) return {}
     return {
       ...pageMetadata({
-        title: "Clinical Gallery Under Review",
+        title: "Before & After Cases Under Review",
         description:
           "Clinical cases are published only after written image authorization and final presentation review are confirmed.",
         path: "/gallery",
@@ -46,7 +50,7 @@ export async function generateMetadata({
   const metadata = pageMetadata({
     title: `${item.title} Before and After`,
     description: `${item.presentation} Review the documented surgical approach and authorized before-and-after image. Individual results vary.`,
-    path: `/gallery/${item.id}`,
+    path: galleryCasePath(item),
   })
 
   return item.sensitive
@@ -71,17 +75,17 @@ export default async function GalleryCasePage({
       <div className="page-stack">
         <PageIntro
           eyebrow="Clinical Cases"
-          title="Clinical Gallery Under Review"
+          title="Before & After Cases Under Review"
           description="Cases are published only after the practice confirms written image authorization and reviews the final presentation."
           breadcrumbs={[
-            { label: "Gallery", href: "/gallery" },
+            { label: "Before & After", href: "/gallery" },
             { label: "Under review" },
           ]}
           actions={
             <Button variant="outline" asChild>
               <a href="/gallery">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Return to Gallery
+                Return to Before & After
               </a>
             </Button>
           }
@@ -94,7 +98,7 @@ export default async function GalleryCasePage({
     .map((slug) => getProcedure(slug))
     .filter((procedure) => procedure !== undefined)
   const primaryImage = item.images[0]
-  const pageUrl = absoluteUrl(`/gallery/${item.id}`)
+  const pageUrl = absoluteUrl(galleryCasePath(item))
   const imageObjects = item.images.map((image) => ({
     "@type": "ImageObject",
     contentUrl: absoluteUrl(image.imagePath),
@@ -130,7 +134,7 @@ export default async function GalleryCasePage({
         "@id": `${pageUrl}#breadcrumb`,
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
-          { "@type": "ListItem", position: 2, name: "Gallery", item: absoluteUrl("/gallery") },
+          { "@type": "ListItem", position: 2, name: "Before & After", item: absoluteUrl("/gallery") },
           { "@type": "ListItem", position: 3, name: item.title, item: pageUrl },
         ],
       },
@@ -148,7 +152,7 @@ export default async function GalleryCasePage({
         title={`${item.title} Before and After`}
         description="An authorized clinical case showing the presenting concern and surgical approach. Every patient heals differently, and individual results vary."
         breadcrumbs={[
-          { label: "Gallery", href: "/gallery" },
+          { label: "Before & After", href: "/gallery" },
           { label: item.title },
         ]}
         actions={
@@ -156,7 +160,7 @@ export default async function GalleryCasePage({
             <Button asChild>
               <a href="/contact">
                 <CalendarDays className="mr-2 h-4 w-4" />
-                Request Consultation
+                Request a Consultation
               </a>
             </Button>
             <Button variant="outline" asChild>

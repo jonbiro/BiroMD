@@ -13,7 +13,7 @@ import { servicePathways } from "@/lib/services"
 export const metadata = pageMetadata({
   title: "Services",
   description:
-    "Compare cosmetic, reconstructive, and non-surgical oculoplastic care pathways and review individual procedures.",
+    "Compare cosmetic, reconstructive, and injectable oculoplastic care pathways and review individual procedures.",
   path: "/services",
 })
 
@@ -28,8 +28,8 @@ export default function ServicesPage() {
     <div className="page-stack">
       <PageIntro
         eyebrow="Services"
-        title="Care Planned Around Your Goals"
-        description="Start with the type of concern you want evaluated. Each care pathway links to procedure guides that explain what a consultation may cover."
+        title="Choose the Type of Care You Need"
+        description="Start with the type of care you want to explore. Each pathway links to the complete procedure directory and explains what a consultation may cover."
       />
 
       <section className="site-container px-4 md:px-6">
@@ -92,7 +92,7 @@ export default function ServicesPage() {
           </div>
           <Button className="mt-5 shrink-0 md:mt-0" asChild>
             <a href="/contact">
-              Request Consultation
+              Request a Consultation
               <ArrowRight className="ml-2 h-4 w-4" />
             </a>
           </Button>

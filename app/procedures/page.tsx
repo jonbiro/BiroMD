@@ -30,7 +30,7 @@ export default function ProceduresPage() {
       <PageIntro
         eyebrow="Procedures"
         title="Procedures and Treatment Options"
-        description="Learn what each procedure is for, what the evaluation may cover, and which questions to bring to your consultation."
+        description="Browse the complete treatment directory. Each guide explains what the procedure is for, what an evaluation may cover, and which questions to bring to your consultation."
       />
 
       <section className="site-container px-4 md:px-6">
@@ -109,7 +109,7 @@ export default function ProceduresPage() {
           </div>
           <Button className="mt-5 shrink-0 md:mt-0" asChild>
             <a href="/contact">
-              Request Consultation
+              Request a Consultation
               <ArrowRight className="ml-2 h-4 w-4" />
             </a>
           </Button>

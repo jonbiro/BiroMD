@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next"
 import { patientConcerns } from "@/lib/concerns"
-import { getPublishedGalleryCases } from "@/lib/gallery-cases"
+import { galleryCasePath, getPublishedGalleryCases } from "@/lib/gallery-cases"
 import { procedures } from "@/lib/procedures"
 import { absoluteUrl, offices } from "@/lib/site"
 
@@ -63,7 +63,7 @@ const entries: SitemapEntry[] = [
     changeFrequency: "monthly" as const,
   })),
   ...getPublishedGalleryCases().map((item) => ({
-    path: `/gallery/${item.id}`,
+    path: galleryCasePath(item),
     priority: 0.65,
     changeFrequency: "yearly" as const,
   })),

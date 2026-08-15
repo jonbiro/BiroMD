@@ -27,9 +27,14 @@ export function Hero() {
       <div className="site-container relative z-10 px-4 md:px-6">
         <div className="panel-strong grid items-center gap-4 overflow-hidden rounded-[1.7rem] p-4 min-[360px]:p-5 md:grid-cols-[1.05fr_0.95fr] md:items-start md:gap-8 md:rounded-[2rem] md:p-8 lg:gap-12 lg:p-10 xl:p-12">
           <div className="contents md:relative md:block md:space-y-5 lg:space-y-6">
-            <a href="/locations" className="eyebrow order-1 justify-self-start transition-colors hover:bg-secondary/15">
+            <a
+              href="/locations"
+              aria-label="View offices in the Greater Los Angeles area"
+              className="eyebrow order-1 justify-self-start transition-colors hover:bg-secondary/15"
+            >
               <MapPin className="h-3.5 w-3.5" />
-              Serving Greater Los Angeles
+              <span>Greater Los Angeles offices</span>
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
             </a>
 
             <div className="order-2 space-y-2.5 lg:space-y-4">
@@ -48,7 +53,7 @@ export function Hero() {
               <Button size="lg" className="col-span-2 w-full sm:w-auto" asChild>
                 <a href="/contact">
                   <CalendarDays className="mr-2 h-4 w-4" />
-                  Request Consultation
+                  Request a Consultation
                 </a>
               </Button>
               <Button
@@ -63,9 +68,9 @@ export function Hero() {
                 </a>
               </Button>
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
-                className="w-full px-2 text-xs min-[400px]:text-sm sm:w-auto sm:px-4"
+                className="w-full px-2 text-xs text-secondary hover:bg-secondary/10 hover:text-secondary min-[400px]:text-sm sm:w-auto sm:px-3"
                 asChild
               >
                 <a href="/about">
@@ -110,7 +115,7 @@ export function Hero() {
                 </h2>
               </div>
               <p className="mt-1.5 text-[0.68rem] leading-snug text-muted-foreground">
-                Profiles are managed by each publisher; BiroMD does not republish reviews.
+                Explore independent profiles. Ratings and reviews are hosted and managed by each publisher; BiroMD does not edit or republish them.
               </p>
             </div>
             <div className="mt-3 flex flex-wrap gap-2 md:mt-0 md:justify-end">

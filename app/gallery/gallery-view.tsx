@@ -10,7 +10,7 @@ import { ClinicalComparisonPreview } from "@/components/clinical-comparison-prev
 import { ClinicalImageCover } from "@/components/clinical-image-cover"
 import { ClinicalCaseImage } from "@/components/clinical-case-image"
 import { Button } from "@/components/ui/button"
-import type { GalleryCase } from "@/lib/gallery-cases"
+import { galleryCasePath, type GalleryCase } from "@/lib/gallery-cases"
 import { cn } from "@/lib/utils"
 
 type GalleryViewProps = { cases: GalleryCase[] }
@@ -34,9 +34,9 @@ export function GalleryView({ cases }: GalleryViewProps) {
           <p className="mt-1 text-muted-foreground">
             These cases are published with written authorization. Framing and file
             format may be standardized; anatomy and outcomes are not retouched.
-            Sensitive surgical photographs stay covered and do not load unless you
-            choose to view them.
-            Individual results vary.
+            Sensitive clinical photographs stay covered and do not load unless you
+            choose to view them. Lighting, angle, framing, and healing stage may differ;
+            individual results vary.
           </p>
         </div>
       </div>
@@ -67,7 +67,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
 
       {cases.length === 0 ? (
         <div className="panel rounded-[2rem] p-8 text-center md:p-10">
-          <h2 className="text-3xl font-semibold text-primary">Clinical gallery under review</h2>
+          <h2 className="text-3xl font-semibold text-primary">Before &amp; After cases under review</h2>
           <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
             Cases are published only after the practice confirms written image
             authorization and reviews the final presentation. Contact an office
@@ -144,7 +144,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
                   </div>
                   <p className="text-sm leading-relaxed text-muted-foreground">{item.presentation}</p>
                   <Button variant="outline" asChild className="w-full sm:w-auto">
-                    <a href={`/gallery/${item.id}`}>
+                    <a href={galleryCasePath(item)}>
                       {item.images.length > 1 ? `View all ${item.images.length} comparisons` : "Read case details"}
                     </a>
                   </Button>

@@ -33,6 +33,9 @@ const concernSlugs = [
   "bulging-eyes-thyroid-eye-disease",
   "sudden-eyelid-drooping",
 ]
+const galleryRouteAliases = {
+  "eyelid-trauma": "mohs-eyelid-reconstruction",
+}
 if (!process.env.GALLERY_AUTHORIZED_CASE_IDS?.trim()) {
   console.error(
     "GALLERY_AUTHORIZED_CASE_IDS is required. Set the approved case IDs explicitly " +
@@ -53,7 +56,10 @@ const routes = [
   "/patient-guide",
   ...procedureSlugs.map((slug) => `/procedures/${slug}`),
   "/gallery",
-  ...[...authorized].map((id) => `/gallery/${id}`),
+  ...[...authorized].flatMap((id) => [
+    `/gallery/${id}`,
+    ...(galleryRouteAliases[id] ? [`/gallery/${galleryRouteAliases[id]}`] : []),
+  ]),
   "/contact",
   "/locations",
   "/locations/westlake-village",

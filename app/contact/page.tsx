@@ -2,7 +2,6 @@ import {
   AlertTriangle,
   ArrowUpRight,
   CalendarDays,
-  ChevronDown,
   LockKeyhole,
   Mail,
   MapPin,
@@ -58,26 +57,49 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="site-container px-4 md:px-6" aria-label="Questions to confirm">
-        <details className="group rounded-2xl border border-border bg-card px-5 py-4 shadow-sm">
-          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 font-semibold text-foreground marker:content-none">
-            Questions worth confirming with your chosen office
-            <ChevronDown
-              className="h-5 w-5 shrink-0 text-secondary transition-transform group-open:rotate-180"
-              aria-hidden="true"
-            />
-          </summary>
-          <div className="grid gap-3 border-t border-border pb-1 pt-4 sm:grid-cols-2">
-            {appointmentQuestions.map((question) => (
+      <section className="site-container px-4 md:px-6" aria-labelledby="confirm-before-request">
+        <div className="panel rounded-[1.8rem] p-6 md:p-8">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
+              Before you request
+            </p>
+            <h2 id="confirm-before-request" className="mt-2 text-3xl font-semibold text-primary">
+              What to confirm with the office
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Scheduling details vary by office. The team can explain fees, insurance,
+              referrals, visit length, preparation, and payment options before your appointment.
+            </p>
+          </div>
+          <div className="mt-6 grid gap-3 md:grid-cols-3">
+            {appointmentQuestions.slice(0, 3).map((question) => (
               <div key={question.title} className="rounded-xl bg-accent/55 p-4">
-                <h2 className="font-sans text-sm font-semibold text-foreground">
+                <h3 className="font-sans text-sm font-semibold text-foreground">
                   {question.title}
-                </h2>
+                </h3>
                 <p className="mt-1.5 text-sm text-muted-foreground">{question.detail}</p>
               </div>
             ))}
           </div>
-        </details>
+          {appointmentQuestions.length > 3 ? (
+            <details className="group mt-4 rounded-xl border border-border bg-card px-4 py-3">
+              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-foreground marker:content-none">
+                More questions to confirm
+                <span className="text-secondary transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
+              <div className="grid gap-3 border-t border-border pb-1 pt-4 sm:grid-cols-2">
+                {appointmentQuestions.slice(3).map((question) => (
+                  <div key={question.title} className="rounded-xl bg-accent/55 p-4">
+                    <h3 className="font-sans text-sm font-semibold text-foreground">
+                      {question.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm text-muted-foreground">{question.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </details>
+          ) : null}
+        </div>
       </section>
 
       <section className="site-container px-4 md:px-6" aria-labelledby="office-options">
@@ -116,9 +138,7 @@ export default function ContactPage() {
                     ) : (
                       <PhoneCall className="mr-2 h-4 w-4" />
                     )}
-                    {office.appointmentMode === "online"
-                      ? `Request at ${office.name}`
-                      : `Call ${office.name}`}
+                    Request a Consultation
                     {office.appointmentMode === "online" && (
                       <ArrowUpRight className="ml-2 h-4 w-4" />
                     )}
@@ -126,8 +146,8 @@ export default function ContactPage() {
                 </Button>
                 <p className="text-center text-xs text-muted-foreground">
                   {office.appointmentMode === "online"
-                    ? "Opens the office's appointment-request service."
-                    : "Calls the office's scheduling team directly."}
+                    ? "Online scheduling through the office's appointment-request service."
+                    : "Call the office's scheduling team to request a consultation."}
                 </p>
                 <div className="grid gap-3">
                   <Button variant="outline" asChild>

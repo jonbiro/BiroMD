@@ -119,7 +119,7 @@ export default async function LocationPage({
       <PageIntro
         eyebrow="Office Location"
         title={`Oculoplastic Care in ${office.name}`}
-        description={`Consultations with ${siteConfig.shortName} are available through ${office.practiceName}. ${office.appointmentMode === "online" ? "Request an appointment online or call the office directly." : "Call the office directly to request an appointment."}`}
+        description={`Consultations with ${siteConfig.shortName} are available through ${office.practiceName}. ${office.appointmentMode === "online" ? "Request a consultation online or call the office directly." : "Call the office directly to request a consultation."}`}
         breadcrumbs={[
           { label: "Offices", href: "/locations" },
           { label: office.name },
@@ -133,9 +133,7 @@ export default async function LocationPage({
                 ) : (
                   <Phone className="mr-2 h-4 w-4" />
                 )}
-                {office.appointmentMode === "online"
-                  ? "Request Appointment"
-                  : "Call for Appointment"}
+                Request a Consultation
               </a>
             </Button>
             <Button variant="outline" asChild>
@@ -184,7 +182,7 @@ export default async function LocationPage({
             </Button>
             <Button variant="outline" asChild>
               <a href={office.practiceUrl}>
-                Practice Website
+                Visit {office.practiceName}
                 <ArrowUpRight className="ml-2 h-4 w-4" />
               </a>
             </Button>

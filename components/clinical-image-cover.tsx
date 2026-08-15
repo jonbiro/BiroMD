@@ -39,7 +39,7 @@ export function ClinicalImageCover({
           </p>
           <p className="mt-2 text-sm font-medium leading-relaxed text-foreground">{label}</p>
           <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-            The photograph is hidden until you choose to view it.
+            Sensitive clinical image. Choose &quot;View Sensitive Image&quot; to reveal it.
           </p>
           <Button
             type="button"

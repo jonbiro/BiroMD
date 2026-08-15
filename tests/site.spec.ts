@@ -30,6 +30,11 @@ const galleryCaseIds = (process.env.GALLERY_AUTHORIZED_CASE_IDS ?? "")
   .map((id) => id.trim())
   .filter(Boolean)
 
+const galleryRouteAliases: Record<string, string> = {
+  "eyelid-trauma": "mohs-eyelid-reconstruction",
+}
+const galleryPathForId = (id: string) => `/gallery/${galleryRouteAliases[id] ?? id}`
+
 const publicRoutes = [
   "/",
   "/about",
@@ -103,7 +108,7 @@ async function expectMinimumTargetHeight(locator: Locator, context: string) {
 
 test("primary consultation action is readable in light and dark mode", async ({ page }) => {
   await page.goto("/")
-  const cta = page.getByRole("link", { name: "Request Consultation" }).first()
+  const cta = page.getByRole("link", { name: "Request a Consultation" }).first()
   await expect(cta).toBeVisible()
   expect(await textContrast(cta)).toBeGreaterThanOrEqual(4.5)
 
@@ -186,7 +191,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
 
   const navigation = page.getByRole("navigation", { name: "Primary" })
   await expect(navigation).toBeVisible()
-  for (const name of ["Symptoms", "Procedures", "Dr. Biro", "Your Visit", "Results", "Offices"]) {
+  for (const name of ["Symptoms", "Procedures", "Dr. Biro", "Your Visit", "Before & After", "Offices"]) {
     await expect(navigation.getByRole("link", { name, exact: true })).toBeVisible()
   }
   const navItemsHaveDistinctSurfaces = await navigation.getByRole("link").evaluateAll((links) =>
@@ -245,9 +250,9 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   const narrowNavigation = page.getByRole("navigation", { name: "Primary" })
   const mobileBookingLink = page
     .locator("[data-header-actions]")
-    .getByRole("link", { name: "Request", exact: true })
+    .getByRole("link", { name: "Request a consultation", exact: true })
   await expect(mobileBookingLink).toBeVisible()
-  await expect(mobileBookingLink).not.toHaveAttribute("aria-label")
+  await expect(mobileBookingLink).toHaveAttribute("aria-label", "Request a consultation")
   const labelsFit = await narrowNavigation.getByRole("link").evaluateAll((links) =>
     links.every((link) => {
       const visibleLabel = [...link.querySelectorAll("span")].find(
@@ -263,7 +268,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   const narrowLabels = await narrowNavigation.getByRole("link").evaluateAll((links) =>
     links.map((link) => (link as HTMLElement).innerText.trim())
   )
-  expect(narrowLabels).toEqual(["Signs", "Care", "Dr. Biro", "Visit", "Results", "Offices"])
+  expect(narrowLabels).toEqual(["Signs", "Care", "Dr. Biro", "Visit", "Cases", "Offices"])
   const labelsAreReadable = await narrowNavigation.getByRole("link").evaluateAll((links) =>
     links.every((link) => Number.parseFloat(getComputedStyle(link).fontSize) >= 11)
   )
@@ -321,7 +326,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     navigationBeforeActions: true,
     centersAligned: true,
   })
-  await expect(page.getByText("Request Visit", { exact: true })).toBeVisible()
+  await expect(page.getByRole("link", { name: "Request a consultation", exact: true })).toBeVisible()
   await expectNoHorizontalOverflow(page)
 
   await page.goto("/procedures/ptosis-repair")
@@ -400,29 +405,29 @@ test("contact page uses official office request links", async ({ page }) => {
       page.locator("main").getByRole("link", { name: office, exact: true }).first()
     ).toHaveAttribute("href", /^#schedule-/)
   }
-  await expect(page.getByRole("link", { name: "Request at Westlake Village" })).toHaveAttribute(
+  await expect(page.locator('main a[href*="solutionreach"]').first()).toHaveAttribute(
     "href",
     /solutionreach\.com/
   )
-  await expect(page.getByRole("link", { name: "Request at Rancho Cucamonga" })).toHaveAttribute(
+  await expect(page.locator('main a[href="https://www.pacificeyemd.com/request-an-appointment/"]').first()).toHaveAttribute(
     "href",
     "https://www.pacificeyemd.com/request-an-appointment/"
   )
-  await expect(page.getByRole("link", { name: "Call Burbank" })).toHaveAttribute(
+  await expect(page.locator('#schedule-burbank a[href="tel:+18187620647"]').first()).toHaveAttribute(
     "href",
     "tel:+18187620647"
   )
   await expect(
-    page.getByRole("link", { name: "Request at Downtown Los Angeles" })
+    page.locator('main a[href="https://www.lasereyecenter.com/locations/#site-contact-form"]').first()
   ).toHaveAttribute(
     "href",
     "https://www.lasereyecenter.com/locations/#site-contact-form"
   )
   await expect(page.getByText(/For routine, non-urgent appointments/)).toBeVisible()
   await expect(page.getByText(/The office will contact you to confirm/)).toBeVisible()
-  const questions = page.getByText("Questions worth confirming with your chosen office")
+  const questions = page.getByRole("heading", { name: "What to confirm with the office" })
   await expect(questions).toBeVisible()
-  await questions.click()
+  await page.getByText("More questions to confirm").click()
   await expect(page.getByRole("heading", { name: "Timing and preparation" })).toBeVisible()
   await expect(page.getByText(/whether testing or dilation may be needed/i)).toBeVisible()
   const emergencyNotice = page.locator("[data-emergency-notice]")
@@ -454,8 +459,8 @@ test("new patient guide resolves common scheduling friction", async ({ page }) =
   await expect(
     page.getByRole("heading", { name: "Choose an Office to Request a Consultation" })
   ).toBeVisible()
-  await expect(page.getByRole("link", { name: "Request appointment" })).toHaveCount(3)
-  await expect(page.getByRole("link", { name: "Call for appointment" })).toHaveAttribute(
+  await expect(page.locator("main").getByRole("link", { name: "Request a Consultation" })).toHaveCount(4)
+  await expect(page.locator('main a[href="tel:+18187620647"]').first()).toHaveAttribute(
     "href",
     "tel:+18187620647"
   )
@@ -488,11 +493,11 @@ test("office pages provide portable contact cards", async ({ page }) => {
     "Oculoplastic Care in Burbank"
   )
   await expect(page.getByText(/2031 W Alameda Ave, Suite 300/).first()).toBeVisible()
-  await expect(page.getByRole("link", { name: "Call for Appointment" })).toHaveAttribute(
+  await expect(page.locator('main a[href="tel:+18187620647"]').first()).toHaveAttribute(
     "href",
     "tel:+18187620647"
   )
-  await expect(page.getByRole("link", { name: "Practice Website" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "Visit A Center for Vision Care" })).toHaveAttribute(
     "href",
     "https://www.acvci.com/"
   )
@@ -506,11 +511,11 @@ test("office pages provide portable contact cards", async ({ page }) => {
     "Oculoplastic Care in Downtown Los Angeles"
   )
   await expect(page.getByText(/1127 Wilshire Blvd, Suite 1209/).first()).toBeVisible()
-  await expect(page.getByRole("link", { name: "Request Appointment" })).toHaveAttribute(
+  await expect(page.locator('main a[href="https://www.lasereyecenter.com/locations/#site-contact-form"]').first()).toHaveAttribute(
     "href",
     "https://www.lasereyecenter.com/locations/#site-contact-form"
   )
-  await expect(page.getByRole("link", { name: "Practice Website" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "Visit Laser Eye Center" })).toHaveAttribute(
     "href",
     "https://www.lasereyecenter.com/dr-nicolas-biro/"
   )
@@ -615,7 +620,7 @@ test("authorized gallery cases have shareable detail pages", async ({ page }) =>
 
   const caseId = galleryCaseIds[0]
   await page.goto("/gallery")
-  await expect(page.locator(`a[href="/gallery/${caseId}"]`).first()).toBeVisible()
+  await expect(page.locator(`a[href="${galleryPathForId(caseId)}"]`).first()).toBeVisible()
 
   await page.goto(`/gallery/${caseId}`)
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Before and After")
@@ -623,7 +628,7 @@ test("authorized gallery cases have shareable detail pages", async ({ page }) =>
   await expect(page.getByText("After", { exact: true }).first()).toBeVisible()
   await expect(page.getByRole("heading", { name: "What Was Evaluated" })).toBeVisible()
   await expect(page.getByRole("heading", { name: "Results Are Individual" })).toBeVisible()
-  await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText("Gallery")
+  await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText("Before & After")
   const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
   expect(schemas.some((schema) => schema.includes('"ImageObject"'))).toBe(true)
   await expectNoHorizontalOverflow(page)
@@ -669,7 +674,7 @@ test("graphic gallery cases require an explicit reveal", async ({ page }) => {
   const dialogSource = dialog.locator('source[type="image/avif"]').first()
 
   await expect(warning).toBeVisible()
-  await expect(clinicalCase.getByText(/hidden until you choose to view it/i)).toBeVisible()
+  await expect(clinicalCase.getByText(/sensitive clinical image/i)).toBeVisible()
   await expect(page.getByText(/do not load unless you choose to view them/i)).toBeVisible()
   await expect(clinicalCase.locator("[data-sensitive-preview]")).toHaveAttribute(
     "src",
@@ -854,8 +859,8 @@ test("symptom guides explain evaluation and urgent next steps", async ({ page })
   await expect(page.locator('main a[href^="/concerns/"]')).toHaveCount(7)
 
   await page.goto("/concerns/droopy-heavy-upper-eyelids")
-  await expect(page.getByRole("heading", { name: "Possible contributors" })).toBeVisible()
-  await expect(page.getByRole("heading", { name: "What Evaluation May Cover" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "What May Contribute" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "What Dr. Biro Checks" })).toBeVisible()
   await expect(page.getByRole("heading", { name: "Clinical references" })).toBeVisible()
   await expect(page.getByRole("link", { name: "Ptosis Repair" })).toHaveAttribute(
     "href",
@@ -874,7 +879,7 @@ test("symptom guides explain evaluation and urgent next steps", async ({ page })
     "href",
     "#urgent-guidance"
   )
-  await expect(urgentIntro.getByRole("link", { name: "Request Consultation" })).toHaveCount(0)
+  await expect(urgentIntro.getByRole("link", { name: "Request a Consultation" })).toHaveCount(0)
   const urgentGuidance = page.locator("#urgent-guidance")
   await expect(
     urgentGuidance.getByRole("heading", { name: "Do not wait for routine web scheduling" })
@@ -890,7 +895,7 @@ test("symptom guides explain evaluation and urgent next steps", async ({ page })
   expect(navigationBox).not.toBeNull()
   expect(urgentBox!.y).toBeLessThan(navigationBox!.y)
   await expect(
-    page.locator("main").getByRole("link", { name: /Request (Consultation|appointment)/i })
+    page.locator("main").getByRole("link", { name: /Request( a)? Consultation/i })
   ).toHaveCount(0)
 })
 
@@ -915,8 +920,8 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
   const nextStep = page.getByRole("heading", { name: "Discuss Your Concern with Dr. Biro" })
     .locator("xpath=ancestor::section")
 
-  await expect(nextStep.getByRole("link", { name: "Request appointment" })).toHaveCount(3)
-  await expect(nextStep.getByRole("link", { name: "Call for appointment" })).toHaveAttribute(
+  await expect(nextStep.getByRole("link", { name: "Request a Consultation" })).toHaveCount(4)
+  await expect(nextStep.locator('a[href="tel:+18187620647"]').first()).toHaveAttribute(
     "href",
     "tel:+18187620647"
   )
@@ -926,7 +931,7 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
   )
   await expect(page.locator('meta[name="description"]')).toHaveAttribute(
     "content",
-    /serves Los Angeles patients/
+    /serves patients across the Greater Los Angeles area/
   )
 
   await page.goto("/about")
@@ -984,7 +989,7 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
     (main.textContent ?? "").trim().split(/\s+/).filter(Boolean).length
   )
   expect(wordCount).toBeLessThanOrEqual(225)
-  await expect(page.getByRole("link", { name: "Request Consultation" }).first()).toBeVisible()
+  await expect(page.getByRole("link", { name: "Request a Consultation" }).first()).toBeVisible()
   await expect(page.locator("[data-concern-finder]").locator('a[href^="/concerns/"]')).toHaveCount(6)
   const mobileCarePathways = page.locator("[data-mobile-care-pathway]")
   await expect(mobileCarePathways).toHaveCount(4)
@@ -1008,7 +1013,7 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
   ).toHaveAttribute("href", "/procedures#reconstructive-oculoplastics")
   await expect(page.getByRole("heading", { name: "Independent Patient Feedback" })).toBeVisible()
   await expect(
-    page.getByText("Serving patients in the greater Los Angeles area").first()
+    page.getByText("Serving patients across the greater Los Angeles area").first()
   ).toBeVisible()
   await expect(page.getByText("Clinical Approach", { exact: true })).toHaveCount(0)
 })
@@ -1018,8 +1023,8 @@ test("mobile footer keeps the next step visible and details compact", async ({ p
   await page.goto("/")
 
   const footer = page.locator("footer")
-  await expect(footer.getByRole("link", { name: "Request Consultation" })).toBeVisible()
-  await expect(footer.getByText(/Serving patients in the greater Los Angeles area/)).toBeVisible()
+  await expect(footer.getByRole("link", { name: "Request a Consultation" })).toBeVisible()
+  await expect(footer.getByText(/Serving patients across the greater Los Angeles area/)).toBeVisible()
   for (const details of await footer.locator("details.footer-disclosure").all()) {
     expect(await details.getAttribute("open")).toBeNull()
   }

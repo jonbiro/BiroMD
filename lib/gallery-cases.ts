@@ -23,6 +23,7 @@ export type GalleryCaseImage = {
 
 export type GalleryCase = {
   id: string
+  slug?: string
   title: string
   category: "cosmetic" | "reconstructive"
   categoryLabel: string
@@ -120,6 +121,7 @@ const galleryCases: GalleryCase[] = [
   },
   {
     id: "eyelid-trauma",
+    slug: "mohs-eyelid-reconstruction",
     title: "Mohs Cancer Removal Reconstruction",
     category: "reconstructive",
     categoryLabel: "Reconstructive Oculoplastics",
@@ -187,5 +189,9 @@ export function getPublishedGalleryCases(): GalleryCase[] {
 }
 
 export function getPublishedGalleryCase(id: string): GalleryCase | undefined {
-  return getPublishedGalleryCases().find((item) => item.id === id)
+  return getPublishedGalleryCases().find((item) => item.id === id || item.slug === id)
+}
+
+export function galleryCasePath(item: Pick<GalleryCase, "id" | "slug">): string {
+  return `/gallery/${item.slug ?? item.id}`
 }

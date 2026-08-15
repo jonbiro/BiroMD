@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { pageMetadata, siteConfig } from "@/lib/site"
 
 export const metadata = pageMetadata({
-  title: "Office Locations",
+  title: "Find an Office",
   description:
     "Find office and appointment information for Dr. Nicolas Biro in downtown Los Angeles, Burbank, Westlake Village, and Rancho Cucamonga.",
   path: "/locations",
@@ -15,8 +15,8 @@ export default function LocationsPage() {
     <div className="page-stack">
       <PageIntro
         eyebrow="Locations"
-        title="Choose Your Convenient Office"
-        description="Dr. Biro sees patients at four Los Angeles-area offices. Request online where available, or call the office directly."
+        title="Find an Office"
+        description="Dr. Biro sees patients at four offices across the Greater Los Angeles area. Request a consultation online where available, or call the office directly."
       />
       <section className="site-container grid gap-6 px-4 lg:grid-cols-2 md:px-6">
         {siteConfig.offices.map((office) => (
@@ -42,9 +42,7 @@ export default function LocationsPage() {
                   ) : (
                     <Phone className="mr-2 h-4 w-4" />
                   )}
-                  {office.appointmentMode === "online"
-                    ? "Request Appointment"
-                    : "Call for Appointment"}
+                  Request a Consultation
                 </a>
               </Button>
               <Button variant="outline" className="w-full" asChild>

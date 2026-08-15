@@ -122,7 +122,7 @@ export default async function ConcernPage({
               <Button asChild>
                 <a href="/contact">
                   <CalendarDays className="mr-2 h-4 w-4" aria-hidden="true" />
-                  Request Consultation
+                  Request a Consultation
                 </a>
               </Button>
             )}
@@ -178,15 +178,15 @@ export default async function ConcernPage({
           className="panel rounded-[1.8rem] p-6 md:p-8"
         >
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-            Why evaluation matters
+            Possible causes
           </p>
           <h2 className="mt-2 text-3xl font-semibold text-primary">
-            One Symptom Can Have Different Contributors
+            Why This Can Happen
           </h2>
           <p className="mt-4 text-muted-foreground">{concern.overview}</p>
 
           <h3 className="mt-8 text-2xl font-semibold text-primary">
-            Possible contributors
+            What May Contribute
           </h3>
           <ul className="mt-4 space-y-3">
             {concern.possibleContributors.map((item) => (
@@ -201,7 +201,7 @@ export default async function ConcernPage({
         <aside id="evaluation" className="panel rounded-[1.8rem] p-6 md:p-8">
           <ClipboardCheck className="h-6 w-6 text-secondary" aria-hidden="true" />
           <h2 className="mt-4 text-3xl font-semibold text-primary">
-            What Evaluation May Cover
+            What Dr. Biro Checks
           </h2>
           <ul className="mt-5 space-y-4">
             {concern.evaluation.map((item) => (

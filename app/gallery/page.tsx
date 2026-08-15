@@ -5,7 +5,7 @@ import { PageIntro } from "@/components/page-intro"
 import { GalleryView } from "./gallery-view"
 
 export const metadata: Metadata = pageMetadata({
-  title: "Before & After Photos",
+  title: "Before & After Cases",
   description:
     "View authorized clinical before-and-after cases for cosmetic and reconstructive procedures performed by Dr. Nicolas Biro.",
   path: "/gallery",
@@ -19,7 +19,7 @@ export default function GalleryPage() {
       <PageIntro
         eyebrow="Clinical Cases"
         title="Authorized Before-and-After Cases"
-        description="Browse selected, authorized clinical cases with matched views where available. Photos are for education only, and individual results vary."
+        description="Browse selected, authorized clinical cases with matched views where available. Photos are for education only; lighting, angle, framing, and healing stage may differ, and individual results vary."
       />
       <div className="site-container px-4 md:px-6">
         <GalleryView cases={publishedCases} />

@@ -21,7 +21,7 @@ export const servicePathways = [
   },
   {
     id: "non-surgical-treatments",
-    title: "Non-Surgical Treatments",
+    title: "Injectables",
     summary:
       "Conservative injectable options for selected patients after an assessment of anatomy, goals, and medical history.",
     highlights: ["Botulinum toxin injections", "Dermal fillers"],

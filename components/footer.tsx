@@ -26,12 +26,12 @@ export default function Footer() {
                 function, facial anatomy, and each patient&apos;s goals.
               </p>
               <p className="text-xs font-medium text-foreground/85">
-                Serving patients in {siteConfig.serviceAreaLabel}
+                Serving patients across {siteConfig.serviceAreaLabel}
               </p>
               <Button size="sm" asChild>
                 <a href="/contact">
                   <CalendarDays className="mr-2 h-4 w-4" />
-                  Request Consultation
+                  Request a Consultation
                 </a>
               </Button>
             </div>
@@ -57,7 +57,7 @@ export default function Footer() {
                     >
                       {office.name}
                     </a>
-                    <p className="flex items-start gap-2 text-muted-foreground">
+                    <p className="hidden items-start gap-2 text-muted-foreground md:flex">
                       <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-secondary" />
                       <span>{office.address}</span>
                     </p>
@@ -67,6 +67,13 @@ export default function Footer() {
                         {office.phoneDisplay}
                       </a>
                     </p>
+                    <a
+                      href={`/locations/${office.id}`}
+                      className="inline-flex min-h-10 items-center text-xs font-semibold text-secondary hover:underline md:hidden"
+                    >
+                      View office details
+                      <ArrowUpRight className="ml-1 h-3.5 w-3.5" aria-hidden="true" />
+                    </a>
                   </li>
                 ))}
                 </ul>

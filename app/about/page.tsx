@@ -16,15 +16,15 @@ import { pageMetadata, siteConfig } from "@/lib/site"
 export const metadata = pageMetadata({
   title: "About Dr. Biro",
   description:
-    "Learn about Dr. Nicolas Biro's board-certified ophthalmology training, Wills Eye fellowship, and oculoplastic focus serving Los Angeles patients.",
+    "Learn about Dr. Nicolas Biro's board-certified ophthalmology training, Wills Eye fellowship, and oculoplastic focus serving patients across the Greater Los Angeles area.",
   path: "/about",
 })
 
 const milestones = [
-  { year: "2005", title: "M.D., University of South Florida College of Medicine" },
-  { year: "2006", title: "Internship, New York University Medical Center" },
-  { year: "2012", title: "Ophthalmology Residency, University of South Florida" },
-  { year: "2014", title: "Oculoplastic Fellowship, Wills Eye Hospital" },
+  { year: "2005", title: "M.D., University of South Florida" },
+  { year: "2006", title: "Internship, NYU Medical Center" },
+  { year: "2012", title: "Ophthalmology residency, University of South Florida" },
+  { year: "2014", title: "Oculoplastic fellowship, Wills Eye Hospital" },
 ]
 
 export default function AboutPage() {
@@ -34,22 +34,8 @@ export default function AboutPage() {
         eyebrow="Meet the Surgeon"
         title="Ophthalmology Training. Oculoplastic Care."
         description={`${siteConfig.shortName} is a board-certified ophthalmologist with advanced fellowship training in oculoplastic and orbital surgery. His approach considers both eye function and the surrounding facial anatomy.`}
-        actions={
-          <Button asChild>
-            <a href="/contact">
-              Request Consultation
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
-          </Button>
-        }
-      />
-
-      <section
-        className="site-container px-4 md:px-6"
-        aria-label="Dr. Biro's clinical priorities and training"
-      >
-        <div className="grid items-start gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
-          <figure className="order-1 relative mx-auto w-full max-w-[560px] overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_22px_54px_rgb(5_16_32_/0.18)] lg:order-2">
+        media={
+          <figure className="relative mx-auto w-full max-w-[560px] overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_22px_54px_rgb(5_16_32_/0.18)]">
             <div className="relative aspect-[4/5]">
               <ResponsivePortrait
                 portrait="about"
@@ -61,8 +47,23 @@ export default function AboutPage() {
               <span className="mt-1 block">Board-certified ophthalmologist with fellowship training in oculoplastic and orbital surgery.</span>
             </figcaption>
           </figure>
+        }
+        actions={
+          <Button asChild>
+            <a href="/contact">
+              Request a Consultation
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </a>
+          </Button>
+        }
+      />
 
-          <div className="order-2 space-y-5 lg:order-1 lg:space-y-6">
+      <section
+        className="site-container px-4 md:px-6"
+        aria-label="Dr. Biro's clinical priorities and training"
+      >
+        <div className="grid items-start gap-5 lg:grid-cols-2 lg:gap-6">
+          <div className="space-y-5 lg:space-y-6">
             <div className="panel rounded-[1.7rem] p-5 md:p-7">
               <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
                 Clinical priorities
@@ -72,7 +73,7 @@ export default function AboutPage() {
                   <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-secondary/25 bg-card text-secondary">
                     <ShieldPlus className="h-4 w-4" aria-hidden="true" />
                   </span>
-                  <span className="pt-1">Restore eyelid function and protect the ocular surface.</span>
+                  <span className="pt-1">Restore eyelid function and protect the eye&apos;s surface.</span>
                 </li>
                 <li className="flex items-start gap-3 rounded-xl bg-accent/45 p-3">
                   <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-secondary/25 bg-card text-secondary">
