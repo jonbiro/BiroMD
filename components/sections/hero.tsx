@@ -33,7 +33,7 @@ export function Hero() {
               className="eyebrow order-1 justify-self-start transition-colors hover:bg-secondary/15"
             >
               <MapPin className="h-3.5 w-3.5" />
-              <span>Greater Los Angeles offices</span>
+              <span>Serving Greater Los Angeles</span>
               <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
             </a>
 
@@ -68,9 +68,9 @@ export function Hero() {
                 </a>
               </Button>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
-                className="w-full px-2 text-xs text-secondary hover:bg-secondary/10 hover:text-secondary min-[400px]:text-sm sm:w-auto sm:px-3"
+                className="w-full px-2 text-xs min-[400px]:text-sm sm:w-auto sm:px-4"
                 asChild
               >
                 <a href="/about">

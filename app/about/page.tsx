@@ -157,12 +157,12 @@ export default function AboutPage() {
       <section className="site-container px-4 md:px-6">
         <div className="rounded-[1.8rem] border border-primary/20 bg-primary p-8 text-primary-foreground shadow-lg md:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground/75">
-            Training and Clinical Focus
+            What This Training Means for Patients
           </p>
           <ul className="mt-4 grid gap-3 text-sm sm:grid-cols-2 md:text-base">
             <li className="flex items-start gap-2 rounded-xl bg-primary-foreground/8 p-3">
               <CheckCircle2 className="h-4 w-4" />
-              Two-year oculoplastic, orbital, and neuro-ophthalmology fellowship, Wills Eye Hospital
+              Fellowship training in oculoplastic, orbital, and neuro-ophthalmic surgery
             </li>
             <li className="flex items-start gap-2 rounded-xl bg-primary-foreground/8 p-3">
               <CheckCircle2 className="h-4 w-4" />
@@ -170,7 +170,7 @@ export default function AboutPage() {
             </li>
             <li className="flex items-start gap-2 rounded-xl bg-primary-foreground/8 p-3 sm:col-span-2">
               <CheckCircle2 className="h-4 w-4" />
-              Ophthalmology residency, University of South Florida
+              Care planned around function, natural expression, and realistic goals
             </li>
           </ul>
           <div className="mt-6 flex flex-wrap gap-3">

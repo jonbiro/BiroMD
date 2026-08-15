@@ -14,7 +14,7 @@ const narrowNavLabels: Record<(typeof primaryNavItems)[number]["href"], string> 
   "/procedures": "Care",
   "/about": "Dr. Biro",
   "/patient-guide": "Visit",
-  "/gallery": "Cases",
+  "/gallery": "Results",
   "/locations": "Offices",
 }
 
@@ -59,10 +59,10 @@ export default function Header() {
                 className={navClass}
                 suppressHydrationWarning
               >
-                <span className="min-[360px]:hidden" aria-hidden="true">
+                <span className="inline lg:hidden" aria-hidden="true">
                   {narrowNavLabels[item.href]}
                 </span>
-                <span className="hidden min-[360px]:inline" aria-hidden="true">
+                <span className="hidden lg:inline" aria-hidden="true">
                   {item.label}
                 </span>
               </a>

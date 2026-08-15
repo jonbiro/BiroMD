@@ -28,13 +28,13 @@ const requestSteps = [
     number: "01",
     title: "Choose an office",
     description:
-      "Select the most convenient of four office locations, and call if you need help choosing.",
+      "Start with the office that is most convenient for you.",
   },
   {
     number: "02",
     title: "Send a request",
     description:
-      "Use that practice's official scheduling service or call the office directly.",
+      "Use the office's official request service or call directly.",
   },
   {
     number: "03",
@@ -45,17 +45,17 @@ const requestSteps = [
 ]
 
 const preparationItems = [
-  "A short timeline of the symptoms or changes you want evaluated",
+  "A short timeline of symptoms or changes",
   "A current medication and allergy list",
-  "Relevant eye records, imaging, or prior procedure details if the office requests them",
-  "Questions about goals, alternatives, recovery, risks, cost, or coverage",
+  "Relevant eye records or prior procedure details, if requested",
+  "Questions about goals, recovery, risks, cost, or coverage",
 ]
 
 const consultationItems = [
   "Relevant medical, eye, and procedure history",
-  "A focused examination of the eyelids, eyes, tear system, orbit, or facial anatomy",
-  "Discussion of appropriate options, alternatives, limitations, and meaningful risks",
-  "Individual instructions if additional testing, records, treatment, or follow-up is appropriate",
+  "A focused examination of the relevant anatomy",
+  "Discussion of options, alternatives, limitations, and risks",
+  "Next steps for testing, records, treatment, or follow-up, if needed",
 ]
 
 export default function PatientGuidePage() {

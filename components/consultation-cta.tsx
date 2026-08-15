@@ -1,6 +1,6 @@
 import { CalendarDays, MapPin, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { siteConfig } from "@/lib/site"
+import { officeAppointmentLabel, siteConfig } from "@/lib/site"
 
 export function ConsultationCta({
   title = "Discuss Your Concern with Dr. Biro",
@@ -47,7 +47,7 @@ export function ConsultationCta({
                     ) : (
                       <Phone className="mr-2 h-4 w-4" aria-hidden="true" />
                     )}
-                    Request a Consultation
+                    {officeAppointmentLabel(office)}
                   </a>
                 </Button>
                 <a

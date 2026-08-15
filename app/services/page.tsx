@@ -11,7 +11,7 @@ import { pageMetadata } from "@/lib/site"
 import { servicePathways } from "@/lib/services"
 
 export const metadata = pageMetadata({
-  title: "Services",
+  title: "Care Pathways",
   description:
     "Compare cosmetic, reconstructive, and injectable oculoplastic care pathways and review individual procedures.",
   path: "/services",
@@ -27,9 +27,9 @@ export default function ServicesPage() {
   return (
     <div className="page-stack">
       <PageIntro
-        eyebrow="Services"
-        title="Choose the Type of Care You Need"
-        description="Start with the type of care you want to explore. Each pathway links to the complete procedure directory and explains what a consultation may cover."
+        eyebrow="Care Pathways"
+        title="Choose a Care Pathway"
+        description="Start with the area of care you want to explore. Each pathway connects to the procedure directory and explains what a consultation may cover."
       />
 
       <section className="site-container px-4 md:px-6">

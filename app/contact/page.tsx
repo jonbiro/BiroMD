@@ -11,7 +11,7 @@ import {
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
 import { appointmentQuestions } from "@/lib/appointment"
-import { pageMetadata, siteConfig } from "@/lib/site"
+import { officeAppointmentLabel, pageMetadata, siteConfig } from "@/lib/site"
 
 export const metadata = pageMetadata({
   title: "Request a Consultation",
@@ -138,7 +138,7 @@ export default function ContactPage() {
                     ) : (
                       <PhoneCall className="mr-2 h-4 w-4" />
                     )}
-                    Request a Consultation
+                    {officeAppointmentLabel(office)}
                     {office.appointmentMode === "online" && (
                       <ArrowUpRight className="ml-2 h-4 w-4" />
                     )}

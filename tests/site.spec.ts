@@ -193,7 +193,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
 
   const navigation = page.getByRole("navigation", { name: "Primary" })
   await expect(navigation).toBeVisible()
-  for (const name of ["Symptoms", "Procedures", "Dr. Biro", "Your Visit", "Before & After", "Offices"]) {
+  for (const name of ["Symptoms", "Procedures", "Dr. Biro", "Your Visit", "Case Gallery", "Offices"]) {
     await expect(navigation.getByRole("link", { name, exact: true })).toBeVisible()
   }
   const navItemsHaveDistinctSurfaces = await navigation.getByRole("link").evaluateAll((links) =>
@@ -271,7 +271,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   const narrowLabels = await narrowNavigation.getByRole("link").evaluateAll((links) =>
     links.map((link) => (link as HTMLElement).innerText.trim())
   )
-  expect(narrowLabels).toEqual(["Signs", "Care", "Dr. Biro", "Visit", "Cases", "Offices"])
+  expect(narrowLabels).toEqual(["Signs", "Care", "Dr. Biro", "Visit", "Results", "Offices"])
   const labelsAreReadable = await narrowNavigation.getByRole("link").evaluateAll((links) =>
     links.every((link) => Number.parseFloat(getComputedStyle(link).fontSize) >= 11)
   )
@@ -339,12 +339,12 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   const activeLink = page
     .getByRole("navigation", { name: "Primary" })
     .getByRole("link", { name: "Procedures" })
-  expect(await textContrast(activeLink)).toBeGreaterThanOrEqual(4.5)
+  await expect.poll(() => textContrast(activeLink)).toBeGreaterThanOrEqual(4.5)
   await page.getByRole("button", { name: "Switch to dark mode" }).click()
   await expect(page.locator("html")).toHaveClass(/dark/)
   await expect(page.getByRole("button", { name: "Switch to light mode" })).toBeVisible()
   await page.waitForTimeout(400)
-  expect(await textContrast(activeLink)).toBeGreaterThanOrEqual(4.5)
+  await expect.poll(() => textContrast(activeLink)).toBeGreaterThanOrEqual(4.5)
   await expectNoHorizontalOverflow(page)
 
   await page.goto("/locations/westlake-village")
@@ -462,7 +462,8 @@ test("new patient guide resolves common scheduling friction", async ({ page }) =
   await expect(
     page.getByRole("heading", { name: "Choose an Office to Request a Consultation" })
   ).toBeVisible()
-  await expect(page.locator("main").getByRole("link", { name: "Request a Consultation" })).toHaveCount(4)
+  await expect(page.locator("main").getByRole("link", { name: "Request Online" })).toHaveCount(3)
+  await expect(page.locator("main").getByRole("link", { name: "Call Burbank Office" })).toHaveCount(1)
   await expect(page.locator('main a[href="tel:+18187620647"]').first()).toHaveAttribute(
     "href",
     "tel:+18187620647"
@@ -665,7 +666,7 @@ test("authorized gallery cases have shareable detail pages", async ({ page }) =>
   await expect(page.getByText("After", { exact: true }).first()).toBeVisible()
   await expect(page.getByRole("heading", { name: "What Was Evaluated" })).toBeVisible()
   await expect(page.getByRole("heading", { name: "Results Are Individual" })).toBeVisible()
-  await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText("Before & After")
+  await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText("Case Gallery")
   const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
   expect(schemas.some((schema) => schema.includes('"ImageObject"'))).toBe(true)
   await expectNoHorizontalOverflow(page)
@@ -985,7 +986,8 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
   const nextStep = page.getByRole("heading", { name: "Discuss Your Concern with Dr. Biro" })
     .locator("xpath=ancestor::section")
 
-  await expect(nextStep.getByRole("link", { name: "Request a Consultation" })).toHaveCount(4)
+  await expect(nextStep.getByRole("link", { name: "Request Online" })).toHaveCount(3)
+  await expect(nextStep.getByRole("link", { name: "Call Burbank Office" })).toHaveCount(1)
   await expect(nextStep.locator('a[href="tel:+18187620647"]').first()).toHaveAttribute(
     "href",
     "tel:+18187620647"

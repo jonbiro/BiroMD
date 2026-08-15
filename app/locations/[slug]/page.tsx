@@ -12,7 +12,13 @@ import {
 } from "lucide-react"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
-import { absoluteUrl, offices, pageMetadata, siteConfig } from "@/lib/site"
+import {
+  absoluteUrl,
+  officeAppointmentLabel,
+  offices,
+  pageMetadata,
+  siteConfig,
+} from "@/lib/site"
 import { procedures } from "@/lib/procedures"
 
 const featuredProcedureSlugs = new Set([
@@ -133,7 +139,7 @@ export default async function LocationPage({
                 ) : (
                   <Phone className="mr-2 h-4 w-4" />
                 )}
-                Request a Consultation
+                {officeAppointmentLabel(office)}
               </a>
             </Button>
             <Button variant="outline" asChild>

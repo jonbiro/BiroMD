@@ -140,21 +140,27 @@ export const primaryNavItems = [
   { href: "/procedures", label: "Procedures" },
   { href: "/about", label: "Dr. Biro" },
   { href: "/patient-guide", label: "Your Visit" },
-  { href: "/gallery", label: "Before & After" },
+  { href: "/gallery", label: "Case Gallery" },
   { href: "/locations", label: "Offices" },
 ] as const
 
 export const navItems = [
   { href: "/about", label: "About" },
   { href: "/concerns", label: "Symptoms" },
-  { href: "/services", label: "Services" },
+  { href: "/services", label: "Care Pathways" },
   { href: "/procedures", label: "Procedures" },
   { href: "/patient-guide", label: "Your Visit" },
-  { href: "/gallery", label: "Before & After" },
+  { href: "/gallery", label: "Case Gallery" },
   { href: "/locations", label: "Offices" },
   { href: "/referrals", label: "Referrals" },
   { href: "/contact", label: "Contact" },
 ] as const
+
+export function officeAppointmentLabel(office: Office): string {
+  return office.appointmentMode === "online"
+    ? "Request Online"
+    : `Call ${office.name} Office`
+}
 
 export function withBasePath(path = "/"): string {
   if (/^https?:\/\//.test(path)) {

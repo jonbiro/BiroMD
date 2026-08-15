@@ -1,7 +1,7 @@
-import { ArrowRight, CalendarDays, MapPin, Phone } from "lucide-react"
+import { ArrowRight, CalendarDays, MapPin, Navigation, Phone } from "lucide-react"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
-import { pageMetadata, siteConfig } from "@/lib/site"
+import { officeAppointmentLabel, pageMetadata, siteConfig } from "@/lib/site"
 
 export const metadata = pageMetadata({
   title: "Find an Office",
@@ -42,16 +42,23 @@ export default function LocationsPage() {
                   ) : (
                     <Phone className="mr-2 h-4 w-4" />
                   )}
-                  Request a Consultation
+                  {officeAppointmentLabel(office)}
                 </a>
               </Button>
               <Button variant="outline" className="w-full" asChild>
-                <a href={`/locations/${office.id}`}>
-                  Office Details
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                <a href={office.mapUrl}>
+                  <Navigation className="mr-2 h-4 w-4" />
+                  Get Directions
                 </a>
               </Button>
             </div>
+            <a
+              href={`/locations/${office.id}`}
+              className="mt-3 flex min-h-10 items-center justify-center text-center text-sm font-semibold text-secondary underline-offset-4 hover:underline"
+            >
+              View office details
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </a>
           </article>
         ))}
       </section>
