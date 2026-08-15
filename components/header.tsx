@@ -9,15 +9,6 @@ import { absoluteUrl, primaryNavItems } from "@/lib/site"
 const navClass =
   "relative flex min-h-11 min-w-0 items-center justify-center rounded-lg border border-border bg-card/85 text-[0.6875rem] font-semibold text-foreground shadow-[0_1px_2px_rgb(5_16_32_/0.08)] transition-[color,background-color,border-color,box-shadow] hover:border-secondary hover:bg-accent hover:text-primary aria-[current=page]:border-primary aria-[current=page]:bg-primary aria-[current=page]:text-primary-foreground aria-[current=page]:shadow-[0_4px_12px_rgb(5_16_32_/0.18)] sm:text-sm lg:min-h-11 lg:rounded-full lg:px-3 xl:px-3.5"
 
-const narrowNavLabels: Record<(typeof primaryNavItems)[number]["href"], string> = {
-  "/concerns": "Signs",
-  "/procedures": "Care",
-  "/about": "Dr. Biro",
-  "/patient-guide": "Visit",
-  "/gallery": "Results",
-  "/locations": "Offices",
-}
-
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/95 shadow-[0_8px_24px_rgb(5_16_32_/0.06)] backdrop-blur-md dark:shadow-[0_8px_24px_rgb(0_0_0_/0.2)]">
@@ -59,10 +50,10 @@ export default function Header() {
                 className={navClass}
                 suppressHydrationWarning
               >
-                <span className="inline lg:hidden" aria-hidden="true">
-                  {narrowNavLabels[item.href]}
-                </span>
-                <span className="hidden lg:inline" aria-hidden="true">
+                <span
+                  aria-hidden="true"
+                  className="block w-full min-w-0 text-center leading-tight [overflow-wrap:anywhere] lg:w-auto lg:whitespace-nowrap"
+                >
                   {item.label}
                 </span>
               </a>
