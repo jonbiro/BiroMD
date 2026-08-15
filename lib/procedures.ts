@@ -498,8 +498,8 @@ export const procedures: Procedure[] = [
     ],
     sources: [
       {
-        label: "U.S. FDA: Botox Cosmetic Prescribing Information",
-        url: "https://www.accessdata.fda.gov/drugsatfda_docs/label/2024/103000s5316s5319s5323s5326s5331lbl.pdf",
+        label: "U.S. FDA: Botox Cosmetic product information",
+        url: "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=103000",
       },
     ],
   },

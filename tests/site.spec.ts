@@ -252,6 +252,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     .locator("[data-header-actions]")
     .getByRole("link", { name: "Request a consultation", exact: true })
   await expect(mobileBookingLink).toBeVisible()
+  await expect(mobileBookingLink).toContainText("Request")
   await expect(mobileBookingLink).toHaveAttribute("aria-label", "Request a consultation")
   const labelsFit = await narrowNavigation.getByRole("link").evaluateAll((links) =>
     links.every((link) => {
@@ -634,6 +635,20 @@ test("authorized gallery cases have shareable detail pages", async ({ page }) =>
   await expectNoHorizontalOverflow(page)
 })
 
+test("legacy gallery aliases move visitors to the canonical case page", async ({ page }) => {
+  test.skip(
+    !galleryCaseIds.includes("eyelid-trauma"),
+    "The legacy gallery case is not authorized for this build"
+  )
+
+  await page.goto("/gallery/eyelid-trauma")
+  await expect(page).toHaveURL(/\/gallery\/mohs-eyelid-reconstruction\/?$/)
+  await expect(page).toHaveTitle(/Mohs Cancer Removal Reconstruction Before and After/)
+  await expect(
+    page.getByRole("heading", { name: "Mohs Cancer Removal Reconstruction Before and After" })
+  ).toBeVisible()
+})
+
 test("multi-view gallery cases preserve matched comparisons", async ({ page }) => {
   test.skip(
     !galleryCaseIds.includes("upper-lower-blepharoplasty"),
@@ -849,6 +864,20 @@ test("patient concerns lead directly to relevant procedure guidance", async ({ p
     "/concerns/constant-watery-eyes"
   )
   await expect(finder).not.toContainText("Sudden eyelid drooping")
+})
+
+test("medical metadata uses the service area and a durable FDA reference", async ({ page }) => {
+  await page.goto("/concerns/droopy-heavy-upper-eyelids")
+  await expect(page).toHaveTitle(/in the Greater Los Angeles area/)
+
+  await page.goto("/procedures/botox")
+  await expect(page).toHaveTitle(/in the Greater Los Angeles area/)
+  await expect(
+    page.getByRole("link", { name: "U.S. FDA: Botox Cosmetic product information" })
+  ).toHaveAttribute(
+    "href",
+    "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=103000"
+  )
 })
 
 test("symptom guides explain evaluation and urgent next steps", async ({ page }) => {

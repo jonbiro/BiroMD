@@ -34,7 +34,7 @@ export async function generateMetadata({
   if (!concern) return {}
 
   return pageMetadata({
-    title: `${concern.title} in Los Angeles`,
+    title: `${concern.title} in the Greater Los Angeles area`,
     description: concern.summary,
     path: `/concerns/${concern.slug}`,
   })

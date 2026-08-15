@@ -81,7 +81,7 @@ export default function Header() {
             >
               <a href="/contact" aria-label="Request a consultation">
                 <CalendarDays className="mr-1.5 h-4 w-4 sm:mr-2" aria-hidden="true" />
-                <span className="sm:hidden">Consult</span>
+                <span className="sm:hidden">Request</span>
                 <span className="hidden sm:inline">Request a Consultation</span>
               </a>
             </Button>

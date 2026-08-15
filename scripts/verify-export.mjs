@@ -111,6 +111,19 @@ for (const route of routes) {
   }
 }
 
+for (const [legacyId, canonicalId] of Object.entries(galleryRouteAliases)) {
+  const route = `/gallery/${legacyId}`
+  if (!routeFiles.has(route)) continue
+  const legacyHtml = await readFile(routeFiles.get(route), "utf8")
+  if (
+    !legacyHtml.includes('http-equiv="refresh"') ||
+    !legacyHtml.includes(`url=/gallery/${canonicalId}`) ||
+    !legacyHtml.includes(`href="https://biromd.com/gallery/${canonicalId}"`)
+  ) {
+    throw new Error(`Legacy gallery route does not redirect to its canonical case: ${route}`)
+  }
+}
+
 const homepage = await readFile(routeFiles.get("/"), "utf8")
 if (!homepage.includes('http-equiv="Content-Security-Policy"')) {
   throw new Error("Static export is missing its Content Security Policy.")

@@ -53,6 +53,13 @@ export async function generateMetadata({
     path: galleryCasePath(item),
   })
 
+  if (item.slug && id === item.id && item.slug !== item.id) {
+    return {
+      ...metadata,
+      robots: { index: false, follow: true },
+    }
+  }
+
   return item.sensitive
     ? {
         ...metadata,
@@ -91,6 +98,40 @@ export default async function GalleryCasePage({
           }
         />
       </div>
+    )
+  }
+
+  if (item.slug && id === item.id && item.slug !== item.id) {
+    const destination = galleryCasePath(item)
+
+    return (
+      <>
+        <meta httpEquiv="refresh" content={`0;url=${destination}`} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.location.replace(${JSON.stringify(destination)})`,
+          }}
+        />
+        <div className="page-stack">
+          <PageIntro
+            eyebrow="Before & After"
+            title="This case has moved"
+            description="The clinical case you requested is now available at its updated address."
+            breadcrumbs={[
+              { label: "Before & After", href: "/gallery" },
+              { label: "Case moved" },
+            ]}
+            actions={
+              <Button asChild>
+                <a href={destination}>
+                  View the updated case
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
+            }
+          />
+        </div>
+      </>
     )
   }
 

@@ -15,7 +15,7 @@ import { pageMetadata, siteConfig } from "@/lib/site"
 export const metadata = pageMetadata({
   title: "For Referring Clinicians",
   description:
-    "Referral planning information for clinicians seeking oculoplastic evaluation with Dr. Nicolas Biro in the Los Angeles area.",
+    "Referral planning information for clinicians seeking oculoplastic evaluation with Dr. Nicolas Biro in the Greater Los Angeles area.",
   path: "/referrals",
 })
 

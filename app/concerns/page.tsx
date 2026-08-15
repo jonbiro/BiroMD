@@ -11,13 +11,13 @@ import {
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
 import { patientConcerns } from "@/lib/concerns"
-import { pageMetadata } from "@/lib/site"
+import { pageMetadata, siteConfig } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
 export const metadata = pageMetadata({
   title: "Eye and Eyelid Symptoms",
   description:
-    "Find patient-friendly guidance for droopy eyelids, under-eye bags, tearing, eyelid malposition, lesions, Mohs reconstruction, and thyroid eye concerns in Los Angeles.",
+    `Find patient-friendly guidance for droopy eyelids, under-eye bags, tearing, eyelid malposition, lesions, Mohs reconstruction, and thyroid eye concerns in ${siteConfig.serviceAreaLabel}.`,
   path: "/concerns",
 })
 

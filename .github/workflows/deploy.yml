@@ -83,7 +83,13 @@ jobs:
         run: |
           effective_url="$(curl --silent --show-error --fail --location --max-redirs 2 --retry 4 --retry-all-errors --output /dev/null --write-out '%{url_effective}' https://www.biromd.com/)"
           test "$effective_url" = "https://biromd.com/"
+          homepage="$(curl --silent --show-error --fail --retry 4 --retry-all-errors https://biromd.com/)"
+          grep -Fq '<a href="https://biromd.com/"' <<< "$homepage"
+          grep -Fq 'data-header-brand="true"' <<< "$homepage"
           for path in / /about; do
             project_url="$(curl --silent --show-error --fail --location --max-redirs 2 --retry 4 --retry-all-errors --output /dev/null --write-out '%{url_effective}' "https://jonbiro.github.io/BiroMD${path}")"
             test "$project_url" = "https://biromd.com${path}"
           done
+          legacy_gallery="$(curl --silent --show-error --fail --retry 4 --retry-all-errors https://biromd.com/gallery/eyelid-trauma)"
+          grep -Fq 'http-equiv="refresh"' <<< "$legacy_gallery"
+          grep -Fq 'url=/gallery/mohs-eyelid-reconstruction' <<< "$legacy_gallery"
