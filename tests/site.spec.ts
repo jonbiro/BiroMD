@@ -974,6 +974,34 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
     .toContainText("2014")
   await expect(timeline).not.toContainText("2009")
   await expect(timeline).not.toContainText("2011")
+
+  const priorities = page.getByRole("heading", { name: "Clinical priorities" })
+    .locator("xpath=..")
+  const trainingSection = page.locator(
+    'section[aria-label="Dr. Biro\'s clinical priorities and training"]'
+  )
+
+  await page.setViewportSize({ width: 884, height: 790 })
+  await page.goto("/about")
+  const smallerPriorities = await priorities.boundingBox()
+  const smallerTimeline = await timeline.boundingBox()
+  expect(smallerPriorities).not.toBeNull()
+  expect(smallerTimeline).not.toBeNull()
+  expect(smallerTimeline!.y).toBeGreaterThan(smallerPriorities!.y + smallerPriorities!.height)
+
+  await page.setViewportSize({ width: 1237, height: 790 })
+  await page.goto("/about")
+  const widePriorities = await trainingSection.getByRole("heading", { name: "Clinical priorities" })
+    .locator("xpath=..")
+    .boundingBox()
+  const wideTimeline = await trainingSection.getByRole("heading", { name: "Training Timeline" })
+    .locator("xpath=..")
+    .boundingBox()
+  expect(widePriorities).not.toBeNull()
+  expect(wideTimeline).not.toBeNull()
+  expect(Math.abs(widePriorities!.y - wideTimeline!.y)).toBeLessThanOrEqual(2)
+  expect(wideTimeline!.x).toBeGreaterThan(widePriorities!.x)
+
   const affiliations = page.getByRole("heading", { name: "Where Dr. Biro Sees Patients" })
     .locator("xpath=ancestor::section")
   await expect(affiliations.getByRole("link", { name: /DLV Vision/ })).toHaveAttribute(
