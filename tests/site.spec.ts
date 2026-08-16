@@ -444,7 +444,7 @@ test("contact page uses official office request links", async ({ page }) => {
   expect(emergencyBox!.y).toBeLessThan(firstOfficeBox!.y)
   await expect(page.getByRole("link", { name: "Email Scheduling" })).toHaveAttribute(
     "href",
-    /^mailto:info@biromd\.com/
+    /^mailto:doctorbiro@gmail\.com/
   )
   await expect(page.locator("form")).toHaveCount(0)
 })
@@ -538,7 +538,7 @@ test("content standards disclose review status without overstating approval", as
   await expect(page.getByText(/do not claim physician review while formal approval is pending/i)).toBeVisible()
   await expect(page.getByRole("link", { name: "Report a Website Correction" })).toHaveAttribute(
     "href",
-    /^mailto:info@biromd\.com/
+    /^mailto:doctorbiro@gmail\.com/
   )
   await expectNoHorizontalOverflow(page)
 })
@@ -547,7 +547,7 @@ test("security reports have a stable disclosure contact", async ({ request }) =>
   const response = await request.get("/.well-known/security.txt")
   expect(response.ok()).toBe(true)
   const securityPolicy = await response.text()
-  expect(securityPolicy).toContain("Contact: mailto:info@biromd.com")
+  expect(securityPolicy).toContain("Contact: mailto:doctorbiro@gmail.com")
   expect(securityPolicy).toContain("Expires: 2027-08-08T23:59:59Z")
   expect(securityPolicy).toContain(
     "Canonical: https://biromd.com/.well-known/security.txt"

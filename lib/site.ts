@@ -125,7 +125,7 @@ export const siteConfig = {
   basePath: "",
   description:
     "Board-certified ophthalmologist providing cosmetic and reconstructive oculoplastic care at four locations serving the greater Los Angeles area.",
-  email: "info@biromd.com",
+  email: "doctorbiro@gmail.com",
   phoneDisplay: offices[0].phoneDisplay,
   phoneHref: offices[0].phoneHref,
   location: "Burbank, downtown Los Angeles, Westlake Village, and Rancho Cucamonga, California",
