@@ -1,4 +1,4 @@
-Contact: mailto:doctorbiro@gmail.com
+Contact: mailto:info@biromd.com
 Expires: 2027-08-08T23:59:59Z
 Preferred-Languages: en
 Canonical: https://biromd.com/.well-known/security.txt
