@@ -36,15 +36,12 @@ export async function generateMetadata({
   const item = getPublishedGalleryCase(id)
   if (!item) {
     if (id !== emptyGalleryRoute) return {}
-    return {
-      ...pageMetadata({
-        title: "Before & After Cases Under Review",
-        description:
-          "Clinical cases are published only after written image authorization and final presentation review are confirmed.",
-        path: "/gallery",
-      }),
-      robots: { index: false, follow: false },
-    }
+    return pageMetadata({
+      title: "Before & After Cases Under Review",
+      description:
+        "Clinical cases are published only after written image authorization and final presentation review are confirmed.",
+      path: "/gallery",
+    })
   }
 
   const metadata = pageMetadata({
@@ -52,13 +49,6 @@ export async function generateMetadata({
     description: `${item.presentation} Review the documented surgical approach and authorized before-and-after image. Individual results vary.`,
     path: galleryCasePath(item),
   })
-
-  if (item.slug && id === item.id && item.slug !== item.id) {
-    return {
-      ...metadata,
-      robots: { index: false, follow: true },
-    }
-  }
 
   return item.sensitive
     ? {
