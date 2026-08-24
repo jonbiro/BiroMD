@@ -361,11 +361,18 @@ test("floating navigation exposes every primary link without a menu", async ({ p
       fontSize: Number.parseFloat(getComputedStyle(name).fontSize),
       fontWeight: Number.parseInt(getComputedStyle(name).fontWeight, 10),
     }))
-  expect(desktopBrandTypography.fontSize).toBeGreaterThanOrEqual(26)
+  expect(desktopBrandTypography.fontSize).toBeGreaterThanOrEqual(24)
   expect(desktopBrandTypography.fontWeight).toBeLessThanOrEqual(500)
-  await expect(page.locator("[data-header-specialty]")).toHaveText("Oculoplastic Surgery")
+  await expect(page.locator("[data-header-specialty]")).toHaveText("Oculoplastic Surgeon")
   await expect(page.getByRole("link", { name: "Request a consultation", exact: true })).toBeVisible()
   await expectNoHorizontalOverflow(page)
+
+  await page.setViewportSize({ width: 1280, height: 800 })
+  const wideBrandFontSize = await page
+    .locator("[data-header-brand] > span > span")
+    .first()
+    .evaluate((name) => Number.parseFloat(getComputedStyle(name).fontSize))
+  expect(wideBrandFontSize).toBeGreaterThanOrEqual(32)
 
   await page.goto("/procedures/ptosis-repair")
   await expect(

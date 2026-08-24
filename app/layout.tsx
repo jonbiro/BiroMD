@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next"
-import { Cormorant_Garamond, Newsreader, Outfit } from "next/font/google"
+import { Cormorant_Garamond, Outfit } from "next/font/google"
 import "./globals.css"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
@@ -18,12 +18,6 @@ const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
   weight: ["500", "600"],
-  display: "swap",
-})
-
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  subsets: ["latin"],
   display: "swap",
 })
 
@@ -192,7 +186,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className={`${outfit.variable} ${cormorant.variable} ${newsreader.variable}`}>
+      <body className={`${outfit.variable} ${cormorant.variable}`}>
         <div className="relative flex min-h-screen flex-col">
           <SkipLink />
           <Header />

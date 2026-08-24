@@ -5,7 +5,6 @@
 @theme inline {
   --font-sans: var(--font-outfit);
   --font-serif: var(--font-cormorant);
-  --font-brand: var(--font-newsreader);
 }
 
 @theme {

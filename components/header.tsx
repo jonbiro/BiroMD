@@ -20,21 +20,21 @@ export default function Header() {
           <a
             href={absoluteUrl("/")}
             data-header-brand
-            className="group relative z-10 inline-flex min-h-12 min-w-0 items-center gap-1.5 leading-tight min-[360px]:gap-2 lg:min-h-0 lg:gap-3"
+            className="group relative z-10 inline-flex min-h-12 min-w-0 items-center gap-1.5 leading-tight min-[360px]:gap-2.5 lg:min-h-0 lg:gap-3"
           >
             <BrandSymbol
               priority
-              className="h-7 w-9 min-[360px]:h-8 min-[360px]:w-[3.25rem] lg:h-10 lg:w-[4.75rem]"
+              className="h-7 w-9 min-[360px]:h-8 min-[360px]:w-14 lg:h-10 lg:w-[4.25rem] xl:h-11 xl:w-20"
             />
             <span className="flex min-w-0 flex-col justify-center">
-              <span className="font-brand whitespace-nowrap text-[0.9rem] font-medium leading-[1.05] tracking-[-0.025em] text-primary transition-colors group-hover:text-secondary min-[360px]:text-[1.15rem] lg:text-[1.65rem] xl:text-[1.8rem]">
+              <span className="whitespace-nowrap text-[0.875rem] font-normal leading-none tracking-[-0.025em] text-primary transition-colors group-hover:text-secondary min-[360px]:text-[1.0625rem] lg:text-2xl xl:text-[2rem]">
                 Nicolas Biro, M.D.
               </span>
               <span
                 data-header-specialty
-                className="mt-0.5 whitespace-nowrap text-[0.6875rem] font-medium leading-tight tracking-[0.015em] text-muted-foreground min-[360px]:text-xs lg:mt-1 lg:text-[0.8125rem] lg:tracking-[0.03em]"
+                className="mt-1 whitespace-nowrap text-[0.6875rem] font-medium leading-none tracking-[0.01em] text-[#805812] min-[360px]:text-xs lg:mt-1.5 lg:text-[0.8125rem] lg:tracking-[0.025em] dark:text-[#e0bd75]"
               >
-                Oculoplastic Surgery
+                Oculoplastic Surgeon
               </span>
             </span>
           </a>
