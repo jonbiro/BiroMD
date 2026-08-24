@@ -17,8 +17,8 @@ export function BrandSymbol({ className, priority = false }: BrandSymbolProps) {
       <Image
         src="/images/brand/oculoplastic-symbol.webp"
         alt=""
-        width={420}
-        height={330}
+        width={600}
+        height={300}
         priority={priority}
         unoptimized
         fetchPriority={priority ? "high" : undefined}
@@ -27,8 +27,8 @@ export function BrandSymbol({ className, priority = false }: BrandSymbolProps) {
       <Image
         src="/images/brand/oculoplastic-symbol-dark.webp"
         alt=""
-        width={420}
-        height={330}
+        width={600}
+        height={300}
         priority={priority}
         unoptimized
         fetchPriority={priority ? "high" : undefined}

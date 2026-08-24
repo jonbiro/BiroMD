@@ -24,7 +24,7 @@ export default function Header() {
           >
             <BrandSymbol
               priority
-              className="h-8 w-8 min-[360px]:h-9 min-[360px]:w-11 lg:h-12 lg:w-[3.625rem]"
+              className="h-7 w-9 min-[360px]:h-8 min-[360px]:w-[3.25rem] lg:h-10 lg:w-[4.75rem]"
             />
             <span className="flex min-w-0 flex-col justify-center">
               <span className="font-brand whitespace-nowrap text-[0.9rem] font-medium leading-[1.05] tracking-[-0.025em] text-primary transition-colors group-hover:text-secondary min-[360px]:text-[1.15rem] lg:text-[1.65rem] xl:text-[1.8rem]">

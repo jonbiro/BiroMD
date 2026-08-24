@@ -5,6 +5,8 @@ import sharp from "sharp"
 const root = process.cwd()
 const source = path.join(root, "brand-assets", "dr-biro-portrait.png")
 const portraitDir = path.join(root, "public", "images", "portrait")
+const logoSource = path.join(root, "brand-assets", "contour-oculoplastics-logo.jpg")
+const logoDir = path.join(root, "public", "images", "brand")
 const responsivePortraits = [
   { source, stem: "dr-biro-portrait", position: "north" },
   {
@@ -14,7 +16,105 @@ const responsivePortraits = [
   },
 ]
 
-await mkdir(portraitDir, { recursive: true })
+await Promise.all([
+  mkdir(portraitDir, { recursive: true }),
+  mkdir(logoDir, { recursive: true }),
+])
+
+const { data: logoRgb, info: logoInfo } = await sharp(logoSource)
+  .extract({ left: 379, top: 209, width: 551, height: 255 })
+  .removeAlpha()
+  .raw()
+  .toBuffer({ resolveWithObject: true })
+const logoLight = Buffer.alloc(logoInfo.width * logoInfo.height * 4)
+const logoDark = Buffer.alloc(logoLight.length)
+const clampByte = (value) => Math.max(0, Math.min(255, Math.round(value)))
+
+for (let sourceIndex = 0, targetIndex = 0; sourceIndex < logoRgb.length; sourceIndex += 3, targetIndex += 4) {
+  const red = logoRgb[sourceIndex]
+  const green = logoRgb[sourceIndex + 1]
+  const blue = logoRgb[sourceIndex + 2]
+  const distanceFromWhite = Math.max(255 - red, 255 - green, 255 - blue)
+  const alpha = clampByte(((distanceFromWhite - 15) / 24) * 255)
+
+  if (alpha === 0) continue
+
+  const opacity = alpha / 255
+  const removeWhiteMatte = (channel) =>
+    clampByte((channel - 255 * (1 - opacity)) / opacity)
+  const cleanRed = removeWhiteMatte(red)
+  const cleanGreen = removeWhiteMatte(green)
+  const cleanBlue = removeWhiteMatte(blue)
+
+  logoLight.set([cleanRed, cleanGreen, cleanBlue, alpha], targetIndex)
+
+  const isNavyStroke = cleanBlue > cleanRed && cleanBlue > cleanGreen
+  logoDark.set(
+    isNavyStroke
+      ? [207, 227, 244, alpha]
+      : [cleanRed, cleanGreen, cleanBlue, alpha],
+    targetIndex
+  )
+}
+
+const symbolPipeline = (pixels) =>
+  sharp(pixels, {
+    raw: {
+      width: logoInfo.width,
+      height: logoInfo.height,
+      channels: 4,
+    },
+  })
+    .resize({
+      width: 560,
+      height: 260,
+      fit: "contain",
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    })
+    .extend({
+      top: 20,
+      bottom: 20,
+      left: 20,
+      right: 20,
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    })
+
+await Promise.all([
+  symbolPipeline(logoLight)
+    .webp({ lossless: true, effort: 6 })
+    .toFile(path.join(logoDir, "oculoplastic-symbol.webp")),
+  symbolPipeline(logoDark)
+    .webp({ lossless: true, effort: 6 })
+    .toFile(path.join(logoDir, "oculoplastic-symbol-dark.webp")),
+])
+
+const faviconMark = await sharp(logoDark, {
+  raw: {
+    width: logoInfo.width,
+    height: logoInfo.height,
+    channels: 4,
+  },
+})
+  .resize({
+    width: 430,
+    height: 220,
+    fit: "contain",
+    background: { r: 0, g: 0, b: 0, alpha: 0 },
+  })
+  .png()
+  .toBuffer()
+
+await sharp({
+  create: {
+    width: 512,
+    height: 512,
+    channels: 4,
+    background: { r: 11, g: 53, b: 88, alpha: 1 },
+  },
+})
+  .composite([{ input: faviconMark, left: 41, top: 146 }])
+  .png({ compressionLevel: 9 })
+  .toFile(path.join(root, "app", "icon.png"))
 
 for (const portrait of responsivePortraits) {
   for (const width of [320, 480, 560, 640, 960]) {
@@ -85,4 +185,4 @@ await sharp(background)
   .png({ compressionLevel: 9, palette: true, quality: 90 })
   .toFile(path.join(root, "public", "images", "biromd-social-card.png"))
 
-console.log("Generated responsive portraits and social sharing assets.")
+console.log("Generated responsive portraits, logo, favicon, and social sharing assets.")
