@@ -29,32 +29,73 @@ const { data: logoRgb, info: logoInfo } = await sharp(logoSource)
 const logoLight = Buffer.alloc(logoInfo.width * logoInfo.height * 4)
 const logoDark = Buffer.alloc(logoLight.length)
 const clampByte = (value) => Math.max(0, Math.min(255, Math.round(value)))
+const darkSourceCandidates = [
+  { kind: "navy", rgb: [0, 27, 75] },
+  { kind: "gold", rgb: [168, 121, 55] },
+  { kind: "gold", rgb: [184, 137, 67] },
+  { kind: "gold", rgb: [205, 158, 79] },
+]
+const darkOutputColors = {
+  navy: [98, 143, 188],
+  gold: [190, 143, 65],
+}
 
 for (let sourceIndex = 0, targetIndex = 0; sourceIndex < logoRgb.length; sourceIndex += 3, targetIndex += 4) {
   const red = logoRgb[sourceIndex]
   const green = logoRgb[sourceIndex + 1]
   const blue = logoRgb[sourceIndex + 2]
-  const distanceFromWhite = Math.max(255 - red, 255 - green, 255 - blue)
-  const alpha = clampByte(((distanceFromWhite - 15) / 24) * 255)
+  const matteDistances = [255 - red, 255 - green, 255 - blue]
+  const distanceFromWhite = Math.max(...matteDistances)
+  const lightAlpha = clampByte(((distanceFromWhite - 15) / 24) * 255)
 
-  if (alpha === 0) continue
+  if (lightAlpha > 0) {
+    const opacity = lightAlpha / 255
+    const removeWhiteMatte = (channel) =>
+      clampByte((channel - 255 * (1 - opacity)) / opacity)
 
-  const opacity = alpha / 255
-  const removeWhiteMatte = (channel) =>
-    clampByte((channel - 255 * (1 - opacity)) / opacity)
-  const cleanRed = removeWhiteMatte(red)
-  const cleanGreen = removeWhiteMatte(green)
-  const cleanBlue = removeWhiteMatte(blue)
+    logoLight.set(
+      [removeWhiteMatte(red), removeWhiteMatte(green), removeWhiteMatte(blue), lightAlpha],
+      targetIndex
+    )
+  }
 
-  logoLight.set([cleanRed, cleanGreen, cleanBlue, alpha], targetIndex)
+  let bestDarkFit = { kind: "navy", residual: Number.POSITIVE_INFINITY }
+  const matteEnergy = matteDistances.reduce((sum, value) => sum + value ** 2, 0) + 1
 
-  const isNavyStroke = cleanBlue > cleanRed && cleanBlue > cleanGreen
-  logoDark.set(
-    isNavyStroke
-      ? [207, 227, 244, alpha]
-      : [cleanRed, cleanGreen, cleanBlue, alpha],
-    targetIndex
-  )
+  for (const candidate of darkSourceCandidates) {
+    const candidateDistances = candidate.rgb.map((channel) => 255 - channel)
+    const candidateEnergy = candidateDistances.reduce(
+      (sum, value) => sum + value ** 2,
+      0
+    )
+    const fittedOpacity = Math.max(
+      0,
+      Math.min(
+        1,
+        matteDistances.reduce(
+          (sum, value, index) => sum + value * candidateDistances[index],
+          0
+        ) / candidateEnergy
+      )
+    )
+    const residual =
+      matteDistances.reduce(
+        (sum, value, index) =>
+          sum + (value - fittedOpacity * candidateDistances[index]) ** 2,
+        0
+      ) / matteEnergy
+
+    if (residual < bestDarkFit.residual) {
+      bestDarkFit = { kind: candidate.kind, residual }
+    }
+  }
+
+  // Rebuild dark-mode edges from the fitted stroke color instead of preserving
+  // the JPEG's white matte, which otherwise appears as a halo when enlarged.
+  const darkAlpha = clampByte(((distanceFromWhite - 18) / (115 - 18)) * 255)
+  if (darkAlpha > 0) {
+    logoDark.set([...darkOutputColors[bestDarkFit.kind], darkAlpha], targetIndex)
+  }
 }
 
 const symbolPipeline = (pixels) =>
