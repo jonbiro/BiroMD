@@ -72,6 +72,13 @@ function luminance([red, green, blue]: number[]) {
 }
 
 function parseRgb(color: string) {
+  const hex = color.trim().match(/^#([\da-f]{3}|[\da-f]{6})$/i)?.[1]
+  if (hex) {
+    const expanded = hex.length === 3
+      ? [...hex].map((character) => character.repeat(2)).join("")
+      : hex
+    return [0, 2, 4].map((offset) => Number.parseInt(expanded.slice(offset, offset + 2), 16))
+  }
   const values = color.match(/[\d.]+/g)?.slice(0, 3).map(Number)
   if (!values || values.length !== 3) throw new Error(`Unsupported color: ${color}`)
   return values
@@ -232,7 +239,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     const actionsBox = actions.getBoundingClientRect()
     return {
       shellTouchesViewport: Math.abs(shellBox.top) <= 1,
-      compactHeight: shellBox.height <= 108,
+      compactHeight: shellBox.height <= 168,
       navigationInsideShell: shell.contains(navigation),
       navigationBelowTopRow:
         navigationBox.top >= Math.max(brandBox.bottom, actionsBox.bottom) - 1,
@@ -273,7 +280,7 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   )
   expect(narrowLabels).toEqual(["Symptoms", "Procedures", "Dr. Biro", "Your Visit", "Results", "Offices"])
   const labelsAreReadable = await narrowNavigation.getByRole("link").evaluateAll((links) =>
-    links.every((link) => Number.parseFloat(getComputedStyle(link).fontSize) >= 11)
+    links.every((link) => Number.parseFloat(getComputedStyle(link).fontSize) >= 15)
   )
   expect(labelsAreReadable).toBe(true)
   const targetsAreLargeEnough = await narrowNavigation.getByRole("link").evaluateAll((links) =>
@@ -296,6 +303,23 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     .first()
     .evaluate((name) => name.scrollWidth <= name.clientWidth)
   expect(physicianNameFits).toBe(true)
+  const specialtyLine = page.locator("[data-header-specialty]")
+  const specialtyIsReadable = await specialtyLine.evaluate(
+    (line) => Number.parseFloat(getComputedStyle(line).fontSize) >= 10
+  )
+  expect(specialtyIsReadable).toBe(true)
+  const specialtyColors = await specialtyLine.evaluate((line) => ({
+    foreground: getComputedStyle(line).color,
+    background: getComputedStyle(document.documentElement)
+      .getPropertyValue("--background")
+      .trim(),
+  }))
+  const specialtyForeground = luminance(parseRgb(specialtyColors.foreground))
+  const specialtyBackground = luminance(parseRgb(specialtyColors.background))
+  const specialtyContrast =
+    (Math.max(specialtyForeground, specialtyBackground) + 0.05) /
+    (Math.min(specialtyForeground, specialtyBackground) + 0.05)
+  expect(specialtyContrast).toBeGreaterThanOrEqual(4.5)
   const brandSymbol = page.locator("[data-header-brand] img:visible")
   await expect(brandSymbol).toBeVisible()
   await expect(brandSymbol).toHaveAttribute("alt", "")

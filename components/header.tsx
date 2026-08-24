@@ -7,7 +7,7 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { absoluteUrl, primaryNavItems } from "@/lib/site"
 
 const navClass =
-  "relative flex min-h-11 min-w-0 items-center justify-center rounded-lg border border-border bg-card/85 text-[0.6875rem] font-semibold text-foreground shadow-[0_1px_2px_rgb(5_16_32_/0.08)] transition-[color,background-color,border-color,box-shadow] hover:border-secondary hover:bg-accent hover:text-primary aria-[current=page]:border-primary aria-[current=page]:bg-primary aria-[current=page]:text-primary-foreground aria-[current=page]:shadow-[0_4px_12px_rgb(5_16_32_/0.18)] sm:text-sm lg:min-h-11 lg:rounded-full lg:px-3 xl:px-3.5"
+  "relative flex min-h-11 min-w-0 items-center justify-center rounded-xl border border-border bg-card px-2 text-[0.9375rem] font-bold leading-none text-foreground shadow-[0_1px_2px_rgb(5_16_32_/0.08)] transition-[color,background-color,border-color,box-shadow] hover:border-secondary hover:bg-accent hover:text-primary aria-[current=page]:border-primary aria-[current=page]:bg-primary aria-[current=page]:text-primary-foreground aria-[current=page]:shadow-[0_4px_12px_rgb(5_16_32_/0.18)] lg:min-h-11 lg:rounded-full lg:px-3 lg:text-sm lg:font-semibold xl:px-3.5"
 
 export default function Header() {
   return (
@@ -30,7 +30,10 @@ export default function Header() {
               <span className="whitespace-nowrap font-serif text-[0.82rem] font-semibold text-primary transition-colors group-hover:text-secondary min-[360px]:text-[1.15rem] lg:text-[1.35rem] xl:text-[1.5rem]">
                 Nicolas Biro, M.D.
               </span>
-              <span className="whitespace-nowrap text-[0.38rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground min-[360px]:text-[0.5rem] min-[360px]:tracking-[0.18em] lg:text-[0.57rem]">
+              <span
+                data-header-specialty
+                className="whitespace-nowrap text-[0.625rem] font-bold uppercase tracking-[0.04em] text-primary min-[360px]:text-[0.6875rem] min-[360px]:tracking-[0.08em] lg:text-[0.6875rem] lg:tracking-[0.12em]"
+              >
                 Oculoplastic Surgery
               </span>
             </span>
@@ -39,7 +42,7 @@ export default function Header() {
           <nav
             aria-label="Primary"
             data-floating-navigation
-            className="relative z-10 col-span-2 row-start-2 -mx-4 grid w-[calc(100%+2rem)] grid-cols-6 items-center gap-0.5 px-1 pb-1 lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:mx-0 lg:flex lg:w-auto lg:justify-center lg:gap-1.5 lg:p-0"
+            className="relative z-10 col-span-2 row-start-2 -mx-4 mt-1 grid w-[calc(100%+2rem)] grid-cols-3 items-center gap-1.5 border-t border-border/70 px-2 pb-2 pt-1.5 sm:grid-cols-6 sm:gap-1 lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:mx-0 lg:mt-0 lg:flex lg:w-auto lg:justify-center lg:gap-1.5 lg:border-0 lg:p-0"
           >
             {primaryNavItems.map((item) => (
               <a
@@ -71,7 +74,10 @@ export default function Header() {
               asChild
             >
               <a href="/contact" aria-label="Request a consultation">
-                <CalendarDays className="mr-1.5 h-4 w-4 sm:mr-2" aria-hidden="true" />
+                <CalendarDays
+                  className="mr-1.5 hidden h-4 w-4 min-[360px]:block sm:mr-2"
+                  aria-hidden="true"
+                />
                 <span className="sm:hidden">Request</span>
                 <span className="hidden sm:inline">Request a Consultation</span>
               </a>
