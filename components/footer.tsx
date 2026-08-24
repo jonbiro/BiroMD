@@ -1,7 +1,7 @@
 import { ArrowUpRight, CalendarDays, Mail, MapPin, Phone } from "lucide-react"
 import { BrandSymbol } from "@/components/brand-symbol"
 import { Button } from "@/components/ui/button"
-import { navItems, siteConfig } from "@/lib/site"
+import { formatList, navItems, siteConfig } from "@/lib/site"
 
 export default function Footer() {
   return (
@@ -43,9 +43,6 @@ export default function Footer() {
             >
               <summary className="footer-disclosure-summary">
                 <span>Offices</span>
-                <span className="text-[0.68rem] font-medium normal-case tracking-normal text-muted-foreground md:hidden">
-                  4 locations
-                </span>
               </summary>
               <div className="footer-disclosure-content pt-4 md:pt-0">
                 <ul className="grid gap-x-5 gap-y-4 text-sm text-foreground/90 lg:grid-cols-2">
@@ -113,7 +110,7 @@ export default function Footer() {
                 <ul className="space-y-3 text-sm text-muted-foreground">
                 <li>Board-certified ophthalmologist</li>
                 <li>Fellowship-trained at Wills Eye Hospital</li>
-                <li>Consultations in {siteConfig.languages.join(", ")}</li>
+                <li>Consultations in {formatList(siteConfig.languages)}</li>
                 </ul>
                 <a
                   href={`mailto:${siteConfig.email}`}

@@ -52,7 +52,7 @@ const carePathways: readonly CarePathway[] = [
     eyebrow: "Orbit",
     title: "Orbital & Thyroid Eye Care",
     summary: "Explore thyroid-related changes, orbital masses, and trauma.",
-    href: "/procedures#reconstructive-oculoplastics",
+    href: "/procedures/thyroid-eye-disease",
     icon: ScanFace,
     treatment: "care-pathway--orbital",
     action: "Explore orbital care",
@@ -70,21 +70,18 @@ export function ServicesPreview() {
         <div className="mb-4 flex items-end justify-between gap-3 sm:mb-5 md:mb-6">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-              <span className="sm:hidden">Choose an area</span>
-              <span className="hidden sm:inline">Four areas of care</span>
+              Four areas of care
             </p>
             <h2
               id="care-pathways-title"
               className="mt-1.5 text-[2rem] font-semibold leading-none text-primary sm:mt-2 sm:text-5xl"
             >
-              <span className="sm:hidden">Specialized Care</span>
-              <span className="hidden sm:inline">Explore Specialized Care</span>
+              Specialized Care
             </h2>
           </div>
           <Button variant="outline" size="sm" className="shrink-0 px-3 sm:px-4" asChild>
             <a href="/procedures">
-              <span className="sm:hidden">View All</span>
-              <span className="hidden sm:inline">All Procedures</span>
+              All Procedures
               <ArrowRight className="ml-1.5 h-4 w-4 sm:ml-2" aria-hidden="true" />
             </a>
           </Button>

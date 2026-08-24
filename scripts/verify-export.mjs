@@ -137,6 +137,14 @@ if (!(await exists(path.join(outDir, "CNAME")))) {
 if (!/<a href="https:\/\/biromd\.com\/"[^>]*data-header-brand="true"/.test(homepage)) {
   throw new Error("Header brand must link to the canonical homepage URL.")
 }
+const legacyServices = await readFile(routeFiles.get("/services"), "utf8")
+if (
+  !legacyServices.includes('http-equiv="refresh"') ||
+  !legacyServices.includes("url=/procedures") ||
+  !legacyServices.includes('href="https://biromd.com/procedures"')
+) {
+  throw new Error("Legacy services route must redirect and canonicalize to /procedures.")
+}
 const notFound = await readFile(path.join(outDir, "404.html"), "utf8")
 if (!notFound.includes('<a href="https://biromd.com/"')) {
   throw new Error("404 page must link to the canonical homepage URL.")
@@ -149,6 +157,17 @@ if (remainingRuntime.length > 0) {
 
 for (const phrase of ["Book Consultation", "Schedule Consultation"]) {
   if (html.includes(phrase)) throw new Error(`Misleading CTA remains: ${phrase}`)
+}
+
+for (const phrase of [
+  "RequestRequest a Consultation",
+  "View AllAll Procedures",
+  "Choose an areaFour areas of care",
+  "Specialized CareExplore Specialized Care",
+]) {
+  if (html.includes(phrase)) {
+    throw new Error(`Duplicated responsive label remains: ${phrase}`)
+  }
 }
 
 if (html.includes("/images/dr-biro-portrait.png")) {
@@ -264,7 +283,7 @@ const legacyGalleryRoutes = new Set(
     .map((id) => `/gallery/${id}`)
 )
 for (const route of routes) {
-  if (legacyGalleryRoutes.has(route)) continue
+  if (route === "/services" || legacyGalleryRoutes.has(route)) continue
   const expected = new URL(route, "https://biromd.com").toString()
   if (!sitemap.includes(expected)) throw new Error(`Sitemap is missing ${route}`)
 }

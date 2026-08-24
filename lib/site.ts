@@ -147,7 +147,6 @@ export const primaryNavItems = [
 export const navItems = [
   { href: "/about", label: "About" },
   { href: "/concerns", label: "Symptoms" },
-  { href: "/services", label: "Care Pathways" },
   { href: "/procedures", label: "Procedures" },
   { href: "/patient-guide", label: "Your Visit" },
   { href: "/gallery", label: "Results" },
@@ -155,6 +154,13 @@ export const navItems = [
   { href: "/referrals", label: "Referrals" },
   { href: "/contact", label: "Contact" },
 ] as const
+
+export function formatList(items: readonly string[]): string {
+  return new Intl.ListFormat("en", {
+    style: "long",
+    type: "conjunction",
+  }).format(items)
+}
 
 export function officeAppointmentLabel(office: Office): string {
   return office.appointmentMode === "online"

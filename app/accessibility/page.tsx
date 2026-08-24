@@ -22,9 +22,21 @@ export default function AccessibilityPage() {
           <div>
             <h2 className="text-3xl font-semibold">Website support</h2>
             <p className="mt-2 text-muted-foreground">
-              The site supports keyboard navigation, visible focus indicators,
-              descriptive links and controls, reduced-motion preferences, responsive text,
-              and light or dark color themes.
+              We aim to conform to the Web Content Accessibility Guidelines (WCAG)
+              2.2 Level AA. The site supports keyboard navigation, visible focus
+              indicators, descriptive links and controls, reduced-motion preferences,
+              responsive text, and light or dark color themes.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-3xl font-semibold">Review approach</h2>
+            <p className="mt-2 text-muted-foreground">
+              The website was most recently reviewed on{" "}
+              <time dateTime="2026-08-24">August 24, 2026</time> using automated
+              browser checks and manual keyboard, responsive-layout, focus, and
+              light-and-dark-theme review. Accessibility is an ongoing process, and
+              feedback helps us identify barriers that testing may miss.
             </p>
           </div>
 

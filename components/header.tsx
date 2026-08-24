@@ -73,13 +73,14 @@ export default function Header() {
               className="px-2.5 min-[360px]:px-3.5 xl:px-5"
               asChild
             >
-              <a href="/contact" aria-label="Request a consultation">
+              <a href="/contact">
                 <CalendarDays
                   className="mr-1.5 hidden h-4 w-4 min-[360px]:block sm:mr-2"
                   aria-hidden="true"
                 />
-                <span className="xl:hidden">Request</span>
-                <span className="hidden xl:inline">Request a Consultation</span>
+                <span>
+                  Request<span className="sr-only xl:not-sr-only"> a Consultation</span>
+                </span>
               </a>
             </Button>
           </div>

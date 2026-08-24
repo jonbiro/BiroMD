@@ -40,7 +40,6 @@ const publicRoutes = [
   "/about",
   "/concerns",
   ...concernSlugs.map((slug) => `/concerns/${slug}`),
-  "/services",
   "/procedures",
   "/patient-guide",
   ...procedureSlugs.map((slug) => `/procedures/${slug}`),
@@ -260,10 +259,11 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   const narrowNavigation = page.getByRole("navigation", { name: "Primary" })
   const mobileBookingLink = page
     .locator("[data-header-actions]")
-    .getByRole("link", { name: "Request a consultation", exact: true })
+    .getByRole("link", { name: /^Request a Consultation$/i })
   await expect(mobileBookingLink).toBeVisible()
   await expect(mobileBookingLink).toContainText("Request")
-  await expect(mobileBookingLink).toHaveAttribute("aria-label", "Request a consultation")
+  await expect(mobileBookingLink).toHaveAccessibleName("Request a Consultation")
+  await expect(mobileBookingLink).toHaveText("Request a Consultation")
   const labelsFit = await narrowNavigation.getByRole("link").evaluateAll((links) =>
     links.every((link) => {
       const visibleLabel = [...link.querySelectorAll("span")].find(
@@ -364,7 +364,11 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   expect(desktopBrandTypography.fontSize).toBeGreaterThanOrEqual(24)
   expect(desktopBrandTypography.fontWeight).toBeLessThanOrEqual(500)
   await expect(page.locator("[data-header-specialty]")).toHaveText("Oculoplastic Surgeon")
-  await expect(page.getByRole("link", { name: "Request a consultation", exact: true })).toBeVisible()
+  await expect(
+    page.locator("[data-header-actions]").getByRole("link", {
+      name: /^Request a Consultation$/i,
+    })
+  ).toBeVisible()
   await expectNoHorizontalOverflow(page)
 
   await page.setViewportSize({ width: 1280, height: 800 })
@@ -632,6 +636,13 @@ test("gallery labels remain visible without hover", async ({ page }) => {
   await expect(cases.first().getByText("After", { exact: true })).toBeVisible()
   await expect(cases.first().locator("[data-gallery-open]")).toHaveCount(1)
   const preview = cases.first().locator("[data-comparison-preview]")
+  const previewImages = preview.locator("img")
+  if ((await previewImages.count()) === 2) {
+    await expect(previewImages.nth(0)).toHaveAttribute("alt", /^Before /)
+    await expect(previewImages.nth(1)).toHaveAttribute("alt", /^After /)
+  } else {
+    await expect(previewImages.first()).toHaveAttribute("alt", /\S+/)
+  }
   const previewBox = await preview.boundingBox()
   expect(previewBox).not.toBeNull()
   expect(previewBox!.width / previewBox!.height).toBeGreaterThan(2)
@@ -695,6 +706,42 @@ test("gallery cases keep compact vertical spacing on desktop", async ({ page }) 
       expect(gap).toBeLessThanOrEqual(28)
     }
   }
+})
+
+test("gallery cases remain readable when JavaScript is unavailable", async ({ browser }) => {
+  const context = await browser.newContext({
+    baseURL: "http://127.0.0.1:4173",
+    javaScriptEnabled: false,
+    viewport: { width: 1237, height: 790 },
+  })
+  const page = await context.newPage()
+  await page.goto("/gallery")
+  const cases = page.locator("article[id]")
+  if ((await cases.count()) === 0) {
+    await expect(
+      page.getByRole("heading", { name: "Before & After cases under review" })
+    ).toBeVisible()
+    await context.close()
+    return
+  }
+
+  const boxes = await cases.evaluateAll((elements) =>
+    elements.map((element) => {
+      const box = element.getBoundingClientRect()
+      return { left: box.left, right: box.right, top: box.top, bottom: box.bottom }
+    })
+  )
+  const overlaps = boxes.some((box, index) =>
+    boxes.slice(index + 1).some((other) =>
+      box.left < other.right &&
+      box.right > other.left &&
+      box.top < other.bottom &&
+      box.bottom > other.top
+    )
+  )
+  expect(overlaps).toBe(false)
+  await expectNoHorizontalOverflow(page, "gallery without JavaScript")
+  await context.close()
 })
 
 test("authorized gallery cases have shareable detail pages", async ({ page }) => {
@@ -1105,7 +1152,8 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
   const feedback = page.getByRole("heading", {
     name: "Independent Patient Feedback",
   }).locator("xpath=ancestor::section")
-  await expect(feedback.locator('a[rel="external"]')).toHaveCount(3)
+  await expect(feedback.locator('a[rel~="external"]')).toHaveCount(3)
+  await expect(feedback.locator('a[target="_blank"]')).toHaveCount(3)
   await expect(feedback.getByRole("link", { name: /Healthgrades/ })).toHaveAttribute(
     "href",
     /healthgrades\.com/
@@ -1149,12 +1197,20 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
   ).toBe(true)
   await expect(
     mobileCarePathways.filter({ hasText: "Orbital & Thyroid Eye Care" })
-  ).toHaveAttribute("href", "/procedures#reconstructive-oculoplastics")
+  ).toHaveAttribute("href", "/procedures/thyroid-eye-disease")
   await expect(page.getByRole("heading", { name: "Independent Patient Feedback" })).toBeVisible()
   await expect(
     page.getByText("Serving patients across the greater Los Angeles area").first()
   ).toBeVisible()
   await expect(page.getByText("Clinical Approach", { exact: true })).toHaveCount(0)
+})
+
+test("legacy care pathways route moves visitors to the procedure directory", async ({ page }) => {
+  await page.goto("/services")
+  await expect(page).toHaveURL(/\/procedures\/?$/)
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Procedures and Treatment Options"
+  )
 })
 
 test("mobile footer keeps the next step visible and details compact", async ({ page }) => {

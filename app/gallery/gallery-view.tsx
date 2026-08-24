@@ -34,8 +34,8 @@ export function GalleryView({ cases }: GalleryViewProps) {
           <p className="mt-1 text-muted-foreground">
             These cases are published with written authorization. Framing and file
             format may be standardized; anatomy and outcomes are not retouched.
-            Sensitive clinical photographs stay covered and do not load unless you
-            choose to view them. Lighting, angle, framing, and healing stage may differ;
+            Full-resolution sensitive clinical photographs stay covered and do not
+            load unless you choose to view them. Lighting, angle, framing, and healing stage may differ;
             individual results vary.
           </p>
         </div>
@@ -75,7 +75,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
           </p>
         </div>
       ) : (
-        <div className="columns-1 gap-6 md:columns-2 xl:columns-3">
+        <div className="gallery-case-grid" data-gallery-grid>
           {cases.map((item) => {
             const dialogId = `gallery-dialog-${item.id}`
             const primaryImage = item.images[0]
@@ -85,7 +85,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
                 key={item.id}
                 data-gallery-case
                 data-gallery-category={item.category}
-                className="panel mb-6 w-full break-inside-avoid overflow-hidden rounded-[2rem]"
+                className="panel w-full overflow-hidden rounded-[2rem]"
               >
                 <div
                   className={cn(

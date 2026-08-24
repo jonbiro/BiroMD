@@ -8,12 +8,12 @@ import {
 } from "lucide-react"
 import { ResponsivePortrait } from "@/components/responsive-portrait"
 import { Button } from "@/components/ui/button"
-import { patientFeedbackProfiles, siteConfig } from "@/lib/site"
+import { formatList, patientFeedbackProfiles, siteConfig } from "@/lib/site"
 
 const trustPoints = [
   "Board-certified ophthalmologist",
   "Wills Eye oculoplastic fellowship",
-  `Visits in ${siteConfig.languages.join(", ")}`,
+  `Consultations in ${formatList(siteConfig.languages)}`,
 ]
 
 export function Hero() {
@@ -123,7 +123,8 @@ export function Hero() {
                 <a
                   key={profile.url}
                   href={profile.url}
-                  rel="external"
+                  target="_blank"
+                  rel="external noopener noreferrer"
                   className="group inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-background/80 px-3 text-xs font-semibold text-foreground transition-[border-color,background-color,color] hover:border-secondary hover:bg-card hover:text-secondary"
                 >
                   {profile.name}

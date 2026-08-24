@@ -17,6 +17,24 @@ const categoryIcons = {
   "non-surgical-treatments": Syringe,
 } as const
 
+const consultationSteps = [
+  {
+    label: "Assessment",
+    description:
+      "Review your eye and medical history, symptoms, goals, and the relevant anatomy.",
+  },
+  {
+    label: "Options",
+    description:
+      "Discuss appropriate choices, alternatives, meaningful risks, and limitations.",
+  },
+  {
+    label: "Next steps",
+    description:
+      "Review preparation, scheduling, and follow-up instructions for the selected plan.",
+  },
+] as const
+
 export const metadata = pageMetadata({
   title: "Procedures",
   description:
@@ -93,6 +111,29 @@ export default function ProceduresPage() {
             </div>
           </article>
         ))}
+      </section>
+
+      <section className="site-container px-4 md:px-6" aria-labelledby="consultation-expectations">
+        <div className="panel rounded-[1.8rem] p-6 md:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
+            Your consultation
+          </p>
+          <h2 id="consultation-expectations" className="mt-2 text-4xl font-semibold text-primary">
+            What to Expect
+          </h2>
+          <ol className="mt-6 grid gap-4 md:grid-cols-3">
+            {consultationSteps.map((step, index) => (
+              <li key={step.label} className="rounded-2xl border border-border bg-accent/45 p-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-secondary">
+                  {String(index + 1).padStart(2, "0")} / {step.label}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {step.description}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
 
       <section className="site-container px-4 md:px-6">

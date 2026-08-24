@@ -146,7 +146,7 @@ export default function ContactPage() {
                 </Button>
                 <p className="text-center text-xs text-muted-foreground">
                   {office.appointmentMode === "online"
-                    ? "Online scheduling through the office's appointment-request service."
+                    ? `Opens ${office.practiceName}'s appointment-request service. Request Dr. Biro by name.`
                     : "Call the office's scheduling team to request a consultation."}
                 </p>
                 <div className="grid gap-3">

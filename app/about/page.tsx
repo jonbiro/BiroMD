@@ -11,7 +11,7 @@ import {
 import { ResponsivePortrait } from "@/components/responsive-portrait"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
-import { pageMetadata, siteConfig } from "@/lib/site"
+import { formatList, pageMetadata, siteConfig } from "@/lib/site"
 
 export const metadata = pageMetadata({
   title: "About Dr. Biro",
@@ -84,13 +84,16 @@ export default function AboutPage() {
                 <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-secondary/25 bg-card text-secondary">
                   <Languages className="h-4 w-4" aria-hidden="true" />
                 </span>
-                <span className="pt-1">Discuss care in {siteConfig.languages.join(", ")}.</span>
+                <span className="pt-1">Discuss care in {formatList(siteConfig.languages)}.</span>
               </li>
             </ul>
           </div>
 
           <div className="panel rounded-[1.7rem] p-5 md:p-7">
-            <h2 className="text-3xl font-medium text-primary">Training Timeline</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-secondary">
+              Completion dates
+            </p>
+            <h2 className="mt-2 text-3xl font-medium text-primary">Training Timeline</h2>
             <ol className="relative mt-5 space-y-5 border-l border-secondary/30 pl-5">
               {milestones.map((milestone) => (
                 <li

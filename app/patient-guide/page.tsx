@@ -14,7 +14,7 @@ import { PageJumpLinks } from "@/components/page-jump-links"
 import { PrintButton } from "@/components/print-button"
 import { Button } from "@/components/ui/button"
 import { appointmentQuestions } from "@/lib/appointment"
-import { pageMetadata, siteConfig } from "@/lib/site"
+import { formatList, pageMetadata, siteConfig } from "@/lib/site"
 
 export const metadata = pageMetadata({
   title: "New Patient Guide",
@@ -191,7 +191,7 @@ export default function PatientGuidePage() {
                   Language and accessibility
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Consultations are available in {siteConfig.languages.join(", ")}.
+                  Consultations are available in {formatList(siteConfig.languages)}.
                   Call ahead for accessibility or communication support.
                 </p>
               </div>
@@ -228,7 +228,7 @@ export default function PatientGuidePage() {
       <div id="choose-office">
         <ConsultationCta
           title="Choose an Office to Request a Consultation"
-          description="Select the more convenient location, then use its official request service or call directly. The office confirms availability."
+          description="Select the most convenient location, then use its official request service or call directly. The office confirms availability."
         />
       </div>
     </div>

@@ -311,7 +311,7 @@ export default async function ConcernPage({
       {!concern.urgentPage ? (
         <ConsultationCta
           title="Choose an Office for Oculoplastic Evaluation"
-          description="Select the more convenient office, request an appointment through its official scheduling service, or call directly. The office confirms availability and visit details."
+          description="Select the most convenient office, request an appointment through its official scheduling service, or call directly. The office confirms availability and visit details."
         />
       ) : null}
     </div>

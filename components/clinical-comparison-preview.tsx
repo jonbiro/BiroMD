@@ -6,6 +6,7 @@ function ComparisonBadge({ children }: { children: string }) {
   return (
     <span
       data-comparison-badge
+      aria-hidden="true"
       className="absolute left-3 top-3 z-10 rounded-full bg-slate-950/88 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-white shadow-sm"
     >
       {children}
@@ -27,6 +28,9 @@ export function ClinicalComparisonPreview({
   className?: string
 }) {
   if (image.comparisonLayout === "vertical") {
+    const beforeAlt = image.alt.replace(/^Before and after/i, "Before")
+    const afterAlt = image.alt.replace(/^Before and after/i, "After")
+
     return (
       <div
         className={cn(
@@ -42,7 +46,7 @@ export function ClinicalComparisonPreview({
         <div className="relative min-w-0 overflow-hidden border-r-2 border-card">
           <ClinicalCaseImage
             imagePath={image.imagePath}
-            alt=""
+            alt={beforeAlt}
             width={image.width}
             height={image.height}
             sizes={sizes}
@@ -54,7 +58,7 @@ export function ClinicalComparisonPreview({
         <div className="relative min-w-0 overflow-hidden">
           <ClinicalCaseImage
             imagePath={image.imagePath}
-            alt=""
+            alt={afterAlt}
             width={image.width}
             height={image.height}
             sizes={sizes}
