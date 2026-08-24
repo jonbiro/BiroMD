@@ -203,18 +203,19 @@ test("floating navigation exposes every primary link without a menu", async ({ p
   for (const name of ["Symptoms", "Procedures", "Dr. Biro", "Your Visit", "Results", "Offices"]) {
     await expect(navigation.getByRole("link", { name, exact: true })).toBeVisible()
   }
-  const navItemsHaveDistinctSurfaces = await navigation.getByRole("link").evaluateAll((links) =>
-    links.every((link) => {
-      const styles = getComputedStyle(link)
-      return (
-        Number.parseFloat(styles.borderTopWidth) >= 1 &&
-        styles.borderTopStyle === "solid" &&
-        styles.borderTopColor !== "rgba(0, 0, 0, 0)" &&
-        styles.backgroundColor !== "rgba(0, 0, 0, 0)"
+  const segmentedNavigationIsVisible = await navigation.evaluate((nav) => {
+    const styles = getComputedStyle(nav)
+    return (
+      Number.parseFloat(styles.borderTopWidth) >= 1 &&
+      styles.borderTopStyle === "solid" &&
+      styles.borderTopColor !== "rgba(0, 0, 0, 0)" &&
+      styles.backgroundColor !== "rgba(0, 0, 0, 0)" &&
+      [...nav.querySelectorAll("a")].every(
+        (link) => getComputedStyle(link).backgroundColor !== "rgba(0, 0, 0, 0)"
       )
-    })
-  )
-  expect(navItemsHaveDistinctSurfaces).toBe(true)
+    )
+  })
+  expect(segmentedNavigationIsVisible).toBe(true)
   const allLinksInsideNavigation = await navigation.evaluate((nav) => {
     const navBox = nav.getBoundingClientRect()
     return [...nav.querySelectorAll("a")].every((link) => {
@@ -353,6 +354,16 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     navigationBeforeActions: true,
     centersAligned: true,
   })
+  const desktopBrandTypography = await page
+    .locator("[data-header-brand] > span > span")
+    .first()
+    .evaluate((name) => ({
+      fontSize: Number.parseFloat(getComputedStyle(name).fontSize),
+      fontWeight: Number.parseInt(getComputedStyle(name).fontWeight, 10),
+    }))
+  expect(desktopBrandTypography.fontSize).toBeGreaterThanOrEqual(26)
+  expect(desktopBrandTypography.fontWeight).toBeLessThanOrEqual(500)
+  await expect(page.locator("[data-header-specialty]")).toHaveText("Oculoplastic Surgery")
   await expect(page.getByRole("link", { name: "Request a consultation", exact: true })).toBeVisible()
   await expectNoHorizontalOverflow(page)
 
@@ -604,7 +615,9 @@ test("gallery labels remain visible without hover", async ({ page }) => {
   await page.goto("/gallery")
   const cases = page.locator("article[id]")
   if ((await cases.count()) === 0) {
-    await expect(page.getByRole("heading", { name: "Clinical gallery under review" })).toBeVisible()
+    await expect(
+      page.getByRole("heading", { name: "Before & After cases under review" })
+    ).toBeVisible()
     return
   }
 

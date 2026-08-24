@@ -7,32 +7,32 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { absoluteUrl, primaryNavItems } from "@/lib/site"
 
 const navClass =
-  "relative flex min-h-11 min-w-0 items-center justify-center rounded-xl border border-border bg-card px-2 text-[0.9375rem] font-bold leading-none text-foreground shadow-[0_1px_2px_rgb(5_16_32_/0.08)] transition-[color,background-color,border-color,box-shadow] hover:border-secondary hover:bg-accent hover:text-primary aria-[current=page]:border-primary aria-[current=page]:bg-primary aria-[current=page]:text-primary-foreground aria-[current=page]:shadow-[0_4px_12px_rgb(5_16_32_/0.18)] lg:min-h-11 lg:rounded-full lg:px-3 lg:text-sm lg:font-semibold xl:px-3.5"
+  "relative flex min-h-11 min-w-0 items-center justify-center border border-transparent bg-card px-2 text-[0.9375rem] font-medium leading-none text-foreground transition-[color,background-color,border-color,box-shadow] hover:bg-accent hover:text-primary aria-[current=page]:border-primary aria-[current=page]:bg-primary aria-[current=page]:font-semibold aria-[current=page]:text-primary-foreground lg:min-h-10 lg:rounded-full lg:bg-transparent lg:px-3 lg:text-[0.9375rem] xl:px-3.5"
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/95 shadow-[0_8px_24px_rgb(5_16_32_/0.06)] backdrop-blur-md dark:shadow-[0_8px_24px_rgb(0_0_0_/0.2)]">
+    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/95 shadow-[0_6px_20px_rgb(5_16_32_/0.05)] backdrop-blur-md dark:shadow-[0_6px_20px_rgb(0_0_0_/0.18)]">
       <div className="site-container">
         <div
           data-header-shell
-          className="relative grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 px-4 pt-1.5 md:px-6 lg:min-h-[4.5rem] lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-5 lg:py-0"
+          className="relative grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 px-4 pt-2 md:px-6 lg:min-h-[5.25rem] lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-4 lg:py-0 xl:gap-6"
         >
           <a
             href={absoluteUrl("/")}
             data-header-brand
-            className="group relative z-10 inline-flex min-h-12 min-w-0 items-center gap-1 leading-tight min-[360px]:gap-2 lg:min-h-0 lg:gap-2.5"
+            className="group relative z-10 inline-flex min-h-12 min-w-0 items-center gap-1.5 leading-tight min-[360px]:gap-2 lg:min-h-0 lg:gap-3"
           >
             <BrandSymbol
               priority
-              className="h-7 w-7 min-[360px]:h-9 min-[360px]:w-11 lg:h-10 lg:w-12"
+              className="h-8 w-8 min-[360px]:h-9 min-[360px]:w-11 lg:h-12 lg:w-[3.625rem]"
             />
             <span className="flex min-w-0 flex-col justify-center">
-              <span className="whitespace-nowrap font-serif text-[0.82rem] font-semibold text-primary transition-colors group-hover:text-secondary min-[360px]:text-[1.15rem] lg:text-[1.35rem] xl:text-[1.5rem]">
+              <span className="font-brand whitespace-nowrap text-[0.9rem] font-medium leading-[1.05] tracking-[-0.025em] text-primary transition-colors group-hover:text-secondary min-[360px]:text-[1.15rem] lg:text-[1.65rem] xl:text-[1.8rem]">
                 Nicolas Biro, M.D.
               </span>
               <span
                 data-header-specialty
-                className="whitespace-nowrap text-[0.625rem] font-bold uppercase tracking-[0.04em] text-primary min-[360px]:text-[0.6875rem] min-[360px]:tracking-[0.08em] lg:text-[0.6875rem] lg:tracking-[0.12em]"
+                className="mt-0.5 whitespace-nowrap text-[0.6875rem] font-medium leading-tight tracking-[0.015em] text-muted-foreground min-[360px]:text-xs lg:mt-1 lg:text-[0.8125rem] lg:tracking-[0.03em]"
               >
                 Oculoplastic Surgery
               </span>
@@ -42,7 +42,7 @@ export default function Header() {
           <nav
             aria-label="Primary"
             data-floating-navigation
-            className="relative z-10 col-span-2 row-start-2 -mx-4 mt-1 grid w-[calc(100%+2rem)] grid-cols-3 items-center gap-1.5 border-t border-border/70 px-2 pb-2 pt-1.5 sm:grid-cols-6 sm:gap-1 lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:mx-0 lg:mt-0 lg:flex lg:w-auto lg:justify-center lg:gap-1.5 lg:border-0 lg:p-0"
+            className="relative z-10 col-span-2 row-start-2 -mx-4 mt-1.5 grid w-[calc(100%+2rem)] grid-cols-3 items-center gap-px border-y border-border/80 bg-border/80 p-px sm:grid-cols-6 lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:mx-0 lg:mt-0 lg:flex lg:w-fit lg:justify-center lg:gap-0.5 lg:rounded-full lg:border lg:bg-muted/80 lg:p-1"
           >
             {primaryNavItems.map((item) => (
               <a
@@ -70,7 +70,7 @@ export default function Header() {
             <ModeToggle />
             <Button
               size="sm"
-              className="px-2 min-[360px]:px-3.5 sm:px-5 lg:px-4 xl:px-5"
+              className="px-2.5 min-[360px]:px-3.5 xl:px-5"
               asChild
             >
               <a href="/contact" aria-label="Request a consultation">
@@ -78,8 +78,8 @@ export default function Header() {
                   className="mr-1.5 hidden h-4 w-4 min-[360px]:block sm:mr-2"
                   aria-hidden="true"
                 />
-                <span className="sm:hidden">Request</span>
-                <span className="hidden sm:inline">Request a Consultation</span>
+                <span className="xl:hidden">Request</span>
+                <span className="hidden xl:inline">Request a Consultation</span>
               </a>
             </Button>
           </div>
