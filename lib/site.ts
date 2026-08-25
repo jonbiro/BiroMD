@@ -93,6 +93,7 @@ export type Office = (typeof offices)[number]
 export const physicianProfileUrls = [
   offices[0].practiceUrl,
   offices[1].practiceUrl,
+  offices[2].practiceUrl,
   offices[3].practiceUrl,
   "https://www.healthgrades.com/physician/dr-nicolas-biro-xv4fv",
   "https://doctor.webmd.com/doctor/nicolas-biro-28e322ee-dec5-11e7-9f4c-005056a225bf-overview",
@@ -124,7 +125,7 @@ export const siteConfig = {
   url: "https://biromd.com",
   basePath: "",
   description:
-    "Board-certified ophthalmologist providing cosmetic and reconstructive oculoplastic care at four locations serving the greater Los Angeles area.",
+    "Board-certified ophthalmologist and Wills Eye-trained oculoplastic surgeon providing eyelid, tear-duct, and orbital care across greater Los Angeles.",
   email: "info@biromd.com",
   phoneDisplay: offices[0].phoneDisplay,
   phoneHref: offices[0].phoneHref,

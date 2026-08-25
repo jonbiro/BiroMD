@@ -474,7 +474,7 @@ test("contact page uses official office request links", async ({ page }) => {
   )
   await expect(page.getByText(/For routine, non-urgent appointments/)).toBeVisible()
   await expect(page.getByText(/The office will contact you to confirm/)).toBeVisible()
-  const questions = page.getByRole("heading", { name: "What to confirm with the office" })
+  const questions = page.getByRole("heading", { name: "Questions to Confirm with the Office" })
   await expect(questions).toBeVisible()
   await page.getByText("More questions to confirm").click()
   await expect(page.getByRole("heading", { name: "Timing and preparation" })).toBeVisible()
@@ -488,6 +488,9 @@ test("contact page uses official office request links", async ({ page }) => {
   expect(emergencyBox).not.toBeNull()
   expect(firstOfficeBox).not.toBeNull()
   expect(emergencyBox!.y).toBeLessThan(firstOfficeBox!.y)
+  const questionsBox = await questions.boundingBox()
+  expect(questionsBox).not.toBeNull()
+  expect(firstOfficeBox!.y).toBeLessThan(questionsBox!.y)
   await expect(page.getByRole("link", { name: "Email Scheduling" })).toHaveAttribute(
     "href",
     /^mailto:info@biromd\.com/
@@ -540,7 +543,7 @@ test("office pages provide portable contact cards", async ({ page }) => {
 
   await page.goto("/locations/burbank")
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Oculoplastic Care in Burbank"
+    "Eyelid and Oculoplastic Care in Burbank"
   )
   await expect(page.getByText(/2031 W Alameda Ave, Suite 300/).first()).toBeVisible()
   await expect(page.locator('main a[href="tel:+18187620647"]').first()).toHaveAttribute(
@@ -558,7 +561,7 @@ test("office pages provide portable contact cards", async ({ page }) => {
 
   await page.goto("/locations/downtown-los-angeles")
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Oculoplastic Care in Downtown Los Angeles"
+    "Eyelid and Oculoplastic Care in Downtown Los Angeles"
   )
   await expect(page.getByText(/1127 Wilshire Blvd, Suite 1209/).first()).toBeVisible()
   await expect(page.locator('main a[href="https://www.lasereyecenter.com/locations/#site-contact-form"]').first()).toHaveAttribute(
@@ -648,12 +651,13 @@ test("gallery labels remain visible without hover", async ({ page }) => {
   expect(previewBox!.width / previewBox!.height).toBeGreaterThan(2)
 
   const title = await cases.first().getByRole("heading", { level: 2 }).first().innerText()
+  await expect(cases.first().getByRole("heading", { level: 2 })).toHaveCount(1)
   await cases.first().getByRole("button", { name: /View larger image/ }).click()
   const dialog = page.getByRole("dialog", { name: title })
   await expect(dialog).toBeVisible()
-  const modalColors = await dialog.getByRole("heading", { level: 2 }).evaluate((heading) => ({
-    foreground: getComputedStyle(heading).color,
-    background: getComputedStyle(heading.closest("dialog")!).backgroundColor,
+  const modalColors = await dialog.locator("[data-gallery-dialog-title]").evaluate((titleElement) => ({
+    foreground: getComputedStyle(titleElement).color,
+    background: getComputedStyle(titleElement.closest("dialog")!).backgroundColor,
   }))
   const modalForeground = luminance(parseRgb(modalColors.foreground))
   const modalBackground = luminance(parseRgb(modalColors.background))
@@ -912,7 +916,7 @@ test("homepage heading is readable and graphic cases stay on the results page", 
   await page.setViewportSize({ width: 736, height: 758 })
   await page.goto("/")
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Specialized Oculoplastic Care for the Eyes and Face"
+    "Eyelid Surgery and Specialized Eye Care"
   )
   await page.evaluate(() => document.fonts.ready)
   const typography = await page.evaluate(() => ({
@@ -996,10 +1000,10 @@ test("patient concerns lead directly to relevant procedure guidance", async ({ p
 
 test("medical metadata uses the service area and a durable FDA reference", async ({ page }) => {
   await page.goto("/concerns/droopy-heavy-upper-eyelids")
-  await expect(page).toHaveTitle(/in the Greater Los Angeles area/)
+  await expect(page).toHaveTitle(/Droopy or Hooded Upper Eyelids: Causes & Care/)
 
   await page.goto("/procedures/botox")
-  await expect(page).toHaveTitle(/in the Greater Los Angeles area/)
+  await expect(page).toHaveTitle(/in Los Angeles/)
   await expect(
     page.getByRole("link", { name: "U.S. FDA: Botox Cosmetic product information" })
   ).toHaveAttribute(
@@ -1092,6 +1096,25 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
     /serves patients across the Greater Los Angeles area/
   )
 
+  await page.goto("/procedures/upper-blepharoplasty")
+  const patientResources = page.getByRole("heading", { name: "Helpful Next Steps" })
+    .locator("xpath=ancestor::section")
+  await expect(patientResources.getByRole("link", { name: /Before & After/ })).toHaveAttribute(
+    "href",
+    /^\/gallery\//
+  )
+  await expect(patientResources.getByRole("link", { name: "Plan Your Visit" })).toHaveAttribute(
+    "href",
+    "/patient-guide"
+  )
+  await expect(
+    patientResources.getByRole("link", { name: "Droopy or heavy upper eyelids" })
+  ).toHaveAttribute("href", "/concerns/droopy-heavy-upper-eyelids")
+  await expect(page.getByRole("link", { name: "Ptosis Repair" })).toHaveAttribute(
+    "href",
+    "/procedures/ptosis-repair"
+  )
+
   await page.goto("/about")
   const timeline = page.getByRole("heading", { name: "Training Timeline" })
     .locator("xpath=..")
@@ -1178,7 +1201,7 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
   expect(wordCount).toBeLessThanOrEqual(225)
   await expect(page.getByRole("link", { name: "Request a Consultation" }).first()).toBeVisible()
   await expect(page.locator("[data-concern-finder]").locator('a[href^="/concerns/"]')).toHaveCount(6)
-  const mobileCarePathways = page.locator("[data-mobile-care-pathway]")
+  const mobileCarePathways = page.locator("[data-care-pathway]")
   await expect(mobileCarePathways).toHaveCount(4)
   await expect(mobileCarePathways.getByText("Cosmetic Eyelid Care", { exact: true })).toBeVisible()
   await expect(mobileCarePathways.getByText("Tearing & Tear Ducts", { exact: true })).toBeVisible()
@@ -1250,13 +1273,16 @@ test("detail pages expose breadcrumbs, structured wayfinding, and usable FAQs", 
     "page"
   )
 
-  const firstQuestion = page.locator("details").first()
-  await firstQuestion.locator("summary").click()
-  await expect(firstQuestion).toHaveAttribute("open", "")
+  const faq = page.getByRole("heading", { name: "Common Questions" })
+    .locator("xpath=ancestor::section")
+  const firstQuestion = faq.getByRole("heading", { level: 3 }).first()
+  await expect(firstQuestion).toBeVisible()
+  await expect(firstQuestion.locator("xpath=following-sibling::p")).toBeVisible()
 
   const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
   expect(schemas.some((schema) => schema.includes('"BreadcrumbList"'))).toBe(true)
   expect(schemas.some((schema) => schema.includes('"FAQPage"'))).toBe(true)
+  expect(schemas.some((schema) => schema.includes('"MedicalProcedure"'))).toBe(true)
   expect(schemas.some((schema) => schema.includes('"citation"'))).toBe(true)
   await expect(page.getByRole("heading", { name: "Clinical references" })).toBeVisible()
   await expect(page.getByRole("link", { name: /American Academy of Ophthalmology/ })).toBeVisible()
@@ -1273,6 +1299,10 @@ test("detail pages expose breadcrumbs, structured wayfinding, and usable FAQs", 
   await expect(page.getByRole("link", { name: "Plan your consultation" })).toHaveAttribute(
     "href",
     "/patient-guide"
+  )
+  await expect(page.getByRole("link", { name: "View Before & After Results" })).toHaveAttribute(
+    "href",
+    "/gallery"
   )
 })
 

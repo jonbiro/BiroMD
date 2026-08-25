@@ -36,9 +36,9 @@ const consultationSteps = [
 ] as const
 
 export const metadata = pageMetadata({
-  title: "Procedures",
+  title: "Eyelid & Oculoplastic Procedures in Los Angeles",
   description:
-    "Explore detailed information about blepharoplasty, ptosis repair, eyelid reconstruction, tear-duct and orbital care, and injectables.",
+    "Explore blepharoplasty, ptosis repair, brow lift, tear-duct and orbital surgery, eyelid reconstruction, and injectables with an oculoplastic surgeon.",
   path: "/procedures",
 })
 

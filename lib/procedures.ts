@@ -7,6 +7,8 @@ export type Procedure = {
   slug: string
   title: string
   shortTitle: string
+  seoTitle?: string
+  seoDescription?: string
   categoryId: ProcedureCategoryId
   categoryLabel: string
   summary: string
@@ -14,6 +16,7 @@ export type Procedure = {
   concerns: string[]
   evaluation: string[]
   nextSteps: string
+  relatedProcedureSlugs?: string[]
   questions: Array<{ question: string; answer: string }>
   sources: Array<{ label: string; url: string }>
 }
@@ -23,10 +26,13 @@ export const procedures: Procedure[] = [
     slug: "upper-blepharoplasty",
     title: "Upper Blepharoplasty",
     shortTitle: "Upper blepharoplasty",
+    seoTitle: "Upper Blepharoplasty in Los Angeles",
+    seoDescription:
+      "Learn how upper eyelid surgery may address heavy or hooded lids and how Dr. Nicolas Biro evaluates skin, ptosis, brow position, and eye-surface factors.",
     categoryId: "cosmetic-eyelid-surgery",
     categoryLabel: "Cosmetic Eyelid Surgery",
     summary:
-      "Evaluation and surgical planning for excess upper-eyelid skin or fullness around the upper lid.",
+      "Upper eyelid surgery for heavy or hooded lids, planned around brow position, eyelid height, dryness, and comfortable eyelid closure.",
     overview:
       "Upper blepharoplasty removes a carefully planned amount of upper-eyelid skin and, when appropriate, addresses underlying tissue. Planning must account for brow position, eyelid height, dry-eye symptoms, prior surgery, and the need to preserve comfortable eyelid closure.",
     concerns: [
@@ -43,6 +49,7 @@ export const procedures: Procedure[] = [
     ],
     nextSteps:
       "Swelling, bruising, incision care, activity limits, and follow-up vary with the operation and the patient. The office provides a personalized plan before surgery. Sudden vision change, severe pain, or unexpected bleeding after any eyelid operation requires urgent contact with the surgical team.",
+    relatedProcedureSlugs: ["ptosis-repair", "brow-lift"],
     questions: [
       {
         question: "Is upper blepharoplasty the same as ptosis repair?",
@@ -59,6 +66,16 @@ export const procedures: Procedure[] = [
         answer:
           "A photo can provide limited context, but candidacy and a safe plan require an appropriate history and examination.",
       },
+      {
+        question: "Can insurance apply to upper blepharoplasty?",
+        answer:
+          "Coverage depends on the diagnosis, documented functional impact, the insurer's criteria, network participation, and the specific plan. The office can explain its process, but only the insurer can determine benefits or authorize coverage.",
+      },
+      {
+        question: "What determines the cost of upper blepharoplasty?",
+        answer:
+          "Fees can depend on the surgical plan, whether another procedure is combined, the facility, anesthesia, and the office's payment policies. Ask the selected office for current, written fee information before scheduling.",
+      },
     ],
     sources: [
       {
@@ -71,10 +88,13 @@ export const procedures: Procedure[] = [
     slug: "lower-blepharoplasty",
     title: "Lower Blepharoplasty",
     shortTitle: "Lower blepharoplasty",
+    seoTitle: "Lower Blepharoplasty for Under-Eye Bags in Los Angeles",
+    seoDescription:
+      "Learn how lower eyelid surgery may address under-eye bags and how Dr. Nicolas Biro evaluates eyelid support, eye prominence, skin, fat, and the lid-cheek contour.",
     categoryId: "cosmetic-eyelid-surgery",
     categoryLabel: "Cosmetic Eyelid Surgery",
     summary:
-      "Individualized planning for lower-eyelid fullness, contour changes, or excess skin beneath the eyes.",
+      "Lower eyelid surgery for under-eye bags, fullness, and contour changes, planned around eyelid support and a natural lid-cheek transition.",
     overview:
       "Lower blepharoplasty may address prominent fat, skin, and the transition between the lower eyelid and cheek. The technique depends on eyelid support, eye prominence, skin quality, prior procedures, and whether fat should be preserved, repositioned, or reduced.",
     concerns: [

@@ -88,38 +88,7 @@ export function ServicesPreview() {
         </div>
 
         <div
-          className="grid gap-2 sm:hidden"
-          aria-label="Oculoplastic care pathways"
-          data-mobile-care-pathways
-        >
-          {carePathways.map((pathway) => {
-            const PathwayIcon = pathway.icon
-            return (
-              <a
-                key={pathway.title}
-                href={pathway.href}
-                className="group grid min-h-[5.25rem] grid-cols-[2.75rem_minmax(0,1fr)_1rem] items-center gap-3 rounded-[1.1rem] border border-border bg-card px-3 py-2.5 shadow-[0_5px_16px_rgb(5_16_32_/0.07)] transition-[border-color,box-shadow,transform] hover:-translate-y-0.5 hover:border-secondary hover:shadow-md"
-                data-mobile-care-pathway
-              >
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-[0.85rem] border border-secondary/30 bg-secondary/8 text-secondary">
-                  <PathwayIcon className="h-5 w-5" strokeWidth={1.7} aria-hidden="true" />
-                </span>
-                <span className="min-w-0">
-                  <span className="block text-[0.625rem] font-bold uppercase leading-4 tracking-[0.13em] text-secondary">
-                    {pathway.eyebrow}
-                  </span>
-                  <span className="mt-0.5 block font-serif text-[1.35rem] font-semibold leading-[1.05] tracking-[-0.02em] text-primary">
-                    {pathway.title}
-                  </span>
-                </span>
-                <ArrowRight className="h-4 w-4 text-secondary transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-              </a>
-            )
-          })}
-        </div>
-
-        <div
-          className="care-pathway-rail hidden sm:flex"
+          className="care-pathway-rail"
           aria-label="Oculoplastic care pathways"
           data-care-pathway-rail
         >
@@ -132,25 +101,25 @@ export function ServicesPreview() {
                 className={`care-pathway group ${pathway.treatment}`}
                 data-care-pathway
               >
-                <span className="care-pathway-grid" aria-hidden="true" />
+                <span className="care-pathway-grid hidden sm:block" aria-hidden="true" />
                 <PathwayIcon
                   className="care-pathway-watermark"
                   strokeWidth={1.15}
                   aria-hidden="true"
                 />
-                <span className="care-pathway-scrim" aria-hidden="true" />
+                <span className="care-pathway-scrim hidden sm:block" aria-hidden="true" />
 
                 <span className="care-pathway-copy relative z-10 block">
-                  <span className="block text-xs font-bold uppercase tracking-[0.18em] text-white/75">
+                  <span className="block text-[0.625rem] font-bold uppercase tracking-[0.14em] text-secondary sm:text-xs sm:tracking-[0.18em] sm:text-white/75">
                     {pathway.eyebrow}
                   </span>
-                  <span className="mt-2 block max-w-[15rem] font-serif text-[1.65rem] font-semibold leading-[1.02] tracking-[-0.02em] text-white min-[480px]:text-3xl">
+                  <span className="mt-0.5 block max-w-[15rem] font-serif text-[1.35rem] font-semibold leading-[1.05] tracking-[-0.02em] text-primary sm:mt-2 sm:text-[1.65rem] sm:leading-[1.02] sm:text-white min-[768px]:text-3xl">
                     {pathway.title}
                   </span>
-                  <span className="care-pathway-summary mt-3 block max-w-[17rem] text-sm leading-relaxed text-white/85">
+                  <span className="care-pathway-summary mt-3 hidden max-w-[17rem] text-sm leading-relaxed text-white/85 sm:block">
                     {pathway.summary}
                   </span>
-                  <span className="care-pathway-action mt-4 inline-flex items-center text-sm font-semibold text-white">
+                  <span className="care-pathway-action mt-4 hidden items-center text-sm font-semibold text-white sm:inline-flex">
                     {pathway.action}
                     <ArrowRight
                       className="ml-2 h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1"
@@ -158,6 +127,10 @@ export function ServicesPreview() {
                     />
                   </span>
                 </span>
+                <ArrowRight
+                  className="care-pathway-mobile-arrow h-4 w-4 text-secondary transition-transform group-hover:translate-x-0.5 sm:hidden"
+                  aria-hidden="true"
+                />
               </a>
             )
           })}

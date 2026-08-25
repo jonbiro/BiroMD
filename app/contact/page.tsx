@@ -57,53 +57,15 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="site-container px-4 md:px-6" aria-labelledby="confirm-before-request">
-        <div className="panel rounded-[1.8rem] p-6 md:p-8">
-          <div className="max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-              Before you request
-            </p>
-            <h2 id="confirm-before-request" className="mt-2 text-3xl font-semibold text-primary">
-              What to confirm with the office
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              Scheduling details vary by office. The team can explain fees, insurance,
-              referrals, visit length, preparation, and payment options before your appointment.
-            </p>
-          </div>
-          <div className="mt-6 grid gap-3 md:grid-cols-3">
-            {appointmentQuestions.slice(0, 3).map((question) => (
-              <div key={question.title} className="rounded-xl bg-accent/55 p-4">
-                <h3 className="font-sans text-sm font-semibold text-foreground">
-                  {question.title}
-                </h3>
-                <p className="mt-1.5 text-sm text-muted-foreground">{question.detail}</p>
-              </div>
-            ))}
-          </div>
-          {appointmentQuestions.length > 3 ? (
-            <details className="group mt-4 rounded-xl border border-border bg-card px-4 py-3">
-              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-foreground marker:content-none">
-                More questions to confirm
-                <span className="text-secondary transition-transform group-open:rotate-45" aria-hidden="true">+</span>
-              </summary>
-              <div className="grid gap-3 border-t border-border pb-1 pt-4 sm:grid-cols-2">
-                {appointmentQuestions.slice(3).map((question) => (
-                  <div key={question.title} className="rounded-xl bg-accent/55 p-4">
-                    <h3 className="font-sans text-sm font-semibold text-foreground">
-                      {question.title}
-                    </h3>
-                    <p className="mt-1.5 text-sm text-muted-foreground">{question.detail}</p>
-                  </div>
-                ))}
-              </div>
-            </details>
-          ) : null}
-        </div>
-      </section>
-
       <section className="site-container px-4 md:px-6" aria-labelledby="office-options">
-        <h2 id="office-options" className="sr-only">Office scheduling options</h2>
+        <div className="mb-5 max-w-3xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
+            Choose an office
+          </p>
+          <h2 id="office-options" className="mt-2 text-3xl font-semibold text-primary">
+            Request Through the Office Nearest You
+          </h2>
+        </div>
         <div className="grid gap-6 lg:grid-cols-2">
           {siteConfig.offices.map((office) => (
             <article
@@ -172,6 +134,51 @@ export default function ContactPage() {
               </div>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="site-container px-4 md:px-6" aria-labelledby="confirm-before-request">
+        <div className="panel rounded-[1.8rem] p-6 md:p-8">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
+              Prepare for scheduling
+            </p>
+            <h2 id="confirm-before-request" className="mt-2 text-3xl font-semibold text-primary">
+              Questions to Confirm with the Office
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Scheduling details vary by office. The team can explain fees, insurance,
+              referrals, visit length, preparation, and payment options before your appointment.
+            </p>
+          </div>
+          <div className="mt-6 grid gap-3 md:grid-cols-3">
+            {appointmentQuestions.slice(0, 3).map((question) => (
+              <div key={question.title} className="rounded-xl bg-accent/55 p-4">
+                <h3 className="font-sans text-sm font-semibold text-foreground">
+                  {question.title}
+                </h3>
+                <p className="mt-1.5 text-sm text-muted-foreground">{question.detail}</p>
+              </div>
+            ))}
+          </div>
+          {appointmentQuestions.length > 3 ? (
+            <details className="group mt-4 rounded-xl border border-border bg-card px-4 py-3">
+              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-foreground marker:content-none">
+                More questions to confirm
+                <span className="text-secondary transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
+              <div className="grid gap-3 border-t border-border pb-1 pt-4 sm:grid-cols-2">
+                {appointmentQuestions.slice(3).map((question) => (
+                  <div key={question.title} className="rounded-xl bg-accent/55 p-4">
+                    <h3 className="font-sans text-sm font-semibold text-foreground">
+                      {question.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm text-muted-foreground">{question.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </details>
+          ) : null}
         </div>
       </section>
 

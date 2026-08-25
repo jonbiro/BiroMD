@@ -14,9 +14,9 @@ import { Button } from "@/components/ui/button"
 import { formatList, pageMetadata, siteConfig } from "@/lib/site"
 
 export const metadata = pageMetadata({
-  title: "About Dr. Biro",
+  title: "Wills Eye-Trained Oculoplastic Surgeon in Los Angeles",
   description:
-    "Learn about Dr. Nicolas Biro's board-certified ophthalmology training, Wills Eye fellowship, and oculoplastic focus serving patients across the Greater Los Angeles area.",
+    "Meet Dr. Nicolas Biro, a board-certified ophthalmologist with Wills Eye fellowship training in oculoplastic and orbital surgery serving greater Los Angeles.",
   path: "/about",
 })
 

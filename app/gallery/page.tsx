@@ -5,9 +5,9 @@ import { PageIntro } from "@/components/page-intro"
 import { GalleryView } from "./gallery-view"
 
 export const metadata: Metadata = pageMetadata({
-  title: "Before & After Cases",
+  title: "Blepharoplasty Before & After | Los Angeles",
   description:
-    "View authorized clinical before-and-after cases for cosmetic and reconstructive procedures performed by Dr. Nicolas Biro.",
+    "View authorized before-and-after cases for upper and lower blepharoplasty and reconstructive oculoplastic procedures performed by Dr. Nicolas Biro. Individual results vary.",
   path: "/gallery",
 })
 

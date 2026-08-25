@@ -39,13 +39,13 @@ export function Hero() {
 
             <div className="order-2 space-y-2.5 lg:space-y-4">
               <h1 className="text-[2.2rem] font-semibold leading-[0.98] text-primary min-[360px]:text-[2.4rem] min-[480px]:text-5xl md:text-[3.35rem] lg:text-6xl xl:text-7xl">
-                Specialized Oculoplastic Care
-                {" "}
-                <span className="headline-gradient block">for the Eyes and Face</span>
+                Eyelid Surgery and{" "}
+                <span className="headline-gradient block">Specialized Eye Care</span>
               </h1>
               <p className="max-w-2xl text-base leading-relaxed text-muted-foreground min-[480px]:text-lg md:text-base lg:text-lg xl:text-xl">
-                Cosmetic and reconstructive care for the eyelids, tear system,
-                and orbit, planned around function and natural expression.
+                Dr. Nicolas Biro provides cosmetic and reconstructive care for heavy
+                or drooping eyelids, under-eye bags, tearing, and orbital conditions,
+                with planning that protects eye function and natural expression.
               </p>
             </div>
 

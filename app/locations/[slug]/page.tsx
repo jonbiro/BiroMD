@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   CalendarDays,
   Download,
+  Images,
   MapPin,
   Navigation,
   Phone,
@@ -48,8 +49,8 @@ export async function generateMetadata({
   if (!office) return {}
 
   return pageMetadata({
-    title: `Oculoplastic Care in ${office.name}`,
-    description: `Office, directions, phone, and appointment-request information for Dr. Nicolas Biro in ${office.name}, California.`,
+    title: `Eyelid Surgery & Oculoplastics in ${office.name}, CA`,
+    description: `Visit Dr. Nicolas Biro for eyelid and oculoplastic care at ${office.practiceName}, ${office.address}. Call ${office.phoneDisplay} to request a consultation.`,
     path: `/locations/${office.id}`,
   })
 }
@@ -124,7 +125,7 @@ export default async function LocationPage({
       />
       <PageIntro
         eyebrow="Office Location"
-        title={`Oculoplastic Care in ${office.name}`}
+        title={`Eyelid and Oculoplastic Care in ${office.name}`}
         description={`Consultations with ${siteConfig.shortName} are available through ${office.practiceName}. ${office.appointmentMode === "online" ? "Request a consultation online or call the office directly." : "Call the office directly to request a consultation."}`}
         breadcrumbs={[
           { label: "Offices", href: "/locations" },
@@ -267,6 +268,13 @@ export default async function LocationPage({
           >
             Plan your consultation
             <ArrowRight className="ml-2 h-4 w-4" />
+          </a>
+          <a
+            href="/gallery"
+            className="inline-flex min-h-11 items-center text-sm font-semibold text-secondary hover:underline"
+          >
+            <Images className="mr-2 h-4 w-4" aria-hidden="true" />
+            View Before &amp; After Results
           </a>
         </div>
       </section>

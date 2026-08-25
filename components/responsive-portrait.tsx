@@ -39,7 +39,7 @@ export function ResponsivePortrait({
       />
       <img
         src={versionedBrandAsset(`${portraitPath}-960.webp`)}
-        alt="Dr. Nicolas Biro"
+        alt="Dr. Nicolas Biro, board-certified ophthalmologist and oculoplastic surgeon"
         width="960"
         height="1200"
         loading={priority ? "eager" : "lazy"}

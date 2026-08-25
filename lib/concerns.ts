@@ -2,6 +2,8 @@ export type PatientConcern = {
   slug: string
   title: string
   shortTitle: string
+  seoTitle?: string
+  seoDescription?: string
   summary: string
   overview: string
   possibleContributors: string[]
@@ -17,6 +19,9 @@ export const patientConcerns: PatientConcern[] = [
     slug: "droopy-heavy-upper-eyelids",
     title: "Droopy or Heavy Upper Eyelids",
     shortTitle: "Droopy or heavy upper eyelids",
+    seoTitle: "Droopy or Hooded Upper Eyelids: Causes & Care",
+    seoDescription:
+      "Heavy or hooded upper eyelids may come from excess skin, ptosis, brow position, or more than one factor. Learn how an oculoplastic evaluation separates them.",
     summary:
       "Understand why a low or heavy upper eyelid may involve the eyelid skin, lifting mechanism, brow position, or more than one factor.",
     overview:

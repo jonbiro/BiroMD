@@ -34,8 +34,8 @@ export async function generateMetadata({
   if (!concern) return {}
 
   return pageMetadata({
-    title: `${concern.title} in the Greater Los Angeles area`,
-    description: concern.summary,
+    title: concern.seoTitle ?? `${concern.title}: Causes & Evaluation`,
+    description: concern.seoDescription ?? concern.summary,
     path: `/concerns/${concern.slug}`,
   })
 }
@@ -54,6 +54,9 @@ export default async function ConcernPage({
     .filter((procedure) => procedure !== undefined)
   const concernUrl = absoluteUrl(`/concerns/${concern.slug}`)
   const breadcrumbId = `${concernUrl}#breadcrumb`
+  const physicianId = absoluteUrl("/#physician")
+  const websiteId = absoluteUrl("/#website")
+  const concernId = `${concernUrl}#symptom`
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -65,8 +68,17 @@ export default async function ConcernPage({
         description: concern.summary,
         url: concernUrl,
         audience: { "@type": "Patient" },
+        about: { "@id": concernId },
+        isPartOf: { "@id": websiteId },
+        publisher: { "@id": physicianId },
         citation: concern.sources.map((source) => source.url),
         breadcrumb: { "@id": breadcrumbId },
+      },
+      {
+        "@type": "MedicalSignOrSymptom",
+        "@id": concernId,
+        name: concern.title,
+        description: concern.summary,
       },
       {
         "@type": "BreadcrumbList",
@@ -268,32 +280,35 @@ export default async function ConcernPage({
             ))}
           </div>
 
-          <div className="mt-6 border-t border-border pt-5">
-            <h3 className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-foreground">
-              Clinical references
-            </h3>
-            <ul className="mt-2 space-y-1">
-              {concern.sources.map((source) => (
-                <li key={source.url}>
-                  <a
-                    href={source.url}
-                    className="inline-flex min-h-11 items-center text-sm font-semibold text-secondary underline-offset-4 hover:underline"
-                  >
-                    {source.label}
-                    <ArrowUpRight className="ml-2 h-4 w-4 shrink-0" aria-hidden="true" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-3 text-sm text-muted-foreground">
-              See how sources, physician-review labels, and corrections are handled in
-              the{" "}
-              <a href="/content-standards" className="font-semibold text-secondary underline-offset-4 hover:underline">
-                BiroMD content standards
-              </a>
-              .
-            </p>
-          </div>
+        </div>
+      </section>
+
+      <section className="site-container px-4 md:px-6" aria-labelledby="concern-references">
+        <div className="panel rounded-[1.8rem] p-6 md:p-8">
+          <h2 id="concern-references" className="text-3xl font-semibold text-primary">
+            Clinical References
+          </h2>
+          <ul className="mt-3 space-y-1">
+            {concern.sources.map((source) => (
+              <li key={source.url}>
+                <a
+                  href={source.url}
+                  className="inline-flex min-h-11 items-center text-sm font-semibold text-secondary underline-offset-4 hover:underline"
+                >
+                  {source.label}
+                  <ArrowUpRight className="ml-2 h-4 w-4 shrink-0" aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-sm text-muted-foreground">
+            See how sources, physician-review labels, and corrections are handled in
+            the{" "}
+            <a href="/content-standards" className="font-semibold text-secondary underline-offset-4 hover:underline">
+              BiroMD content standards
+            </a>
+            .
+          </p>
         </div>
       </section>
 

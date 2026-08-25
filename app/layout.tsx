@@ -38,6 +38,7 @@ const physicianId = absoluteUrl("/#physician")
 const websiteId = absoluteUrl("/#website")
 const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim()
 const bingSiteVerification = process.env.BING_SITE_VERIFICATION?.trim()
+const homepageTitle = "Oculoplastic & Eyelid Surgeon in Los Angeles | Nicolas Biro, M.D."
 const contentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
@@ -54,7 +55,7 @@ const contentSecurityPolicy = [
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} | Oculoplastic Surgery`,
+    default: homepageTitle,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -68,7 +69,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: absoluteUrl("/"),
-    title: `${siteConfig.name} | Oculoplastic Surgery`,
+    title: homepageTitle,
     description: siteConfig.description,
     siteName: siteConfig.name,
     images: [
@@ -82,7 +83,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} | Oculoplastic Surgery`,
+    title: homepageTitle,
     description: siteConfig.description,
     images: [socialImage],
   },

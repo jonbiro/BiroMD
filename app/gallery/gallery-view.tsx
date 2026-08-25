@@ -159,7 +159,13 @@ export function GalleryView({ cases }: GalleryViewProps) {
                   <div className="absolute inset-x-4 top-4 z-10 flex items-start justify-between gap-4 text-white md:inset-x-8 md:top-8">
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-200">{item.categoryLabel}</p>
-                      <h2 id={`${dialogId}-title`} className="mt-1 text-2xl font-semibold text-white">{item.title}</h2>
+                      <p
+                        id={`${dialogId}-title`}
+                        data-gallery-dialog-title
+                        className="mt-1 text-2xl font-semibold text-white"
+                      >
+                        {item.title}
+                      </p>
                       <p className="mt-1 text-xs text-slate-300">{primaryImage.viewLabel} · {primaryImage.comparisonLabel}</p>
                     </div>
                     <button
