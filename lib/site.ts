@@ -93,7 +93,6 @@ export type Office = (typeof offices)[number]
 export const physicianProfileUrls = [
   offices[0].practiceUrl,
   offices[1].practiceUrl,
-  offices[2].practiceUrl,
   offices[3].practiceUrl,
   "https://www.healthgrades.com/physician/dr-nicolas-biro-xv4fv",
   "https://doctor.webmd.com/doctor/nicolas-biro-28e322ee-dec5-11e7-9f4c-005056a225bf-overview",
@@ -231,23 +230,19 @@ export function pageMetadata({
 export const physicianId = absoluteUrl("/#physician")
 export const physicianPersonId = absoluteUrl("/#physician-person")
 
-// Single source of truth for each office's MedicalClinic node. The root layout
-// and the office detail pages both emit this graph node under the same @id, so
-// they must agree field-for-field or consumers see two conflicting definitions.
+// Single source of truth for the independent practices where Dr. Biro sees patients.
 export function officeClinicSchema(office: Office) {
   const officeUrl = absoluteUrl(`/locations/${office.id}`)
 
   return {
     "@type": "MedicalClinic",
     "@id": `${officeUrl}#office`,
-    name: `${siteConfig.shortName} - ${office.name}`,
+    name: `${office.practiceName} - ${office.name}`,
     url: officeUrl,
-    sameAs: office.practiceUrl,
     hasMap: office.mapUrl,
     telephone: office.phoneHref,
-    medicalSpecialty: "Ophthalmology",
+    medicalSpecialty: "https://schema.org/Ophthalmologic",
     availableLanguage: siteConfig.languages,
-    employee: { "@id": physicianPersonId },
     address: {
       "@type": "PostalAddress",
       streetAddress: office.streetAddress,

@@ -89,7 +89,7 @@ export const procedures: Procedure[] = [
     slug: "lower-blepharoplasty",
     title: "Lower Blepharoplasty",
     shortTitle: "Lower blepharoplasty",
-    seoTitle: "Lower Blepharoplasty for Under-Eye Bags",
+    seoTitle: "Lower Blepharoplasty for Under-Eye Bags in LA",
     seoDescription:
       "Learn how lower eyelid surgery may address under-eye bags and how Dr. Nicolas Biro evaluates eyelid support, eye prominence, skin, fat, and the lid-cheek contour.",
     categoryId: "cosmetic-eyelid-surgery",
@@ -191,7 +191,7 @@ export const procedures: Procedure[] = [
     title: "Ptosis Repair",
     pageTitle: "Ptosis Repair (Droopy Eyelid Surgery)",
     shortTitle: "Ptosis repair",
-    seoTitle: "Ptosis Repair (Droopy Eyelid Surgery) in Los Angeles",
+    seoTitle: "Ptosis (Droopy Eyelid) Surgery in Los Angeles",
     seoDescription:
       "Ptosis is drooping of the upper eyelid. See what an oculoplastic evaluation covers: eyelid measurements, lifting-muscle function, pupils, and eye movements.",
     categoryId: "reconstructive-oculoplastics",
@@ -242,7 +242,7 @@ export const procedures: Procedure[] = [
     slug: "entropion-ectropion-repair",
     title: "Entropion and Ectropion Repair",
     shortTitle: "Entropion and ectropion repair",
-    seoTitle: "Entropion & Ectropion Repair (Eyelid Turning In or Out)",
+    seoTitle: "Eyelid Turning In or Out (Entropion & Ectropion)",
     seoDescription:
       "Entropion turns the eyelid inward so lashes rub the eye. Ectropion turns it outward, affecting closure and tear drainage. What an evaluation looks for.",
     categoryId: "reconstructive-oculoplastics",
@@ -344,7 +344,7 @@ export const procedures: Procedure[] = [
     slug: "tearing-blocked-tear-ducts",
     title: "Tearing and Blocked Tear Ducts",
     shortTitle: "Tearing and blocked tear ducts",
-    seoTitle: "Tearing & Blocked Tear Ducts (Watery Eyes)",
+    seoTitle: "Tearing & Blocked Tear Ducts (Watery Eyes) in LA",
     seoDescription:
       "A watery eye does not always mean a blocked duct. Irritation, eyelid position, and drainage narrowing can all cause tearing, so the exam comes first.",
     categoryId: "reconstructive-oculoplastics",
@@ -446,7 +446,7 @@ export const procedures: Procedure[] = [
     slug: "orbital-tumors-trauma",
     title: "Orbital Tumors and Trauma",
     shortTitle: "Orbital tumors and trauma",
-    seoTitle: "Orbital Tumors & Trauma (Eye Socket) in Los Angeles",
+    seoTitle: "Eye Socket Tumors & Trauma in Los Angeles",
     seoDescription:
       "A mass or injury in the eye socket can affect eye position, movement, sensation, or vision. What an evaluation covers and which symptoms need emergency care.",
     categoryId: "reconstructive-oculoplastics",

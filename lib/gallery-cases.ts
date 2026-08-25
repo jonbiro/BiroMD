@@ -25,6 +25,7 @@ export type GalleryCase = {
   id: string
   slug?: string
   title: string
+  seoTitle?: string
   category: "cosmetic" | "reconstructive"
   categoryLabel: string
   focus: string
@@ -112,7 +113,6 @@ const galleryCases: GalleryCase[] = [
       "A periocular lesion near the inner eyelid region was evaluated for removal.",
     technique:
       "The supplied photographs document the lesion before treatment and the healed appearance after removal.",
-    relatedProcedureSlugs: ["eyelid-cancer-mohs-reconstruction"],
     images: assetsFor(
       "periocular-lesion-removal",
       "Before and after removal of a lesion near the inner eyelid region"
@@ -124,6 +124,7 @@ const galleryCases: GalleryCase[] = [
     id: "eyelid-trauma",
     slug: "mohs-eyelid-reconstruction",
     title: "Mohs Cancer Removal Reconstruction",
+    seoTitle: "Mohs Eyelid Reconstruction",
     category: "reconstructive",
     categoryLabel: "Reconstructive Oculoplastics",
     focus: "Eyelid Margin Reconstruction",
@@ -149,7 +150,6 @@ const galleryCases: GalleryCase[] = [
       "The patient had a large scalp defect after Mohs surgery for skin cancer removal.",
     technique:
       "A rotational flap was designed and advanced to close the defect with reduced tension while preserving the surrounding hair-bearing tissue.",
-    relatedProcedureSlugs: ["eyelid-cancer-mohs-reconstruction"],
     images: assetsFor(
       "scalp-reconstruction",
       "Before and after scalp reconstruction showing Mohs defect closure"
@@ -160,6 +160,7 @@ const galleryCases: GalleryCase[] = [
   {
     id: "eyebrow-reconstruction",
     title: "Eyebrow and Forehead Reconstruction",
+    seoTitle: "Eyebrow & Forehead Reconstruction",
     category: "reconstructive",
     categoryLabel: "Reconstructive Oculoplastics",
     focus: "Forehead Defect Repair",

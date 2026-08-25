@@ -119,8 +119,11 @@ const organizationSchema = {
       "@id": physicianId,
       name: siteConfig.name,
       description: siteConfig.description,
-      medicalSpecialty: "Ophthalmology",
+      medicalSpecialty: "https://schema.org/Ophthalmologic",
       knowsAbout: procedures.map((procedure) => procedure.title),
+      availableService: procedures.map((procedure) => ({
+        "@id": absoluteUrl(`/procedures/${procedure.slug}#procedure`),
+      })),
       areaServed: siteConfig.areaServed,
       availableLanguage: siteConfig.languages,
       email: siteConfig.email,
@@ -128,9 +131,6 @@ const organizationSchema = {
       url: absoluteUrl("/"),
       sameAs: physicianProfileUrls,
       employee: { "@id": physicianPersonId },
-      workLocation: siteConfig.offices.map((office) => ({
-        "@id": absoluteUrl(`/locations/${office.id}#office`),
-      })),
     },
     // schema.org Physician is an organization type, so the human surgeon needs a
     // Person node for credentials and training to attach to. Only assert what the
@@ -140,12 +140,15 @@ const organizationSchema = {
       "@id": physicianPersonId,
       name: "Nicolas Biro",
       honorificSuffix: "M.D.",
-      jobTitle: "Oculoplastic and Orbital Surgeon",
+      jobTitle: "Oculoplastic Surgeon",
       description: siteConfig.description,
       image: portraitImage,
       url: absoluteUrl("/about"),
       knowsLanguage: ["en", "es", "fr"],
       knowsAbout: procedures.map((procedure) => procedure.title),
+      workLocation: siteConfig.offices.map((office) => ({
+        "@id": absoluteUrl(`/locations/${office.id}#office`),
+      })),
       alumniOf: [
         {
           "@type": "CollegeOrUniversity",

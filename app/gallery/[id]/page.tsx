@@ -45,7 +45,7 @@ export async function generateMetadata({
   }
 
   const metadata = pageMetadata({
-    title: `${item.title} Before and After`,
+    title: `${item.seoTitle ?? item.title} Before and After`,
     description: `${item.presentation} Review the documented surgical approach and authorized before-and-after image. Individual results vary.`,
     path: galleryCasePath(item),
   })
@@ -155,7 +155,7 @@ export default async function GalleryCasePage({
               "@type": "MedicalProcedure",
               name: procedure.title,
             }))
-          : { "@type": "MedicalCondition", name: item.focus },
+          : { "@type": "MedicalProcedure", name: item.title },
         ...(item.sensitive
           ? {}
           : {

@@ -44,9 +44,7 @@ const publicRoutes = [
   "/patient-guide",
   ...procedureSlugs.map((slug) => `/procedures/${slug}`),
   "/gallery",
-  ...galleryCaseIds
-    .filter((id) => !galleryRouteAliases[id])
-    .map((id) => `/gallery/${id}`),
+  ...galleryCaseIds.map((id) => galleryPathForId(id)),
   "/contact",
   "/locations",
   "/locations/westlake-village",
@@ -112,6 +110,18 @@ async function expectMinimumTargetHeight(locator: Locator, context: string) {
   for (const height of heights) {
     expect(height, `Undersized target in ${context}`).toBeGreaterThanOrEqual(44)
   }
+}
+
+type JsonLdNode = Record<string, unknown>
+
+async function structuredDataNodes(page: Page): Promise<JsonLdNode[]> {
+  const blocks = await page.locator('script[type="application/ld+json"]').allTextContents()
+
+  return blocks.flatMap((block) => {
+    const parsed = JSON.parse(block) as JsonLdNode
+    const graph = parsed["@graph"]
+    return Array.isArray(graph) ? (graph as JsonLdNode[]) : [parsed]
+  })
 }
 
 test("primary consultation action is readable in light and dark mode", async ({ page }) => {
@@ -775,7 +785,7 @@ test("legacy gallery aliases move visitors to the canonical case page", async ({
 
   await page.goto("/gallery/eyelid-trauma")
   await expect(page).toHaveURL(/\/gallery\/mohs-eyelid-reconstruction\/?$/)
-  await expect(page).toHaveTitle(/Mohs Cancer Removal Reconstruction Before and After/)
+  await expect(page).toHaveTitle("Mohs Eyelid Reconstruction Before and After | Biro MD")
   await expect(
     page.getByRole("heading", { name: "Mohs Cancer Removal Reconstruction Before and After" })
   ).toBeVisible()
@@ -1063,7 +1073,7 @@ test("medical metadata uses the service area and a durable FDA reference", async
 
   await page.goto("/procedures/ptosis-repair")
   await expect(page).toHaveTitle(
-    "Ptosis Repair (Droopy Eyelid Surgery) in Los Angeles | Biro MD"
+    "Ptosis (Droopy Eyelid) Surgery in Los Angeles | Biro MD"
   )
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Ptosis Repair (Droopy Eyelid Surgery)"
@@ -1071,7 +1081,7 @@ test("medical metadata uses the service area and a durable FDA reference", async
 
   await page.goto("/procedures/entropion-ectropion-repair")
   await expect(page).toHaveTitle(
-    "Entropion & Ectropion Repair (Eyelid Turning In or Out) | Biro MD"
+    "Eyelid Turning In or Out (Entropion & Ectropion) | Biro MD"
   )
 
   await page.goto("/procedures/botox")
@@ -1086,6 +1096,47 @@ test("medical metadata uses the service area and a durable FDA reference", async
     "href",
     "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=103000"
   )
+
+  const nodes = await structuredDataNodes(page)
+  const physician = nodes.find((node) => node["@type"] === "Physician")
+  const person = nodes.find((node) => node["@type"] === "Person")
+  const procedure = nodes.find((node) => node["@type"] === "MedicalProcedure")
+  const clinics = nodes.filter((node) => node["@type"] === "MedicalClinic")
+
+  expect(physician).toMatchObject({
+    medicalSpecialty: "https://schema.org/Ophthalmologic",
+  })
+  expect(physician).not.toHaveProperty("workLocation")
+  expect(physician?.availableService).toHaveLength(procedureSlugs.length)
+  expect(person).toMatchObject({
+    jobTitle: "Oculoplastic Surgeon",
+  })
+  expect(person?.workLocation).toHaveLength(4)
+  expect(person?.sameAs).not.toContain("https://www.acvci.com/")
+  expect(procedure).toMatchObject({
+    procedureType: "https://schema.org/NoninvasiveProcedure",
+    relevantSpecialty: "https://schema.org/Ophthalmologic",
+  })
+  for (const unsupportedProperty of [
+    "bodyLocation",
+    "status",
+    "howPerformed",
+    "preparation",
+    "followup",
+    "performer",
+  ]) {
+    expect(procedure).not.toHaveProperty(unsupportedProperty)
+  }
+  expect(clinics.map((clinic) => clinic.name)).toEqual([
+    "DLV Vision - Westlake Village",
+    "Pacific Eye Institute - Rancho Cucamonga",
+    "A Center for Vision Care - Burbank",
+    "Laser Eye Center - Downtown Los Angeles",
+  ])
+  for (const clinic of clinics) {
+    expect(clinic).not.toHaveProperty("sameAs")
+    expect(clinic).not.toHaveProperty("employee")
+  }
 })
 
 test("symptom guides explain evaluation and urgent next steps", async ({ page }) => {
@@ -1180,8 +1231,13 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
     .locator("xpath=ancestor::section")
   await expect(patientResources.getByRole("link", { name: /Before & After/ })).toHaveAttribute(
     "href",
-    /^\/gallery\//
+    "/gallery/upper-blepharoplasty"
   )
+  await expect(
+    patientResources.getByRole("link", {
+      name: "Upper and Lower Blepharoplasty before and after",
+    })
+  ).toHaveAttribute("href", "/gallery/upper-lower-blepharoplasty")
   await expect(patientResources.getByRole("link", { name: "Plan Your Visit" })).toHaveAttribute(
     "href",
     "/patient-guide"
@@ -1193,6 +1249,18 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
     "href",
     "/procedures/ptosis-repair"
   )
+
+  await page.goto("/procedures/eyelid-cancer-mohs-reconstruction")
+  const reconstructiveResources = page.getByRole("heading", { name: "Helpful Next Steps" })
+    .locator("xpath=ancestor::section")
+  await expect(
+    reconstructiveResources.getByRole("link", { name: "See Related Before & After" })
+  ).toHaveAttribute("href", "/gallery/mohs-eyelid-reconstruction")
+  await expect(reconstructiveResources).toContainText(
+    "Eyebrow and Forehead Reconstruction before and after"
+  )
+  await expect(reconstructiveResources).not.toContainText("Periocular Lesion Removal")
+  await expect(reconstructiveResources).not.toContainText("Scalp Defect Reconstruction")
 
   await page.goto("/about")
   await expect(
@@ -1560,6 +1628,25 @@ test("every public route has a sound document structure", async ({ page }) => {
           }
         })
         .filter(Boolean)
+      const structuredDataIds = [
+        ...document.querySelectorAll<HTMLScriptElement>('script[type="application/ld+json"]'),
+      ].flatMap((script) => {
+        try {
+          const data = JSON.parse(script.textContent ?? "") as Record<string, unknown>
+          const graph = data["@graph"]
+          const nodes = Array.isArray(graph)
+            ? (graph as Array<Record<string, unknown>>)
+            : [data]
+          return nodes
+            .map((node) => node["@id"])
+            .filter((id): id is string => typeof id === "string")
+        } catch {
+          return []
+        }
+      })
+      const duplicateStructuredDataIds = structuredDataIds.filter(
+        (id, index) => structuredDataIds.indexOf(id) !== index
+      )
       const unnamedControls = [...document.querySelectorAll("a, button")]
         .filter((element) => {
           const label = [
@@ -1585,11 +1672,13 @@ test("every public route has a sound document structure", async ({ page }) => {
         brokenLoadedImages,
         nestedInteractiveControls,
         invalidStructuredData,
+        duplicateStructuredDataIds,
         unnamedControls,
       }
     })
 
     expect(audit.title, route).not.toBe("")
+    expect(audit.title.length, `Title exceeds 60 characters on ${route}`).toBeLessThanOrEqual(60)
     expect(titles.has(audit.title), `Duplicate title on ${route}: ${audit.title}`).toBe(false)
     titles.add(audit.title)
     expect(audit.h1Count, route).toBe(1)
@@ -1601,6 +1690,7 @@ test("every public route has a sound document structure", async ({ page }) => {
     expect(audit.brokenLoadedImages, route).toEqual([])
     expect(audit.nestedInteractiveControls, route).toEqual([])
     expect(audit.invalidStructuredData, route).toEqual([])
+    expect(audit.duplicateStructuredDataIds, route).toEqual([])
     expect(audit.unnamedControls, route).toEqual([])
     if (route.startsWith("/procedures/") || route.startsWith("/concerns/")) {
       await expect(page.getByRole("heading", { name: "Clinical references" })).toBeVisible()

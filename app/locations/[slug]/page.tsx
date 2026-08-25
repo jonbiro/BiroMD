@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button"
 import {
   absoluteUrl,
   officeAppointmentLabel,
-  officeClinicSchema,
   offices,
   pageMetadata,
   siteConfig,
@@ -70,7 +69,6 @@ export default async function LocationPage({
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
-      officeClinicSchema(office),
       {
         "@type": "BreadcrumbList",
         "@id": breadcrumbId,
