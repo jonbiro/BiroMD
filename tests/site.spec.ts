@@ -102,7 +102,17 @@ async function expectNoHorizontalOverflow(page: Page, context = "page") {
   )
 }
 
-async function expectMinimumTargetHeight(locator: Locator, context: string) {
+async function routeCanonicalDomainToLocalExport(page: Page) {
+  await page.route("https://biromd.com/**", async (route) => {
+    const url = new URL(route.request().url())
+    const localResponse = await page.request.get(`${url.pathname}${url.search}`)
+    await route.fulfill({ response: localResponse })
+  })
+}
+
+// This site uses 44px as a comfort target for an older patient audience.
+// WCAG 2.2 criterion 2.5.8 requires 24px, not 44px.
+async function expectComfortableTargetHeight(locator: Locator, context: string) {
   const heights = await locator.evaluateAll((elements) =>
     elements.map((element) => element.getBoundingClientRect().height)
   )
@@ -783,12 +793,34 @@ test("legacy gallery aliases move visitors to the canonical case page", async ({
     "The legacy gallery case is not authorized for this build"
   )
 
+  await routeCanonicalDomainToLocalExport(page)
   await page.goto("/gallery/eyelid-trauma")
   await expect(page).toHaveURL(/\/gallery\/mohs-eyelid-reconstruction\/?$/)
   await expect(page).toHaveTitle("Mohs Eyelid Reconstruction Before and After | Biro MD")
   await expect(
-    page.getByRole("heading", { name: "Mohs Cancer Removal Reconstruction Before and After" })
+    page.getByRole("heading", { name: "Mohs Eyelid Reconstruction Before and After" })
   ).toBeVisible()
+})
+
+test("redirect stubs avoid noindex and escape non-canonical mirrors", async ({ request }) => {
+  const redirects = [
+    { path: "/services", destination: "https://biromd.com/procedures" },
+    ...(galleryCaseIds.includes("eyelid-trauma")
+      ? [{
+          path: "/gallery/eyelid-trauma",
+          destination: "https://biromd.com/gallery/mohs-eyelid-reconstruction",
+        }]
+      : []),
+  ]
+
+  for (const redirect of redirects) {
+    const response = await request.get(redirect.path)
+    const html = await response.text()
+    expect(html, redirect.path).toContain(redirect.destination)
+    expect(html, `Unexpected noindex directive on ${redirect.path}`).not.toMatch(
+      /<meta[^>]+content="[^"]*\bnoindex\b[^"]*"[^>]*>/i
+    )
+  }
 })
 
 test("multi-view gallery cases preserve matched comparisons", async ({ page }) => {
@@ -808,6 +840,27 @@ test("multi-view gallery cases preserve matched comparisons", async ({ page }) =
     page.locator('main [data-comparison-preview][role="img"]')
   ).toHaveCount(3)
   await expectNoHorizontalOverflow(page, "multi-view gallery case at 390px")
+})
+
+test("gallery case pages provide valid neighboring case links", async ({ page }) => {
+  test.skip(galleryCaseIds.length < 2, "Fewer than two gallery cases are authorized")
+
+  for (const caseId of galleryCaseIds) {
+    const currentPath = galleryPathForId(caseId)
+    await page.goto(currentPath)
+    const relatedNavigation = page.getByRole("navigation", {
+      name: "More before-and-after cases",
+    })
+    await expect(relatedNavigation).toBeVisible()
+    const links = relatedNavigation.getByRole("link")
+    const expectedCount = Math.min(2, galleryCaseIds.length - 1)
+    await expect(links).toHaveCount(expectedCount)
+    const hrefs = await links.evaluateAll((elements) =>
+      elements.map((element) => element.getAttribute("href"))
+    )
+    expect(new Set(hrefs).size, currentPath).toBe(expectedCount)
+    expect(hrefs, currentPath).not.toContain(currentPath)
+  }
 })
 
 test("graphic gallery cases require an explicit reveal", async ({ page }) => {
@@ -1108,10 +1161,13 @@ test("medical metadata uses the service area and a durable FDA reference", async
   })
   expect(physician).not.toHaveProperty("workLocation")
   expect(physician?.availableService).toHaveLength(procedureSlugs.length)
+  expect(physician?.knowsLanguage).toEqual(["English", "Spanish", "French"])
+  expect(physician).not.toHaveProperty("availableLanguage")
   expect(person).toMatchObject({
     jobTitle: "Oculoplastic Surgeon",
   })
   expect(person?.workLocation).toHaveLength(4)
+  expect(person?.knowsLanguage).toEqual(["English", "Spanish", "French"])
   expect(person?.sameAs).not.toContain("https://www.acvci.com/")
   expect(procedure).toMatchObject({
     procedureType: "https://schema.org/NoninvasiveProcedure",
@@ -1136,6 +1192,8 @@ test("medical metadata uses the service area and a durable FDA reference", async
   for (const clinic of clinics) {
     expect(clinic).not.toHaveProperty("sameAs")
     expect(clinic).not.toHaveProperty("employee")
+    expect(clinic).not.toHaveProperty("availableLanguage")
+    expect(clinic.knowsLanguage).toEqual(["English", "Spanish", "French"])
   }
 })
 
@@ -1388,6 +1446,7 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
 })
 
 test("legacy care pathways route moves visitors to the procedure directory", async ({ page }) => {
+  await routeCanonicalDomainToLocalExport(page)
   await page.goto("/services")
   await expect(page).toHaveURL(/\/procedures\/?$/)
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
@@ -1477,7 +1536,7 @@ test("long patient education pages provide mobile in-page navigation", async ({ 
     const navigation = page.getByRole("navigation", { name: "On this page" })
     await expect(navigation).toBeVisible()
     const links = navigation.getByRole("link")
-    await expectMinimumTargetHeight(links, `${route} in-page navigation`)
+    await expectComfortableTargetHeight(links, `${route} in-page navigation`)
 
     const hrefs = await links.evaluateAll((elements) =>
       elements.map((element) => element.getAttribute("href") ?? "")
@@ -1511,31 +1570,31 @@ test("office secondary actions meet mobile touch-target guidance", async ({ page
   await page.goto("/")
   const footer = page.locator("footer")
   await footer.locator("summary").filter({ hasText: /^Offices$/ }).click()
-  await expectMinimumTargetHeight(
+  await expectComfortableTargetHeight(
     footer.locator('a[href^="tel:"]'),
     "footer phone links"
   )
 
   await page.goto("/locations")
-  await expectMinimumTargetHeight(
+  await expectComfortableTargetHeight(
     page.locator('main a[href^="tel:"]'),
     "office index phone links"
   )
 
   await page.goto("/contact")
-  await expectMinimumTargetHeight(
+  await expectComfortableTargetHeight(
     page.getByRole("link", { name: "View office details" }),
     "contact office detail links"
   )
 
   await page.goto("/locations/downtown-los-angeles")
-  await expectMinimumTargetHeight(
+  await expectComfortableTargetHeight(
     page.locator('main a[href^="tel:"]'),
     "office detail phone links"
   )
 
   await page.goto("/notice-of-privacy-practices")
-  await expectMinimumTargetHeight(
+  await expectComfortableTargetHeight(
     page.locator('main a[href^="tel:"]'),
     "privacy notice phone links"
   )
@@ -1550,18 +1609,18 @@ test("footer navigation and legal links meet mobile touch-target guidance", asyn
   const footer = page.locator("footer")
 
   await footer.locator("summary").filter({ hasText: /^Offices$/ }).click()
-  await expectMinimumTargetHeight(
+  await expectComfortableTargetHeight(
     footer.locator('a[href^="/locations/"]'),
     "footer office links"
   )
 
   await footer.locator("summary").filter({ hasText: /^Explore$/ }).click()
-  await expectMinimumTargetHeight(
+  await expectComfortableTargetHeight(
     footer.locator('a[href="/procedures"], a[href="/concerns"], a[href="/gallery"]'),
     "footer explore links"
   )
 
-  await expectMinimumTargetHeight(
+  await expectComfortableTargetHeight(
     footer.locator(
       'a[href="/privacy"], a[href="/accessibility"], a[href="/content-standards"], a[href="/notice-of-privacy-practices"]'
     ),
@@ -1628,6 +1687,8 @@ test("every public route has a sound document structure", async ({ page }) => {
           }
         })
         .filter(Boolean)
+      const robotsContent = document.querySelector<HTMLMetaElement>('meta[name="robots"]')
+        ?.content ?? ""
       const structuredDataIds = [
         ...document.querySelectorAll<HTMLScriptElement>('script[type="application/ld+json"]'),
       ].flatMap((script) => {
@@ -1672,6 +1733,7 @@ test("every public route has a sound document structure", async ({ page }) => {
         brokenLoadedImages,
         nestedInteractiveControls,
         invalidStructuredData,
+        hasNoIndex: /(?:^|,)\s*noindex(?:\s|,|$)/i.test(robotsContent),
         duplicateStructuredDataIds,
         unnamedControls,
       }
@@ -1690,6 +1752,7 @@ test("every public route has a sound document structure", async ({ page }) => {
     expect(audit.brokenLoadedImages, route).toEqual([])
     expect(audit.nestedInteractiveControls, route).toEqual([])
     expect(audit.invalidStructuredData, route).toEqual([])
+    expect(audit.hasNoIndex, `Unexpected noindex directive on ${route}`).toBe(false)
     expect(audit.duplicateStructuredDataIds, route).toEqual([])
     expect(audit.unnamedControls, route).toEqual([])
     if (route.startsWith("/procedures/") || route.startsWith("/concerns/")) {

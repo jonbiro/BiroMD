@@ -125,7 +125,7 @@ const organizationSchema = {
         "@id": absoluteUrl(`/procedures/${procedure.slug}#procedure`),
       })),
       areaServed: siteConfig.areaServed,
-      availableLanguage: siteConfig.languages,
+      knowsLanguage: siteConfig.languages,
       email: siteConfig.email,
       image: portraitImage,
       url: absoluteUrl("/"),
@@ -144,7 +144,7 @@ const organizationSchema = {
       description: siteConfig.description,
       image: portraitImage,
       url: absoluteUrl("/about"),
-      knowsLanguage: ["en", "es", "fr"],
+      knowsLanguage: siteConfig.languages,
       knowsAbout: procedures.map((procedure) => procedure.title),
       workLocation: siteConfig.offices.map((office) => ({
         "@id": absoluteUrl(`/locations/${office.id}#office`),

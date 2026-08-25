@@ -34,16 +34,16 @@ export default function NotFound() {
           <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
             Continue browsing
           </h2>
-          <ul className="mt-3 grid gap-1 sm:grid-cols-2">
+          <ul className="mt-3 grid gap-2 sm:grid-cols-2">
             {recoveryLinks.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="group inline-flex min-h-11 items-center text-sm font-medium text-foreground transition-colors hover:text-secondary"
+                  className="group flex min-h-12 w-full items-center justify-between gap-3 rounded-xl border border-border/70 bg-background/55 px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-secondary hover:bg-accent hover:text-secondary"
                 >
                   {link.label}
                   <ArrowRight
-                    className="ml-1.5 h-3.5 w-3.5 opacity-0 transition group-hover:opacity-100"
+                    className="h-4 w-4 shrink-0 text-secondary transition-transform group-hover:translate-x-0.5"
                     aria-hidden="true"
                   />
                 </a>

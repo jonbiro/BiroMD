@@ -36,6 +36,8 @@ const concernSlugs = [
 const galleryRouteAliases = {
   "eyelid-trauma": "mohs-eyelid-reconstruction",
 }
+const canonicalOrigin = "https://biromd.com"
+const canonicalUrl = (route) => new URL(route, canonicalOrigin).toString()
 if (!process.env.GALLERY_AUTHORIZED_CASE_IDS?.trim()) {
   console.error(
     "GALLERY_AUTHORIZED_CASE_IDS is required. Set the approved case IDs explicitly " +
@@ -109,16 +111,23 @@ for (const route of routes) {
   if (staticHtml.includes("self.__next_f") || /<script[^>]*src="\/_next\//.test(staticHtml)) {
     throw new Error(`Static route still includes Next hydration: ${route}`)
   }
+  if (/<meta[^>]+content="[^"]*\bnoindex\b[^"]*"[^>]*>/i.test(staticHtml)) {
+    throw new Error(`Unexpected noindex directive on public route: ${route}`)
+  }
+  if (staticHtml.includes('"availableLanguage"')) {
+    throw new Error(`Unsupported availableLanguage schema property on public route: ${route}`)
+  }
 }
 
 for (const [legacyId, canonicalId] of Object.entries(galleryRouteAliases)) {
   const route = `/gallery/${legacyId}`
   if (!routeFiles.has(route)) continue
   const legacyHtml = await readFile(routeFiles.get(route), "utf8")
+  const destination = canonicalUrl(`/gallery/${canonicalId}`)
   if (
     !legacyHtml.includes('http-equiv="refresh"') ||
-    !legacyHtml.includes(`url=/gallery/${canonicalId}`) ||
-    !legacyHtml.includes(`href="https://biromd.com/gallery/${canonicalId}"`)
+    !legacyHtml.includes(`url=${destination}`) ||
+    !legacyHtml.includes(`href="${destination}"`)
   ) {
     throw new Error(`Legacy gallery route does not redirect to its canonical case: ${route}`)
   }
@@ -140,8 +149,8 @@ if (!/<a href="https:\/\/biromd\.com\/"[^>]*data-header-brand="true"/.test(homep
 const legacyServices = await readFile(routeFiles.get("/services"), "utf8")
 if (
   !legacyServices.includes('http-equiv="refresh"') ||
-  !legacyServices.includes("url=/procedures") ||
-  !legacyServices.includes('href="https://biromd.com/procedures"')
+  !legacyServices.includes(`url=${canonicalUrl("/procedures")}`) ||
+  !legacyServices.includes(`href="${canonicalUrl("/procedures")}"`)
 ) {
   throw new Error("Legacy services route must redirect and canonicalize to /procedures.")
 }

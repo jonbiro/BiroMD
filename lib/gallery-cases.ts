@@ -123,8 +123,7 @@ const galleryCases: GalleryCase[] = [
   {
     id: "eyelid-trauma",
     slug: "mohs-eyelid-reconstruction",
-    title: "Mohs Cancer Removal Reconstruction",
-    seoTitle: "Mohs Eyelid Reconstruction",
+    title: "Mohs Eyelid Reconstruction",
     category: "reconstructive",
     categoryLabel: "Reconstructive Oculoplastics",
     focus: "Eyelid Margin Reconstruction",
@@ -135,7 +134,7 @@ const galleryCases: GalleryCase[] = [
     relatedProcedureSlugs: ["eyelid-cancer-mohs-reconstruction"],
     images: assetsFor(
       "eyelid-trauma",
-      "Before and after Mohs cancer removal eyelid reconstruction"
+      "Before and after eyelid reconstruction following Mohs surgery"
     ),
     sensitive: true,
     sensitiveLabel: "This comparison includes a visible eyelid surgical defect.",

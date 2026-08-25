@@ -242,7 +242,7 @@ export function officeClinicSchema(office: Office) {
     hasMap: office.mapUrl,
     telephone: office.phoneHref,
     medicalSpecialty: "https://schema.org/Ophthalmologic",
-    availableLanguage: siteConfig.languages,
+    knowsLanguage: siteConfig.languages,
     address: {
       "@type": "PostalAddress",
       streetAddress: office.streetAddress,
