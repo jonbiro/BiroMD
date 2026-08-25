@@ -50,7 +50,7 @@ export default function Footer() {
                   <li key={office.id} className="space-y-1.5">
                     <a
                       href={`/locations/${office.id}`}
-                      className="font-semibold text-foreground hover:text-secondary"
+                      className="inline-flex min-h-11 items-center font-semibold text-foreground hover:text-secondary"
                     >
                       {office.name}
                     </a>
@@ -90,7 +90,7 @@ export default function Footer() {
                   <li key={item.href}>
                     <a
                       href={item.href}
-                      className="group inline-flex items-center transition-colors hover:text-primary"
+                      className="group inline-flex min-h-11 items-center transition-colors hover:text-primary"
                     >
                       {item.label}
                       <ArrowUpRight className="ml-1 h-3 w-3 opacity-0 transition group-hover:opacity-100" />
@@ -128,20 +128,29 @@ export default function Footer() {
             <p>
               &copy; {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
             </p>
-            <div className="flex flex-wrap gap-x-4 gap-y-2">
-              <a href="/privacy" className="hover:text-primary hover:underline">
+            <div className="flex flex-wrap gap-x-4">
+              <a
+                href="/privacy"
+                className="inline-flex min-h-11 items-center hover:text-primary hover:underline"
+              >
                 Website Privacy
               </a>
               <a
                 href="/notice-of-privacy-practices"
-                className="hover:text-primary hover:underline"
+                className="inline-flex min-h-11 items-center hover:text-primary hover:underline"
               >
                 Privacy Practices
               </a>
-              <a href="/accessibility" className="hover:text-primary hover:underline">
+              <a
+                href="/accessibility"
+                className="inline-flex min-h-11 items-center hover:text-primary hover:underline"
+              >
                 Accessibility
               </a>
-              <a href="/content-standards" className="hover:text-primary hover:underline">
+              <a
+                href="/content-standards"
+                className="inline-flex min-h-11 items-center hover:text-primary hover:underline"
+              >
                 Content Standards
               </a>
             </div>

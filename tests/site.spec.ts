@@ -44,9 +44,7 @@ const publicRoutes = [
   "/patient-guide",
   ...procedureSlugs.map((slug) => `/procedures/${slug}`),
   "/gallery",
-  ...galleryCaseIds
-    .filter((id) => !galleryRouteAliases[id])
-    .map((id) => `/gallery/${id}`),
+  ...galleryCaseIds.map((id) => galleryPathForId(id)),
   "/contact",
   "/locations",
   "/locations/westlake-village",
@@ -104,7 +102,17 @@ async function expectNoHorizontalOverflow(page: Page, context = "page") {
   )
 }
 
-async function expectMinimumTargetHeight(locator: Locator, context: string) {
+async function routeCanonicalDomainToLocalExport(page: Page) {
+  await page.route("https://biromd.com/**", async (route) => {
+    const url = new URL(route.request().url())
+    const localResponse = await page.request.get(`${url.pathname}${url.search}`)
+    await route.fulfill({ response: localResponse })
+  })
+}
+
+// This site uses 44px as a comfort target for an older patient audience.
+// WCAG 2.2 criterion 2.5.8 requires 24px, not 44px.
+async function expectComfortableTargetHeight(locator: Locator, context: string) {
   const heights = await locator.evaluateAll((elements) =>
     elements.map((element) => element.getBoundingClientRect().height)
   )
@@ -112,6 +120,18 @@ async function expectMinimumTargetHeight(locator: Locator, context: string) {
   for (const height of heights) {
     expect(height, `Undersized target in ${context}`).toBeGreaterThanOrEqual(44)
   }
+}
+
+type JsonLdNode = Record<string, unknown>
+
+async function structuredDataNodes(page: Page): Promise<JsonLdNode[]> {
+  const blocks = await page.locator('script[type="application/ld+json"]').allTextContents()
+
+  return blocks.flatMap((block) => {
+    const parsed = JSON.parse(block) as JsonLdNode
+    const graph = parsed["@graph"]
+    return Array.isArray(graph) ? (graph as JsonLdNode[]) : [parsed]
+  })
 }
 
 test("primary consultation action is readable in light and dark mode", async ({ page }) => {
@@ -773,12 +793,34 @@ test("legacy gallery aliases move visitors to the canonical case page", async ({
     "The legacy gallery case is not authorized for this build"
   )
 
+  await routeCanonicalDomainToLocalExport(page)
   await page.goto("/gallery/eyelid-trauma")
   await expect(page).toHaveURL(/\/gallery\/mohs-eyelid-reconstruction\/?$/)
-  await expect(page).toHaveTitle(/Mohs Cancer Removal Reconstruction Before and After/)
+  await expect(page).toHaveTitle("Mohs Eyelid Reconstruction Before and After | Biro MD")
   await expect(
-    page.getByRole("heading", { name: "Mohs Cancer Removal Reconstruction Before and After" })
+    page.getByRole("heading", { name: "Mohs Eyelid Reconstruction Before and After" })
   ).toBeVisible()
+})
+
+test("redirect stubs avoid noindex and escape non-canonical mirrors", async ({ request }) => {
+  const redirects = [
+    { path: "/services", destination: "https://biromd.com/procedures" },
+    ...(galleryCaseIds.includes("eyelid-trauma")
+      ? [{
+          path: "/gallery/eyelid-trauma",
+          destination: "https://biromd.com/gallery/mohs-eyelid-reconstruction",
+        }]
+      : []),
+  ]
+
+  for (const redirect of redirects) {
+    const response = await request.get(redirect.path)
+    const html = await response.text()
+    expect(html, redirect.path).toContain(redirect.destination)
+    expect(html, `Unexpected noindex directive on ${redirect.path}`).not.toMatch(
+      /<meta[^>]+content="[^"]*\bnoindex\b[^"]*"[^>]*>/i
+    )
+  }
 })
 
 test("multi-view gallery cases preserve matched comparisons", async ({ page }) => {
@@ -798,6 +840,27 @@ test("multi-view gallery cases preserve matched comparisons", async ({ page }) =
     page.locator('main [data-comparison-preview][role="img"]')
   ).toHaveCount(3)
   await expectNoHorizontalOverflow(page, "multi-view gallery case at 390px")
+})
+
+test("gallery case pages provide valid neighboring case links", async ({ page }) => {
+  test.skip(galleryCaseIds.length < 2, "Fewer than two gallery cases are authorized")
+
+  for (const caseId of galleryCaseIds) {
+    const currentPath = galleryPathForId(caseId)
+    await page.goto(currentPath)
+    const relatedNavigation = page.getByRole("navigation", {
+      name: "More before-and-after cases",
+    })
+    await expect(relatedNavigation).toBeVisible()
+    const links = relatedNavigation.getByRole("link")
+    const expectedCount = Math.min(2, galleryCaseIds.length - 1)
+    await expect(links).toHaveCount(expectedCount)
+    const hrefs = await links.evaluateAll((elements) =>
+      elements.map((element) => element.getAttribute("href"))
+    )
+    expect(new Set(hrefs).size, currentPath).toBe(expectedCount)
+    expect(hrefs, currentPath).not.toContain(currentPath)
+  }
 })
 
 test("graphic gallery cases require an explicit reveal", async ({ page }) => {
@@ -915,6 +978,9 @@ test("horizontal gallery comparisons remain large enough to evaluate", async ({ 
 test("homepage heading is readable and graphic cases stay on the results page", async ({ page }) => {
   await page.setViewportSize({ width: 736, height: 758 })
   await page.goto("/")
+  await expect(page).toHaveTitle(
+    "Eyelid Surgery & Blepharoplasty in Los Angeles | Biro MD"
+  )
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Eyelid Surgery and Specialized Eye Care"
   )
@@ -1060,7 +1126,7 @@ test("medical metadata uses the service area and a durable FDA reference", async
 
   await page.goto("/procedures/ptosis-repair")
   await expect(page).toHaveTitle(
-    "Ptosis Repair (Droopy Eyelid Surgery) in Los Angeles | Nicolas Biro, M.D."
+    "Ptosis (Droopy Eyelid) Surgery in Los Angeles | Biro MD"
   )
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Ptosis Repair (Droopy Eyelid Surgery)"
@@ -1068,12 +1134,12 @@ test("medical metadata uses the service area and a durable FDA reference", async
 
   await page.goto("/procedures/entropion-ectropion-repair")
   await expect(page).toHaveTitle(
-    "Entropion & Ectropion Repair (Eyelid Turning In or Out) | Nicolas Biro, M.D."
+    "Eyelid Turning In or Out (Entropion & Ectropion) | Biro MD"
   )
 
   await page.goto("/procedures/botox")
   await expect(page).toHaveTitle(
-    "Botulinum Toxin Injections in Los Angeles | Nicolas Biro, M.D."
+    "Botulinum Toxin Injections in Los Angeles | Biro MD"
   )
   await expect(page.getByRole("heading", { name: "Related symptom guides" })).toHaveCount(0)
   await expect(page.getByRole("heading", { name: "Helpful Next Steps" })).toBeVisible()
@@ -1083,6 +1149,52 @@ test("medical metadata uses the service area and a durable FDA reference", async
     "href",
     "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=103000"
   )
+
+  const nodes = await structuredDataNodes(page)
+  const physician = nodes.find((node) => node["@type"] === "Physician")
+  const person = nodes.find((node) => node["@type"] === "Person")
+  const procedure = nodes.find((node) => node["@type"] === "MedicalProcedure")
+  const clinics = nodes.filter((node) => node["@type"] === "MedicalClinic")
+
+  expect(physician).toMatchObject({
+    medicalSpecialty: "https://schema.org/Ophthalmologic",
+  })
+  expect(physician).not.toHaveProperty("workLocation")
+  expect(physician?.availableService).toHaveLength(procedureSlugs.length)
+  expect(physician?.knowsLanguage).toEqual(["English", "Spanish", "French"])
+  expect(physician).not.toHaveProperty("availableLanguage")
+  expect(person).toMatchObject({
+    jobTitle: "Oculoplastic Surgeon",
+  })
+  expect(person?.workLocation).toHaveLength(4)
+  expect(person?.knowsLanguage).toEqual(["English", "Spanish", "French"])
+  expect(person?.sameAs).not.toContain("https://www.acvci.com/")
+  expect(procedure).toMatchObject({
+    procedureType: "https://schema.org/NoninvasiveProcedure",
+    relevantSpecialty: "https://schema.org/Ophthalmologic",
+  })
+  for (const unsupportedProperty of [
+    "bodyLocation",
+    "status",
+    "howPerformed",
+    "preparation",
+    "followup",
+    "performer",
+  ]) {
+    expect(procedure).not.toHaveProperty(unsupportedProperty)
+  }
+  expect(clinics.map((clinic) => clinic.name)).toEqual([
+    "DLV Vision - Westlake Village",
+    "Pacific Eye Institute - Rancho Cucamonga",
+    "A Center for Vision Care - Burbank",
+    "Laser Eye Center - Downtown Los Angeles",
+  ])
+  for (const clinic of clinics) {
+    expect(clinic).not.toHaveProperty("sameAs")
+    expect(clinic).not.toHaveProperty("employee")
+    expect(clinic).not.toHaveProperty("availableLanguage")
+    expect(clinic.knowsLanguage).toEqual(["English", "Spanish", "French"])
+  }
 })
 
 test("symptom guides explain evaluation and urgent next steps", async ({ page }) => {
@@ -1177,8 +1289,13 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
     .locator("xpath=ancestor::section")
   await expect(patientResources.getByRole("link", { name: /Before & After/ })).toHaveAttribute(
     "href",
-    /^\/gallery\//
+    "/gallery/upper-blepharoplasty"
   )
+  await expect(
+    patientResources.getByRole("link", {
+      name: "Upper and Lower Blepharoplasty before and after",
+    })
+  ).toHaveAttribute("href", "/gallery/upper-lower-blepharoplasty")
   await expect(patientResources.getByRole("link", { name: "Plan Your Visit" })).toHaveAttribute(
     "href",
     "/patient-guide"
@@ -1190,6 +1307,18 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
     "href",
     "/procedures/ptosis-repair"
   )
+
+  await page.goto("/procedures/eyelid-cancer-mohs-reconstruction")
+  const reconstructiveResources = page.getByRole("heading", { name: "Helpful Next Steps" })
+    .locator("xpath=ancestor::section")
+  await expect(
+    reconstructiveResources.getByRole("link", { name: "See Related Before & After" })
+  ).toHaveAttribute("href", "/gallery/mohs-eyelid-reconstruction")
+  await expect(reconstructiveResources).toContainText(
+    "Eyebrow and Forehead Reconstruction before and after"
+  )
+  await expect(reconstructiveResources).not.toContainText("Periocular Lesion Removal")
+  await expect(reconstructiveResources).not.toContainText("Scalp Defect Reconstruction")
 
   await page.goto("/about")
   await expect(
@@ -1317,6 +1446,7 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
 })
 
 test("legacy care pathways route moves visitors to the procedure directory", async ({ page }) => {
+  await routeCanonicalDomainToLocalExport(page)
   await page.goto("/services")
   await expect(page).toHaveURL(/\/procedures\/?$/)
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
@@ -1406,7 +1536,7 @@ test("long patient education pages provide mobile in-page navigation", async ({ 
     const navigation = page.getByRole("navigation", { name: "On this page" })
     await expect(navigation).toBeVisible()
     const links = navigation.getByRole("link")
-    await expectMinimumTargetHeight(links, `${route} in-page navigation`)
+    await expectComfortableTargetHeight(links, `${route} in-page navigation`)
 
     const hrefs = await links.evaluateAll((elements) =>
       elements.map((element) => element.getAttribute("href") ?? "")
@@ -1440,34 +1570,75 @@ test("office secondary actions meet mobile touch-target guidance", async ({ page
   await page.goto("/")
   const footer = page.locator("footer")
   await footer.locator("summary").filter({ hasText: /^Offices$/ }).click()
-  await expectMinimumTargetHeight(
+  await expectComfortableTargetHeight(
     footer.locator('a[href^="tel:"]'),
     "footer phone links"
   )
 
   await page.goto("/locations")
-  await expectMinimumTargetHeight(
+  await expectComfortableTargetHeight(
     page.locator('main a[href^="tel:"]'),
     "office index phone links"
   )
 
   await page.goto("/contact")
-  await expectMinimumTargetHeight(
+  await expectComfortableTargetHeight(
     page.getByRole("link", { name: "View office details" }),
     "contact office detail links"
   )
 
   await page.goto("/locations/downtown-los-angeles")
-  await expectMinimumTargetHeight(
+  await expectComfortableTargetHeight(
     page.locator('main a[href^="tel:"]'),
     "office detail phone links"
   )
 
   await page.goto("/notice-of-privacy-practices")
-  await expectMinimumTargetHeight(
+  await expectComfortableTargetHeight(
     page.locator('main a[href^="tel:"]'),
     "privacy notice phone links"
   )
+})
+
+test("footer navigation and legal links meet mobile touch-target guidance", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("/")
+
+  const footer = page.locator("footer")
+
+  await footer.locator("summary").filter({ hasText: /^Offices$/ }).click()
+  await expectComfortableTargetHeight(
+    footer.locator('a[href^="/locations/"]'),
+    "footer office links"
+  )
+
+  await footer.locator("summary").filter({ hasText: /^Explore$/ }).click()
+  await expectComfortableTargetHeight(
+    footer.locator('a[href="/procedures"], a[href="/concerns"], a[href="/gallery"]'),
+    "footer explore links"
+  )
+
+  await expectComfortableTargetHeight(
+    footer.locator(
+      'a[href="/privacy"], a[href="/accessibility"], a[href="/content-standards"], a[href="/notice-of-privacy-practices"]'
+    ),
+    "footer legal links"
+  )
+})
+
+test("404 page offers recovery links into the main sections", async ({ page }) => {
+  await page.goto("/this-route-does-not-exist", { waitUntil: "domcontentloaded" })
+
+  const recovery = page.getByRole("heading", { name: "Continue browsing" })
+  await expect(recovery).toBeVisible()
+
+  const links = recovery.locator("xpath=..").getByRole("link")
+  expect(await links.count()).toBeGreaterThanOrEqual(6)
+  await expect(
+    recovery.locator("xpath=..").getByRole("link", { name: "Eyelid and oculoplastic procedures" })
+  ).toHaveAttribute("href", "/procedures")
 })
 
 test("every public route has a sound document structure", async ({ page }) => {
@@ -1516,6 +1687,27 @@ test("every public route has a sound document structure", async ({ page }) => {
           }
         })
         .filter(Boolean)
+      const robotsContent = document.querySelector<HTMLMetaElement>('meta[name="robots"]')
+        ?.content ?? ""
+      const structuredDataIds = [
+        ...document.querySelectorAll<HTMLScriptElement>('script[type="application/ld+json"]'),
+      ].flatMap((script) => {
+        try {
+          const data = JSON.parse(script.textContent ?? "") as Record<string, unknown>
+          const graph = data["@graph"]
+          const nodes = Array.isArray(graph)
+            ? (graph as Array<Record<string, unknown>>)
+            : [data]
+          return nodes
+            .map((node) => node["@id"])
+            .filter((id): id is string => typeof id === "string")
+        } catch {
+          return []
+        }
+      })
+      const duplicateStructuredDataIds = structuredDataIds.filter(
+        (id, index) => structuredDataIds.indexOf(id) !== index
+      )
       const unnamedControls = [...document.querySelectorAll("a, button")]
         .filter((element) => {
           const label = [
@@ -1541,11 +1733,14 @@ test("every public route has a sound document structure", async ({ page }) => {
         brokenLoadedImages,
         nestedInteractiveControls,
         invalidStructuredData,
+        hasNoIndex: /(?:^|,)\s*noindex(?:\s|,|$)/i.test(robotsContent),
+        duplicateStructuredDataIds,
         unnamedControls,
       }
     })
 
     expect(audit.title, route).not.toBe("")
+    expect(audit.title.length, `Title exceeds 60 characters on ${route}`).toBeLessThanOrEqual(60)
     expect(titles.has(audit.title), `Duplicate title on ${route}: ${audit.title}`).toBe(false)
     titles.add(audit.title)
     expect(audit.h1Count, route).toBe(1)
@@ -1557,6 +1752,8 @@ test("every public route has a sound document structure", async ({ page }) => {
     expect(audit.brokenLoadedImages, route).toEqual([])
     expect(audit.nestedInteractiveControls, route).toEqual([])
     expect(audit.invalidStructuredData, route).toEqual([])
+    expect(audit.hasNoIndex, `Unexpected noindex directive on ${route}`).toBe(false)
+    expect(audit.duplicateStructuredDataIds, route).toEqual([])
     expect(audit.unnamedControls, route).toEqual([])
     if (route.startsWith("/procedures/") || route.startsWith("/concerns/")) {
       await expect(page.getByRole("heading", { name: "Clinical references" })).toBeVisible()

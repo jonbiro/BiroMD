@@ -45,7 +45,7 @@ export async function generateMetadata({
   }
 
   const metadata = pageMetadata({
-    title: `${item.title} Before and After`,
+    title: `${item.seoTitle ?? item.title} Before and After`,
     description: `${item.presentation} Review the documented surgical approach and authorized before-and-after image. Individual results vary.`,
     path: galleryCasePath(item),
   })
@@ -93,13 +93,14 @@ export default async function GalleryCasePage({
 
   if (item.slug && id === item.id && item.slug !== item.id) {
     const destination = galleryCasePath(item)
+    const canonicalDestination = absoluteUrl(destination)
 
     return (
       <>
-        <meta httpEquiv="refresh" content={`0;url=${destination}`} />
+        <meta httpEquiv="refresh" content={`0;url=${canonicalDestination}`} />
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.location.replace(${JSON.stringify(destination)})`,
+            __html: `window.location.replace(${JSON.stringify(canonicalDestination)})`,
           }}
         />
         <div className="page-stack">
@@ -113,7 +114,7 @@ export default async function GalleryCasePage({
             ]}
             actions={
               <Button asChild>
-                <a href={destination}>
+                <a href={canonicalDestination}>
                   View the updated case
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
@@ -128,6 +129,18 @@ export default async function GalleryCasePage({
   const procedures = (item.relatedProcedureSlugs ?? [])
     .map((slug) => getProcedure(slug))
     .filter((procedure) => procedure !== undefined)
+  const publishedCases = getPublishedGalleryCases()
+  const currentCaseIndex = publishedCases.findIndex((caseItem) => caseItem.id === item.id)
+  const neighboringCases = currentCaseIndex >= 0 && publishedCases.length > 1
+    ? [
+        publishedCases[(currentCaseIndex - 1 + publishedCases.length) % publishedCases.length],
+        publishedCases[(currentCaseIndex + 1) % publishedCases.length],
+      ].filter(
+        (caseItem, index, cases) =>
+          caseItem.id !== item.id &&
+          cases.findIndex((candidate) => candidate.id === caseItem.id) === index
+      )
+    : []
   const primaryImage = item.images[0]
   const pageUrl = absoluteUrl(galleryCasePath(item))
   const imageObjects = item.images.map((image) => ({
@@ -151,7 +164,7 @@ export default async function GalleryCasePage({
               "@type": "MedicalProcedure",
               name: procedure.title,
             }))
-          : { "@type": "MedicalCondition", name: item.focus },
+          : { "@type": "MedicalProcedure", name: item.title },
         ...(item.sensitive
           ? {}
           : {
@@ -339,6 +352,49 @@ export default async function GalleryCasePage({
           ) : null}
         </div>
       </section>
+
+      {neighboringCases.length > 0 ? (
+        <section className="site-container px-4 md:px-6" aria-labelledby="more-cases-title">
+          <div className="panel rounded-[1.8rem] p-6 md:p-8">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">
+                  More Results
+                </p>
+                <h2 id="more-cases-title" className="mt-2 text-3xl font-semibold text-primary">
+                  Explore More Before-and-After Cases
+                </h2>
+              </div>
+              <a
+                href="/gallery"
+                className="inline-flex min-h-11 items-center self-start text-sm font-semibold text-secondary underline-offset-4 hover:underline sm:self-auto"
+              >
+                View all cases
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </a>
+            </div>
+            <nav aria-label="More before-and-after cases" className="mt-5 grid gap-3 md:grid-cols-2">
+              {neighboringCases.map((caseItem) => (
+                <a
+                  key={caseItem.id}
+                  href={galleryCasePath(caseItem)}
+                  className="group flex min-h-24 items-center justify-between gap-4 rounded-2xl border border-border bg-accent/35 p-5 transition-colors hover:border-secondary hover:bg-accent/60"
+                >
+                  <span>
+                    <span className="block text-xs font-bold uppercase tracking-[0.14em] text-secondary">
+                      {caseItem.categoryLabel}
+                    </span>
+                    <span className="mt-1 block text-xl font-semibold text-primary group-hover:text-secondary">
+                      {caseItem.title}
+                    </span>
+                  </span>
+                  <ArrowRight className="h-5 w-5 shrink-0 text-secondary transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                </a>
+              ))}
+            </nav>
+          </div>
+        </section>
+      ) : null}
 
       <ConsultationCta />
     </div>

@@ -25,6 +25,7 @@ export type GalleryCase = {
   id: string
   slug?: string
   title: string
+  seoTitle?: string
   category: "cosmetic" | "reconstructive"
   categoryLabel: string
   focus: string
@@ -122,7 +123,7 @@ const galleryCases: GalleryCase[] = [
   {
     id: "eyelid-trauma",
     slug: "mohs-eyelid-reconstruction",
-    title: "Mohs Cancer Removal Reconstruction",
+    title: "Mohs Eyelid Reconstruction",
     category: "reconstructive",
     categoryLabel: "Reconstructive Oculoplastics",
     focus: "Eyelid Margin Reconstruction",
@@ -133,7 +134,7 @@ const galleryCases: GalleryCase[] = [
     relatedProcedureSlugs: ["eyelid-cancer-mohs-reconstruction"],
     images: assetsFor(
       "eyelid-trauma",
-      "Before and after Mohs cancer removal eyelid reconstruction"
+      "Before and after eyelid reconstruction following Mohs surgery"
     ),
     sensitive: true,
     sensitiveLabel: "This comparison includes a visible eyelid surgical defect.",
@@ -158,6 +159,7 @@ const galleryCases: GalleryCase[] = [
   {
     id: "eyebrow-reconstruction",
     title: "Eyebrow and Forehead Reconstruction",
+    seoTitle: "Eyebrow & Forehead Reconstruction",
     category: "reconstructive",
     categoryLabel: "Reconstructive Oculoplastics",
     focus: "Forehead Defect Repair",
@@ -165,6 +167,7 @@ const galleryCases: GalleryCase[] = [
       "The patient had a surgical defect above the eyebrow and lateral forehead after skin cancer excision.",
     technique:
       "An advancement-transposition flap was planned along natural forehead lines to close the defect while limiting distortion of the eyebrow.",
+    relatedProcedureSlugs: ["eyelid-cancer-mohs-reconstruction"],
     images: assetsFor(
       "eyebrow-reconstruction",
       "Before and after forehead and eyebrow reconstruction"

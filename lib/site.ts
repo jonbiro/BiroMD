@@ -93,7 +93,6 @@ export type Office = (typeof offices)[number]
 export const physicianProfileUrls = [
   offices[0].practiceUrl,
   offices[1].practiceUrl,
-  offices[2].practiceUrl,
   offices[3].practiceUrl,
   "https://www.healthgrades.com/physician/dr-nicolas-biro-xv4fv",
   "https://doctor.webmd.com/doctor/nicolas-biro-28e322ee-dec5-11e7-9f4c-005056a225bf-overview",
@@ -120,6 +119,10 @@ export const patientFeedbackProfiles = [
 
 export const siteConfig = {
   name: "Nicolas Biro, M.D.",
+  // Short brand used as the <title> suffix. Matches the domain and the
+  // WebSite node's alternateName, and keeps ~11 more characters of each
+  // title inside the ~60-character SERP budget.
+  alternateName: "Biro MD",
   legalName: "Nicolas Biro, M.D. Oculoplastic Surgery",
   shortName: "Dr. Nicolas Biro",
   url: "https://biromd.com",
@@ -220,6 +223,33 @@ export function pageMetadata({
       title: `${title} | ${siteConfig.name}`,
       description,
       images: [socialImage],
+    },
+  }
+}
+
+export const physicianId = absoluteUrl("/#physician")
+export const physicianPersonId = absoluteUrl("/#physician-person")
+
+// Single source of truth for the independent practices where Dr. Biro sees patients.
+export function officeClinicSchema(office: Office) {
+  const officeUrl = absoluteUrl(`/locations/${office.id}`)
+
+  return {
+    "@type": "MedicalClinic",
+    "@id": `${officeUrl}#office`,
+    name: `${office.practiceName} - ${office.name}`,
+    url: officeUrl,
+    hasMap: office.mapUrl,
+    telephone: office.phoneHref,
+    medicalSpecialty: "https://schema.org/Ophthalmologic",
+    knowsLanguage: siteConfig.languages,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: office.streetAddress,
+      addressLocality: office.addressLocality,
+      addressRegion: office.addressRegion,
+      postalCode: office.postalCode,
+      addressCountry: "US",
     },
   }
 }

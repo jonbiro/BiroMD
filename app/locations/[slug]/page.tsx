@@ -49,7 +49,7 @@ export async function generateMetadata({
   if (!office) return {}
 
   return pageMetadata({
-    title: `Eyelid Surgery & Oculoplastics in ${office.name}, CA`,
+    title: `Eyelid Surgery in ${office.name}, CA`,
     description: `Visit Dr. Nicolas Biro for eyelid and oculoplastic care at ${office.practiceName}, ${office.address}. Call ${office.phoneDisplay} to request a consultation.`,
     path: `/locations/${office.id}`,
   })
@@ -64,32 +64,11 @@ export default async function LocationPage({
   const office = offices.find((item) => item.id === slug)
   if (!office) notFound()
   const officeUrl = absoluteUrl(`/locations/${office.id}`)
-  const physicianId = absoluteUrl("/#physician")
   const breadcrumbId = `${officeUrl}#breadcrumb`
 
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "MedicalClinic",
-        "@id": `${officeUrl}#office`,
-        name: `${siteConfig.shortName} - ${office.name}`,
-        url: officeUrl,
-        sameAs: office.practiceUrl,
-        hasMap: office.mapUrl,
-        telephone: office.phoneHref,
-        medicalSpecialty: "Ophthalmology",
-        availableLanguage: siteConfig.languages,
-        employee: { "@id": physicianId },
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: office.streetAddress,
-          addressLocality: office.addressLocality,
-          addressRegion: office.addressRegion,
-          postalCode: office.postalCode,
-          addressCountry: "US",
-        },
-      },
       {
         "@type": "BreadcrumbList",
         "@id": breadcrumbId,

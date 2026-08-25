@@ -127,6 +127,7 @@ export const patientConcerns: PatientConcern[] = [
   {
     slug: "eyelid-turning-in-or-out",
     title: "Eyelid Turning Inward or Outward",
+    seoTitle: "Eyelid Turning Inward or Outward",
     shortTitle: "Eyelid turning inward or outward",
     summary:
       "An eyelid that rolls inward or pulls away from the eye can interfere with lubrication, closure, tear drainage, and corneal protection.",
@@ -161,6 +162,7 @@ export const patientConcerns: PatientConcern[] = [
   {
     slug: "eyelid-lesion-mohs-reconstruction",
     title: "Eyelid Lesions and Reconstruction After Mohs",
+    seoTitle: "Eyelid Lesions & Mohs Reconstruction",
     shortTitle: "Eyelid lesion or Mohs reconstruction",
     summary:
       "Evaluation and reconstructive planning for eyelid or periocular lesions, biopsy sites, and defects after skin-cancer removal.",
@@ -195,6 +197,7 @@ export const patientConcerns: PatientConcern[] = [
   {
     slug: "bulging-eyes-thyroid-eye-disease",
     title: "Bulging Eyes or Thyroid Eye Disease",
+    seoTitle: "Bulging Eyes & Thyroid Eye Disease",
     shortTitle: "Bulging eyes or thyroid eye disease",
     summary:
       "Eye prominence, eyelid retraction, swelling, or double vision may require coordinated evaluation of the eyelids, eye surface, movement, orbit, and vision.",

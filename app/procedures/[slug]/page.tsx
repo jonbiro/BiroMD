@@ -19,7 +19,11 @@ import {
   galleryCasePath,
   getPublishedGalleryCases,
 } from "@/lib/gallery-cases"
-import { absoluteUrl, pageMetadata, siteConfig } from "@/lib/site"
+import {
+  absoluteUrl,
+  pageMetadata,
+  siteConfig,
+} from "@/lib/site"
 import { getProcedure, procedures } from "@/lib/procedures"
 
 export const dynamicParams = false
@@ -74,13 +78,16 @@ export default async function ProcedurePage({
     relatedConcerns.length > 0
       ? "Review authorized clinical cases, understand related symptoms, and prepare practical questions before contacting an office."
       : "Review authorized clinical cases and prepare practical questions before contacting an office."
-  const matchingCases = getPublishedGalleryCases().filter((item) =>
-    item.relatedProcedureSlugs?.includes(procedure.slug)
-  )
+  const matchingCases = getPublishedGalleryCases()
+    .filter((item) => item.relatedProcedureSlugs?.includes(procedure.slug))
+    .sort(
+      (a, b) =>
+        (a.relatedProcedureSlugs?.length ?? 0) -
+        (b.relatedProcedureSlugs?.length ?? 0)
+    )
   const procedureUrl = absoluteUrl(`/procedures/${procedure.slug}`)
   const breadcrumbId = `${procedureUrl}#breadcrumb`
   const procedureId = `${procedureUrl}#procedure`
-  const physicianId = absoluteUrl("/#physician")
   const websiteId = absoluteUrl("/#website")
 
   const schema = {
@@ -110,7 +117,6 @@ export default async function ProcedurePage({
             ? "https://schema.org/NoninvasiveProcedure"
             : "https://schema.org/SurgicalProcedure",
         relevantSpecialty: "https://schema.org/Ophthalmologic",
-        performer: { "@id": physicianId },
       },
       {
         "@type": "FAQPage",
@@ -276,6 +282,20 @@ export default async function ProcedurePage({
                 </a>
               </Button>
             </div>
+            {matchingCases.length > 1 ? (
+              <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
+                {matchingCases.slice(1).map((item) => (
+                  <li key={item.id}>
+                    <a
+                      href={galleryCasePath(item)}
+                      className="inline-flex min-h-11 items-center text-sm font-semibold text-secondary underline-offset-4 hover:underline"
+                    >
+                      {item.title} before and after
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </div>
 
           {relatedConcerns.length > 0 ? (
