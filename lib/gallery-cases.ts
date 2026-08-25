@@ -112,6 +112,7 @@ const galleryCases: GalleryCase[] = [
       "A periocular lesion near the inner eyelid region was evaluated for removal.",
     technique:
       "The supplied photographs document the lesion before treatment and the healed appearance after removal.",
+    relatedProcedureSlugs: ["eyelid-cancer-mohs-reconstruction"],
     images: assetsFor(
       "periocular-lesion-removal",
       "Before and after removal of a lesion near the inner eyelid region"
@@ -148,6 +149,7 @@ const galleryCases: GalleryCase[] = [
       "The patient had a large scalp defect after Mohs surgery for skin cancer removal.",
     technique:
       "A rotational flap was designed and advanced to close the defect with reduced tension while preserving the surrounding hair-bearing tissue.",
+    relatedProcedureSlugs: ["eyelid-cancer-mohs-reconstruction"],
     images: assetsFor(
       "scalp-reconstruction",
       "Before and after scalp reconstruction showing Mohs defect closure"
@@ -165,6 +167,7 @@ const galleryCases: GalleryCase[] = [
       "The patient had a surgical defect above the eyebrow and lateral forehead after skin cancer excision.",
     technique:
       "An advancement-transposition flap was planned along natural forehead lines to close the defect while limiting distortion of the eyebrow.",
+    relatedProcedureSlugs: ["eyelid-cancer-mohs-reconstruction"],
     images: assetsFor(
       "eyebrow-reconstruction",
       "Before and after forehead and eyebrow reconstruction"

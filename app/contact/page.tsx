@@ -1,5 +1,6 @@
 import {
   AlertTriangle,
+  ArrowRight,
   ArrowUpRight,
   CalendarDays,
   LockKeyhole,
@@ -206,6 +207,25 @@ export default function ContactPage() {
               Email Scheduling
             </a>
           </Button>
+        </div>
+      </section>
+
+      <section className="site-container px-4 md:px-6">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-border bg-accent/45 p-5">
+          <h2 className="font-sans text-sm font-semibold text-foreground">
+            Referring a patient?
+          </h2>
+          <p className="mt-1.5 text-sm text-muted-foreground">
+            Clinicians can review referral planning details, including what to send
+            and how urgent findings are handled.
+          </p>
+          <a
+            href="/referrals"
+            className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold text-secondary underline-offset-4 hover:underline"
+          >
+            Information for referring clinicians
+            <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+          </a>
         </div>
       </section>
 
