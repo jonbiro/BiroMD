@@ -915,6 +915,9 @@ test("horizontal gallery comparisons remain large enough to evaluate", async ({ 
 test("homepage heading is readable and graphic cases stay on the results page", async ({ page }) => {
   await page.setViewportSize({ width: 736, height: 758 })
   await page.goto("/")
+  await expect(page).toHaveTitle(
+    "Eyelid Surgery & Blepharoplasty in Los Angeles | Biro MD"
+  )
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Eyelid Surgery and Specialized Eye Care"
   )

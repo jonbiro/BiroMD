@@ -44,7 +44,7 @@ const portraitImage = absoluteUrl(
 const websiteId = absoluteUrl("/#website")
 const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim()
 const bingSiteVerification = process.env.BING_SITE_VERIFICATION?.trim()
-const homepageTitle = "Oculoplastic & Eyelid Surgeon in Los Angeles | Nicolas Biro, M.D."
+const homepageTitle = "Eyelid Surgery & Blepharoplasty in Los Angeles | Biro MD"
 const contentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
