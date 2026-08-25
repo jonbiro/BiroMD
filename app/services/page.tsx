@@ -11,7 +11,9 @@ export const metadata: Metadata = {
   description:
     "Explore cosmetic, reconstructive, tear-duct, orbital, and injectable oculoplastic procedures.",
   alternates: { canonical: absoluteUrl(destination) },
-  robots: { index: true, follow: true },
+  // Redirect stub: keep it crawlable so the redirect is followed, but never
+  // let it compete with /procedures in the index.
+  robots: { index: false, follow: true },
 }
 
 export default function ServicesPage() {

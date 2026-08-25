@@ -50,12 +50,16 @@ export async function generateMetadata({
     path: galleryCasePath(item),
   })
 
-  return item.sensitive
-    ? {
-        ...metadata,
-        robots: { index: true, follow: true, noimageindex: true },
-      }
-    : metadata
+  // Requests for the legacy case id render a redirect stub, so keep that copy
+  // out of the index while the canonical slug stays indexable.
+  const isLegacyIdStub = Boolean(item.slug) && id === item.id && item.slug !== item.id
+  const robots = {
+    index: !isLegacyIdStub,
+    follow: true,
+    ...(item.sensitive ? { noimageindex: true } : {}),
+  }
+
+  return { ...metadata, robots }
 }
 
 export default async function GalleryCasePage({

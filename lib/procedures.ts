@@ -89,7 +89,7 @@ export const procedures: Procedure[] = [
     slug: "lower-blepharoplasty",
     title: "Lower Blepharoplasty",
     shortTitle: "Lower blepharoplasty",
-    seoTitle: "Lower Blepharoplasty for Under-Eye Bags in Los Angeles",
+    seoTitle: "Lower Blepharoplasty for Under-Eye Bags",
     seoDescription:
       "Learn how lower eyelid surgery may address under-eye bags and how Dr. Nicolas Biro evaluates eyelid support, eye prominence, skin, fat, and the lid-cheek contour.",
     categoryId: "cosmetic-eyelid-surgery",
@@ -344,7 +344,7 @@ export const procedures: Procedure[] = [
     slug: "tearing-blocked-tear-ducts",
     title: "Tearing and Blocked Tear Ducts",
     shortTitle: "Tearing and blocked tear ducts",
-    seoTitle: "Tearing & Blocked Tear Ducts (Watery Eyes) in Los Angeles",
+    seoTitle: "Tearing & Blocked Tear Ducts (Watery Eyes)",
     seoDescription:
       "A watery eye does not always mean a blocked duct. Irritation, eyelid position, and drainage narrowing can all cause tearing, so the exam comes first.",
     categoryId: "reconstructive-oculoplastics",
