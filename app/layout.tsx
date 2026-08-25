@@ -5,7 +5,14 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { SkipLink } from "@/components/skip-link"
 import { versionedBrandAsset } from "@/lib/brand-assets"
-import { absoluteUrl, physicianProfileUrls, siteConfig } from "@/lib/site"
+import {
+  absoluteUrl,
+  officeClinicSchema,
+  physicianId,
+  physicianPersonId,
+  physicianProfileUrls,
+  siteConfig,
+} from "@/lib/site"
 import { procedures } from "@/lib/procedures"
 
 const outfit = Outfit({
@@ -34,7 +41,6 @@ const socialImage = absoluteUrl(versionedBrandAsset("/images/biromd-social-card.
 const portraitImage = absoluteUrl(
   versionedBrandAsset("/images/portrait/dr-biro-portrait-960.webp")
 )
-const physicianId = absoluteUrl("/#physician")
 const websiteId = absoluteUrl("/#website")
 const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim()
 const bingSiteVerification = process.env.BING_SITE_VERIFICATION?.trim()
@@ -56,7 +62,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: homepageTitle,
-    template: `%s | ${siteConfig.name}`,
+    template: `%s | ${siteConfig.alternateName}`,
   },
   description: siteConfig.description,
   alternates: { canonical: absoluteUrl("/") },
@@ -103,7 +109,7 @@ const organizationSchema = {
       "@type": "WebSite",
       "@id": websiteId,
       name: siteConfig.name,
-      alternateName: "Biro MD",
+      alternateName: siteConfig.alternateName,
       url: absoluteUrl("/"),
       inLanguage: "en-US",
       publisher: { "@id": physicianId },
@@ -121,28 +127,40 @@ const organizationSchema = {
       image: portraitImage,
       url: absoluteUrl("/"),
       sameAs: physicianProfileUrls,
+      employee: { "@id": physicianPersonId },
       workLocation: siteConfig.offices.map((office) => ({
         "@id": absoluteUrl(`/locations/${office.id}#office`),
       })),
     },
-    ...siteConfig.offices.map((office) => ({
-      "@type": "MedicalClinic",
-      "@id": absoluteUrl(`/locations/${office.id}#office`),
-      name: `${siteConfig.shortName} - ${office.name}`,
-      url: absoluteUrl(`/locations/${office.id}`),
-      telephone: office.phoneHref,
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: office.streetAddress,
-        addressLocality: office.addressLocality,
-        addressRegion: office.addressRegion,
-        postalCode: office.postalCode,
-        addressCountry: "US",
-      },
-      employee: { "@id": physicianId },
-      availableLanguage: siteConfig.languages,
-      medicalSpecialty: "Ophthalmology",
-    })),
+    // schema.org Physician is an organization type, so the human surgeon needs a
+    // Person node for credentials and training to attach to. Only assert what the
+    // site already publishes on /about; never add unverified credentials here.
+    {
+      "@type": "Person",
+      "@id": physicianPersonId,
+      name: "Nicolas Biro",
+      honorificSuffix: "M.D.",
+      jobTitle: "Oculoplastic and Orbital Surgeon",
+      description: siteConfig.description,
+      image: portraitImage,
+      url: absoluteUrl("/about"),
+      knowsLanguage: ["en", "es", "fr"],
+      knowsAbout: procedures.map((procedure) => procedure.title),
+      alumniOf: [
+        {
+          "@type": "CollegeOrUniversity",
+          name: "University of South Florida",
+        },
+        {
+          "@type": "MedicalOrganization",
+          name: "Wills Eye Hospital",
+          url: "https://www.willseye.org/",
+        },
+      ],
+      worksFor: { "@id": physicianId },
+      sameAs: physicianProfileUrls,
+    },
+    ...siteConfig.offices.map((office) => officeClinicSchema(office)),
   ],
 }
 

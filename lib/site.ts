@@ -120,6 +120,10 @@ export const patientFeedbackProfiles = [
 
 export const siteConfig = {
   name: "Nicolas Biro, M.D.",
+  // Short brand used as the <title> suffix. Matches the domain and the
+  // WebSite node's alternateName, and keeps ~11 more characters of each
+  // title inside the ~60-character SERP budget.
+  alternateName: "Biro MD",
   legalName: "Nicolas Biro, M.D. Oculoplastic Surgery",
   shortName: "Dr. Nicolas Biro",
   url: "https://biromd.com",
@@ -220,6 +224,37 @@ export function pageMetadata({
       title: `${title} | ${siteConfig.name}`,
       description,
       images: [socialImage],
+    },
+  }
+}
+
+export const physicianId = absoluteUrl("/#physician")
+export const physicianPersonId = absoluteUrl("/#physician-person")
+
+// Single source of truth for each office's MedicalClinic node. The root layout
+// and the office detail pages both emit this graph node under the same @id, so
+// they must agree field-for-field or consumers see two conflicting definitions.
+export function officeClinicSchema(office: Office) {
+  const officeUrl = absoluteUrl(`/locations/${office.id}`)
+
+  return {
+    "@type": "MedicalClinic",
+    "@id": `${officeUrl}#office`,
+    name: `${siteConfig.shortName} - ${office.name}`,
+    url: officeUrl,
+    sameAs: office.practiceUrl,
+    hasMap: office.mapUrl,
+    telephone: office.phoneHref,
+    medicalSpecialty: "Ophthalmology",
+    availableLanguage: siteConfig.languages,
+    employee: { "@id": physicianPersonId },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: office.streetAddress,
+      addressLocality: office.addressLocality,
+      addressRegion: office.addressRegion,
+      postalCode: office.postalCode,
+      addressCountry: "US",
     },
   }
 }

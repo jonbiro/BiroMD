@@ -19,7 +19,12 @@ import {
   galleryCasePath,
   getPublishedGalleryCases,
 } from "@/lib/gallery-cases"
-import { absoluteUrl, pageMetadata, siteConfig } from "@/lib/site"
+import {
+  absoluteUrl,
+  pageMetadata,
+  physicianPersonId,
+  siteConfig,
+} from "@/lib/site"
 import { getProcedure, procedures } from "@/lib/procedures"
 
 export const dynamicParams = false
@@ -80,7 +85,6 @@ export default async function ProcedurePage({
   const procedureUrl = absoluteUrl(`/procedures/${procedure.slug}`)
   const breadcrumbId = `${procedureUrl}#breadcrumb`
   const procedureId = `${procedureUrl}#procedure`
-  const physicianId = absoluteUrl("/#physician")
   const websiteId = absoluteUrl("/#website")
 
   const schema = {
@@ -110,7 +114,14 @@ export default async function ProcedurePage({
             ? "https://schema.org/NoninvasiveProcedure"
             : "https://schema.org/SurgicalProcedure",
         relevantSpecialty: "https://schema.org/Ophthalmologic",
-        performer: { "@id": physicianId },
+        // Mirrors the visible page sections so answer engines can extract the
+        // same content a reader sees. Sourced only from lib/procedures.ts.
+        bodyLocation: "Eyelid, orbit, and periocular region",
+        status: "https://schema.org/ActiveActionStatus",
+        howPerformed: procedure.overview,
+        preparation: procedure.evaluation.join(" "),
+        followup: procedure.nextSteps,
+        performer: { "@id": physicianPersonId },
       },
       {
         "@type": "FAQPage",
@@ -276,6 +287,20 @@ export default async function ProcedurePage({
                 </a>
               </Button>
             </div>
+            {matchingCases.length > 1 ? (
+              <ul className="mt-3 flex flex-wrap gap-x-5">
+                {matchingCases.slice(1).map((item) => (
+                  <li key={item.id}>
+                    <a
+                      href={galleryCasePath(item)}
+                      className="inline-flex min-h-11 items-center text-sm font-semibold text-secondary underline-offset-4 hover:underline"
+                    >
+                      {item.title.toLowerCase()} before and after
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </div>
 
           {relatedConcerns.length > 0 ? (
