@@ -58,6 +58,33 @@ export default function AboutPage() {
         }
       />
 
+      <section className="site-container px-4 md:px-6" aria-labelledby="clinical-background">
+        <div className="panel grid gap-5 rounded-[1.8rem] p-6 md:p-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-10">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
+              Clinical background
+            </p>
+            <h2 id="clinical-background" className="mt-2 text-4xl font-semibold text-primary">
+              Ophthalmology First. Oculoplastic Specialization.
+            </h2>
+          </div>
+          <div className="space-y-4 leading-relaxed text-muted-foreground">
+            <p>
+              Dr. Biro earned his medical degree and completed ophthalmology residency
+              at the University of South Florida, after an internship at NYU Medical
+              Center. He then completed oculoplastic fellowship training at Wills Eye
+              Hospital.
+            </p>
+            <p>
+              His practice includes cosmetic and reconstructive eyelid care, tear-drainage
+              concerns, and orbital conditions. He sees patients through four ophthalmology
+              practices across the greater Los Angeles area and discusses care in{" "}
+              {formatList(siteConfig.languages)}.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section
         className="site-container px-4 md:px-6"
         aria-label="Dr. Biro's clinical priorities and training"

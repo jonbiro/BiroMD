@@ -64,10 +64,10 @@ export default function NoticeOfPrivacyPracticesPage() {
                   </Button>
                 )}
                 <a
-                  className="mt-2 inline-flex min-w-0 items-start text-sm font-semibold text-secondary hover:underline"
+                  className="mt-2 flex min-h-11 min-w-0 items-center text-sm font-semibold text-secondary hover:underline"
                   href={`tel:${office.phoneHref}`}
                 >
-                  <Phone className="mr-2 mt-0.5 h-4 w-4 shrink-0" />
+                  <Phone className="mr-2 h-4 w-4 shrink-0" aria-hidden="true" />
                   <span className="min-w-0">Call {office.phoneDisplay} with privacy questions</span>
                 </a>
               </div>

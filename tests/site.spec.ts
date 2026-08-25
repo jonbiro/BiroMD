@@ -1156,6 +1156,9 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
 
   await expect(nextStep.getByRole("link", { name: "Request Online" })).toHaveCount(3)
   await expect(nextStep.getByRole("link", { name: "Call Burbank Office" })).toHaveCount(1)
+  await expect(
+    nextStep.getByRole("link", { name: "Meet Dr. Biro and review his training" })
+  ).toHaveAttribute("href", "/about")
   await expect(nextStep.locator('a[href="tel:+18187620647"]').first()).toHaveAttribute(
     "href",
     "tel:+18187620647"
@@ -1189,6 +1192,9 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
   )
 
   await page.goto("/about")
+  await expect(
+    page.getByRole("heading", { name: "Ophthalmology First. Oculoplastic Specialization." })
+  ).toBeVisible()
   const timeline = page.getByRole("heading", { name: "Training Timeline" })
     .locator("xpath=..")
   await expect(timeline.getByRole("listitem").filter({ hasText: "Ophthalmology Residency" }))
@@ -1431,6 +1437,14 @@ test("long patient education pages provide mobile in-page navigation", async ({ 
 test("office secondary actions meet mobile touch-target guidance", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
 
+  await page.goto("/")
+  const footer = page.locator("footer")
+  await footer.locator("summary").filter({ hasText: /^Offices$/ }).click()
+  await expectMinimumTargetHeight(
+    footer.locator('a[href^="tel:"]'),
+    "footer phone links"
+  )
+
   await page.goto("/locations")
   await expectMinimumTargetHeight(
     page.locator('main a[href^="tel:"]'),
@@ -1447,6 +1461,12 @@ test("office secondary actions meet mobile touch-target guidance", async ({ page
   await expectMinimumTargetHeight(
     page.locator('main a[href^="tel:"]'),
     "office detail phone links"
+  )
+
+  await page.goto("/notice-of-privacy-practices")
+  await expectMinimumTargetHeight(
+    page.locator('main a[href^="tel:"]'),
+    "privacy notice phone links"
   )
 })
 

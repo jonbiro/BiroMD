@@ -58,15 +58,16 @@ export default function Footer() {
                       <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-secondary" />
                       <span>{office.address}</span>
                     </p>
-                    <p className="flex items-start gap-2">
-                      <Phone className="mt-0.5 h-4 w-4 text-secondary" />
-                      <a href={`tel:${office.phoneHref}`} className="hover:text-secondary">
-                        {office.phoneDisplay}
-                      </a>
-                    </p>
+                    <a
+                      href={`tel:${office.phoneHref}`}
+                      className="-mx-2 flex min-h-11 items-center gap-2 rounded-lg px-2 hover:bg-accent hover:text-secondary"
+                    >
+                      <Phone className="h-4 w-4 shrink-0 text-secondary" aria-hidden="true" />
+                      {office.phoneDisplay}
+                    </a>
                     <a
                       href={`/locations/${office.id}`}
-                      className="inline-flex min-h-10 items-center text-xs font-semibold text-secondary hover:underline md:hidden"
+                      className="inline-flex min-h-11 items-center text-xs font-semibold text-secondary hover:underline md:hidden"
                     >
                       View office details
                       <ArrowUpRight className="ml-1 h-3.5 w-3.5" aria-hidden="true" />
@@ -114,7 +115,7 @@ export default function Footer() {
                 </ul>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="mt-4 inline-flex items-center text-sm text-secondary hover:underline"
+                  className="mt-4 inline-flex min-h-11 items-center text-sm text-secondary hover:underline"
                 >
                   <Mail className="mr-2 h-4 w-4" />
                   {siteConfig.email}

@@ -1,4 +1,4 @@
-import { CalendarDays, MapPin, Phone } from "lucide-react"
+import { ArrowRight, CalendarDays, MapPin, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { officeAppointmentLabel, siteConfig } from "@/lib/site"
 
@@ -26,6 +26,13 @@ export function ConsultationCta({
           <p className="mt-3 max-w-xl text-muted-foreground">
             {description}
           </p>
+          <a
+            href="/about"
+            className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-secondary underline-offset-4 hover:underline"
+          >
+            Meet Dr. Biro and review his training
+            <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+          </a>
         </div>
 
         <div className="mt-7 grid gap-3 md:grid-cols-2">
