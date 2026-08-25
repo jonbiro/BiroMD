@@ -1060,7 +1060,7 @@ test("medical metadata uses the service area and a durable FDA reference", async
 
   await page.goto("/procedures/ptosis-repair")
   await expect(page).toHaveTitle(
-    "Ptosis Repair (Droopy Eyelid Surgery) in Los Angeles | Nicolas Biro, M.D."
+    "Ptosis Repair (Droopy Eyelid Surgery) in Los Angeles | Biro MD"
   )
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Ptosis Repair (Droopy Eyelid Surgery)"
@@ -1068,12 +1068,12 @@ test("medical metadata uses the service area and a durable FDA reference", async
 
   await page.goto("/procedures/entropion-ectropion-repair")
   await expect(page).toHaveTitle(
-    "Entropion & Ectropion Repair (Eyelid Turning In or Out) | Nicolas Biro, M.D."
+    "Entropion & Ectropion Repair (Eyelid Turning In or Out) | Biro MD"
   )
 
   await page.goto("/procedures/botox")
   await expect(page).toHaveTitle(
-    "Botulinum Toxin Injections in Los Angeles | Nicolas Biro, M.D."
+    "Botulinum Toxin Injections in Los Angeles | Biro MD"
   )
   await expect(page.getByRole("heading", { name: "Related symptom guides" })).toHaveCount(0)
   await expect(page.getByRole("heading", { name: "Helpful Next Steps" })).toBeVisible()
@@ -1468,6 +1468,47 @@ test("office secondary actions meet mobile touch-target guidance", async ({ page
     page.locator('main a[href^="tel:"]'),
     "privacy notice phone links"
   )
+})
+
+test("footer navigation and legal links meet mobile touch-target guidance", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("/")
+
+  const footer = page.locator("footer")
+
+  await footer.locator("summary").filter({ hasText: /^Offices$/ }).click()
+  await expectMinimumTargetHeight(
+    footer.locator('a[href^="/locations/"]'),
+    "footer office links"
+  )
+
+  await footer.locator("summary").filter({ hasText: /^Explore$/ }).click()
+  await expectMinimumTargetHeight(
+    footer.locator('a[href="/procedures"], a[href="/concerns"], a[href="/gallery"]'),
+    "footer explore links"
+  )
+
+  await expectMinimumTargetHeight(
+    footer.locator(
+      'a[href="/privacy"], a[href="/accessibility"], a[href="/content-standards"], a[href="/notice-of-privacy-practices"]'
+    ),
+    "footer legal links"
+  )
+})
+
+test("404 page offers recovery links into the main sections", async ({ page }) => {
+  await page.goto("/this-route-does-not-exist", { waitUntil: "domcontentloaded" })
+
+  const recovery = page.getByRole("heading", { name: "Continue browsing" })
+  await expect(recovery).toBeVisible()
+
+  const links = recovery.locator("xpath=..").getByRole("link")
+  expect(await links.count()).toBeGreaterThanOrEqual(6)
+  await expect(
+    recovery.locator("xpath=..").getByRole("link", { name: "Eyelid and oculoplastic procedures" })
+  ).toHaveAttribute("href", "/procedures")
 })
 
 test("every public route has a sound document structure", async ({ page }) => {

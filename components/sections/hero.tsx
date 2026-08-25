@@ -29,7 +29,6 @@ export function Hero() {
           <div className="contents md:relative md:block md:space-y-5 lg:space-y-6">
             <a
               href="/locations"
-              aria-label="View offices in the Greater Los Angeles area"
               className="eyebrow order-1 justify-self-start transition-colors hover:bg-secondary/15"
             >
               <MapPin className="h-3.5 w-3.5" />
@@ -125,7 +124,7 @@ export function Hero() {
                   href={profile.url}
                   target="_blank"
                   rel="external noopener noreferrer"
-                  className="group inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-background/80 px-3 text-xs font-semibold text-foreground transition-[border-color,background-color,color] hover:border-secondary hover:bg-card hover:text-secondary"
+                  className="group inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border bg-background/80 px-3 text-xs font-semibold text-foreground transition-[border-color,background-color,color] hover:border-secondary hover:bg-card hover:text-secondary"
                 >
                   {profile.name}
                   <ArrowUpRight
