@@ -100,6 +100,7 @@ export function ServicesPreview() {
                 href={pathway.href}
                 className={`care-pathway group ${pathway.treatment}`}
                 data-care-pathway
+                aria-label={pathway.title}
               >
                 <span className="care-pathway-grid hidden sm:block" aria-hidden="true" />
                 <PathwayIcon

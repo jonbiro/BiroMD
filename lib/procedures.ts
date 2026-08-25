@@ -6,6 +6,7 @@ export type ProcedureCategoryId =
 export type Procedure = {
   slug: string
   title: string
+  pageTitle?: string
   shortTitle: string
   seoTitle?: string
   seoDescription?: string
@@ -139,6 +140,8 @@ export const procedures: Procedure[] = [
     slug: "brow-lift",
     title: "Brow Lift Evaluation",
     shortTitle: "Brow lift evaluation",
+    seoDescription:
+      "The brow and upper eyelid work as one unit. See when brow position, rather than eyelid skin, is driving heaviness or asymmetry, and what the evaluation covers.",
     categoryId: "cosmetic-eyelid-surgery",
     categoryLabel: "Cosmetic Eyelid Surgery",
     summary:
@@ -186,7 +189,11 @@ export const procedures: Procedure[] = [
   {
     slug: "ptosis-repair",
     title: "Ptosis Repair",
+    pageTitle: "Ptosis Repair (Droopy Eyelid Surgery)",
     shortTitle: "Ptosis repair",
+    seoTitle: "Ptosis Repair (Droopy Eyelid Surgery) in Los Angeles",
+    seoDescription:
+      "Ptosis is drooping of the upper eyelid. See what an oculoplastic evaluation covers: eyelid measurements, lifting-muscle function, pupils, and eye movements.",
     categoryId: "reconstructive-oculoplastics",
     categoryLabel: "Reconstructive Oculoplastics",
     summary:
@@ -235,6 +242,9 @@ export const procedures: Procedure[] = [
     slug: "entropion-ectropion-repair",
     title: "Entropion and Ectropion Repair",
     shortTitle: "Entropion and ectropion repair",
+    seoTitle: "Entropion & Ectropion Repair (Eyelid Turning In or Out)",
+    seoDescription:
+      "Entropion turns the eyelid inward so lashes rub the eye. Ectropion turns it outward, affecting closure and tear drainage. What an evaluation looks for.",
     categoryId: "reconstructive-oculoplastics",
     categoryLabel: "Reconstructive Oculoplastics",
     summary:
@@ -283,6 +293,9 @@ export const procedures: Procedure[] = [
     slug: "eyelid-cancer-mohs-reconstruction",
     title: "Eyelid Cancer and Mohs Reconstruction",
     shortTitle: "Eyelid cancer and Mohs reconstruction",
+    seoTitle: "Eyelid Cancer & Mohs Reconstruction in Los Angeles",
+    seoDescription:
+      "Reconstruction after skin-cancer removal near the eye, tailored to the final cleared defect and coordinated with your Mohs surgeon. Eye protection comes first.",
     categoryId: "reconstructive-oculoplastics",
     categoryLabel: "Reconstructive Oculoplastics",
     summary:
@@ -331,6 +344,9 @@ export const procedures: Procedure[] = [
     slug: "tearing-blocked-tear-ducts",
     title: "Tearing and Blocked Tear Ducts",
     shortTitle: "Tearing and blocked tear ducts",
+    seoTitle: "Tearing & Blocked Tear Ducts (Watery Eyes) in Los Angeles",
+    seoDescription:
+      "A watery eye does not always mean a blocked duct. Irritation, eyelid position, and drainage narrowing can all cause tearing, so the exam comes first.",
     categoryId: "reconstructive-oculoplastics",
     categoryLabel: "Reconstructive Oculoplastics",
     summary:
@@ -379,6 +395,9 @@ export const procedures: Procedure[] = [
     slug: "thyroid-eye-disease",
     title: "Thyroid Eye Disease Evaluation",
     shortTitle: "Thyroid eye disease evaluation",
+    seoTitle: "Thyroid Eye Disease & Bulging Eyes in Los Angeles",
+    seoDescription:
+      "Thyroid eye disease can occur even when thyroid blood tests are normal. What an orbital evaluation checks: eyelid position, exposure, eye movement, and vision.",
     categoryId: "reconstructive-oculoplastics",
     categoryLabel: "Orbital Care",
     summary:
@@ -427,6 +446,9 @@ export const procedures: Procedure[] = [
     slug: "orbital-tumors-trauma",
     title: "Orbital Tumors and Trauma",
     shortTitle: "Orbital tumors and trauma",
+    seoTitle: "Orbital Tumors & Trauma (Eye Socket) in Los Angeles",
+    seoDescription:
+      "A mass or injury in the eye socket can affect eye position, movement, sensation, or vision. What an evaluation covers and which symptoms need emergency care.",
     categoryId: "reconstructive-oculoplastics",
     categoryLabel: "Orbital Care",
     summary:
@@ -479,6 +501,8 @@ export const procedures: Procedure[] = [
     slug: "botox",
     title: "Botulinum Toxin Injections",
     shortTitle: "Botulinum toxin injections",
+    seoDescription:
+      "Botulinum toxin temporarily reduces activity in selected muscles, and the effect is not permanent. Why brow and eyelid position are assessed before injection.",
     categoryId: "non-surgical-treatments",
     categoryLabel: "Injectables",
     summary:
@@ -527,6 +551,9 @@ export const procedures: Procedure[] = [
     slug: "dermal-fillers",
     title: "Dermal Fillers",
     shortTitle: "Dermal fillers",
+    seoTitle: "Dermal Fillers & Under-Eye Filler in Los Angeles",
+    seoDescription:
+      "Not every under-eye hollow or bag is suitable for filler. How eyelid support, prior filler, and vascular risk shape a conservative plan around the eyes.",
     categoryId: "non-surgical-treatments",
     categoryLabel: "Injectables",
     summary:

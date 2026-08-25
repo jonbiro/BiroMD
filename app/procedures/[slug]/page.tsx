@@ -70,6 +70,10 @@ export default async function ProcedurePage({
   const relatedConcerns = patientConcerns.filter((concern) =>
     concern.relatedProcedureSlugs.includes(procedure.slug)
   )
+  const resourcesDescription =
+    relatedConcerns.length > 0
+      ? "Review authorized clinical cases, understand related symptoms, and prepare practical questions before contacting an office."
+      : "Review authorized clinical cases and prepare practical questions before contacting an office."
   const matchingCases = getPublishedGalleryCases().filter((item) =>
     item.relatedProcedureSlugs?.includes(procedure.slug)
   )
@@ -153,7 +157,7 @@ export default async function ProcedurePage({
       />
       <PageIntro
         eyebrow={procedure.categoryLabel}
-        title={procedure.title}
+        title={procedure.pageTitle ?? procedure.title}
         description={procedure.summary}
         breadcrumbs={[
           { label: "Procedures", href: "/procedures" },
@@ -243,7 +247,11 @@ export default async function ProcedurePage({
         className="site-container px-4 md:px-6"
         aria-labelledby="patient-resources-title"
       >
-        <div className="panel grid gap-6 rounded-[1.8rem] p-6 md:p-8 lg:grid-cols-[0.9fr_1.1fr]">
+        <div
+          className={`panel grid gap-6 rounded-[1.8rem] p-6 md:p-8 ${
+            relatedConcerns.length > 0 ? "lg:grid-cols-[0.9fr_1.1fr]" : ""
+          }`}
+        >
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
               Results and preparation
@@ -252,8 +260,7 @@ export default async function ProcedurePage({
               Helpful Next Steps
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              Review authorized clinical cases, understand related symptoms, and
-              prepare practical questions before contacting an office.
+              {resourcesDescription}
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Button variant="outline" asChild>
@@ -271,11 +278,11 @@ export default async function ProcedurePage({
             </div>
           </div>
 
-          <div className="rounded-2xl border border-border bg-accent/45 p-5">
-            <h3 className="font-sans text-sm font-semibold text-foreground">
-              Related symptom guides
-            </h3>
-            {relatedConcerns.length > 0 ? (
+          {relatedConcerns.length > 0 ? (
+            <div className="rounded-2xl border border-border bg-accent/45 p-5">
+              <h3 className="font-sans text-sm font-semibold text-foreground">
+                Related symptom guides
+              </h3>
               <ul className="mt-3 grid gap-2 sm:grid-cols-2">
                 {relatedConcerns.map((concern) => (
                   <li key={concern.slug}>
@@ -289,12 +296,8 @@ export default async function ProcedurePage({
                   </li>
                 ))}
               </ul>
-            ) : (
-              <p className="mt-2 text-sm text-muted-foreground">
-                Browse the symptom guides to compare possible starting points for evaluation.
-              </p>
-            )}
-          </div>
+            </div>
+          ) : null}
         </div>
       </section>
 

@@ -1002,8 +1002,81 @@ test("medical metadata uses the service area and a durable FDA reference", async
   await page.goto("/concerns/droopy-heavy-upper-eyelids")
   await expect(page).toHaveTitle(/Droopy or Hooded Upper Eyelids: Causes & Care/)
 
+  const procedureDescriptions = [
+    {
+      path: "/procedures/brow-lift",
+      description:
+        "The brow and upper eyelid work as one unit. See when brow position, rather than eyelid skin, is driving heaviness or asymmetry, and what the evaluation covers.",
+    },
+    {
+      path: "/procedures/ptosis-repair",
+      description:
+        "Ptosis is drooping of the upper eyelid. See what an oculoplastic evaluation covers: eyelid measurements, lifting-muscle function, pupils, and eye movements.",
+    },
+    {
+      path: "/procedures/entropion-ectropion-repair",
+      description:
+        "Entropion turns the eyelid inward so lashes rub the eye. Ectropion turns it outward, affecting closure and tear drainage. What an evaluation looks for.",
+    },
+    {
+      path: "/procedures/eyelid-cancer-mohs-reconstruction",
+      description:
+        "Reconstruction after skin-cancer removal near the eye, tailored to the final cleared defect and coordinated with your Mohs surgeon. Eye protection comes first.",
+    },
+    {
+      path: "/procedures/tearing-blocked-tear-ducts",
+      description:
+        "A watery eye does not always mean a blocked duct. Irritation, eyelid position, and drainage narrowing can all cause tearing, so the exam comes first.",
+    },
+    {
+      path: "/procedures/thyroid-eye-disease",
+      description:
+        "Thyroid eye disease can occur even when thyroid blood tests are normal. What an orbital evaluation checks: eyelid position, exposure, eye movement, and vision.",
+    },
+    {
+      path: "/procedures/orbital-tumors-trauma",
+      description:
+        "A mass or injury in the eye socket can affect eye position, movement, sensation, or vision. What an evaluation covers and which symptoms need emergency care.",
+    },
+    {
+      path: "/procedures/botox",
+      description:
+        "Botulinum toxin temporarily reduces activity in selected muscles, and the effect is not permanent. Why brow and eyelid position are assessed before injection.",
+    },
+    {
+      path: "/procedures/dermal-fillers",
+      description:
+        "Not every under-eye hollow or bag is suitable for filler. How eyelid support, prior filler, and vascular risk shape a conservative plan around the eyes.",
+    },
+  ]
+
+  for (const procedure of procedureDescriptions) {
+    await page.goto(procedure.path)
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      "content",
+      procedure.description
+    )
+  }
+
+  await page.goto("/procedures/ptosis-repair")
+  await expect(page).toHaveTitle(
+    "Ptosis Repair (Droopy Eyelid Surgery) in Los Angeles | Nicolas Biro, M.D."
+  )
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Ptosis Repair (Droopy Eyelid Surgery)"
+  )
+
+  await page.goto("/procedures/entropion-ectropion-repair")
+  await expect(page).toHaveTitle(
+    "Entropion & Ectropion Repair (Eyelid Turning In or Out) | Nicolas Biro, M.D."
+  )
+
   await page.goto("/procedures/botox")
-  await expect(page).toHaveTitle(/in Los Angeles/)
+  await expect(page).toHaveTitle(
+    "Botulinum Toxin Injections in Los Angeles | Nicolas Biro, M.D."
+  )
+  await expect(page.getByRole("heading", { name: "Related symptom guides" })).toHaveCount(0)
+  await expect(page.getByRole("heading", { name: "Helpful Next Steps" })).toBeVisible()
   await expect(
     page.getByRole("link", { name: "U.S. FDA: Botox Cosmetic product information" })
   ).toHaveAttribute(
@@ -1093,7 +1166,7 @@ test("high-intent pages provide verifiable and direct next steps", async ({ page
   )
   await expect(page.locator('meta[name="description"]')).toHaveAttribute(
     "content",
-    /serves patients across the Greater Los Angeles area/
+    "Ptosis is drooping of the upper eyelid. See what an oculoplastic evaluation covers: eyelid measurements, lifting-muscle function, pupils, and eye movements."
   )
 
   await page.goto("/procedures/upper-blepharoplasty")
@@ -1203,6 +1276,15 @@ test("homepage stays concise while preserving key patient pathways", async ({ pa
   await expect(page.locator("[data-concern-finder]").locator('a[href^="/concerns/"]')).toHaveCount(6)
   const mobileCarePathways = page.locator("[data-care-pathway]")
   await expect(mobileCarePathways).toHaveCount(4)
+  const carePathwayNames = [
+    "Cosmetic Eyelid Care",
+    "Eyelid Function & Reconstruction",
+    "Tearing & Tear Ducts",
+    "Orbital & Thyroid Eye Care",
+  ]
+  for (const [index, name] of carePathwayNames.entries()) {
+    await expect(mobileCarePathways.nth(index)).toHaveAccessibleName(name)
+  }
   await expect(mobileCarePathways.getByText("Cosmetic Eyelid Care", { exact: true })).toBeVisible()
   await expect(mobileCarePathways.getByText("Tearing & Tear Ducts", { exact: true })).toBeVisible()
   await expect(page.locator("[data-care-pathway-controls]")).toBeHidden()
