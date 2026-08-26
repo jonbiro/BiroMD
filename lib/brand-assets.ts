@@ -1,4 +1,4 @@
-export const brandAssetVersion = "20260812-practice-symbol"
+export const brandAssetVersion = "20260825-dark-symbol-contrast"
 
 export function versionedBrandAsset(path: string) {
   const separator = path.includes("?") ? "&" : "?"

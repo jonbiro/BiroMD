@@ -34,9 +34,10 @@ export default function AboutPage() {
         eyebrow="Meet the Surgeon"
         title="Ophthalmology Training. Oculoplastic Care."
         description={`${siteConfig.shortName} is a board-certified ophthalmologist with advanced fellowship training in oculoplastic and orbital surgery. His approach considers both eye function and the surrounding facial anatomy.`}
+        mediaAlignment="center"
         media={
-          <figure className="relative mx-auto w-full max-w-[560px] overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_22px_54px_rgb(5_16_32_/0.18)]">
-            <div className="relative aspect-[4/5]">
+          <figure className="relative mx-auto w-full max-w-[480px] overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_22px_54px_rgb(5_16_32_/0.18)] lg:max-w-[460px] xl:max-w-[480px]">
+            <div className="relative aspect-[5/6]">
               <ResponsivePortrait
                 portrait="about"
                 sizes="(max-width: 1024px) 92vw, 560px"
@@ -94,7 +95,7 @@ export default function AboutPage() {
             <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
               Clinical priorities
             </h2>
-            <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
+            <ul className="mt-4 space-y-2.5 text-[0.9375rem] text-muted-foreground">
               <li className="flex items-start gap-3 rounded-xl bg-accent/45 p-3">
                 <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-secondary/25 bg-card text-secondary">
                   <ShieldPlus className="h-4 w-4" aria-hidden="true" />
@@ -125,7 +126,7 @@ export default function AboutPage() {
               {milestones.map((milestone) => (
                 <li
                   key={milestone.year}
-                  className="relative grid grid-cols-[3.5rem_1fr] gap-3 text-sm"
+                  className="relative grid grid-cols-[3.5rem_1fr] gap-3 text-[0.9375rem]"
                 >
                   <span
                     className="absolute -left-[1.82rem] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-card bg-secondary ring-1 ring-secondary/30"

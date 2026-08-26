@@ -17,9 +17,10 @@ export default function GalleryPage() {
   return (
     <div className="page-stack">
       <PageIntro
-        eyebrow="Clinical Cases"
-        title="Authorized Before-and-After Cases"
-        description="Browse selected, authorized clinical cases with matched views where available. Photos are for education only; lighting, angle, framing, and healing stage may differ, and individual results vary."
+        eyebrow="Clinical Results"
+        title="Before-and-After Results"
+        description="Browse authorized cosmetic and reconstructive cases. Sensitive clinical images stay covered and do not load unless you choose to view them; lighting, angle, healing, and individual results vary."
+        compact
       />
       <div className="site-container px-4 md:px-6">
         <GalleryView cases={publishedCases} />

@@ -49,6 +49,7 @@ export default function ProceduresPage() {
         eyebrow="Procedures"
         title="Procedures and Treatment Options"
         description="Browse the complete treatment directory. Each guide explains what the procedure is for, what an evaluation may cover, and which questions to bring to your consultation."
+        compact
       />
 
       <section className="site-container px-4 md:px-6">
@@ -90,7 +91,7 @@ export default function ProceduresPage() {
             className="panel rounded-3xl p-7 md:p-8"
           >
             <h2 className="text-3xl font-medium text-primary">{category.title}</h2>
-            <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
+            <p className="mt-2 max-w-3xl text-[0.9375rem] text-muted-foreground">
               {category.subtitle}
             </p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -101,7 +102,7 @@ export default function ProceduresPage() {
                   className="group rounded-2xl border border-border bg-background p-5 transition hover:-translate-y-0.5 hover:border-secondary hover:shadow-md"
                 >
                   <h3 className="text-2xl font-semibold text-primary">{item.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{item.summary}</p>
+                  <p className="mt-2 text-[0.9375rem] text-muted-foreground">{item.summary}</p>
                   <span className="mt-4 inline-flex items-center text-sm font-semibold text-secondary">
                     View procedure guide
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -127,7 +128,7 @@ export default function ProceduresPage() {
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-secondary">
                   {String(index + 1).padStart(2, "0")} / {step.label}
                 </p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
                   {step.description}
                 </p>
               </li>

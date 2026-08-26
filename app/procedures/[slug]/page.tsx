@@ -213,7 +213,7 @@ export default async function ProcedurePage({
           </h3>
           <ul className="mt-4 space-y-3">
             {procedure.concerns.map((concern) => (
-              <li key={concern} className="flex items-start gap-3 text-sm text-foreground/90">
+              <li key={concern} className="flex items-start gap-3 text-[0.9375rem] text-foreground/90">
                 <Check className="mt-0.5 h-4 w-4 shrink-0 text-secondary" />
                 {concern}
               </li>
@@ -228,7 +228,7 @@ export default async function ProcedurePage({
           </h2>
           <ul className="mt-5 space-y-4">
             {procedure.evaluation.map((item) => (
-              <li key={item} className="rounded-xl border border-border bg-accent/45 p-4 text-sm text-muted-foreground">
+              <li key={item} className="rounded-xl border border-border bg-accent/45 p-4 text-[0.9375rem] text-muted-foreground">
                 {item}
               </li>
             ))}

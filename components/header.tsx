@@ -11,38 +11,68 @@ const navClass =
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/95 shadow-[0_6px_20px_rgb(5_16_32_/0.05)] backdrop-blur-md dark:shadow-[0_6px_20px_rgb(0_0_0_/0.18)]">
+    <header
+      data-site-header
+      className="sticky top-0 z-50 border-b border-border/80 bg-background/95 shadow-[0_6px_20px_rgb(5_16_32_/0.05)] backdrop-blur-md dark:shadow-[0_6px_20px_rgb(0_0_0_/0.18)]"
+    >
       <div className="site-container">
         <div
           data-header-shell
-          className="relative grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 px-4 pt-2 md:px-6 lg:min-h-[5.25rem] lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-4 lg:py-0 xl:gap-6"
+          className="site-header-shell relative grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 px-4 md:px-6 lg:min-h-[5.25rem] lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-4 xl:gap-6"
         >
-          <a
-            href={absoluteUrl("/")}
-            data-header-brand
-            className="group relative z-10 inline-flex min-h-12 min-w-0 items-center gap-1.5 leading-tight min-[360px]:gap-2.5 lg:min-h-0 lg:gap-3"
+          <div
+            data-header-top-row
+            className="site-header-top-row relative z-10 col-span-2 row-start-1 flex min-w-0 items-center justify-between gap-2 lg:contents"
           >
-            <BrandSymbol
-              priority
-              className="h-7 w-9 min-[360px]:h-8 min-[360px]:w-14 lg:h-10 lg:w-[4.25rem] xl:h-11 xl:w-20"
-            />
-            <span className="flex min-w-0 flex-col justify-center">
-              <span className="whitespace-nowrap text-[0.875rem] font-normal leading-none tracking-[-0.025em] text-primary transition-colors group-hover:text-secondary min-[360px]:text-[1.0625rem] lg:text-2xl xl:text-[2rem]">
-                Nicolas Biro, M.D.
+            <a
+              href={absoluteUrl("/")}
+              data-header-brand
+              className="group inline-flex min-w-0 items-center gap-1.5 leading-tight min-[360px]:gap-2.5 lg:col-start-1 lg:row-start-1 lg:gap-3"
+            >
+              <BrandSymbol
+                priority
+                className="h-7 w-9 min-[360px]:h-8 min-[360px]:w-14 lg:h-10 lg:w-[4.25rem] xl:h-11 xl:w-20"
+              />
+              <span className="flex min-w-0 flex-col justify-center">
+                <span className="whitespace-nowrap text-[0.875rem] font-normal leading-none tracking-[-0.025em] text-primary transition-colors group-hover:text-secondary min-[360px]:text-[1.0625rem] lg:text-2xl xl:text-[2rem]">
+                  Nicolas Biro, M.D.
+                </span>
+                <span
+                  data-header-specialty
+                  className="mt-1 whitespace-nowrap text-xs font-medium leading-none tracking-[0.01em] text-[#805812] min-[360px]:text-[0.8125rem] lg:mt-1.5 lg:text-sm lg:tracking-[0.025em] dark:text-[#e7c77f]"
+                >
+                  Oculoplastic Surgeon
+                </span>
               </span>
-              <span
-                data-header-specialty
-                className="mt-1 whitespace-nowrap text-[0.6875rem] font-medium leading-none tracking-[0.01em] text-[#805812] min-[360px]:text-xs lg:mt-1.5 lg:text-[0.8125rem] lg:tracking-[0.025em] dark:text-[#e0bd75]"
+            </a>
+
+            <div
+              data-header-actions
+              className="flex shrink-0 items-center gap-1.5 lg:col-start-3 lg:row-start-1 lg:gap-2"
+            >
+              <ModeToggle />
+              <Button
+                size="sm"
+                className="px-2.5 min-[360px]:px-3.5 xl:px-5"
+                asChild
               >
-                Oculoplastic Surgeon
-              </span>
-            </span>
-          </a>
+                <a href="/contact">
+                  <CalendarDays
+                    className="mr-1.5 hidden h-4 w-4 min-[360px]:block sm:mr-2"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    Request<span className="sr-only xl:not-sr-only"> a Consultation</span>
+                  </span>
+                </a>
+              </Button>
+            </div>
+          </div>
 
           <nav
             aria-label="Primary"
             data-floating-navigation
-            className="relative z-10 col-span-2 row-start-2 -mx-4 mt-1.5 grid w-[calc(100%+2rem)] grid-cols-3 items-center gap-px border-y border-border/80 bg-border/80 p-px sm:grid-cols-6 lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:mx-0 lg:mt-0 lg:flex lg:w-fit lg:justify-center lg:gap-0.5 lg:rounded-full lg:border lg:bg-muted/80 lg:p-1"
+            className="site-header-nav relative z-10 col-span-2 row-start-2 -mx-4 grid w-[calc(100%+2rem)] grid-cols-3 items-center gap-px border-y border-border/80 bg-border/80 p-px sm:grid-cols-6 lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:mx-0 lg:flex lg:w-fit lg:justify-center lg:gap-0.5 lg:rounded-full lg:border lg:bg-muted/80 lg:p-1"
           >
             {primaryNavItems.map((item) => (
               <a
@@ -62,28 +92,6 @@ export default function Header() {
               </a>
             ))}
           </nav>
-
-          <div
-            data-header-actions
-            className="relative z-10 col-start-2 row-start-1 flex items-center gap-1.5 lg:col-start-3 lg:gap-2"
-          >
-            <ModeToggle />
-            <Button
-              size="sm"
-              className="px-2.5 min-[360px]:px-3.5 xl:px-5"
-              asChild
-            >
-              <a href="/contact">
-                <CalendarDays
-                  className="mr-1.5 hidden h-4 w-4 min-[360px]:block sm:mr-2"
-                  aria-hidden="true"
-                />
-                <span>
-                  Request<span className="sr-only xl:not-sr-only"> a Consultation</span>
-                </span>
-              </a>
-            </Button>
-          </div>
         </div>
       </div>
     </header>

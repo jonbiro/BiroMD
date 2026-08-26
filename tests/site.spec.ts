@@ -274,6 +274,26 @@ test("floating navigation exposes every primary link without a menu", async ({ p
     shellContainsNavigation: true,
   })
 
+  const expandedHeaderHeight = await page
+    .locator("[data-site-header]")
+    .evaluate((header) => header.getBoundingClientRect().height)
+  await page.evaluate(() => window.scrollTo(0, 500))
+  await expect(page.locator("[data-site-header]")).toHaveAttribute(
+    "data-header-compact",
+    "true"
+  )
+  const compactHeaderHeight = await page
+    .locator("[data-site-header]")
+    .evaluate((header) => header.getBoundingClientRect().height)
+  expect(compactHeaderHeight).toBeLessThan(expandedHeaderHeight - 40)
+  await expect(navigation).toBeVisible()
+  await expect(page.locator("[data-header-top-row]")).toHaveAttribute("inert", "")
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await expect(page.locator("[data-site-header]")).toHaveAttribute(
+    "data-header-compact",
+    "false"
+  )
+
   await page.setViewportSize({ width: 320, height: 700 })
   await page.goto("/")
   const narrowNavigation = page.getByRole("navigation", { name: "Primary" })
@@ -698,7 +718,7 @@ test("gallery labels remain visible without hover", async ({ page }) => {
   await expect(page.locator('script[src^="/_next/"]')).toHaveCount(0)
 })
 
-test("gallery cases keep compact vertical spacing on desktop", async ({ page }) => {
+test("gallery cases use aligned rows with consistent spacing on desktop", async ({ page }) => {
   await page.goto("/gallery")
   const cases = page.locator("article[id]")
   const caseCount = await cases.count()
@@ -714,21 +734,16 @@ test("gallery cases keep compact vertical spacing on desktop", async ({ page }) 
       })
       .filter((box) => box.bottom > box.y)
   )
-  const columns = new Map<number, Array<{ y: number; bottom: number }>>()
-  for (const box of boxes) {
-    const column = columns.get(box.x) ?? []
-    column.push({ y: box.y, bottom: box.bottom })
-    columns.set(box.x, column)
+  expect(new Set(boxes.map((box) => box.x)).size).toBe(2)
+  for (let index = 0; index < boxes.length; index += 2) {
+    if (!boxes[index + 1]) break
+    expect(Math.abs(boxes[index].y - boxes[index + 1].y)).toBeLessThanOrEqual(2)
   }
-
-  expect(columns.size).toBe(2)
-  for (const column of columns.values()) {
-    column.sort((a, b) => a.y - b.y)
-    for (let index = 1; index < column.length; index += 1) {
-      const gap = column[index].y - column[index - 1].bottom
-      expect(gap).toBeGreaterThanOrEqual(20)
-      expect(gap).toBeLessThanOrEqual(28)
-    }
+  for (let index = 2; index < boxes.length; index += 2) {
+    const previousRowBottom = Math.max(boxes[index - 2].bottom, boxes[index - 1].bottom)
+    const gap = boxes[index].y - previousRowBottom
+    expect(gap).toBeGreaterThanOrEqual(20)
+    expect(gap).toBeLessThanOrEqual(28)
   }
 })
 
@@ -773,10 +788,15 @@ test("authorized gallery cases have shareable detail pages", async ({ page }) =>
 
   const caseId = galleryCaseIds[0]
   await page.goto("/gallery")
-  await expect(page.locator(`a[href="${galleryPathForId(caseId)}"]`).first()).toBeVisible()
+  const caseLink = page.locator(`a[href="${galleryPathForId(caseId)}"]`).first()
+  await expect(caseLink).toBeVisible()
+  const caseTitle = await caseLink
+    .locator("xpath=ancestor::article")
+    .getByRole("heading", { level: 2 })
+    .innerText()
 
   await page.goto(`/gallery/${caseId}`)
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("Before and After")
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(caseTitle)
   await expect(page.getByText("Before", { exact: true }).first()).toBeVisible()
   await expect(page.getByText("After", { exact: true }).first()).toBeVisible()
   await expect(page.getByRole("heading", { name: "What Was Evaluated" })).toBeVisible()
@@ -798,7 +818,7 @@ test("legacy gallery aliases move visitors to the canonical case page", async ({
   await expect(page).toHaveURL(/\/gallery\/mohs-eyelid-reconstruction\/?$/)
   await expect(page).toHaveTitle("Mohs Eyelid Reconstruction Before and After | Biro MD")
   await expect(
-    page.getByRole("heading", { name: "Mohs Eyelid Reconstruction Before and After" })
+    page.getByRole("heading", { name: "Mohs Eyelid Reconstruction" })
   ).toBeVisible()
 })
 
@@ -1556,6 +1576,11 @@ test("long patient education pages provide mobile in-page navigation", async ({ 
     .getByRole("navigation", { name: "On this page" })
     .getByRole("link", { name: "Recovery" })
     .click()
+  await expect(page.locator("[data-site-header]")).toHaveAttribute(
+    "data-header-compact",
+    "true"
+  )
+  await page.waitForTimeout(200)
   const anchorPosition = await page.evaluate(() => ({
     headerBottom: document.querySelector("header")!.getBoundingClientRect().bottom,
     targetTop: document.querySelector("#recovery")!.getBoundingClientRect().top,

@@ -1,6 +1,5 @@
 import {
   Images,
-  Info,
   Maximize2,
   ShieldCheck,
   Sparkles,
@@ -24,23 +23,7 @@ const filters: Array<{ id: GalleryFilter; label: string; icon: typeof Images }> 
 
 export function GalleryView({ cases }: GalleryViewProps) {
   return (
-    <div className="space-y-8 md:space-y-9" data-gallery>
-      <div className="flex items-start gap-3 rounded-2xl border border-secondary/30 bg-secondary/8 p-4 text-sm md:p-5">
-        <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-secondary/30 bg-card text-secondary">
-          <Info className="h-4 w-4" aria-hidden="true" />
-        </span>
-        <div>
-          <p className="font-semibold text-foreground">Before you view</p>
-          <p className="mt-1 text-muted-foreground">
-            These cases are published with written authorization. Framing and file
-            format may be standardized; anatomy and outcomes are not retouched.
-            Full-resolution sensitive clinical photographs stay covered and do not
-            load unless you choose to view them. Lighting, angle, framing, and healing stage may differ;
-            individual results vary.
-          </p>
-        </div>
-      </div>
-
+    <div className="space-y-6 md:space-y-8" data-gallery>
       {cases.length > 0 ? (
         <div
           className="grid grid-cols-3 gap-2 border-b border-border pb-6"
@@ -142,7 +125,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
                       <span>{item.images.length} {item.images.length === 1 ? "view" : "matched views"}</span>
                     </div>
                   </div>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{item.presentation}</p>
+                  <p className="text-[0.9375rem] leading-relaxed text-muted-foreground">{item.presentation}</p>
                   <Button variant="outline" asChild className="w-full sm:w-auto">
                     <a href={galleryCasePath(item)}>
                       {item.images.length > 1 ? `View all ${item.images.length} comparisons` : "Read case details"}

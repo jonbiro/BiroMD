@@ -192,9 +192,9 @@ export default async function GalleryCasePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <PageIntro
-        eyebrow={`${item.categoryLabel} / ${item.focus}`}
-        title={`${item.title} Before and After`}
-        description="An authorized clinical case showing the presenting concern and surgical approach. Every patient heals differently, and individual results vary."
+        eyebrow={`${item.categoryLabel} Case`}
+        title={item.title}
+        description="Authorized before-and-after photographs showing the presenting concern and surgical approach. Every patient heals differently, and individual results vary."
         breadcrumbs={[
           { label: "Results", href: "/gallery" },
           { label: item.title },

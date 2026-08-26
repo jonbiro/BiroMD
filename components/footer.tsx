@@ -21,11 +21,11 @@ export default function Footer() {
                   {siteConfig.name}
                 </p>
               </div>
-              <p className="max-w-xs text-sm text-muted-foreground">
+              <p className="max-w-xs text-[0.9375rem] leading-relaxed text-muted-foreground">
                 Cosmetic and reconstructive oculoplastic care planned around eye
                 function, facial anatomy, and each patient&apos;s goals.
               </p>
-              <p className="text-xs font-medium text-foreground/85">
+              <p className="text-sm font-medium text-foreground/85">
                 Serving patients across {siteConfig.serviceAreaLabel}
               </p>
               <Button size="sm" asChild>
@@ -45,7 +45,7 @@ export default function Footer() {
                 <span>Offices</span>
               </summary>
               <div className="footer-disclosure-content pt-4 md:pt-0">
-                <ul className="grid gap-x-5 gap-y-4 text-sm text-foreground/90 lg:grid-cols-2">
+                <ul className="grid gap-x-5 gap-y-4 text-[0.9375rem] text-foreground/90 lg:grid-cols-2">
                 {siteConfig.offices.map((office) => (
                   <li key={office.id} className="space-y-1.5">
                     <a
@@ -85,7 +85,7 @@ export default function Footer() {
             >
               <summary className="footer-disclosure-summary">Explore</summary>
               <div className="footer-disclosure-content pt-4 md:pt-0">
-                <ul className="grid grid-cols-2 gap-x-4 gap-y-2.5 text-sm text-muted-foreground">
+                <ul className="grid grid-cols-2 gap-x-4 gap-y-2.5 text-[0.9375rem] text-muted-foreground">
                 {navItems.map((item) => (
                   <li key={item.href}>
                     <a
@@ -108,7 +108,7 @@ export default function Footer() {
             >
               <summary className="footer-disclosure-summary">Practice Information</summary>
               <div className="footer-disclosure-content pb-4 pt-3 md:pb-0 md:pt-0">
-                <ul className="space-y-3 text-sm text-muted-foreground">
+                <ul className="space-y-3 text-[0.9375rem] text-muted-foreground">
                 <li>Board-certified ophthalmologist</li>
                 <li>Fellowship-trained at Wills Eye Hospital</li>
                 <li>Consultations in {formatList(siteConfig.languages)}</li>
@@ -124,7 +124,7 @@ export default function Footer() {
             </details>
           </div>
 
-          <div className="relative mt-8 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 text-xs text-muted-foreground md:flex-row md:items-center">
+          <div className="relative mt-8 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 text-sm text-muted-foreground md:flex-row md:items-center">
             <p>
               &copy; {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
             </p>

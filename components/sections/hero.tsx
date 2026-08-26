@@ -37,7 +37,7 @@ export function Hero() {
             </a>
 
             <div className="order-2 space-y-2.5 lg:space-y-4">
-              <h1 className="text-[2.2rem] font-semibold leading-[0.98] text-primary min-[360px]:text-[2.4rem] min-[480px]:text-5xl md:text-[3.35rem] lg:text-6xl xl:text-7xl">
+              <h1 className="text-[2.2rem] font-semibold leading-[0.98] text-primary min-[360px]:text-[2.4rem] min-[480px]:text-5xl md:text-[2.8rem] min-[900px]:text-[3.35rem] lg:text-6xl xl:text-7xl">
                 Eyelid Surgery and{" "}
                 <span className="headline-gradient block">Specialized Eye Care</span>
               </h1>
@@ -79,7 +79,7 @@ export function Hero() {
               </Button>
             </div>
 
-            <ul className="order-5 grid gap-x-4 gap-y-2 text-sm text-foreground/90 min-[480px]:grid-cols-2 md:grid-cols-1 xl:grid-cols-2">
+            <ul className="order-5 grid gap-x-4 gap-y-2 text-[0.9375rem] text-foreground/90 min-[480px]:grid-cols-2 md:grid-cols-1 xl:grid-cols-2">
               {trustPoints.map((point) => (
                 <li key={point} className="flex items-start gap-2">
                   <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-secondary/12 text-secondary">
@@ -109,11 +109,11 @@ export function Hero() {
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <MessageSquareQuote className="h-4 w-4 shrink-0 text-secondary" aria-hidden="true" />
-                <h2 className="font-sans text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-secondary">
+                <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-secondary">
                   Independent Patient Feedback
                 </h2>
               </div>
-              <p className="mt-1.5 text-[0.68rem] leading-snug text-muted-foreground">
+              <p className="mt-1.5 text-sm leading-snug text-muted-foreground">
                 Explore independent profiles. Ratings and reviews are hosted and managed by each publisher; BiroMD does not edit or republish them.
               </p>
             </div>

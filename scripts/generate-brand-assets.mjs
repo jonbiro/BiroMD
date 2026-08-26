@@ -36,8 +36,8 @@ const darkSourceCandidates = [
   { kind: "gold", rgb: [205, 158, 79] },
 ]
 const darkOutputColors = {
-  navy: [98, 143, 188],
-  gold: [190, 143, 65],
+  navy: [139, 190, 225],
+  gold: [224, 181, 94],
 }
 
 for (let sourceIndex = 0, targetIndex = 0; sourceIndex < logoRgb.length; sourceIndex += 3, targetIndex += 4) {

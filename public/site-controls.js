@@ -68,6 +68,25 @@
     if (active) link.setAttribute("aria-current", "page")
   })
 
+  const siteHeader = document.querySelector("[data-site-header]")
+  const headerTopRow = siteHeader?.querySelector("[data-header-top-row]")
+  const compactHeaderQuery = window.matchMedia("(max-width: 1023px)")
+  let headerFrame = 0
+  const syncHeader = () => {
+    cancelAnimationFrame(headerFrame)
+    headerFrame = requestAnimationFrame(() => {
+      if (!siteHeader || !headerTopRow) return
+      const focusInsideTopRow = headerTopRow.contains(document.activeElement)
+      const compact = compactHeaderQuery.matches && window.scrollY > 72 && !focusInsideTopRow
+      siteHeader.setAttribute("data-header-compact", String(compact))
+      headerTopRow.toggleAttribute("inert", compact)
+    })
+  }
+  window.addEventListener("scroll", syncHeader, { passive: true })
+  compactHeaderQuery.addEventListener?.("change", syncHeader)
+  document.addEventListener("focusin", syncHeader)
+  syncHeader()
+
   const hydrateClinicalImages = (container) => {
     container?.querySelectorAll("[data-clinical-srcset]").forEach((source) => {
       const srcset = source.getAttribute("data-clinical-srcset")
@@ -85,28 +104,6 @@
     const filters = [...gallery.querySelectorAll("[data-gallery-filter]")]
     const cases = [...gallery.querySelectorAll("[data-gallery-case]")]
     const empty = gallery.querySelector("[data-gallery-empty]")
-    const grid = gallery.querySelector("[data-gallery-grid]")
-    let galleryLayoutFrame = 0
-    const layoutGallery = () => {
-      cancelAnimationFrame(galleryLayoutFrame)
-      galleryLayoutFrame = requestAnimationFrame(() => {
-        if (!grid) return
-        grid.removeAttribute("data-gallery-layout")
-        cases.forEach((item) => item.style.removeProperty("grid-row-end"))
-        const columnCount = getComputedStyle(grid).gridTemplateColumns.split(" ").length
-        const cardGap = Number.parseFloat(
-          getComputedStyle(grid).getPropertyValue("--gallery-card-gap")
-        ) || 24
-        if (columnCount <= 1) return
-        const spans = cases.map((item) =>
-          item.hidden ? 0 : Math.ceil(item.getBoundingClientRect().height + cardGap)
-        )
-        grid.setAttribute("data-gallery-layout", "masonry")
-        cases.forEach((item, index) => {
-          if (spans[index] > 0) item.style.gridRowEnd = `span ${spans[index]}`
-        })
-      })
-    }
     filters.forEach((button) => {
       button.addEventListener("click", () => {
         const filter = button.getAttribute("data-gallery-filter")
@@ -118,14 +115,8 @@
           if (show) visible += 1
         })
         if (empty) empty.hidden = visible !== 0
-        layoutGallery()
       })
     })
-    grid?.querySelectorAll("img").forEach((image) => {
-      if (!image.complete) image.addEventListener("load", layoutGallery, { once: true })
-    })
-    window.addEventListener("resize", layoutGallery, { passive: true })
-    layoutGallery()
   })
 
   document.querySelectorAll("[data-care-pathways]").forEach((section) => {
