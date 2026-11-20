@@ -7,6 +7,7 @@ import { ConsultationCta } from "@/components/consultation-cta"
 import { PageIntro } from "@/components/page-intro"
 import { Button } from "@/components/ui/button"
 import {
+  contourCaseImageBase,
   galleryCasePath,
   getPublishedGalleryCase,
   getPublishedGalleryCases,
@@ -50,7 +51,7 @@ export async function generateMetadata({
     path: galleryCasePath(item),
   })
 
-  return item.sensitive
+  return item.sensitive || item.images.some((image) => image.imagePath.startsWith(contourCaseImageBase))
     ? {
         ...metadata,
         robots: { index: true, follow: true, noimageindex: true },
@@ -165,7 +166,7 @@ export default async function GalleryCasePage({
               name: procedure.title,
             }))
           : { "@type": "MedicalProcedure", name: item.title },
-        ...(item.sensitive
+        ...(item.sensitive || primaryImage.imagePath.startsWith(contourCaseImageBase)
           ? {}
           : {
               image: imageObjects,

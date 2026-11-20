@@ -180,7 +180,7 @@ const galleryCases: GalleryCase[] = [
   },
 ]
 
-for (const { id, title, category, focus, presentation, technique, procedure } of contourCases) {
+for (const { id, title, category, focus, presentation, technique, procedure, sensitive } of contourCases) {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id) || galleryCases.some((item) => item.id === id)) {
     throw new Error(`Invalid or duplicate Contour gallery case: ${id}`)
   }
@@ -194,7 +194,7 @@ for (const { id, title, category, focus, presentation, technique, procedure } of
     presentation,
     technique,
     relatedProcedureSlugs: [procedure],
-    sensitive: true,
+    sensitive: sensitive !== false,
     sensitiveLabel: "This case includes a clinical before-and-after photograph.",
     images: [{
       imagePath: `${contourCaseImageBase}${id}-1200.webp`,
@@ -203,7 +203,7 @@ for (const { id, title, category, focus, presentation, technique, procedure } of
       height: 2151,
       viewLabel: "Primary view",
       comparisonLayout: "vertical",
-      comparisonLabel: "Before and after",
+      comparisonLabel: "Top: Before | Bottom: After",
     }],
   })
 }

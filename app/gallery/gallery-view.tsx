@@ -9,7 +9,7 @@ import { ClinicalComparisonPreview } from "@/components/clinical-comparison-prev
 import { ClinicalImageCover } from "@/components/clinical-image-cover"
 import { ClinicalCaseImage } from "@/components/clinical-case-image"
 import { Button } from "@/components/ui/button"
-import { galleryCasePath, type GalleryCase } from "@/lib/gallery-cases"
+import { contourCaseImageBase, galleryCasePath, type GalleryCase } from "@/lib/gallery-cases"
 import { cn } from "@/lib/utils"
 
 type GalleryViewProps = { cases: GalleryCase[] }
@@ -167,7 +167,7 @@ export function GalleryView({ cases }: GalleryViewProps) {
                       width={primaryImage.width}
                       height={primaryImage.height}
                       sizes="95vw"
-                      deferred={item.sensitive}
+                      deferred={item.sensitive || primaryImage.imagePath.startsWith(contourCaseImageBase)}
                       className="max-h-full max-w-full"
                     />
                   </div>

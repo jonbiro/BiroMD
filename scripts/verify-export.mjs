@@ -262,8 +262,8 @@ for (const asset of manifest.filter((asset) => !asset.remote && authorized.has(a
 }
 
 const contourBase = "https://contoureyes.com/images/cases/"
-const externalUrls = new Set(manifest.filter((asset) => asset.remote && authorized.has(assetCaseId(asset)))
-  .map((asset) => `${contourBase}${assetCaseId(asset)}-1200.webp`))
+const externalUrls = new Map(manifest.filter((asset) => asset.remote && authorized.has(assetCaseId(asset)))
+  .map((asset) => [`${contourBase}${assetCaseId(asset)}-1200.webp`, asset]))
 for (const asset of manifest.filter((asset) => !asset.remote && !authorized.has(assetCaseId(asset)))) {
   if (html.includes(`/images/cases/${asset.file}`)) {
     throw new Error(`Unauthorized gallery case appears in HTML: ${assetCaseId(asset)}`)
@@ -271,14 +271,21 @@ for (const asset of manifest.filter((asset) => !asset.remote && !authorized.has(
 }
 for (const match of html.matchAll(/https:\/\/contoureyes\.com\/images\/cases\/[^ "'<>;]+/g)) {
   const [url] = match
-  const deferredAttribute = 'data-clinical-src="'
-  if (!externalUrls.has(url) || html.slice(match.index - deferredAttribute.length, match.index) !== deferredAttribute) {
-    throw new Error(`Unexpected or eagerly placed Contour gallery URL: ${url}`)
+  const asset = externalUrls.get(url)
+  const before = html.slice(match.index - ' data-clinical-src="'.length, match.index)
+  const imageStart = html.lastIndexOf("<", match.index)
+  const imageEnd = html.indexOf(">", match.index)
+  const imageTag = html.slice(imageStart, imageEnd + 1)
+  const deferred = before.endsWith(' data-clinical-src="')
+  const visible = before.endsWith(' src="')
+  if (!asset || !imageTag.startsWith("<img ") || !imageTag.includes('referrerPolicy="no-referrer"') ||
+      (!deferred && (!visible || asset.sensitive))) {
+    throw new Error(`Unexpected Contour gallery URL or image visibility: ${url}`)
   }
 }
-for (const url of externalUrls) {
-  if (!html.includes(`data-clinical-src="${url}"`) || html.includes(` src="${url}"`)) {
-    throw new Error(`Contour gallery image is missing its reveal gate: ${url}`)
+for (const [url, asset] of externalUrls) {
+  if (!html.includes(`data-clinical-src="${url}"`) || html.includes(` src="${url}"`) === asset.sensitive) {
+    throw new Error(`Contour gallery image does not match its approved visibility: ${url}`)
   }
 }
 

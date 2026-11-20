@@ -30,6 +30,14 @@ const galleryCaseIds = (process.env.GALLERY_AUTHORIZED_CASE_IDS ?? "")
   .map((id) => id.trim())
   .filter(Boolean)
 
+const contourImageBase = "https://contoureyes.com/images/cases/"
+const syntheticComparison = '<svg xmlns="http://www.w3.org/2000/svg" width="1401" height="2151"><path fill="#123456" d="M0 0h1401v1075H0z"/><path fill="#654321" d="M0 1075h1401v1076H0z"/></svg>'
+const syntheticClinicalResponse = { contentType: "image/svg+xml", body: syntheticComparison }
+
+test.beforeEach(async ({ page }) => {
+  await page.route(`${contourImageBase}**`, route => route.fulfill(syntheticClinicalResponse))
+})
+
 const galleryRouteAliases: Record<string, string> = {
   "eyelid-trauma": "mohs-eyelid-reconstruction",
 }
@@ -747,12 +755,13 @@ test("gallery cases use aligned rows with consistent spacing on desktop", async 
   }
 })
 
-test("gallery cases remain readable when JavaScript is unavailable", async ({ browser }) => {
+test("gallery cases remain readable when JavaScript is unavailable", async ({ browser, baseURL }) => {
   const context = await browser.newContext({
-    baseURL: "http://127.0.0.1:4173",
+    baseURL,
     javaScriptEnabled: false,
     viewport: { width: 1237, height: 790 },
   })
+  await context.route(`${contourImageBase}**`, route => route.fulfill(syntheticClinicalResponse))
   const page = await context.newPage()
   await page.goto("/gallery")
   const cases = page.locator("article[id]")
@@ -1853,60 +1862,85 @@ test("unknown routes show a useful custom error page", async ({ page }) => {
   await expect(page.getByRole("navigation", { name: "Primary" })).toBeVisible()
 })
 
-test("the exact approved Contour cases remain reveal-gated or absent", async ({ page, request }) => {
-  const ids = [
+test("approved Contour cases match visibility and use the exact no-referrer derivative", async ({ page, request }) => {
+  const visibleIds = [
     "ptosis-case-01", "ptosis-case-02", "upper-blepharoplasty-case-02",
-    "upper-blepharoplasty-case-03", "upper-blepharoplasty-case-04", "eyelid-cancer-reconstruction-case-02",
+    "upper-blepharoplasty-case-03", "upper-blepharoplasty-case-04",
   ]
-  const base = "https://contoureyes.com/images/cases/"
+  const sensitiveId = "eyelid-cancer-reconstruction-case-02"
+  const ids = [...visibleIds, sensitiveId]
   const allowed = ids.filter(id => galleryCaseIds.includes(id))
+  const imageUrl = (id: string) => `${contourImageBase}${id}-1200.webp`
   const requested: Array<{ url: string; referer?: string }> = []
-  await page.route("https://contoureyes.com/**", async route => {
+  await page.route(`${contourImageBase}**`, async route => {
     const req = route.request()
     requested.push({ url: req.url(), referer: (await req.allHeaders()).referer })
-    // Synthetic response. No patient image is downloaded or screenshotted.
-    const fail = req.url() === `${base}ptosis-case-02-1200.webp`
-    await route.fulfill({
-      status: fail ? 404 : 200,
-      contentType: fail ? "text/plain" : "image/svg+xml",
-      body: fail ? "Image unavailable" : '<svg xmlns="http://www.w3.org/2000/svg" width="2" height="2"><rect width="2" height="2"/></svg>',
-    })
+    // Only synthetic pixels are used by the browser tests.
+    await route.fulfill(syntheticClinicalResponse)
   })
-  await page.goto("/gallery")
-  await expect(page.locator("[data-gallery-case]")).toHaveCount(galleryCaseIds.length)
-  const csp = await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute("content")
-  expect(csp?.includes(`img-src 'self' data: ${base};`)).toBe(allowed.length > 0)
-  for (const id of ids) {
-    const link = page.locator(`[data-gallery-case] a[href="/gallery/${id}"]`)
-    if (!allowed.includes(id)) {
-      await expect(link).toHaveCount(0)
-      expect((await request.get(`/gallery/${id}`)).status()).toBe(404)
-      continue
-    }
-    await expect(link).toHaveCount(1)
-    await page.goto(`/gallery/${id}`)
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noimageindex/)
-    await expect(page.locator("img[data-clinical-remote][src]")).toHaveCount(0)
-    await expect(page.locator(`img[data-clinical-src="${base}${id}-1200.webp"][referrerpolicy="no-referrer"]`)).toHaveCount(2)
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 })
     await page.goto("/gallery")
-  }
-  expect(requested).toEqual([])
-  if (allowed.length === 0) return
-
-  for (const id of allowed.slice(0, 2)) {
-    await page.goto(`/gallery/${id}`)
-    const prior = requested.length
-    const reveal = page.locator("[data-sensitive-reveal]").first()
-    await reveal.scrollIntoViewIfNeeded()
-    expect(requested).toHaveLength(prior)
-    await reveal.click()
-    const expected = `${base}${id}-1200.webp`
-    await expect.poll(() => requested.slice(prior).some(r => r.url === expected)).toBe(true)
-    expect(requested.slice(prior).every(r => r.url === expected && !r.referer)).toBe(true)
-    if (id === "ptosis-case-02") {
-      await expect(page.locator("img[data-clinical-remote]").first()).toHaveAttribute("alt", "This clinical comparison is currently unavailable.")
+    await expect(page.locator("[data-gallery-case]")).toHaveCount(galleryCaseIds.length)
+    const csp = await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute("content")
+    expect(csp?.includes(`img-src 'self' data: ${contourImageBase};`)).toBe(allowed.length > 0)
+    for (const id of ids) {
+      const card = page.locator(`[data-gallery-case][id="${id}"]`)
+      if (!allowed.includes(id)) {
+        await expect(card).toHaveCount(0)
+        expect((await request.get(`/gallery/${id}`)).status()).toBe(404)
+        continue
+      }
+      await expect(card.locator(`a[href="/gallery/${id}"]`)).toHaveCount(1)
+      await card.scrollIntoViewIfNeeded()
+      const open = card.locator("[data-gallery-open]")
+      const dialog = card.locator("dialog")
+      await expect(dialog.locator("img[data-clinical-remote]")).not.toHaveAttribute("src", /./)
+      await expect(dialog).toContainText("Top: Before | Bottom: After")
+      if (id === sensitiveId) {
+        await expect(card.locator("[data-sensitive-reveal]")).toBeVisible()
+        await expect(open).toBeDisabled()
+        await expect(card.locator("img[data-clinical-remote][src]")).toHaveCount(0)
+      } else {
+        await expect(card.locator("[data-sensitive-reveal]")).toHaveCount(0)
+        await expect(open).toBeEnabled()
+        await expect(card.locator(`img[src="${imageUrl(id)}"][referrerpolicy="no-referrer"]`)).toHaveCount(2)
+        await expect.poll(() => requested.some(r => r.url === imageUrl(id))).toBe(true)
+        if (width === 1440) {
+          await open.click()
+          await expect(dialog).toBeVisible()
+          await expect(dialog.locator(`img[src="${imageUrl(id)}"]`)).toBeVisible()
+          await dialog.locator("[data-gallery-close]").click()
+          await expect(dialog).toBeHidden()
+        }
+      }
     }
-    await page.locator("[data-sensitive-hide]").first().click()
-    await expect(reveal).toBeVisible()
+    expect(requested.some(r => r.url === imageUrl(sensitiveId))).toBe(false)
+
+    for (const id of allowed) {
+      await page.goto(`/gallery/${id}`)
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noimageindex/)
+      const photos = page.locator("img[data-clinical-remote]")
+      await expect(photos).toHaveCount(2)
+      await expect(photos.first()).toHaveAttribute("class", /object-cover object-top/)
+      await expect(photos.last()).toHaveAttribute("class", /object-cover object-bottom/)
+      if (id !== sensitiveId) {
+        await expect(page.locator("[data-sensitive-reveal]")).toHaveCount(0)
+        await expect(page.locator(`img[src="${imageUrl(id)}"][referrerpolicy="no-referrer"]`)).toHaveCount(2)
+      } else {
+        const reveal = page.locator("[data-sensitive-reveal]").first()
+        await reveal.scrollIntoViewIfNeeded()
+        await expect(page.locator("img[data-clinical-remote][src]")).toHaveCount(0)
+        expect(requested.some(r => r.url === imageUrl(id))).toBe(false)
+        await reveal.click()
+        await expect.poll(() => requested.some(r => r.url === imageUrl(id))).toBe(true)
+        await expect(page.locator(`img[src="${imageUrl(id)}"][referrerpolicy="no-referrer"]`)).toHaveCount(2)
+        await page.locator("[data-sensitive-hide]").first().click()
+        await expect(reveal).toBeVisible()
+        expect(requested.every(r => allowed.some(candidate => imageUrl(candidate) === r.url) && !r.referer)).toBe(true)
+        requested.length = 0
+      }
+    }
   }
+  expect(requested.every(r => allowed.some(id => imageUrl(id) === r.url) && !r.referer)).toBe(true)
 })

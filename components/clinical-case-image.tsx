@@ -22,9 +22,10 @@ export function ClinicalCaseImage({
 }) {
   if (imagePath.startsWith(contourCaseImageBase)) {
     return (
-      <picture className="flex h-full w-full items-center justify-center" data-clinical-deferred="true">
+      <picture className="flex h-full w-full items-center justify-center" data-clinical-deferred={deferred ? "true" : undefined}>
         <img
-          data-clinical-src={imagePath}
+          src={deferred ? undefined : imagePath}
+          data-clinical-src={deferred ? imagePath : undefined}
           data-clinical-remote
           alt={alt}
           width={width}
