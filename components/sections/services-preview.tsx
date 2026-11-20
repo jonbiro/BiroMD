@@ -169,6 +169,14 @@ export function ServicesPreview() {
             <ChevronRight className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
+        <ul className="mt-4 flex flex-wrap gap-2" aria-label="Additional conditions treated">
+          <li className="rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground">
+            Blepharospasm
+          </li>
+          <li className="rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground">
+            Hemifacial Spasm
+          </li>
+        </ul>
       </div>
     </section>
   )

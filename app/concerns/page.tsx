@@ -116,18 +116,6 @@ export default function ConcernsPage() {
           </div>
         </div>
       </section>
-
-      <section className="site-container px-4 md:px-6" aria-labelledby="conditions-treated">
-        <div className="panel rounded-[1.8rem] p-6 md:p-8">
-          <h2 id="conditions-treated" className="text-4xl font-semibold text-primary">
-            Conditions Treated
-          </h2>
-          <ul className="mt-3 list-disc space-y-1 pl-5 text-foreground">
-            <li>Blepharospasm</li>
-            <li>Hemifacial Spasm</li>
-          </ul>
-        </div>
-      </section>
     </div>
   )
 }

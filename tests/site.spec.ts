@@ -1098,6 +1098,12 @@ test("homepage credential and patient-facing cancer and spasm labels stay scoped
   expect(bounds?.width).toBe(bounds?.height)
   await expectNoHorizontalOverflow(page)
 
+  const care = page.getByRole("region", { name: "Specialized Care" })
+  await expect(care).toHaveCount(1)
+  await expect(care.getByText("Blepharospasm", { exact: true })).toBeVisible()
+  await expect(care.getByText("Hemifacial Spasm", { exact: true })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Conditions Treated", exact: true })).toHaveCount(0)
+
   const cancer = page.getByRole("link", { name: "Eyelid Lesions & Cancer Reconstruction" })
   await expect(cancer).toHaveAttribute("href", "/concerns/eyelid-lesion-mohs-reconstruction")
   await cancer.click()
@@ -1114,9 +1120,9 @@ test("homepage credential and patient-facing cancer and spasm labels stay scoped
   await page.goto("/procedures/eyelid-cancer-mohs-reconstruction")
   await expect(page.getByRole("heading", { name: "Cancer Reconstruction", level: 1 })).toBeVisible()
   await page.goto("/concerns")
-  const conditions = page.getByRole("region", { name: "Conditions Treated" })
-  await expect(conditions.getByText("Blepharospasm", { exact: true })).toBeVisible()
-  await expect(conditions.getByText("Hemifacial Spasm", { exact: true })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Conditions Treated", exact: true })).toHaveCount(0)
+  await expect(page.getByText("Blepharospasm", { exact: true })).toHaveCount(0)
+  await expect(page.getByText("Hemifacial Spasm", { exact: true })).toHaveCount(0)
   await expect(page.getByRole("link", { name: /sudden eyelid drooping/i })).toHaveAttribute(
     "href",
     "/concerns/sudden-eyelid-drooping"
