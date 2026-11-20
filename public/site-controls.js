@@ -95,6 +95,11 @@
     })
     container?.querySelectorAll("[data-clinical-src]").forEach((image) => {
       const src = image.getAttribute("data-clinical-src")
+      if (image.hasAttribute("data-clinical-remote")) {
+        image.addEventListener("error", () => {
+          image.alt = "This clinical comparison is currently unavailable."
+        }, { once: true })
+      }
       if (src) image.setAttribute("src", src)
       image.removeAttribute("data-clinical-src")
     })

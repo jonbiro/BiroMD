@@ -12,7 +12,7 @@ const manifest = await loadManifest()
 const authorized = authorizedIds(manifest)
 const allowedStems = new Set(
   manifest
-    .filter((asset) => authorized.has(assetCaseId(asset)))
+    .filter((asset) => !asset.remote && authorized.has(assetCaseId(asset)))
     .map(({ file }) => assetStem(file))
 )
 

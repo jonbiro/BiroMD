@@ -7,9 +7,9 @@ export const publicDir = path.join(root, "public", "images", "cases")
 export const exportDir = path.join(root, "out", "images", "cases")
 
 export async function loadManifest() {
-  return JSON.parse(
-    await readFile(path.join(root, "lib", "gallery-assets.json"), "utf8")
-  )
+  const local = JSON.parse(await readFile(path.join(root, "lib", "gallery-assets.json"), "utf8"))
+  const contour = JSON.parse(await readFile(path.join(root, "lib", "gallery-contour-cases.json"), "utf8"))
+  return [...local, ...contour.map(({ id }) => ({ id, remote: true }))]
 }
 
 export function authorizedIds(manifest) {

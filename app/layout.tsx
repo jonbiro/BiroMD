@@ -14,6 +14,7 @@ import {
   siteConfig,
 } from "@/lib/site"
 import { procedures } from "@/lib/procedures"
+import { contourCaseImageBase, getPublishedGalleryCases } from "@/lib/gallery-cases"
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -50,7 +51,7 @@ const contentSecurityPolicy = [
   "base-uri 'self'",
   "object-src 'none'",
   "form-action 'self'",
-  "img-src 'self' data:",
+  `img-src 'self' data:${getPublishedGalleryCases().some((item) => item.images[0]?.imagePath.startsWith(contourCaseImageBase)) ? ` ${contourCaseImageBase}` : ""}`,
   "font-src 'self' data:",
   "style-src 'self' 'unsafe-inline'",
   `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,

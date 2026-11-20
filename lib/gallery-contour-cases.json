@@ -1,0 +1,56 @@
+[
+  {
+    "id": "ptosis-case-01",
+    "title": "Droopy Eyelid Surgery — Case 1",
+    "category": "reconstructive",
+    "focus": "Ptosis Repair",
+    "presentation": "This before-and-after comparison documents surgery for drooping upper eyelids.",
+    "technique": "The photographs show the appearance before and after droopy-eyelid surgery; the exact operative technique is not specified.",
+    "procedure": "ptosis-repair"
+  },
+  {
+    "id": "ptosis-case-02",
+    "title": "Droopy Eyelid Surgery — Case 2",
+    "category": "reconstructive",
+    "focus": "Ptosis Repair",
+    "presentation": "These photographs show eyelid position before and after surgery for drooping upper eyelids.",
+    "technique": "The treating surgeon supplied a matched comparison following droopy-eyelid surgery.",
+    "procedure": "ptosis-repair"
+  },
+  {
+    "id": "upper-blepharoplasty-case-02",
+    "title": "Upper Eyelid Blepharoplasty — Case 2",
+    "category": "cosmetic",
+    "focus": "Upper Eyelid Blepharoplasty",
+    "presentation": "The photographs show the upper eyelids before and after upper blepharoplasty.",
+    "technique": "The practice provided a matched before-and-after comparison following upper-eyelid blepharoplasty.",
+    "procedure": "upper-blepharoplasty"
+  },
+  {
+    "id": "upper-blepharoplasty-case-03",
+    "title": "Upper Eyelid Blepharoplasty — Case 3",
+    "category": "cosmetic",
+    "focus": "Upper Eyelid Blepharoplasty",
+    "presentation": "The photographs document upper eyelid appearance before and after cosmetic eyelid surgery.",
+    "technique": "Upper blepharoplasty was performed, as confirmed by the treating practice. The images show a before-and-after comparison.",
+    "procedure": "upper-blepharoplasty"
+  },
+  {
+    "id": "upper-blepharoplasty-case-04",
+    "title": "Upper Eyelid Blepharoplasty — Case 4",
+    "category": "cosmetic",
+    "focus": "Upper Eyelid Blepharoplasty",
+    "presentation": "This comparison shows the upper eyelids before and after blepharoplasty.",
+    "technique": "The surgeon provided these before-and-after photographs of upper-eyelid blepharoplasty.",
+    "procedure": "upper-blepharoplasty"
+  },
+  {
+    "id": "eyelid-cancer-reconstruction-case-02",
+    "title": "Cancer Reconstruction — Case 2",
+    "category": "reconstructive",
+    "focus": "Cancer Reconstruction",
+    "presentation": "The photographs document reconstruction following removal of skin cancer near the eye.",
+    "technique": "The comparison shows the surgical area before and after reconstruction. The specific surgical technique is not detailed in the supplied images.",
+    "procedure": "eyelid-cancer-mohs-reconstruction"
+  }
+]

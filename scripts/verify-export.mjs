@@ -224,7 +224,7 @@ for (const field of ["Contact:", "Expires:", "Canonical:"]) {
 
 const allowedStems = new Set(
   manifest
-    .filter((asset) => authorized.has(assetCaseId(asset)))
+    .filter((asset) => !asset.remote && authorized.has(assetCaseId(asset)))
     .map(({ file }) => assetStem(file))
 )
 let exportedGalleryFiles = []
@@ -241,7 +241,7 @@ for (const file of exportedGalleryFiles) {
   if (!allowed) throw new Error(`Unauthorized clinical asset exported: ${file}`)
 }
 
-for (const asset of manifest.filter((asset) => authorized.has(assetCaseId(asset)))) {
+for (const asset of manifest.filter((asset) => !asset.remote && authorized.has(assetCaseId(asset)))) {
   const stem = assetStem(asset.file)
   for (const file of [
     asset.file,
@@ -261,9 +261,24 @@ for (const asset of manifest.filter((asset) => authorized.has(assetCaseId(asset)
   }
 }
 
-for (const asset of manifest.filter((asset) => !authorized.has(assetCaseId(asset)))) {
+const contourBase = "https://contoureyes.com/images/cases/"
+const externalUrls = new Set(manifest.filter((asset) => asset.remote && authorized.has(assetCaseId(asset)))
+  .map((asset) => `${contourBase}${assetCaseId(asset)}-1200.webp`))
+for (const asset of manifest.filter((asset) => !asset.remote && !authorized.has(assetCaseId(asset)))) {
   if (html.includes(`/images/cases/${asset.file}`)) {
     throw new Error(`Unauthorized gallery case appears in HTML: ${assetCaseId(asset)}`)
+  }
+}
+for (const match of html.matchAll(/https:\/\/contoureyes\.com\/images\/cases\/[^ "'<>;]+/g)) {
+  const [url] = match
+  const deferredAttribute = 'data-clinical-src="'
+  if (!externalUrls.has(url) || html.slice(match.index - deferredAttribute.length, match.index) !== deferredAttribute) {
+    throw new Error(`Unexpected or eagerly placed Contour gallery URL: ${url}`)
+  }
+}
+for (const url of externalUrls) {
+  if (!html.includes(`data-clinical-src="${url}"`) || html.includes(` src="${url}"`)) {
+    throw new Error(`Contour gallery image is missing its reveal gate: ${url}`)
   }
 }
 

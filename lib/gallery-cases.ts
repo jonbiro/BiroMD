@@ -1,4 +1,7 @@
 import galleryAssets from "@/lib/gallery-assets.json"
+import contourCases from "@/lib/gallery-contour-cases.json"
+
+export const contourCaseImageBase = "https://contoureyes.com/images/cases/"
 
 type GalleryAsset = {
   id: string
@@ -176,6 +179,34 @@ const galleryCases: GalleryCase[] = [
     sensitiveLabel: "This comparison includes a visible forehead surgical defect.",
   },
 ]
+
+for (const { id, title, category, focus, presentation, technique, procedure } of contourCases) {
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id) || galleryCases.some((item) => item.id === id)) {
+    throw new Error(`Invalid or duplicate Contour gallery case: ${id}`)
+  }
+  galleryCases.push({
+    id,
+    title,
+    seoTitle: title.replace("Upper Eyelid Blepharoplasty", "Upper Blepharoplasty"),
+    category: category === "cosmetic" ? "cosmetic" : "reconstructive",
+    categoryLabel: category === "cosmetic" ? "Cosmetic Surgery" : "Reconstructive Oculoplastics",
+    focus,
+    presentation,
+    technique,
+    relatedProcedureSlugs: [procedure],
+    sensitive: true,
+    sensitiveLabel: "This case includes a clinical before-and-after photograph.",
+    images: [{
+      imagePath: `${contourCaseImageBase}${id}-1200.webp`,
+      alt: `Before and after ${title}`,
+      width: 1401,
+      height: 2151,
+      viewLabel: "Primary view",
+      comparisonLayout: "vertical",
+      comparisonLabel: "Before and after",
+    }],
+  })
+}
 
 export function getAuthorizedGalleryCaseIds(): Set<string> {
   return new Set(

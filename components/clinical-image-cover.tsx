@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { Eye, EyeOff, TriangleAlert } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { contourCaseImageBase } from "@/lib/gallery-cases"
 
 export function ClinicalImageCover({
   label,
@@ -17,7 +18,7 @@ export function ClinicalImageCover({
         data-sensitive-cover
         className="clinical-image-warning absolute inset-0 z-30 flex items-center justify-center border-2 border-amber-600/55 p-3 text-center dark:border-amber-400/60 md:p-5"
       >
-        <Image
+        {!imagePath.startsWith(contourCaseImageBase) ? <Image
           src={warningPreviewPath}
           alt=""
           width={48}
@@ -28,7 +29,7 @@ export function ClinicalImageCover({
           aria-hidden="true"
           data-sensitive-preview
           className="absolute inset-0 h-full w-full scale-110 object-cover opacity-20 dark:opacity-15"
-        />
+        /> : null}
         <div className="clinical-image-warning-scrim absolute inset-0" aria-hidden="true" />
         <div className="relative z-10 max-w-sm rounded-2xl border border-amber-700/20 bg-card/94 px-4 py-3 shadow-xl shadow-slate-950/10 dark:border-amber-300/25 md:px-6 md:py-5">
           <span className="mx-auto inline-flex h-9 w-9 items-center justify-center rounded-full border border-amber-600/35 bg-amber-500/12 text-amber-800 dark:border-amber-300/40 dark:text-amber-300 md:h-11 md:w-11">
