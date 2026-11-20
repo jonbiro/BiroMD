@@ -31,7 +31,7 @@ const concerns = [
     icon: Droplets,
   },
   {
-    title: "Eyelid lesions & Mohs",
+    title: "Eyelid Lesions & Cancer Reconstruction",
     href: "/concerns/eyelid-lesion-mohs-reconstruction",
     icon: ShieldCheck,
   },

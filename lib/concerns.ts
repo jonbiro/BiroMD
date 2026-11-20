@@ -161,9 +161,9 @@ export const patientConcerns: PatientConcern[] = [
   },
   {
     slug: "eyelid-lesion-mohs-reconstruction",
-    title: "Eyelid Lesions and Reconstruction After Mohs",
-    seoTitle: "Eyelid Lesions & Mohs Reconstruction",
-    shortTitle: "Eyelid lesion or Mohs reconstruction",
+    title: "Eyelid Lesions and Cancer Reconstruction",
+    seoTitle: "Eyelid Lesions & Cancer Reconstruction",
+    shortTitle: "Eyelid Lesions and Cancer Reconstruction",
     summary:
       "Evaluation and reconstructive planning for eyelid or periocular lesions, biopsy sites, and defects after skin-cancer removal.",
     overview:

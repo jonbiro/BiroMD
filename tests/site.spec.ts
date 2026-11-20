@@ -1084,6 +1084,46 @@ test("patient concerns lead directly to relevant procedure guidance", async ({ p
   await expect(finder).not.toContainText("Sudden eyelid drooping")
 })
 
+test("homepage credential and patient-facing cancer and spasm labels stay scoped", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("/")
+  const badge = page.getByRole("img", {
+    name: "Board Certified Ophthalmologist, American Board of Ophthalmology",
+  })
+  await expect(badge).toHaveCount(1)
+  await badge.scrollIntoViewIfNeeded()
+  await expect(badge).toBeVisible()
+  await expect.poll(() => badge.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBe(400)
+  const bounds = await badge.boundingBox()
+  expect(bounds?.width).toBe(bounds?.height)
+  await expectNoHorizontalOverflow(page)
+
+  const cancer = page.getByRole("link", { name: "Eyelid Lesions & Cancer Reconstruction" })
+  await expect(cancer).toHaveAttribute("href", "/concerns/eyelid-lesion-mohs-reconstruction")
+  await cancer.click()
+  await expect(page.getByRole("heading", {
+    name: "Eyelid Lesions and Cancer Reconstruction",
+    level: 1,
+  })).toBeVisible()
+  await expect(badge).toHaveCount(0)
+  await expect(page.getByRole("link", { name: /Mohs Micrographic Surgery/ })).toHaveAttribute(
+    "href",
+    "https://eyewiki.aao.org/Mohs_Micrographic_Surgery"
+  )
+
+  await page.goto("/procedures/eyelid-cancer-mohs-reconstruction")
+  await expect(page.getByRole("heading", { name: "Cancer Reconstruction", level: 1 })).toBeVisible()
+  await page.goto("/concerns")
+  const conditions = page.getByRole("region", { name: "Conditions Treated" })
+  await expect(conditions.getByText("Blepharospasm", { exact: true })).toBeVisible()
+  await expect(conditions.getByText("Hemifacial Spasm", { exact: true })).toBeVisible()
+  await expect(page.getByRole("link", { name: /sudden eyelid drooping/i })).toHaveAttribute(
+    "href",
+    "/concerns/sudden-eyelid-drooping"
+  )
+  await expectNoHorizontalOverflow(page)
+})
+
 test("medical metadata uses the service area and a durable FDA reference", async ({ page }) => {
   await page.goto("/concerns/droopy-heavy-upper-eyelids")
   await expect(page).toHaveTitle(/Droopy or Hooded Upper Eyelids: Causes & Care/)

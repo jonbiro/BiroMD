@@ -291,9 +291,9 @@ export const procedures: Procedure[] = [
   },
   {
     slug: "eyelid-cancer-mohs-reconstruction",
-    title: "Eyelid Cancer and Mohs Reconstruction",
-    shortTitle: "Eyelid cancer and Mohs reconstruction",
-    seoTitle: "Eyelid Cancer & Mohs Reconstruction in Los Angeles",
+    title: "Cancer Reconstruction",
+    shortTitle: "Cancer Reconstruction",
+    seoTitle: "Eyelid Cancer Reconstruction in Los Angeles",
     seoDescription:
       "Reconstruction after skin-cancer removal near the eye, tailored to the final cleared defect and coordinated with your Mohs surgeon. Eye protection comes first.",
     categoryId: "reconstructive-oculoplastics",
