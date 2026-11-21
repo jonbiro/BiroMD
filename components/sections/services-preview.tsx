@@ -1,4 +1,5 @@
 import {
+  Activity,
   ArrowRight,
   ChevronLeft,
   ChevronRight,
@@ -57,6 +58,15 @@ const carePathways: readonly CarePathway[] = [
     treatment: "care-pathway--orbital",
     action: "Explore orbital care",
   },
+  {
+    eyebrow: "Facial movement",
+    title: "Eyelid & Facial Spasms",
+    summary: "Evaluation for blepharospasm and hemifacial spasm.",
+    href: "/contact",
+    icon: Activity,
+    treatment: "care-pathway--spasms",
+    action: "Request a consultation",
+  },
 ]
 
 export function ServicesPreview() {
@@ -69,9 +79,6 @@ export function ServicesPreview() {
       <div className="site-container px-4 md:px-6">
         <div className="mb-4 flex items-end justify-between gap-3 sm:mb-5 md:mb-6">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-              Four areas of care
-            </p>
             <h2
               id="care-pathways-title"
               className="mt-1.5 text-[2rem] font-semibold leading-none text-primary sm:mt-2 sm:text-5xl"
@@ -168,16 +175,6 @@ export function ServicesPreview() {
           >
             <ChevronRight className="h-5 w-5" aria-hidden="true" />
           </button>
-        </div>
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-t border-border pt-4">
-          <div>
-            <h3 className="font-serif text-2xl font-semibold text-primary">Eyelid and facial spasms</h3>
-            <p className="mt-1 text-sm text-muted-foreground">Evaluation for blepharospasm and hemifacial spasm.</p>
-          </div>
-          <a href="/contact" className="inline-flex min-h-11 items-center gap-2 font-semibold text-secondary underline underline-offset-4">
-            Request a spasm consultation
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </a>
         </div>
       </div>
     </section>

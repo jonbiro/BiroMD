@@ -353,6 +353,12 @@
       linear-gradient(145deg, #17677c 0%, #09314f 75%);
   }
 
+  .care-pathway--spasms {
+    background:
+      radial-gradient(circle at 78% 18%, rgb(162 161 220 / 0.5), transparent 31%),
+      linear-gradient(145deg, #47466f 0%, #142d49 76%);
+  }
+
   .care-pathway--orbital {
     background:
       radial-gradient(circle at 78% 18%, rgb(216 177 91 / 0.54), transparent 30%),
@@ -457,7 +463,7 @@
     }
   }
 
-  @media screen and (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  @media screen and (min-width: 1200px) and (hover: hover) and (pointer: fine) {
     .care-pathway-controls {
       display: none !important;
     }
