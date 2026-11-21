@@ -1,4 +1,4 @@
-import { List } from "lucide-react"
+import { ArrowDown, List } from "lucide-react"
 
 type PageJumpLink = {
   href: `#${string}`
@@ -10,19 +10,20 @@ export function PageJumpLinks({ items }: { items: PageJumpLink[] }) {
     <div className="site-container px-4 md:px-6">
       <nav
         aria-label="On this page"
-        className="panel flex flex-col gap-3 rounded-[1.4rem] p-3.5 sm:flex-row sm:items-center sm:p-4"
+        className="grid gap-3 rounded-2xl bg-accent/75 px-4 py-3.5 sm:px-5 lg:grid-cols-[auto_1fr] lg:items-baseline lg:gap-6"
       >
-        <div className="flex shrink-0 items-center gap-2 px-1 text-xs font-semibold uppercase tracking-[0.14em] text-secondary">
+        <div className="flex shrink-0 items-center gap-2 px-1 text-sm font-semibold text-secondary">
           <List className="h-4 w-4" aria-hidden="true" />
           On this page
         </div>
-        <div className="grid flex-1 grid-cols-2 gap-2 min-[360px]:grid-cols-3 sm:flex sm:flex-wrap">
+        <div className="grid grid-cols-2 gap-x-4 sm:flex sm:flex-wrap sm:gap-x-5">
           {items.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="inline-flex min-h-11 items-center justify-center rounded-full border border-border bg-background px-2.5 text-center text-xs font-semibold leading-tight text-foreground transition-[background-color,border-color,color] hover:border-secondary hover:bg-secondary/10 hover:text-secondary sm:px-4 sm:text-sm"
+              className="inline-flex min-h-11 items-center gap-2 border-b border-border text-sm font-medium leading-tight text-foreground underline-offset-4 hover:text-secondary hover:underline sm:border-0"
             >
+              <ArrowDown className="h-3.5 w-3.5 shrink-0 text-secondary" aria-hidden="true" />
               {item.label}
             </a>
           ))}

@@ -173,15 +173,13 @@ test("primary consultation action is readable in light and dark mode", async ({ 
 test("component styles allow utility and interaction states to override them", async ({ page }) => {
   await page.goto("/")
 
-  const locationEyebrow = page.locator('main a.eyebrow[href="/locations"]')
-  const eyebrowBackground = await locationEyebrow.evaluate(
-    (element) => getComputedStyle(element).backgroundColor
-  )
-  await locationEyebrow.hover()
-  await expect
-    .poll(() => locationEyebrow.evaluate((element) => getComputedStyle(element).backgroundColor))
-    .not.toBe(eyebrowBackground)
+  const locationLink = page.getByRole("link", { name: "Serving Greater Los Angeles" })
+  const restingColor = await locationLink.evaluate((element) => getComputedStyle(element).color)
+  await locationLink.hover()
+  await expect.poll(() => locationLink.evaluate((element) => getComputedStyle(element).color))
+    .not.toBe(restingColor)
 
+  await page.goto("/patient-guide")
   const panel = page.locator("main .panel-strong").first()
   const panelBackground = await panel.evaluate((element) => {
     const before = getComputedStyle(element).backgroundColor

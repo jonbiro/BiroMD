@@ -5,155 +5,145 @@ import { formatList, navItems, siteConfig } from "@/lib/site"
 
 export default function Footer() {
   return (
-    <footer className="relative mt-8 pb-4 md:mt-16 md:pb-8">
-      <div className="site-container px-4 md:px-6">
-        <div className="panel-strong relative overflow-hidden rounded-[2rem] px-5 py-6 md:px-10 md:py-10">
-          <div className="pointer-events-none absolute -left-24 top-0 h-56 w-56 rounded-full bg-secondary/8" />
-          <div className="pointer-events-none absolute -right-24 bottom-0 h-52 w-56 rounded-full bg-primary/8" />
-
-          <div className="relative grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-[0.9fr_1.65fr_0.75fr_1fr] lg:gap-8">
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <BrandSymbol
-                  className="h-14 w-[4.5rem] shrink-0 md:h-16 md:w-[5.2rem]"
-                />
-                <p className="font-serif text-2xl font-semibold leading-none text-primary md:text-3xl lg:whitespace-nowrap">
-                  {siteConfig.name}
-                </p>
-              </div>
-              <p className="max-w-xs text-[0.9375rem] leading-relaxed text-muted-foreground">
-                Cosmetic and reconstructive oculoplastic care planned around eye
-                function, facial anatomy, and each patient&apos;s goals.
+    <footer className="mt-8 border-t border-border bg-muted md:mt-16">
+      <div className="site-container px-4 py-6 md:px-6 md:py-10">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-5 md:pb-7">
+          <div className="flex min-w-0 items-center gap-3">
+            <BrandSymbol className="h-10 w-14 shrink-0 sm:h-14 sm:w-20" />
+            <div>
+              <p className="font-serif text-3xl font-semibold leading-none text-primary sm:text-4xl">
+                {siteConfig.name}
               </p>
-              <p className="text-sm font-medium text-foreground/85">
+              <p className="mt-1.5 text-sm text-muted-foreground">
                 Serving patients across {siteConfig.serviceAreaLabel}
               </p>
-              <Button size="sm" asChild>
-                <a href="/contact">
-                  <CalendarDays className="mr-2 h-4 w-4" />
-                  Request a Consultation
-                </a>
-              </Button>
             </div>
-
-            <details
-              open
-              suppressHydrationWarning
-              className="footer-disclosure border-t border-border pt-1 md:border-0 md:pt-0"
-            >
-              <summary className="footer-disclosure-summary">
-                <span>Offices</span>
-              </summary>
-              <div className="footer-disclosure-content pt-4 md:pt-0">
-                <ul className="grid gap-x-5 gap-y-4 text-[0.9375rem] text-foreground/90 lg:grid-cols-2">
-                {siteConfig.offices.map((office) => (
-                  <li key={office.id} className="space-y-1.5">
-                    <a
-                      href={`/locations/${office.id}`}
-                      className="inline-flex min-h-11 items-center font-semibold text-foreground hover:text-secondary"
-                    >
-                      {office.name}
-                    </a>
-                    <p className="hidden items-start gap-2 text-muted-foreground md:flex">
-                      <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-secondary" />
-                      <span>{office.address}</span>
-                    </p>
-                    <a
-                      href={`tel:${office.phoneHref}`}
-                      className="-mx-2 flex min-h-11 items-center gap-2 rounded-lg px-2 hover:bg-accent hover:text-secondary"
-                    >
-                      <Phone className="h-4 w-4 shrink-0 text-secondary" aria-hidden="true" />
-                      {office.phoneDisplay}
-                    </a>
-                    <a
-                      href={`/locations/${office.id}`}
-                      className="inline-flex min-h-11 items-center text-xs font-semibold text-secondary hover:underline md:hidden"
-                    >
-                      View office details
-                      <ArrowUpRight className="ml-1 h-3.5 w-3.5" aria-hidden="true" />
-                    </a>
-                  </li>
-                ))}
-                </ul>
-              </div>
-            </details>
-
-            <details
-              open
-              suppressHydrationWarning
-              className="footer-disclosure border-t border-border pt-1 md:border-0 md:pt-0"
-            >
-              <summary className="footer-disclosure-summary">Explore</summary>
-              <div className="footer-disclosure-content pt-4 md:pt-0">
-                <ul className="grid grid-cols-2 gap-x-4 gap-y-2.5 text-[0.9375rem] text-muted-foreground">
-                {navItems.map((item) => (
-                  <li key={item.href}>
-                    <a
-                      href={item.href}
-                      className="group inline-flex min-h-11 items-center transition-colors hover:text-primary"
-                    >
-                      {item.label}
-                      <ArrowUpRight className="ml-1 h-3 w-3 opacity-0 transition group-hover:opacity-100" />
-                    </a>
-                  </li>
-                ))}
-                </ul>
-              </div>
-            </details>
-
-            <details
-              open
-              suppressHydrationWarning
-              className="footer-disclosure rounded-2xl border border-border bg-card px-4 py-1 md:p-5"
-            >
-              <summary className="footer-disclosure-summary">Practice Information</summary>
-              <div className="footer-disclosure-content pb-4 pt-3 md:pb-0 md:pt-0">
-                <ul className="space-y-3 text-[0.9375rem] text-muted-foreground">
-                <li>Board-certified ophthalmologist</li>
-                <li>Fellowship-trained at Wills Eye Hospital</li>
-                <li>Consultations in {formatList(siteConfig.languages)}</li>
-                </ul>
-                <a
-                  href={`mailto:${siteConfig.email}`}
-                  className="mt-4 inline-flex min-h-11 items-center text-sm text-secondary hover:underline"
-                >
-                  <Mail className="mr-2 h-4 w-4" />
-                  {siteConfig.email}
-                </a>
-              </div>
-            </details>
           </div>
+          <Button size="sm" asChild>
+            <a href="/contact">
+              <CalendarDays className="mr-2 h-4 w-4" aria-hidden="true" />
+              Request a Consultation
+            </a>
+          </Button>
+        </div>
+        <div className="mt-4 grid gap-3 md:mt-7 md:grid-cols-2 md:gap-7 lg:grid-cols-[2fr_1fr_1fr]">
+          <details
+            open
+            suppressHydrationWarning
+            className="footer-disclosure border-b border-border pb-1 md:border-0 md:pb-0"
+          >
+            <summary className="footer-disclosure-summary">
+              <span>Offices</span>
+            </summary>
+            <div className="footer-disclosure-content pt-4 md:pt-0">
+              <ul className="grid gap-x-5 gap-y-4 text-[0.9375rem] text-foreground/90 lg:grid-cols-2">
+              {siteConfig.offices.map((office) => (
+                <li key={office.id} className="space-y-1.5">
+                  <a
+                    href={`/locations/${office.id}`}
+                    className="inline-flex min-h-11 items-center font-semibold text-foreground hover:text-secondary"
+                  >
+                    {office.name}
+                  </a>
+                  <p className="hidden items-start gap-2 text-muted-foreground md:flex">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-secondary" />
+                    <span>{office.address}</span>
+                  </p>
+                  <a
+                    href={`tel:${office.phoneHref}`}
+                    className="-mx-2 flex min-h-11 items-center gap-2 rounded-lg px-2 hover:bg-accent hover:text-secondary"
+                  >
+                    <Phone className="h-4 w-4 shrink-0 text-secondary" aria-hidden="true" />
+                    {office.phoneDisplay}
+                  </a>
+                  <a
+                    href={`/locations/${office.id}`}
+                    className="inline-flex min-h-11 items-center text-xs font-semibold text-secondary hover:underline md:hidden"
+                  >
+                    View office details
+                    <ArrowUpRight className="ml-1 h-3.5 w-3.5" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+              </ul>
+            </div>
+          </details>
 
-          <div className="relative mt-8 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 text-sm text-muted-foreground md:flex-row md:items-center">
-            <p>
-              &copy; {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
-            </p>
-            <div className="flex flex-wrap gap-x-4">
+          <details
+            open
+            suppressHydrationWarning
+            className="footer-disclosure border-b border-border pb-1 md:border-0 md:pb-0"
+          >
+            <summary className="footer-disclosure-summary">Explore</summary>
+            <div className="footer-disclosure-content pt-4 md:pt-0">
+              <ul className="grid grid-cols-2 gap-x-4 gap-y-1 text-[0.9375rem] text-muted-foreground">
+              {navItems.map((item) => (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    className="group inline-flex min-h-11 items-center transition-colors hover:text-primary"
+                  >
+                    {item.label}
+                    <ArrowUpRight className="ml-1 h-3 w-3 opacity-0 transition group-hover:opacity-100" />
+                  </a>
+                </li>
+              ))}
+              </ul>
+            </div>
+          </details>
+
+          <details
+            open
+            suppressHydrationWarning
+            className="footer-disclosure border-b border-border pb-1 md:border-0 md:pb-0"
+          >
+            <summary className="footer-disclosure-summary">Practice Information</summary>
+            <div className="footer-disclosure-content pb-4 pt-3 md:pb-0 md:pt-0">
+              <ul className="space-y-3 text-[0.9375rem] text-muted-foreground">
+              <li>Board-certified ophthalmologist</li>
+              <li>Fellowship-trained at Wills Eye Hospital</li>
+              <li>Consultations in {formatList(siteConfig.languages)}</li>
+              </ul>
               <a
-                href="/privacy"
-                className="inline-flex min-h-11 items-center hover:text-primary hover:underline"
+                href={`mailto:${siteConfig.email}`}
+                className="mt-4 inline-flex min-h-11 items-center text-sm text-secondary hover:underline"
               >
-                Website Privacy
-              </a>
-              <a
-                href="/notice-of-privacy-practices"
-                className="inline-flex min-h-11 items-center hover:text-primary hover:underline"
-              >
-                Privacy Practices
-              </a>
-              <a
-                href="/accessibility"
-                className="inline-flex min-h-11 items-center hover:text-primary hover:underline"
-              >
-                Accessibility
-              </a>
-              <a
-                href="/content-standards"
-                className="inline-flex min-h-11 items-center hover:text-primary hover:underline"
-              >
-                Content Standards
+                <Mail className="mr-2 h-4 w-4" />
+                {siteConfig.email}
               </a>
             </div>
+          </details>
+        </div>
+
+        <div className="relative mt-8 flex flex-col items-start justify-between gap-3 border-t border-border pt-5 text-sm text-muted-foreground md:flex-row md:items-center">
+          <p>
+            &copy; {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
+          </p>
+          <div className="flex flex-wrap gap-x-4">
+            <a
+              href="/privacy"
+              className="inline-flex min-h-11 items-center hover:text-primary hover:underline"
+            >
+              Website Privacy
+            </a>
+            <a
+              href="/notice-of-privacy-practices"
+              className="inline-flex min-h-11 items-center hover:text-primary hover:underline"
+            >
+              Privacy Practices
+            </a>
+            <a
+              href="/accessibility"
+              className="inline-flex min-h-11 items-center hover:text-primary hover:underline"
+            >
+              Accessibility
+            </a>
+            <a
+              href="/content-standards"
+              className="inline-flex min-h-11 items-center hover:text-primary hover:underline"
+            >
+              Content Standards
+            </a>
           </div>
         </div>
       </div>

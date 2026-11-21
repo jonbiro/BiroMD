@@ -1,6 +1,7 @@
 import {
   ArrowRight,
   ChevronDown,
+  BookOpen,
   ShieldCheck,
   Sparkles,
   Stethoscope,
@@ -55,7 +56,7 @@ export default function ProceduresPage() {
       <section className="site-container px-4 md:px-6">
         <nav
           aria-label="Jump to a procedure category"
-          className="panel grid gap-2 rounded-2xl p-2 sm:grid-cols-3"
+          className="grid gap-3 sm:grid-cols-3"
         >
           {procedureCategories.map((category) => {
             const CategoryIcon = categoryIcons[category.id]
@@ -63,9 +64,9 @@ export default function ProceduresPage() {
               <a
                 key={category.id}
                 href={`#${category.id}`}
-                className="group flex min-h-14 items-center gap-3 rounded-xl border border-transparent bg-accent/55 px-4 py-2.5 transition-colors hover:border-secondary/60 hover:bg-card"
+                className="group flex min-h-24 items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 transition-colors hover:border-secondary hover:bg-accent/60"
               >
-                <span className="inline-flex rounded-lg border border-secondary/30 bg-card p-2 text-secondary">
+                <span className="inline-flex rounded-full bg-secondary/10 p-3 text-secondary">
                   <CategoryIcon className="h-4 w-4" />
                 </span>
                 <span className="min-w-0 flex-1">
@@ -83,39 +84,64 @@ export default function ProceduresPage() {
         </nav>
       </section>
 
-      <section className="site-container space-y-8 px-4 md:px-6">
-        {procedureCategories.map((category) => (
-          <article
-            id={category.id}
-            key={category.title}
-            className="panel rounded-3xl p-7 md:p-8"
-          >
-            <h2 className="text-3xl font-medium text-primary">{category.title}</h2>
-            <p className="mt-2 max-w-3xl text-[0.9375rem] text-muted-foreground">
-              {category.subtitle}
-            </p>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {category.items.map((item) => (
-                <a
-                  key={item.slug}
-                  href={`/procedures/${item.slug}`}
-                  className="group rounded-2xl border border-border bg-background p-5 transition hover:-translate-y-0.5 hover:border-secondary hover:shadow-md"
-                >
-                  <h3 className="text-2xl font-semibold text-primary">{item.title}</h3>
-                  <p className="mt-2 text-[0.9375rem] text-muted-foreground">{item.summary}</p>
-                  <span className="mt-4 inline-flex items-center text-sm font-semibold text-secondary">
-                    View procedure guide
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </a>
-              ))}
-            </div>
-          </article>
-        ))}
+      <section className="site-container space-y-14 px-4 md:space-y-20 md:px-6" aria-label="Procedure guides">
+        {procedureCategories.map((category) => {
+          const CategoryIcon = categoryIcons[category.id]
+          return (
+            <article
+              id={category.id}
+              key={category.title}
+              className="grid scroll-mt-28 gap-6 border-t border-border pt-8 lg:grid-cols-[0.8fr_2fr] lg:gap-12"
+            >
+              <div>
+                <div className="mb-5 flex items-center gap-3 text-secondary" aria-hidden="true">
+                  <CategoryIcon className="h-5 w-5" />
+                  <span className="h-px w-8 bg-secondary/40" />
+                </div>
+                <h2 className="text-4xl font-medium leading-tight text-primary">{category.title}</h2>
+                <p className="mt-4 max-w-xl text-[0.9375rem] leading-relaxed text-muted-foreground">
+                  {category.subtitle}
+                </p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {category.items.map((item) => (
+                  <a
+                    key={item.slug}
+                    href={`/procedures/${item.slug}`}
+                    className="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-[border-color,box-shadow] hover:border-secondary hover:shadow-md focus-visible:border-secondary"
+                  >
+                    <h3 className="text-[1.7rem] font-semibold leading-tight text-primary">{item.title}</h3>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{item.summary}</p>
+                    <span className="mt-6 flex items-center justify-between gap-3 border-t border-border/70 pt-4 text-xs font-semibold tracking-wide text-secondary">
+                      View procedure guide
+                      <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </article>
+          )
+        })}
+      </section>
+
+      <section className="site-container px-4 md:px-6" aria-label="Symptom guidance">
+        <a href="/concerns" className="group flex flex-col gap-5 rounded-2xl border border-secondary/25 bg-secondary/5 p-6 sm:flex-row sm:items-center md:px-8">
+          <span className="inline-flex w-fit shrink-0 rounded-full bg-secondary/10 p-3 text-secondary" aria-hidden="true">
+            <BookOpen className="h-5 w-5" />
+          </span>
+          <span className="flex-1">
+            <span className="block text-2xl font-serif font-semibold text-primary">Starting with a symptom?</span>
+            <span className="mt-1 block text-sm text-muted-foreground">Explore eye and eyelid concerns before browsing treatment options.</span>
+          </span>
+          <span className="inline-flex items-center gap-2 text-sm font-semibold text-secondary">
+            Browse patient guides
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+          </span>
+        </a>
       </section>
 
       <section className="site-container px-4 md:px-6" aria-labelledby="consultation-expectations">
-        <div className="panel rounded-[1.8rem] p-6 md:p-8">
+        <div className="rounded-[1.8rem] border border-border bg-accent/50 p-6 md:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
             Your consultation
           </p>
@@ -124,7 +150,7 @@ export default function ProceduresPage() {
           </h2>
           <ol className="mt-6 grid gap-4 md:grid-cols-3">
             {consultationSteps.map((step, index) => (
-              <li key={step.label} className="rounded-2xl border border-border bg-accent/45 p-5">
+              <li key={step.label} className="border-t border-secondary/30 pt-5 md:pr-6">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-secondary">
                   {String(index + 1).padStart(2, "0")} / {step.label}
                 </p>

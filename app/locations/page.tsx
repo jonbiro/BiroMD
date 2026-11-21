@@ -18,23 +18,30 @@ export default function LocationsPage() {
         title="Find an Office"
         description="Dr. Biro sees patients at four offices across the Greater Los Angeles area. Request a consultation online where available, or call the office directly."
       />
-      <section className="site-container grid gap-6 px-4 lg:grid-cols-2 md:px-6">
+      <section className="site-container grid gap-5 px-4 md:grid-cols-2 md:px-6" aria-label="Office directory">
         {siteConfig.offices.map((office) => (
-          <article key={office.id} className="panel min-w-0 rounded-[1.8rem] p-6 md:p-8">
-            <MapPin className="h-6 w-6 text-secondary" />
-            <p className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-              {office.practiceName}
-            </p>
-            <h2 className="mt-2 text-4xl font-semibold text-primary">{office.name}</h2>
-            <p className="mt-3 text-muted-foreground">{office.address}</p>
-            <a
-              className="mt-2 inline-flex min-h-11 items-center font-semibold text-secondary underline-offset-4 hover:underline"
-              href={`tel:${office.phoneHref}`}
-            >
-              <Phone className="mr-2 h-4 w-4" />
-              {office.phoneDisplay}
-            </a>
-            <div className="mt-7 flex flex-col gap-3">
+          <article key={office.id} className="panel flex min-w-0 flex-col overflow-hidden rounded-2xl">
+            <div className="flex-1 p-5 sm:p-7">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
+                <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <p>{office.practiceName}</p>
+              </div>
+              <h2 className="mt-4 text-[2.15rem] font-semibold leading-[1.08] text-primary sm:text-4xl">
+                {office.name}
+              </h2>
+              <address className="mt-4 text-sm leading-relaxed text-muted-foreground not-italic sm:text-base">
+                <span className="block">{office.streetAddress}</span>
+                <span className="block">{office.addressLocality}, {office.addressRegion} {office.postalCode}</span>
+              </address>
+              <a
+                className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold text-secondary underline-offset-4 hover:underline sm:text-base"
+                href={`tel:${office.phoneHref}`}
+              >
+                <Phone className="mr-2 h-4 w-4" aria-hidden="true" />
+                {office.phoneDisplay}
+              </a>
+            </div>
+            <div className="border-t border-border bg-accent/35 p-5 sm:px-7">
               <Button className="w-full" asChild>
                 <a href={office.bookingUrl}>
                   {office.appointmentMode === "online" ? (
@@ -45,20 +52,20 @@ export default function LocationsPage() {
                   {officeAppointmentLabel(office)}
                 </a>
               </Button>
-              <Button variant="outline" className="w-full" asChild>
-                <a href={office.mapUrl}>
-                  <Navigation className="mr-2 h-4 w-4" />
+              <div className="mt-2 flex flex-wrap items-center justify-between gap-x-4">
+                <a href={office.mapUrl} className="inline-flex min-h-11 items-center text-sm font-semibold text-secondary underline-offset-4 hover:underline">
+                  <Navigation className="mr-2 h-4 w-4" aria-hidden="true" />
                   Get Directions
                 </a>
-              </Button>
+                <a
+                  href={`/locations/${office.id}`}
+                  className="inline-flex min-h-11 items-center text-sm font-semibold text-secondary underline-offset-4 hover:underline"
+                >
+                  View office details
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                </a>
+              </div>
             </div>
-            <a
-              href={`/locations/${office.id}`}
-              className="mt-3 flex min-h-10 items-center justify-center text-center text-sm font-semibold text-secondary underline-offset-4 hover:underline"
-            >
-              View office details
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
           </article>
         ))}
       </section>

@@ -28,18 +28,6 @@ export default function ContactPage() {
         eyebrow="Appointments"
         title="Request a Consultation"
         description="For routine, non-urgent appointments, choose the most convenient office. Request online where available, or call directly. The office will contact you to confirm."
-        actions={
-          <>
-            {siteConfig.offices.map((office) => (
-              <Button key={office.id} variant="outline" asChild>
-                <a href={`#schedule-${office.id}`}>
-                  <MapPin className="mr-2 h-4 w-4" />
-                  {office.name}
-                </a>
-              </Button>
-            ))}
-          </>
-        }
       />
 
       <section className="site-container px-4 md:px-6">
@@ -59,7 +47,7 @@ export default function ContactPage() {
       </section>
 
       <section className="site-container px-4 md:px-6" aria-labelledby="office-options">
-        <div className="mb-5 max-w-3xl">
+        <div className="mb-6 max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
             Choose an office
           </p>
@@ -67,34 +55,41 @@ export default function ContactPage() {
             Request Through the Office Nearest You
           </h2>
         </div>
-        <div className="grid gap-6 lg:grid-cols-2">
+        <nav aria-label="Jump to an office" className="mb-6 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+          {siteConfig.offices.map((office) => (
+            <a
+              key={office.id}
+              href={`#schedule-${office.id}`}
+              className="inline-flex min-h-11 items-center justify-between gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium leading-snug text-primary transition-colors hover:border-secondary hover:bg-accent sm:gap-4 sm:px-4"
+            >
+              {office.name}
+              <ArrowRight className="h-3.5 w-3.5 shrink-0 rotate-90 text-secondary" aria-hidden="true" />
+            </a>
+          ))}
+        </nav>
+        <div className="grid gap-5 md:grid-cols-2">
           {siteConfig.offices.map((office) => (
             <article
               id={`schedule-${office.id}`}
               key={office.id}
-              className="panel overflow-hidden rounded-[1.8rem]"
+              className="panel flex min-w-0 flex-col overflow-hidden rounded-2xl"
             >
-              <div className="border-b border-border bg-accent/55 p-6 md:p-7 lg:min-h-44">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-                      {office.practiceName}
-                    </p>
-                    <h3 className="mt-2 text-3xl font-semibold text-primary">
-                      {office.name}
-                    </h3>
-                  </div>
-                  <span className="inline-flex rounded-full bg-secondary/12 p-3 text-secondary">
-                    <MapPin className="h-5 w-5" />
-                  </span>
+              <div className="flex-1 p-5 sm:p-7">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
+                  <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  <p>{office.practiceName}</p>
                 </div>
-                <p className="mt-4 max-w-md text-sm text-muted-foreground">
-                  {office.address}
-                </p>
+                <h3 className="mt-4 text-[2.15rem] font-semibold leading-[1.08] text-primary sm:text-4xl">
+                  {office.name}
+                </h3>
+                <address className="mt-4 text-sm leading-relaxed text-muted-foreground not-italic sm:text-base">
+                  <span className="block">{office.streetAddress}</span>
+                  <span className="block">{office.addressLocality}, {office.addressRegion} {office.postalCode}</span>
+                </address>
               </div>
 
-              <div className="space-y-4 p-6 md:p-7">
-                <Button size="lg" className="w-full" asChild>
+              <div className="border-t border-border bg-accent/35 p-5 sm:px-7">
+                <Button className="w-full" asChild>
                   <a href={office.bookingUrl}>
                     {office.appointmentMode === "online" ? (
                       <CalendarDays className="mr-2 h-4 w-4" />
@@ -107,30 +102,27 @@ export default function ContactPage() {
                     )}
                   </a>
                 </Button>
-                <p className="text-center text-xs text-muted-foreground">
+                <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
                   {office.appointmentMode === "online"
                     ? `Opens ${office.practiceName}'s appointment-request service. Request Dr. Biro by name.`
                     : "Call the office's scheduling team to request a consultation."}
                 </p>
-                <div className="grid gap-3">
-                  <Button variant="outline" asChild>
-                    <a href={`tel:${office.phoneHref}`}>
-                      <PhoneCall className="mr-2 h-4 w-4" />
-                      {office.phoneDisplay}
-                    </a>
-                  </Button>
-                  <Button variant="outline" asChild>
-                    <a href={office.mapUrl}>
-                      <Navigation className="mr-2 h-4 w-4" />
-                      Directions
-                    </a>
-                  </Button>
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-x-4 border-t border-border pt-2">
+                  <a href={`tel:${office.phoneHref}`} className="inline-flex min-h-11 items-center text-sm font-semibold text-secondary underline-offset-4 hover:underline">
+                    <PhoneCall className="mr-2 h-4 w-4" aria-hidden="true" />
+                    {office.phoneDisplay}
+                  </a>
+                  <a href={office.mapUrl} className="inline-flex min-h-11 items-center text-sm font-semibold text-secondary underline-offset-4 hover:underline">
+                    <Navigation className="mr-2 h-4 w-4" aria-hidden="true" />
+                    Directions
+                  </a>
                 </div>
                 <a
                   href={`/locations/${office.id}`}
-                  className="flex min-h-11 items-center justify-center text-center text-sm font-semibold text-secondary underline-offset-4 hover:underline"
+                  className="mt-1 flex min-h-11 items-center justify-between border-t border-border text-sm font-semibold text-secondary underline-offset-4 hover:underline"
                 >
                   View office details
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                 </a>
               </div>
             </article>
