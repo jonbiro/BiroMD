@@ -1,3 +1,4 @@
+import Image from "next/image"
 import {
   ArrowRight,
   ArrowUpRight,
@@ -79,16 +80,26 @@ export function Hero() {
               </Button>
             </div>
 
-            <ul className="order-5 grid gap-x-4 gap-y-2 text-[0.9375rem] text-foreground/90 min-[480px]:grid-cols-2 md:grid-cols-1 xl:grid-cols-2">
-              {trustPoints.map((point) => (
-                <li key={point} className="flex items-start gap-2">
-                  <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-secondary/12 text-secondary">
-                    <Check className="h-3.5 w-3.5" />
-                  </span>
-                  {point}
-                </li>
-              ))}
-            </ul>
+            <div role="group" aria-label="Dr. Biro’s credentials" className="order-5 flex items-center gap-4 border-t border-border pt-4">
+              <Image
+                src="/images/brand/abo-board-certified-ophthalmologist.png"
+                alt="Board Certified Ophthalmologist, American Board of Ophthalmology"
+                width={400}
+                height={400}
+                unoptimized
+                className="h-auto w-20 shrink-0 self-center sm:w-24"
+              />
+              <ul className="grid gap-x-4 gap-y-2 text-[0.9375rem] text-foreground/90">
+                {trustPoints.map((point) => (
+                  <li key={point} className="flex items-start gap-2">
+                    <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-secondary/12 text-secondary">
+                      <Check className="h-3.5 w-3.5" />
+                    </span>
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
           </div>
 

@@ -169,14 +169,16 @@ export function ServicesPreview() {
             <ChevronRight className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
-        <ul className="mt-4 flex flex-wrap gap-2" aria-label="Additional conditions treated">
-          <li className="rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground">
-            Blepharospasm
-          </li>
-          <li className="rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground">
-            Hemifacial Spasm
-          </li>
-        </ul>
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-t border-border pt-4">
+          <div>
+            <h3 className="font-serif text-2xl font-semibold text-primary">Eyelid and facial spasms</h3>
+            <p className="mt-1 text-sm text-muted-foreground">Evaluation for blepharospasm and hemifacial spasm.</p>
+          </div>
+          <a href="/contact" className="inline-flex min-h-11 items-center gap-2 font-semibold text-secondary underline underline-offset-4">
+            Request a spasm consultation
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </a>
+        </div>
       </div>
     </section>
   )

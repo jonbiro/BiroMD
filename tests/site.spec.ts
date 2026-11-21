@@ -1096,7 +1096,7 @@ test("patient concerns lead directly to relevant procedure guidance", async ({ p
 test("homepage credential and patient-facing cancer and spasm labels stay scoped", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto("/")
-  const badge = page.getByRole("img", {
+  const badge = page.getByRole("group", { name: "Dr. Biro’s credentials" }).getByRole("img", {
     name: "Board Certified Ophthalmologist, American Board of Ophthalmology",
   })
   await expect(badge).toHaveCount(1)
@@ -1109,8 +1109,8 @@ test("homepage credential and patient-facing cancer and spasm labels stay scoped
 
   const care = page.getByRole("region", { name: "Specialized Care" })
   await expect(care).toHaveCount(1)
-  await expect(care.getByText("Blepharospasm", { exact: true })).toBeVisible()
-  await expect(care.getByText("Hemifacial Spasm", { exact: true })).toBeVisible()
+  await expect(care.getByText("Evaluation for blepharospasm and hemifacial spasm.")).toBeVisible()
+  await expect(care.getByRole("link", { name: "Request a spasm consultation" })).toHaveAttribute("href", "/contact")
   await expect(page.getByRole("heading", { name: "Conditions Treated", exact: true })).toHaveCount(0)
 
   const cancer = page.getByRole("link", { name: "Eyelid Lesions & Cancer Reconstruction" })
