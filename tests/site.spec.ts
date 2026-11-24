@@ -1865,6 +1865,7 @@ test("approved Contour cases match visibility and use the exact no-referrer deri
   const visibleIds = [
     "ptosis-case-01", "ptosis-case-02", "upper-blepharoplasty-case-02",
     "upper-blepharoplasty-case-03", "upper-blepharoplasty-case-04",
+    "blepharoplasty-frontal-case",
   ]
   const sensitiveId = "eyelid-cancer-reconstruction-case-02"
   const ids = [...visibleIds, sensitiveId]

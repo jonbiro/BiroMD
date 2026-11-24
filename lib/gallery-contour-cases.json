@@ -58,5 +58,18 @@
     "technique": "The comparison shows the surgical area before and after reconstruction. The specific surgical technique is not detailed in the supplied images.",
     "procedure": "eyelid-cancer-mohs-reconstruction",
     "sensitive": true
+  },
+  {
+    "id": "blepharoplasty-frontal-case",
+    "title": "Blepharoplasty — Frontal Comparison",
+    "category": "cosmetic",
+    "focus": "Frontal View",
+    "presentation": "This frontal comparison shows the eyelid area before and after blepharoplasty.",
+    "technique": "The comparison shows one frontal view.",
+    "procedure": null,
+    "sensitive": false,
+    "width": 1200,
+    "height": 1719,
+    "viewLabel": "Frontal view"
   }
 ]
