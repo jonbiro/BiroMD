@@ -180,14 +180,14 @@ const galleryCases: GalleryCase[] = [
   },
 ]
 
-for (const { id, title, category, focus, presentation, technique, procedure, sensitive, width, height, viewLabel } of contourCases) {
+for (const { id, title, category, focus, presentation, technique, procedure, sensitive, width, height, viewLabel, seoTitle } of contourCases) {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id) || galleryCases.some((item) => item.id === id)) {
     throw new Error(`Invalid or duplicate Contour gallery case: ${id}`)
   }
   galleryCases.push({
     id,
     title,
-    seoTitle: title.replace("Upper Eyelid Blepharoplasty", "Upper Blepharoplasty"),
+    seoTitle: seoTitle ?? title.replace("Upper Eyelid Blepharoplasty", "Upper Blepharoplasty"),
     category: category === "cosmetic" ? "cosmetic" : "reconstructive",
     categoryLabel: category === "cosmetic" ? "Cosmetic Surgery" : "Reconstructive Oculoplastics",
     focus,
