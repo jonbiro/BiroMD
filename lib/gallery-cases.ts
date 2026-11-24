@@ -180,12 +180,13 @@ const galleryCases: GalleryCase[] = [
   },
 ]
 
-for (const { id, title, category, focus, presentation, technique, procedure, sensitive, width, height, viewLabel, seoTitle } of contourCases) {
+for (const { id, slug, title, category, focus, presentation, technique, procedure, sensitive, width, height, viewLabel, seoTitle } of contourCases) {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id) || galleryCases.some((item) => item.id === id)) {
     throw new Error(`Invalid or duplicate Contour gallery case: ${id}`)
   }
   galleryCases.push({
     id,
+    slug,
     title,
     seoTitle: seoTitle ?? title.replace("Upper Eyelid Blepharoplasty", "Upper Blepharoplasty"),
     category: category === "cosmetic" ? "cosmetic" : "reconstructive",
@@ -217,9 +218,21 @@ export function getAuthorizedGalleryCaseIds(): Set<string> {
   )
 }
 
+// Keep the existing order within each group. Lesion removal is not labeled cancer.
+const cancerReconstructionIds = new Set([
+  "eyelid-trauma",
+  "scalp-reconstruction",
+  "eyebrow-reconstruction",
+  "eyelid-cancer-reconstruction-case-02",
+])
+
 export function getPublishedGalleryCases(): GalleryCase[] {
   const authorizedIds = getAuthorizedGalleryCaseIds()
-  return galleryCases.filter((item) => authorizedIds.has(item.id))
+  const authorized = galleryCases.filter((item) => authorizedIds.has(item.id))
+  return [
+    ...authorized.filter((item) => !cancerReconstructionIds.has(item.id)),
+    ...authorized.filter((item) => cancerReconstructionIds.has(item.id)),
+  ]
 }
 
 export function getPublishedGalleryCase(id: string): GalleryCase | undefined {

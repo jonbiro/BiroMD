@@ -35,6 +35,7 @@ const concernSlugs = [
 ]
 const galleryRouteAliases = {
   "eyelid-trauma": "mohs-eyelid-reconstruction",
+  "blepharoplasty-frontal-case": "ptosis-repair-frontal-case",
 }
 const canonicalOrigin = "https://biromd.com"
 const canonicalUrl = (route) => new URL(route, canonicalOrigin).toString()

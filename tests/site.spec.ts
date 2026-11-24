@@ -40,6 +40,7 @@ test.beforeEach(async ({ page }) => {
 
 const galleryRouteAliases: Record<string, string> = {
   "eyelid-trauma": "mohs-eyelid-reconstruction",
+  "blepharoplasty-frontal-case": "ptosis-repair-frontal-case",
 }
 const galleryPathForId = (id: string) => `/gallery/${galleryRouteAliases[id] ?? id}`
 
@@ -1891,7 +1892,7 @@ test("approved Contour cases match visibility and use the exact no-referrer deri
         expect((await request.get(`/gallery/${id}`)).status()).toBe(404)
         continue
       }
-      await expect(card.locator(`a[href="/gallery/${id}"]`)).toHaveCount(1)
+      await expect(card.locator(`a[href="${galleryPathForId(id)}"]`)).toHaveCount(1)
       await card.scrollIntoViewIfNeeded()
       const open = card.locator("[data-gallery-open]")
       const dialog = card.locator("dialog")
@@ -1918,7 +1919,7 @@ test("approved Contour cases match visibility and use the exact no-referrer deri
     expect(requested.some(r => r.url === imageUrl(sensitiveId))).toBe(false)
 
     for (const id of allowed) {
-      await page.goto(`/gallery/${id}`)
+      await page.goto(galleryPathForId(id))
       await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noimageindex/)
       const photos = page.locator("img[data-clinical-remote]")
       await expect(photos).toHaveCount(2)
@@ -1943,4 +1944,22 @@ test("approved Contour cases match visibility and use the exact no-referrer deri
     }
   }
   expect(requested.every(r => allowed.some(id => imageUrl(id) === r.url) && !r.referer)).toBe(true)
+})
+
+test("gallery keeps cancer reconstruction cases last and correctly labels the frontal ptosis case", async ({ page, request }) => {
+  await page.goto("/gallery")
+  const cards = page.locator("[data-gallery-case]")
+  const ids = await cards.evaluateAll(nodes => nodes.map(node => node.id))
+  const cancer = ["eyelid-trauma", "scalp-reconstruction", "eyebrow-reconstruction", "eyelid-cancer-reconstruction-case-02"]
+  const publishedCancer = ids.filter(id => cancer.includes(id))
+  expect(ids.slice(ids.length - publishedCancer.length)).toEqual(publishedCancer)
+  if (!ids.includes("blepharoplasty-frontal-case")) return
+  await expect(page.locator("#blepharoplasty-frontal-case")).toHaveAttribute("data-gallery-category", "reconstructive")
+  await expect(page.locator("#blepharoplasty-frontal-case")).toContainText("Ptosis Repair / Droopy Eyelid Lift")
+  const canonical = await request.get("/gallery/ptosis-repair-frontal-case")
+  expect(canonical.ok()).toBeTruthy()
+  expect(await canonical.text()).toContain("Ptosis Repair / Droopy Eyelid Lift")
+  const alias = await request.get("/gallery/blepharoplasty-frontal-case")
+  expect(alias.ok()).toBeTruthy()
+  expect(await alias.text()).toMatch(/http-equiv="refresh"[^>]+ptosis-repair-frontal-case/)
 })
